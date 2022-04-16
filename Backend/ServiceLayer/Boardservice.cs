@@ -8,7 +8,7 @@ public class BoardService
 	public json getTitle() 
 	{
 	}
-	public json getTasksByType(enum type){} 
+	public json getTasksByType(enum type)
 	{
 	}
 	public json addTask(string title, Date dueDate, string description) 
