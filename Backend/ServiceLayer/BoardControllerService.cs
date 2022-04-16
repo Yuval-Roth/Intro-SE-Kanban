@@ -6,7 +6,7 @@ public class BoardControllerService
 	{
 	}
 
-	public json createBoard(user user,String title)
+	public json createBoard(User user,String title)
     {
     }
 	public json deleteBoard(User user,String title)
