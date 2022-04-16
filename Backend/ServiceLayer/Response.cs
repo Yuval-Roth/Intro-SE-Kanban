@@ -2,8 +2,7 @@
 
 public class Response
 {
-	private string message;
-
+	
 	public Response()
 	{
 	}
