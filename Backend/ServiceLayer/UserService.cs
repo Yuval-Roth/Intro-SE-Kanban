@@ -17,10 +17,10 @@ public class UserService
 	public json logOut()
     {
     }
-	public json setPassword(User user,String old,String new)
+	public json setPassword(User user,String old,String newp)
 	{
 	}
-	public json setEmail(User user,String new)
+	public json setEmail(User user,String newp)
 	{
 	}
 
