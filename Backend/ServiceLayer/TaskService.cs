@@ -5,14 +5,29 @@ public class TaskService
 	public TaskService()
 	{
 	}
-
-	public json getTitle () { }
-	public json setTitle (string t) { }
-	public json getDuedate () { }
-	public json setDuedate (Date d) { }
-	public json getDescription () { }
-	public json setDescription (string d) { }
-	public json getState () { }
-	public json setState (enum e) { }
+	public string getTitle ()
+	{
+	}
+	public string setTitle (string t) 
+	{
+	}
+	public string getDuedate () 
+	{
+	}
+	public string setDuedate (Date d) 
+	{
+	}
+	public string getDescription () 
+	{
+	}
+	public string setDescription (string d) 
+	{
+	}
+	public string getState () 
+	{
+	}
+	public string setState (enum e) 
+	{
+	}
 
 }

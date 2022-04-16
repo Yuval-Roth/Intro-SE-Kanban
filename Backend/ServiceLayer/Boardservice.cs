@@ -1,23 +1,24 @@
 ﻿using System;
 
+
 public class BoardService
 {
 	public BoardService()
 	{
 	}
-	public json getTitle() 
+	public string getTitle() 
 	{
 	}
-	public json getTasksByType(enum type)
+	public string getTasksByType(enum type)
 	{
 	}
-	public json addTask(string title, Date dueDate, string description) 
+	public string addTask(string title, Date dueDate, string description) 
 	{
 	}
-	public json removeTask(string title)
+	public string removeTask(string title)
 	{
 	}
-	public json advanceTask(string title)
+	public string advanceTask(string title)
 	{ 
 	}
 

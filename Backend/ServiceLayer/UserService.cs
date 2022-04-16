@@ -5,22 +5,22 @@ public class UserService
 	public UserService()
 	{
 	}
-	public json register(String email,String password)
+	public string register(String email,String password)
     {
     }
-	public json deleteUser(User user) 
+	public string deleteUser(User user) 
 	{
 	}
-	public json logIn(String email,String password)
+	public string logIn(String email,String password)
     {
     }
-	public json logOut()
+	public string logOut()
     {
     }
-	public json setPassword(User user,String old,String newp)
+	public string setPassword(User user,String old,String newp)
 	{
 	}
-	public json setEmail(User user,String newe)
+	public string setEmail(User user,String newe)
 	{
 	}
 
