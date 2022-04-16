@@ -26,7 +26,7 @@ public class TaskService
 	public string getState () 
 	{
 	}
-	public string setState (enum e) 
+	public string setState (Enum e) 
 	{
 	}
 

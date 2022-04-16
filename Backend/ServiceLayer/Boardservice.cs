@@ -9,7 +9,7 @@ public class BoardService
 	public string getTitle() 
 	{
 	}
-	public string getTasksByType(enum type)
+	public string getTasksByType(Enum type)
 	{
 	}
 	public string addTask(string title, Date dueDate, string description) 
