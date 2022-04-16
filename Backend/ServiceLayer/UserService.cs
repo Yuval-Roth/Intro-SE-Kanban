@@ -20,7 +20,7 @@ public class UserService
 	public json setPassword(User user,String old,String newp)
 	{
 	}
-	public json setEmail(User user,String newp)
+	public json setEmail(User user,String newe)
 	{
 	}
 
