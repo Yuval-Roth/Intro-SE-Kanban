@@ -25,7 +25,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <list type="bullet">IsEmpty()</list>
     /// <list type="bullet">ToStringInOrder()</list>
     /// <list type="bullet">ToStringPreOrder()</list>
+    /// <br/><br/>
+    /// ===================
+    /// <br/>
+    /// <c>Ⓒ Yuval Roth</c>
+    /// <br/>
+    /// ===================
     /// </summary>
+    /// 
     public class BinaryTree<T> where T : IComparable
     {
         private BinaryTreeNode root;
