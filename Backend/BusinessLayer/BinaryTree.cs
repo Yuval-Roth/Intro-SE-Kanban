@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
 
-                    //===========================================================================
-                    //                                BinaryTree
-                    //===========================================================================
+    //===========================================================================
+    //                                BinaryTree
+    //===========================================================================
 
 
 
@@ -21,10 +21,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <list type="bullet">Add()</list>
     /// <list type="bullet">Remove()</list>
     /// <list type="bullet">Contains()</list>
-    /// <list type="bullet">Search() - behavior is likely going to change in the near future</list>
+    /// <list type="bullet">Search()</list>
     /// <list type="bullet">IsEmpty()</list>
     /// <list type="bullet">ToStringInOrder()</list>
     /// <list type="bullet">ToStringPreOrder()</list>
+    /// <list type="bullet">Equals()</list>
     /// <br/><br/>
     /// ===================
     /// <br/>
@@ -33,9 +34,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// ===================
     /// </summary>
     /// 
+#pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     public class BinaryTree<T> where T : IComparable
     {
-        private BinaryTreeNode root;
+        protected BinaryTreeNode root;
 
         public BinaryTree()
         {
@@ -46,31 +48,40 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         ///Adds an element into the <c>BinaryTree</c>.<br/><br/>
         ///<b>throws</b> <c>ArgumentException</c> if the element already exists in the tree
         ///</summary>
-        public void Add(T element)
+        ///<returns>BinaryTreeNode pointer to the inserted object</returns>
+        ///<exception cref="ArgumentException"></exception>
+        public BinaryTreeNode Add(T element)
         {
             // if tree is empty, add to the root
             if (root == null)
             {
                 root = new BinaryTreeNode(element);
+                return root;
             }
             //otherwise pass it down
             else
             {
                 try
                 {
-                    root.Add(element);
+                    return root.Add(element);
                 }
-                catch (Exception e)
+                catch(ArgumentException)
                 {
-                    throw new ArgumentException("Element already exists");
+                    throw;
                 }
             }
 
         }
 
-        ///<summary>Removes an element from the <c>BinaryTree</c></summary>
+        ///<summary>
+        ///Removes an element from the <c>BinaryTree</c><br/><br/>
+        ///<b>Throws</b> <c>NoSuchElementException</c> if the element is not in the <c>BinaryTree</c>
+        ///</summary>
+        ///<exception cref="NoSuchElementException"></exception>
         public void Remove(T element)
         {
+            if(root == null) throw new NoSuchElementException("No such element in the tree");
+
             //if the root is the target for removal
             if (root.GetElement().CompareTo(element) == 0)
             {
@@ -97,7 +108,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 //case 4: root has 2 children
                 else
                 {
-
                     BinaryTreeNode successor = root.Successor();
                     successor.Remove();
 
@@ -111,20 +121,30 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
                     // make the swap
                     root = successor;
-                    root.SetParent(null); 
-
-             
+                    root.SetParent(null);
                 }
             }
             // root isn't the target for removal -> pass it down
-            else root.Search(element).Remove();
+            else
+            {
+                try
+                {
+                    root.Search(element).Remove();
+                }
+                catch (NoSuchElementException)
+                {
+                    throw;
+                }
+            }
+            
+               
         }
 
         ///<summary>Check if the <c>BinaryTree</c> contains an element</summary>
         ///<returns><c>true</c> if the element exists in the tree and <c>false</c> otherwise</returns>
         public Boolean Contains(T element)
         {
-            return root.Contains(element);
+           return root.Contains(element);
         }
 
         ///<summary>Check if the <c>BinaryTree</c> is empty</summary>
@@ -134,11 +154,28 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             return root == null;
         }
 
+        /// <summary>
+        /// search for a node with the specified element<br/><br/>
+        /// <b>Usage instructions:</b> Pass as an argument a "dummy" <c>IComparable</c> object that <br/> 
+        /// contains the key for comparison and the search will return the object you<br/>
+        ///  are looking for
+        /// <br/><br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if element is not in the <c>BinaryTree</c>
+        /// </summary>
+        /// <returns><c>BinaryTreeNode</c></returns>
+        /// <exception cref="NoSuchElementException"></exception>
         public BinaryTreeNode Search(T element) 
-        { 
-            return root.Search(element);
+        {
+            try
+            {
+                return root.Search(element);
+            }
+            catch (NoSuchElementException)
+            {
+                throw;
+            } 
         }
-
+    
         ///<summary>A string of all the elements in the tree in "in order"</summary>
         ///<returns><c>string</c></returns>
         public string ToStringInOrder()
@@ -152,17 +189,32 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         {
             return root.ToStringPreOrder();
         }
+ 
+        public override Boolean Equals(object obj)
+        {
+            if (obj is BinaryTree<T> other)
+            {
+                if (this.ToStringInOrder().Equals(other.ToStringInOrder()) &&
+                    this.ToStringPreOrder().Equals(other.ToStringPreOrder()))
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else return false;
+        }
 
 
 
-                        //===========================================================================
-                        //                                BinaryTreeNode
-                        //===========================================================================
+
+        //===========================================================================
+        //                                BinaryTreeNode
+        //===========================================================================
 
         public class BinaryTreeNode
         {
 
-            private T element;
+            private readonly T element;
             private BinaryTreeNode left;
             private BinaryTreeNode right;
             private BinaryTreeNode parent;
@@ -185,13 +237,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             public void SetParent(BinaryTreeNode parent) { this.parent = parent; }
             public void SetLeft(BinaryTreeNode left) { this.left = left; }
             public void SetRight(BinaryTreeNode right) { this.right = right; }
- 
 
 
 
-                                        //======================================
-                                        //            Functionality
-                                        //======================================
+
+            //======================================
+            //            Functionality
+            //======================================
 
 
 
@@ -199,12 +251,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             ///Adds an element into the <c>BinaryTree</c>.<br/><br/>
             ///<b>throws</b> <c>ArgumentException</c> if the element already exists in the tree
             ///</summary>
-            public void Add(T element)
+            ///<returns>BinaryTreeNode pointer to the inserted object</returns>
+            public BinaryTreeNode Add(T element)
             {
                 //check if element already exists in the tree
                 if (this.element.CompareTo(element) == 0)
                 {
-                    throw new ArgumentException("Element already exists");
+                    throw new ArgumentException("Element already exists in the tree");
                 }
 
                 //find a place to add it
@@ -213,24 +266,30 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     //empty spot
                     if (left == null) 
                     { 
-                        left = new BinaryTreeNode(element);
-                        left.parent = this;
+                        left = new BinaryTreeNode(element) 
+                        {
+                            parent = this
+                        };      
+                        return left;
                     }
 
                     //pass it down
-                    else left.Add(element);
+                    else return left.Add(element);
                 }
                 else
                 {
                     //empty spot
                     if (right == null)
                     {
-                        right = new BinaryTreeNode(element);
-                        right.parent = this;
+                        right = new BinaryTreeNode(element)
+                        {
+                            parent = this
+                        };
+                        return right;
                     }
 
                     //pass it down
-                    else right.Add(element);
+                    else return right.Add(element);
                 }
             }
 
@@ -238,14 +297,23 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             ///<returns><c>true</c> if the element exists in the tree and <c>false</c> otherwise</returns>
             public Boolean Contains(T element)
             {
-                return Search(element) != null;
+                try
+                {
+                    return Search(element) != null;
+                }
+                catch (NoSuchElementException)
+                {
+                    return false;
+                }
+                
             }
 
             /// <summary>
-            /// search for a node with the specified element
+            /// search for a node with the specified element<br/><br/>
+            /// <b>Throws</b> <c>ArgumentException</c> if element is not in the <c>BinaryTree</c>
             /// </summary>
-            /// <param name="element"></param>
             /// <returns>BinaryTreeNode</returns>
+            /// <exception cref="NoSuchElementException"></exception>
             public BinaryTreeNode Search(T element)
             {
                 //check if the current node is the target
@@ -265,10 +333,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 }
 
                 //can't find it
-                else return null;
+                else throw new NoSuchElementException("No such element in the tree");
             }
 
-            ///<summary>Removes an element from the <c>BinaryTree</c></summary>
+            ///<summary>
+            ///Removes an element from the <c>BinaryTree</c><br/><br/>
+            ///
+            ///<b>Warning:</b> Only works on a node that is in a tree.<br/>
+            ///can throw unexpected exceptions if misused
+            ///
+            ///</summary>
             public void Remove()
             {
                 // case 1: node has no children
@@ -306,7 +380,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 {
                     BinaryTreeNode successor = this.Successor();
                     successor.Remove();
-                    
+
                     // make the successor the child of the old node's parent
                     if (ThisNodeIsALeftSon()) parent.left = successor;
                     else if (ThisNodeIsARightSon()) parent.right = successor;
@@ -320,18 +394,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     if (right != null) right.parent = successor;
 
                     //copy parent of old node
-                    successor.parent = this.parent;
-
-                    
+                    successor.parent = this.parent;  
                 }
 
             }
 
             /// <summary>
-            /// Find the successor of a node, if it exists
+            /// Find the successor of a node <br/><br/>
+            /// <b>Throws</b> <c>NoSuchElementException</c> if there is no successor
             /// </summary>
-            /// <returns>BinaryTreeNode if a successor is found
-            /// <c>null</c>  otherwise</returns>
+            /// <returns>BinaryTreeNode</returns>
             public BinaryTreeNode Successor()
             {
                 // if there is a right child
@@ -356,6 +428,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     {
                         current = current.parent;
                     }
+                    if (current == null) throw new NoSuchElementException("No such element in the tree");
                     return current;
                 }
             }
