@@ -19,10 +19,12 @@ namespace IntroSE.Kanban.Backend_testing
         }
         public static void BinaryTreeTesting()
         {
-            Backend.BusinessLayer.BinaryTree<int> tree = new Backend.BusinessLayer.BinaryTree<int>();
-            tree.Add(5);
-            tree.Add(6);
-            Console.WriteLine(tree.Search(5).Successor().GetElement());
+            Backend.BusinessLayer.BinaryTree<int> tree1 = new Backend.BusinessLayer.BinaryTree<int>();
+            tree1.Add(5);
+            Backend.BusinessLayer.BinaryTree<int> tree2 = new Backend.BusinessLayer.BinaryTree<int>();
+            tree2.Add(6);
+            
+            Console.WriteLine(tree1.Equals(tree2));
         }
     }
 }

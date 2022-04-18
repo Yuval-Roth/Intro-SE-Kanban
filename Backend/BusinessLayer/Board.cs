@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
-    internal class Board
+    public class Board
     {
+        public Board(string name)
+        {
+            
+        }
         public string Title { get; set; }
         public LinkedList<Task> Backlog { get; set; }
         public LinkedList<Task> InProgress { get; set; }

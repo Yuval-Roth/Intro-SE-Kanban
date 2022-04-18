@@ -6,35 +6,112 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
-    internal class BoardTree<T> : BinaryTree<T> 
+    public class BoardTree : BinaryTree<string> 
     {
        
-        public BoardTree() 
+        public BoardTree()
         {
-            
+            root = null;
         }
-        public LinkedList<Board> getAllBoards(User user)
+        public LinkedList<Board> GetAllBoards(User user)
         {
+            try
+            {
+                LinkedList<Board> AllBoards = (root.Search(user.getEmail()) as BoardTreeNode).GetAllBoards();
+                if (AllBoards.Count == 0)
+                {
+                    throw new ArgumentException("User has no boards");
+                }
+                return AllBoards;
+            }
+            catch (NoSuchElementException)
+            {
+                throw new ArgumentException("User not found");
+            }
+            catch (ArgumentException) 
+            {
+                throw;
+            }
+
         }
-        public void addBoard(User user, Board toAdd)
-        { 
+        public void AddBoard(User user, string name)
+        {
+            if (root == null)
+            {
+                root = new BoardTreeNode(user.getEmail());
+                (root as BoardTreeNode).AddBoard(name);
+            }
+            else 
+            {
+                try
+                {
+                    (root.Search(user.getEmail()) as BoardTreeNode).AddBoard(name);
+                }
+                catch (NoSuchElementException)
+                {
+                    (root.Add(user.getEmail()) as BoardTreeNode).AddBoard(name);
+                }
+                catch (ArgumentException)
+                {
+                    throw;
+                }
+                
+            }
         }
-        public void removeBard(User user, Board toRemove)
-        { 
+        public void RemoveBard(User user, string name)
+        {
+            try
+            {
+                (root.Search(user.getEmail()) as BoardTreeNode).RemoveBoard(name);
+            }
+            catch (NoSuchElementException)
+            {
+                throw new ArgumentException("User not found");
+            }
+            catch (ArgumentException) 
+            {
+                throw;
+            }
         }
         private class BoardTreeNode : BinaryTreeNode
         {
-            internal BoardTreeNode()
+            private readonly LinkedList<Board> boards;
+
+            internal BoardTreeNode(string email) : base(email)
             {
+                boards = new LinkedList<Board>();
             }
-            internal LinkedList<Board> getAllBoards(User user)
+            internal LinkedList<Board> GetAllBoards()
             {
+                return boards;
             }
-            internal void addBoard(User user, Board toAdd)
+            internal void AddBoard(string name)
             {
+                foreach (Board board in boards)
+                {
+                    if (board.Title == name)
+                    {
+                        throw new ArgumentException("A board named "+name+" already exists");
+                    }
+                }
+                boards.AddLast(new Board(name));
             }
-            internal void removeBard(User user, Board toRemove)
+            internal void RemoveBoard(string name)
             {
+                bool found = false;
+                foreach (Board board in boards)
+                {
+                    if (board.Title == name)
+                    {
+                        found = true;
+                        boards.Remove(board);
+                        break;
+                    }
+                }
+                if (! found)
+                {
+                    throw new ArgumentException("Board named "+name+" doesn't exist");
+                }
             }
         }
     }
