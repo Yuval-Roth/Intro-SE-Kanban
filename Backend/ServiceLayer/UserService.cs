@@ -9,7 +9,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		public string register(String email, String password)
 		{
 		}
-		public string deleteUser(User user)
+		public string deleteUser(BusinessLayer.User user)
 		{
 		}
 		public string logIn(String email, String password)
@@ -18,10 +18,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		public string logOut()
 		{
 		}
-		public string setPassword(User user, String old, String newp)
+		public string setPassword(BusinessLayer.User user, String old, String newp)
 		{
 		}
-		public string setEmail(User user, String newe)
+		public string setEmail(BusinessLayer.User user, String newe)
 		{
 		}
 	}

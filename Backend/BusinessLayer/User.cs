@@ -2,7 +2,7 @@
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
-	public class User
+	public class User : IComparable
 	{
 		private String email;
 		private String password;
@@ -23,6 +23,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		{
 			return false;
 		}
-	}
+
+        public int CompareTo(object obj)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
 
