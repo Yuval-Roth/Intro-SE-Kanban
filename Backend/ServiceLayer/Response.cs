@@ -1,12 +1,16 @@
 ﻿using System;
 
-public class Response
+namespace IntroSE.Kanban.Backend.ServiceLayer 
 {
-	
-	public Response()
+	public class Response
 	{
-	}
-	public message() 
-	{
+
+		public Response()
+		{
+		}
+		public message()
+		{
+		}
 	}
 }
+
