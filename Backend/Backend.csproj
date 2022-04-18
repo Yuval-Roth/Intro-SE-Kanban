@@ -6,4 +6,11 @@
     <AssemblyName>IntroSE.Kanban.Backend</AssemblyName>
     <OutputType>Library</OutputType>
   </PropertyGroup>
+
+  <ItemGroup>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ServiceLayer\" />
+  </ItemGroup>
 </Project>

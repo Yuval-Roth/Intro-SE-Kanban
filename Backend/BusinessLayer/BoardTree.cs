@@ -11,6 +11,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
        
         public BoardTree() 
         {
+            
         }
         public LinkedList<Board> getAllBoards(User user)
         {
@@ -21,7 +22,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void removeBard(User user, Board toRemove)
         { 
         }
-        private class BoardTreeNode : BinaryTreeNode<>
+        private class BoardTreeNode : BinaryTreeNode
         {
             internal BoardTreeNode()
             {

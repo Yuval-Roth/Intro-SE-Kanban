@@ -1,7 +1,8 @@
 ﻿using System;
+
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
-	public class TaskService
+    public class TaskService
 	{
 		public TaskService()
 		{
@@ -15,7 +16,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		public string getDuedate()
 		{
 		}
-		public string setDuedate(Date d)
+		public string setDuedate(BusinessLayer.Date d)
 		{
 		}
 		public string getDescription()

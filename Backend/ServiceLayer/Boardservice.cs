@@ -13,7 +13,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		public string getTasksByType(Enum type)
 		{
 		}
-		public string addTask(string title, Date dueDate, string description)
+		public string addTask(string title, BusinessLayer.Date dueDate, string description)
 		{
 		}
 		public string removeTask(string title)
