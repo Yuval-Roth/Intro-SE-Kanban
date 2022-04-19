@@ -142,7 +142,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                
         }
 
-        ///<summary>Check if the <c>BinaryTree</c> contains an element</summary>
+        ///<summary>Check if the <c>BinaryTree</c> contains an element<br/><br/>
+        ///<b>Usage instructions:</b> Pass as an argument a "dummy" <c>IComparable</c> object that <br/> 
+        /// contains the key for comparison and the method will return <c>true</c> or <c>false</c> whether <br/>
+        /// the object exists in the <c>BinaryTree</c> or not
+        /// </summary>
         ///<returns><c>true</c> if the element exists in the tree and <c>false</c> otherwise</returns>
         public Boolean Contains(T element)
         {
