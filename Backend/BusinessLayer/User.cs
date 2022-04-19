@@ -11,11 +11,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 			this.email = email;
 			this.password = password;
 		}
+
+		
 		public void setPassword(String old, String newP)
 		{
+			if (old != null && newP != null)
+            {
+				password = newP;
+            }
 		}
 		public void setEmail(String newE)
 		{
+			if (newE == null) {  throw new ArgumentNullException("")}
+			email = newE;
 		}
 		public String getEmail()
 		{
@@ -23,6 +31,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		}
 		public Boolean checkPasswordMatch(String pass)
 		{
+			if(pass == null) { throw new ArgumentNullException()}
+            if (password.Equals(pass)) {
+				return true;
+			}
 			return false;
 		}
         public int CompareTo(object obj)

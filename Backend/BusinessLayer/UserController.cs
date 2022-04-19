@@ -12,9 +12,18 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private static readonly int MAX_PASS_LENGTH = 24;
         public UserController()
         {
+            BinaryTree<User> userList = new BinaryTree<User>(); 
+            Dictionary<string, User> loggedIn = new Dictionary<string, User>(); 
         }
         public void register(String email, String password)
         {
+            if(email == null){ throw new ("ilegal email"); }
+            if(password == null){ throw new ArgumentNullException("ilegal password"); }
+            if (!legalPassword(password))
+            {
+
+            }
+            if(userList.Contains)
         }
         public void deleteUser(User user)
         {
@@ -35,6 +44,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         {
             return null;
         }
-    }
+        private Boolean legalPassword(String pass)
+        {
+            if (pass == null) { return false; }
+            if (pass.Length < 6 | pass.Length > 20) { return false; }
+            for (int i = 0; i < pass.Length; i++)
+            {
+                if (pass.to)
+
+        }
+        }
 }
 
