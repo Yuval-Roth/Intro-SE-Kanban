@@ -6,6 +6,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 {
     public class UserController
     {
+        private BinaryTree<User> userList;
+        private Dictionary<string, User> loggedIn;
         private static readonly int MIN_PASS_LENGTH = 8;
         private static readonly int MAX_PASS_LENGTH = 24;
         public UserController()
