@@ -4,10 +4,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 {
 	public class User : IComparable
 	{
-		private String email;
-		private String password;
-		public User()
+		private string email;
+		private string password;
+		public User(string email, string password)
 		{
+			this.email = email;
+			this.password = password;
 		}
 		public void setPassword(String old, String newP)
 		{
@@ -17,13 +19,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		}
 		public String getEmail()
 		{
-			return null;
+			return email;
 		}
 		public Boolean checkPasswordMatch(String pass)
 		{
 			return false;
 		}
-
         public int CompareTo(object obj)
         {
             throw new NotImplementedException();
