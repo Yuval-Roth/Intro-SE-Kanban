@@ -39,8 +39,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		}
         public int CompareTo(object obj)
         {
-            throw new NotImplementedException();
+			if(obj == null) { throw new ArgumentNullException()}
+			if(obj is User) {
+				return ((User)obj).email.CompareTo(((User)obj).email);
         }
+			return 0;
     }
 }
 
