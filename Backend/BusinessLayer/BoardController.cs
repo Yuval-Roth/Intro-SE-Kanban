@@ -8,7 +8,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 {
     internal class BoardController
     {
-        public BoardTree<Board> Boards  { get; set; }
+        public BoardTree Boards  { get; set; }
         public void createBoard(User user, string title) { }
         public void deleteBoard(User user, string title) { }
         public LinkedList<Task> getAllTasksByState(User user, Enum state) { return null; }

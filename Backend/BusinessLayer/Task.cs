@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
    
-    internal class Task
+    public class Task
     {
         public string Title { get; set; }
         public Date CreationTime { get; set; }

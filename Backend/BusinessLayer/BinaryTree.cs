@@ -33,12 +33,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <br/>
     /// ===================
     /// </summary>
-    /// 
 #pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     public class BinaryTree<T> where T : IComparable
     {
         protected BinaryTreeNode root;
 
+        /// <summary>
+        /// Creates an empty <c>BinaryTree</c>
+        /// </summary>
         public BinaryTree()
         {
             root = null;

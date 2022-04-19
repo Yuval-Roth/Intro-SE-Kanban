@@ -15,7 +15,10 @@ namespace IntroSE.Kanban.Backend_testing
 
         public static void Main(string[] args)
         {
-            BinaryTreeTesting();
+            //BinaryTreeTesting();
+            //BoardTreeTesting();
+            DateTesting();
+
         }
         public static void BinaryTreeTesting()
         {
@@ -25,6 +28,23 @@ namespace IntroSE.Kanban.Backend_testing
             tree2.Add(6);
             
             Console.WriteLine(tree1.Equals(tree2));
+        }
+        public static void BoardTreeTesting() 
+        {
+            Backend.BusinessLayer.User user1 = new Backend.BusinessLayer.User("yuval", "12345");
+            Backend.BusinessLayer.User user2 = new Backend.BusinessLayer.User("yuval2", "12345");
+            Backend.BusinessLayer.BoardTree tree = new Backend.BusinessLayer.BoardTree();
+
+            Backend.BusinessLayer.Board board = tree.AddBoard(user1, "test");
+            tree.RemoveBoard(user1, "test");
+            tree.GetAllBoards(user1);
+            //tree.RemoveBoard(user1, "test");
+            //tree.GetAllBoards(user1);
+        }
+        public static void DateTesting()
+        {
+            Backend.BusinessLayer.Date date = new Backend.BusinessLayer.Date("12.6.1998");
+            Console.WriteLine(date.Day());
         }
     }
 }

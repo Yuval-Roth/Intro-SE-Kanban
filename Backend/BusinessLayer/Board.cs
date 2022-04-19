@@ -8,11 +8,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 {
     public class Board
     {
-        public Board(string name)
+        private string title;
+        public Board(string title)
         {
-            
+            this.title = title;
         }
-        public string Title { get; set; }
+        public string GetTitle() { return title; }
+        public void SetTitle() { }
         public LinkedList<Task> Backlog { get; set; }
         public LinkedList<Task> InProgress { get; set; }
         public LinkedList<Task> Done { get; set; }
