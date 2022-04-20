@@ -46,6 +46,14 @@ namespace IntroSE.Kanban.Backend_testing
             Backend.BusinessLayer.Date date = new Backend.BusinessLayer.Date("12.6.1998");
             Console.WriteLine(date.Day());
         }
+
+        public static void UserControllerTesting()
+        {
+            String pass = "afgHH123456";
+            bool ans = Backend.BusinessLayer.UserController.IsLegalPassword(pass);
+            Console.WriteLine(ans);
+            
+        }
     }
 }
 
