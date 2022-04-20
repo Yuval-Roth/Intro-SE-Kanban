@@ -47,7 +47,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 			else
 			{
 				throw new ArgumentException("can't compare because obj is not User");
-			};
+			}
 		}
 	}
 }
