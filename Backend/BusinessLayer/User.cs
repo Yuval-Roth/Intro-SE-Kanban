@@ -12,38 +12,43 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 			this.password = password;
 		}
 
-		
-		public void setPassword(String old, String newP)
+
+		public void SetPassword(String old, String newP)
 		{
 			if (old != null && newP != null)
-            {
+			{
 				password = newP;
-            }
+			}
 		}
-		public void setEmail(String newE)
+		public void SetEmail(String newE)
 		{
-			if (newE == null) {  throw new ArgumentNullException("")}
+			if (newE == null) { throw new ArgumentNullException("email is null")}
 			email = newE;
 		}
-		public String getEmail()
+		public String GetEmail()
 		{
 			return email;
 		}
-		public Boolean checkPasswordMatch(String pass)
+		public Boolean CheckPasswordMatch(String pass)
 		{
-			if(pass == null) { throw new ArgumentNullException()}
-            if (password.Equals(pass)) {
+			if (pass == null) { throw new ArgumentNullException("password is null")}
+			if (password.Equals(pass)) {
 				return true;
 			}
 			return false;
 		}
-        public int CompareTo(object obj)
-        {
-			if(obj == null) { throw new ArgumentNullException()}
-			if(obj is User) {
-				return ((User)obj).email.CompareTo(((User)obj).email);
-        }
-			return 0;
-    }
+		public int CompareTo(object obj)
+		{
+			if (obj == null) { throw new ArgumentNullException("obj is null")}
+			if (obj is User)
+			{
+				return ((User)obj).email.CompareTo(this.email);
+			}
+			else
+			{
+				throw new ArgumentException("can't compare because obj is not User");
+			};
+		}
+	}
 }
 

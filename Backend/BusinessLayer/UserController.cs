@@ -17,90 +17,131 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             BinaryTree<User> userList = new BinaryTree<User>(); 
             Dictionary<string, User> loggedIn = new Dictionary<string, User>(); 
         }
-        public void register(String email, String password)
+        public void Register(String email, String password)
         {
             if(email == null){ throw new ArgumentException ("ilegal email"); }
             if(password == null){ throw new ArgumentException ("ilegal password"); }
-            if (!ligalPassword(password)) { throw new ArgumentException("Password ilegal"); }
+            if (!IsLegalPassword(password)) { throw new ArgumentException("Password ilegal"); }
             User newUser = new User(email, password);
             if (userList.Contains(newUser))
             {
-                throw new ArgumentException("email allready excist in the system");
+                throw new ArgumentException("A user with that email already exists in the system");
             }
             userList.Add(newUser);
         }
-        public void deleteUser(User user)
+        public void DeleteUser(User user)
         {
             if(user == null) { throw new ArgumentNullException ("input is null")}
             if (userList.Contains(user))
             {
                 userList.Remove(user);
             }
+            else
+            {
+                throw new ArgumentException("there is no such user in the system");
+            }
         }
-        public void logIn(String email, String password)
+        public void LogIn(String email, String password)
         {
             if(password == null) { throw new ArgumentNullException ("password is null"); }
             if(email == null){ throw new ArgumentNullException ("email is null"); }
             User newUser=new User(email, password);
             if (userList.Contains(newUser))
             {
-                loggedIn.Add(email, newUser);
+                if (newUser.CheckPasswordMatch(password))
+                {
+                    loggedIn.Add(email, newUser);
+                }
+                else
+                {
+                    throw new ArgumentException("wrong password");
+                }
             }
             else
             {
-                throw new ArgumentException("there is no such user in the system");
+                throw new ArgumentException("there is no such user in the system");  
             }
         }
-        public void logOut(User user)
+
+        public void LogOut(User user)
         {
             if (user == null) { throw new ArgumentNullException ("user is null")}
             if (!loggedIn.ContainsValue(user)) { throw new ArgumentException("user not loggedIn") }
-            loggedIn.Remove(user.getEmail());
+            loggedIn.Remove(user.GetEmail());
         }
-        public void setPassword(User user, String old, String newP)
+        public void SetPassword(User user, String old, String newP)
         {
             if(user == null) { throw new ArgumentNullException("user is null")};
             if (old == null) { throw new ArgumentNullException("old password is null")};
             if (newP == null) { throw new ArgumentNullException("new password is null")};
             if(!userList.Contains(user)) { throw new ArgumentException("user is not in the system")};
-            if (!isLigalPassword(newP)) { throw new ArgumentException("new password is ilegal")};
-            if (user.checkPasswordMatch(old))
+            if (!IsLegalPassword(newP)) { throw new ArgumentException("new password is illegal")};
+            if (user.CheckPasswordMatch(old))
             {
-                user.setPassword(old, newP);    
+                user.SetPassword(old, newP);    
             }
-            throw new ArgumentException("password incorrect");
+            else
+            {
+                throw new ArgumentException("password incorrect");
+            }
+            
 
         }
 
-        public void setEmail(User user, String newE)
+        public void SetEmail(User user, String newE)
         {
-            if (!userList.Contains(user)) { throw new ArgumentException("user isn't excist"); }
+            if (!userList.Contains(user)) { throw new ArgumentException("user dosen't exist"); }
             User newUser = new User(newE, "");
-            if (userList.Contains(newUser)) { throw new ArgumentException("email allready excist in the system")};
-            user.setEmail(newE);
+            if (userList.Contains(newUser)) { throw new ArgumentException("A user with that email already exists in the system")};
+            user.SetEmail(newE);
         }
 
-        public User searchUser(String email)
+        public User SearchUser(String email)
         {
             if (email == null) { throw new ArgumentNullException("email is null")};
             User newUser = new User(email, "");
             try
             {
-                User user = userList.Search(newUser).GetElement();
-                return user;
+                return userList.Search(newUser).GetElement();
             }
             catch (NoSuchElementException)
             {
                 throw;
             }
         }
-        private Boolean isLigalPassword(String pass)
+        private Boolean IsLegalPassword(String pass)
         {
             if (pass == null) { return false; }
-            if (pass.Length < 6 | pass.Length > 20) { return false; }
-            Regex rx = new Regex(@"\^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,20}$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            
-
+            if (pass.Length < MIN_PASS_LENGTH | pass.Length > MAX_PASS_LENGTH) { return false; }
+            String SmallLet = @"\b[a-z]{1,}";
+            String BigLet = @"\b[A-Z]{1,}";
+            String num = @"\b[0-9]{1,}";
+            Regex rg = new Regex(@SmallLet); 
+            MatchCollection matchedAuthors = rg.Matches(pass);
+            for (int i = 0; i < matchedAuthors.Count; i++)
+            {
+                if (matchedAuthors[i].Equals(pass))
+                {
+                    Regex rg2 = new Regex(BigLet);
+                    MatchCollection matchedAuthors2 = rg2.Matches(pass);
+                    for(int j = 0; j < matchedAuthors2.Count; j++)
+                    {
+                        if (matchedAuthors2[j].Equals(pass))
+                        {
+                            Regex rg3 = new Regex(num);
+                            MatchCollection matchedAuthors3 = rg3.Matches(pass);
+                            for(int k = 0; k < matchedAuthors3.Count; k++)
+                            {
+                                if (matchedAuthors3[k].Equals(pass))
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
         }
         }
 }
