@@ -52,7 +52,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             try
             {
-                LinkedList<Board> AllBoards = (root.Search(user.getEmail()) as BoardTreeNode).GetAllBoards();
+                LinkedList<Board> AllBoards = (root.Search(user.GetEmail()) as BoardTreeNode).GetAllBoards();
                 if (AllBoards.Count == 0)
                 {
                     throw new ArgumentException("User has no boards");
@@ -88,18 +88,18 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         {
             if (root == null)
             {
-                root = new BoardTreeNode(user.getEmail());
+                root = new BoardTreeNode(user.GetEmail());
                 return (root as BoardTreeNode).AddBoard(title);
             }
             else 
             {
                 try
                 {
-                    return (root.Search(user.getEmail()) as BoardTreeNode).AddBoard(title);
+                    return (root.Search(user.GetEmail()) as BoardTreeNode).AddBoard(title);
                 }
                 catch (NoSuchElementException)
                 {
-                    return (root.Add(user.getEmail()) as BoardTreeNode).AddBoard(title);
+                    return (root.Add(user.GetEmail()) as BoardTreeNode).AddBoard(title);
                 }
                 catch (ArgumentException)
                 {
@@ -121,7 +121,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         {
             try
             {
-                (root.Search(user.getEmail()) as BoardTreeNode).RemoveBoard(title);
+                (root.Search(user.GetEmail()) as BoardTreeNode).RemoveBoard(title);
             }
             catch (ArgumentException)
             {

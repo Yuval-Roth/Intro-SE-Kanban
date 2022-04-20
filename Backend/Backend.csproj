@@ -8,9 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ServiceLayer\" />
+    <Compile Remove="ServiceLayer\**" />
+    <EmbeddedResource Remove="ServiceLayer\**" />
+    <None Remove="ServiceLayer\**" />
   </ItemGroup>
 </Project>
