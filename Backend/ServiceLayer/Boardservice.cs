@@ -6,7 +6,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 	{
 		public BoardService()
 		{
-			return "";
 		}
 		public string getTitle()
 		{
