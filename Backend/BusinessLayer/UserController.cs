@@ -109,7 +109,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw;
             }
         }
-        private bool IsLegalPassword(string pass)
+        public static bool IsLegalPassword(string pass)
         {
             Regex smallLetters = new Regex(@"[a-z]");
             Regex capitalLetters = new Regex(@"[A-Z]");

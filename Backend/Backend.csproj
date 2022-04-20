@@ -9,4 +9,8 @@
 
   <ItemGroup>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ServiceLayer\" />
+  </ItemGroup>
 </Project>
