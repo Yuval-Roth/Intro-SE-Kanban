@@ -22,7 +22,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		}
 		public void SetEmail(String newE)
 		{
-			if (newE == null) { throw new ArgumentNullException("email is null")}
+			if (newE == null)  throw new ArgumentNullException("email is null");
 			email = newE;
 		}
 		public String GetEmail()
@@ -31,7 +31,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		}
 		public Boolean CheckPasswordMatch(String pass)
 		{
-			if (pass == null) { throw new ArgumentNullException("password is null")}
+			if (pass == null)  throw new ArgumentNullException("password is null"); 
 			if (password.Equals(pass)) {
 				return true;
 			}
@@ -39,7 +39,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		}
 		public int CompareTo(object obj)
 		{
-			if (obj == null) { throw new ArgumentNullException("obj is null")}
+			if (obj == null)  throw new ArgumentNullException("obj is null");
 			if (obj is User)
 			{
 				return ((User)obj).email.CompareTo(this.email);

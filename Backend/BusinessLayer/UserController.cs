@@ -31,7 +31,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
         public void DeleteUser(User user)
         {
-            if(user == null) { throw new ArgumentNullException ("input is null")}
+            if(user == null)  throw new ArgumentNullException("input is null"); 
             if (userList.Contains(user))
             {
                 userList.Remove(user);
@@ -43,8 +43,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
         public void LogIn(String email, String password)
         {
-            if(password == null) { throw new ArgumentNullException ("password is null"); }
-            if(email == null){ throw new ArgumentNullException ("email is null"); }
+            if(password == null)  throw new ArgumentNullException ("password is null"); 
+            if(email == null) throw new ArgumentNullException ("email is null"); 
             User newUser=new User(email, password);
             if (userList.Contains(newUser))
             {
@@ -65,17 +65,17 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public void LogOut(User user)
         {
-            if (user == null) { throw new ArgumentNullException ("user is null")}
-            if (!loggedIn.ContainsValue(user)) { throw new ArgumentException("user not loggedIn") }
+            if (user == null)  throw new ArgumentNullException("user is null"); 
+            if (!loggedIn.ContainsValue(user))  throw new ArgumentException("user not loggedIn"); 
             loggedIn.Remove(user.GetEmail());
         }
         public void SetPassword(User user, String old, String newP)
         {
-            if(user == null) { throw new ArgumentNullException("user is null")};
-            if (old == null) { throw new ArgumentNullException("old password is null")};
-            if (newP == null) { throw new ArgumentNullException("new password is null")};
-            if(!userList.Contains(user)) { throw new ArgumentException("user is not in the system")};
-            if (!IsLegalPassword(newP)) { throw new ArgumentException("new password is illegal")};
+            if(user == null)  throw new ArgumentNullException("user is null");
+            if (old == null)  throw new ArgumentNullException("old password is null"); 
+            if (newP == null)  throw new ArgumentNullException("new password is null"); 
+            if(!userList.Contains(user))  throw new ArgumentException("user is not in the system"); 
+            if (!IsLegalPassword(newP))  throw new ArgumentException("new password is illegal"); 
             if (user.CheckPasswordMatch(old))
             {
                 user.SetPassword(old, newP);    
@@ -90,15 +90,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public void SetEmail(User user, String newE)
         {
-            if (!userList.Contains(user)) { throw new ArgumentException("user dosen't exist"); }
+            if (!userList.Contains(user))  throw new ArgumentException("user dosen't exist"); 
             User newUser = new User(newE, "");
-            if (userList.Contains(newUser)) { throw new ArgumentException("A user with that email already exists in the system")};
+            if (userList.Contains(newUser))  throw new ArgumentException("A user with that email already exists in the system");
             user.SetEmail(newE);
         }
 
         public User SearchUser(String email)
         {
-            if (email == null) { throw new ArgumentNullException("email is null")};
+            if (email == null) { throw new ArgumentNullException("email is null"); }
             User newUser = new User(email, "");
             try
             {
@@ -109,40 +109,56 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw;
             }
         }
-        private Boolean IsLegalPassword(String pass)
+        private bool IsLegalPassword(string pass)
         {
-            if (pass == null) { return false; }
-            if (pass.Length < MIN_PASS_LENGTH | pass.Length > MAX_PASS_LENGTH) { return false; }
-            String SmallLet = @"\b[a-z]{1,}";
-            String BigLet = @"\b[A-Z]{1,}";
-            String num = @"\b[0-9]{1,}";
-            Regex rg = new Regex(@SmallLet); 
-            MatchCollection matchedAuthors = rg.Matches(pass);
-            for (int i = 0; i < matchedAuthors.Count; i++)
+            Regex smallLetters = new Regex(@"[a-z]");
+            Regex capitalLetters = new Regex(@"[A-Z]");
+            Regex numbers = new Regex(@"[0-9]");
+
+            if (smallLetters.Matches(pass).Count > 0 &
+                capitalLetters.Matches(pass).Count > 0 &
+                numbers.Matches(pass).Count > 0 &
+                pass.Length >= MIN_PASS_LENGTH &
+                pass.Length <= MAX_PASS_LENGTH)
             {
-                if (matchedAuthors[i].Equals(pass))
-                {
-                    Regex rg2 = new Regex(BigLet);
-                    MatchCollection matchedAuthors2 = rg2.Matches(pass);
-                    for(int j = 0; j < matchedAuthors2.Count; j++)
-                    {
-                        if (matchedAuthors2[j].Equals(pass))
-                        {
-                            Regex rg3 = new Regex(num);
-                            MatchCollection matchedAuthors3 = rg3.Matches(pass);
-                            for(int k = 0; k < matchedAuthors3.Count; k++)
-                            {
-                                if (matchedAuthors3[k].Equals(pass))
-                                {
-                                    return true;
-                                }
-                            }
-                        }
-                    }
-                }
+                return true;
             }
+
             return false;
+
+
+            //if (pass == null) { return false; }
+            //if (pass.Length < MIN_PASS_LENGTH | pass.Length > MAX_PASS_LENGTH) { return false; }
+            //String SmallLet = @"\b[a-z]{1,}";
+            //String BigLet = @"\b[A-Z]{1,}";
+            //String num = @"\b[0-9]{1,}";
+            //Regex rg = new Regex(@SmallLet); 
+            //MatchCollection matchedAuthors = rg.Matches(pass);
+            //for (int i = 0; i < matchedAuthors.Count; i++)
+            //{
+            //    if (matchedAuthors[i].Equals(pass))
+            //    {
+            //        Regex rg2 = new Regex(BigLet);
+            //        MatchCollection matchedAuthors2 = rg2.Matches(pass);
+            //        for(int j = 0; j < matchedAuthors2.Count; j++)
+            //        {
+            //            if (matchedAuthors2[j].Equals(pass))
+            //            {
+            //                Regex rg3 = new Regex(num);
+            //                MatchCollection matchedAuthors3 = rg3.Matches(pass);
+            //                for(int k = 0; k < matchedAuthors3.Count; k++)
+            //                {
+            //                    if (matchedAuthors3[k].Equals(pass))
+            //                    {
+            //                        return true;
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+            //return false;
         }
-        }
+    }
 }
 
