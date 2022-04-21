@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
@@ -57,6 +58,14 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         public string AdvanceTask(BusinessLayer.User user, BusinessLayer.Board board, string title)
         {
             return "";
+        }
+        public static string BoardToJason(BusinessLayer.Board board)
+        {
+            return JsonController.Serialize(board.GetSerializableInstance());
+        }
+        public static BusinessLayer.Board BuildBoardFromJason(string json)
+        {
+            return JsonController.Deserialize<BusinessLayer.Board>(json);
         }
 
         //==================================================

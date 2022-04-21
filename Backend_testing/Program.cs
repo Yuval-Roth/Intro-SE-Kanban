@@ -61,9 +61,36 @@ namespace IntroSE.Kanban.Backend_testing
         }
         public static void JsonTesting()
         {
-            Backend.ServiceLayer.Response response = new Backend.ServiceLayer.Response(true, "some response message");
-            string serialiedJson = response.ToJson();
-            Console.WriteLine(Backend.ServiceLayer.JsonController.Deserialize<Backend.ServiceLayer.Response>(serialiedJson).message);
+            Backend.BusinessLayer.Serializable.Board_Serializable board = new();
+            board.Backlog = new LinkedList<Backend.BusinessLayer.Serializable.Task_Serializable>();
+            board.Backlog.AddLast(new Backend.BusinessLayer.Serializable.Task_Serializable
+            {
+                Title = "task1",
+                CreationTime = new Backend.BusinessLayer.Date("16/25/1900"),
+                Description = "stahp",
+                DueDate = new Backend.BusinessLayer.Date("16/25/1909"),
+                State = Backend.BusinessLayer.TaskStates.backLog
+            });
+            board.InProgress = new LinkedList<Backend.BusinessLayer.Serializable.Task_Serializable>();
+            board.InProgress.AddLast(new Backend.BusinessLayer.Serializable.Task_Serializable
+            {
+                Title = "task2",
+                CreationTime = new Backend.BusinessLayer.Date("16/25/1900"),
+                Description = "STAHP",
+                DueDate = new Backend.BusinessLayer.Date("16/25/1909"),
+                State = Backend.BusinessLayer.TaskStates.inProgress
+            });
+            board.Done = new LinkedList<Backend.BusinessLayer.Serializable.Task_Serializable>();
+            board.Done.AddLast(new Backend.BusinessLayer.Serializable.Task_Serializable
+            {
+                Title = "task3",
+                CreationTime = new Backend.BusinessLayer.Date("16/25/1900"),
+                Description = "STAHHHHP",
+                DueDate = new Backend.BusinessLayer.Date("16/25/1909"),
+                State = Backend.BusinessLayer.TaskStates.done
+            });
+            Console.WriteLine(Backend.ServiceLayer.JsonController.Serialize(board));
+
         }
     }
 }

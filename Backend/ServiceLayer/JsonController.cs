@@ -5,9 +5,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 {
 	public static class JsonController
 	{
-		private readonly static JsonSerializerOptions options = new JsonSerializerOptions
+		private readonly static JsonSerializerOptions options = new()
 		{
-			WriteIndented = true
+			WriteIndented = true,
 		};
 		public static string Serialize<T>(T obj)
 		{

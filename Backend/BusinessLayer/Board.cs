@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
     public class Board
     {
         private string title;
+        LinkedList<Task> backLog;
+        LinkedList<Task> inProgress;
+        LinkedList<Task> done;
+
         public Board(string title)
         {
             this.title = title;
@@ -25,5 +30,46 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void AdvanceTask(String title) { }
         public Task SearchTask(String title) { return null; }
 
+
+
+        //====================================================
+        //                  Json related
+        //====================================================
+
+        [JsonConstructor]
+        public Board(string title, LinkedList<Task> backLog, LinkedList<Task> inProgress, LinkedList<Task> done) 
+        {
+            this.title=title;
+            this.backLog=backLog;
+            this.inProgress=inProgress;
+            this.done = done;
+        }
+        public Serializable.Board_Serializable GetSerializableInstance() 
+        {
+            LinkedList<Serializable.Task_Serializable> serializableBackLog = new();
+            foreach (Task task in Backlog)
+            {
+                serializableBackLog.AddLast(task.GetSerializableInstance());
+            }
+
+            LinkedList<Serializable.Task_Serializable> serializableInProgress = new();
+            foreach (Task task in inProgress)
+            {
+                serializableInProgress.AddLast(task.GetSerializableInstance());
+            }
+
+            LinkedList<Serializable.Task_Serializable> serializableDone = new();
+            foreach (Task task in done)
+            {
+                serializableDone.AddLast(task.GetSerializableInstance());
+            }
+            return new Serializable.Board_Serializable()
+            {
+                Title = title,
+                Backlog = serializableBackLog,
+                InProgress = serializableInProgress,
+                Done = serializableDone,
+            };
+        }
     }
 }

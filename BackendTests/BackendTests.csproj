@@ -8,6 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ServiceLayer\**" />
+    <EmbeddedResource Remove="ServiceLayer\**" />
+    <None Remove="ServiceLayer\**" />
   </ItemGroup>
 
   <ItemGroup>
