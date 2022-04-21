@@ -28,6 +28,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         {
             Assert.Fail();
             //change
+            //test
+            //test2
         }
 
         [TestMethod()]
