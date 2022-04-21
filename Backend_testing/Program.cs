@@ -61,7 +61,7 @@ namespace IntroSE.Kanban.Backend_testing
         }
         public static void JsonTesting()
         {
-            Backend.ServiceLayer.Response response = new Backend.ServiceLayer.Response(true, "Hello World!");
+            Backend.ServiceLayer.Response response = new Backend.ServiceLayer.Response(true, "some response message");
             Console.WriteLine(response.GenerateJson());
         }
     }

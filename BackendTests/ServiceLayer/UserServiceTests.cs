@@ -11,6 +11,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
     [TestClass()]
     public class UserServiceTests
     {
+        UserService service = new UserService();
         [TestMethod()]
         public void UserServiceTest()
         {
