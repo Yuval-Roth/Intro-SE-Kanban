@@ -12,16 +12,28 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
     public class UserServiceTests
     {
         UserService service = new UserService();
+
         [TestMethod()]
         public void UserServiceTest()
         {
-            Assert.Fail();
+            Assert.AreEqual();
+                
         }
 
         [TestMethod()]
-        public void registerTest()
+        public void registerTest1()
         {
-            Assert.Fail();
+            string expected = new Response(true, "Registration successful!").GenerateJson();
+            string result = service.register("yuval@post.bgu.ac.il", "12345");
+            Assert.AreEqual(expected, result);
+        }
+        [TestMethod()]
+        public void registerTest2()
+        {
+            string expected = new Response(false, "User already exists").GenerateJson();
+            string result = service.register("yuval@post.bgu.ac.il", "12345");
+            result = service.register("yuval@post.bgu.ac.il", "12345");
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod()]
