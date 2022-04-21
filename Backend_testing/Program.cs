@@ -50,10 +50,12 @@ namespace IntroSE.Kanban.Backend_testing
 
         public static void UserControllerTesting()
         {
-            String pass = "afgHH123456";
-            String pass2 = "asHddggdgdgd33!@";
-            bool ans = Backend.BusinessLayer.UserController.IsLegalPassword(pass2);
-            Console.WriteLine(ans);
+            //String pass = "afgHH123456";
+            //String pass2 = "asHddggdgdgd33!@";
+            //bool ans = Backend.BusinessLayer.UserController.IsLegalPassword(pass2);
+            //Console.WriteLine(ans);
+
+
             
         }
     }
