@@ -71,7 +71,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             return "";
         }
-        public string SetTaskDuedate(BusinessLayer.User user, BusinessLayer.Board board, string taskTitle, BusinessLayer.Date newDate)
+        public string SetTaskDueDate(BusinessLayer.User user, BusinessLayer.Board board, string taskTitle, BusinessLayer.Date newDate)
         {
             return "";
         }
@@ -89,15 +89,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         }
         public static string TaskToJson(BusinessLayer.Task task)
         {
-            BusinessLayer.Task toSerialize = new() 
+            BusinessLayer.Serializable.Task_Serializable toSerialize = new() 
             {
-                Title=task.Title,
+                Title=task.GetTitle(),
                 CreationTime=task.CreationTime,
                 Description=task.Description,
                 DueDate=task.DueDate,
                 State=task.State,
             };
-            return JsonController.Serialize<BusinessLayer.Task>(toSerialize);
+            return JsonController.Serialize(toSerialize);
         }
         public static BusinessLayer.Task BuildTaskFromJson(string json) 
         {

@@ -28,6 +28,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             return JsonController.Serialize(this);
         }
+
         public static Response BuildFromJson(string json)
         {
             return JsonController.Deserialize<Response>(json);

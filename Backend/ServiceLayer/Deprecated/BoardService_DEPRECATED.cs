@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
 	public class BoardService
 	{
-		public BoardService()
+		BusinessLayer.Board board;
+
+		public BoardService(BusinessLayer.Board board) 
 		{
+			this.board = board;
 		}
 		public string GetTitle()
 		{

@@ -3,6 +3,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 {
 	public class UserService
 	{
+
 		public UserService()
 		{
 		}
