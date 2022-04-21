@@ -29,9 +29,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             return "";
         }
-        public string SearchBoard(string json)
+        public string SearchBoard(BusinessLayer.User user, String title)
         {   
-            // BusinessLayer.User user, String title
             return "";
         }
 
@@ -39,33 +38,54 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         //                    Board
         //==================================================
 
-        
-        public string GetTask(string json)
+        public string GetTask(BusinessLayer.User user, BusinessLayer.Board board, string taskTitle)
         {
-            //BusinessLayer.User user, BusinessLayer.Board board, string taskTitle
             return "";
         }
-        public string GetAllTasksByType(string json)
+        public string GetAllTasksByType(BusinessLayer.User user, BusinessLayer.Board board, Enum type)
         {
-            //BusinessLayer.User user, BusinessLayer.Board board, Enum type
             return "";
         }
-        public string AddTask(string json)
+        public string AddTask(BusinessLayer.User user, BusinessLayer.Board board, string title, BusinessLayer.Date dueDate, string description)
         {          
-            //BusinessLayer.User user, BusinessLayer.Board board, string title, BusinessLayer.Date dueDate, string description
             return "";
         }
-        public string RemoveTask(string title)
+        public string RemoveTask(BusinessLayer.User user, BusinessLayer.Board board, string title)
         {
             return "";
         }
-        public string AdvanceTask(string title)
+        public string AdvanceTask(BusinessLayer.User user, BusinessLayer.Board board, string title)
         {
             return "";
         }
 
+        //==================================================
+        //                    Task
+        //==================================================
 
-
-
+        public string SetTaskTitle(BusinessLayer.User user, BusinessLayer.Board board, string taskTitle, string newTitle)
+        {
+            return "";
+        }
+        public string GetTaskDuedate(BusinessLayer.User user, BusinessLayer.Board board, string taskTitle)
+        {
+            return "";
+        }
+        public string SetTaskDuedate(BusinessLayer.User user, BusinessLayer.Board board, string taskTitle, BusinessLayer.Date newDate)
+        {
+            return "";
+        }
+        public string GetTaskDescription(BusinessLayer.User user, BusinessLayer.Board board, string taskTitle)
+        {
+            return "";
+        }
+        public string SetTaskDescription(BusinessLayer.User user, BusinessLayer.Board board, string taskTitle, string newDescription)
+        {
+            return "";
+        }
+        public string GetTaskState(BusinessLayer.User user, BusinessLayer.Board board, string taskTitle)
+        {
+            return "";
+        }
     }
 }
