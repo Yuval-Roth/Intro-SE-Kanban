@@ -9,13 +9,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     public class UserController
     {
         private BinaryTree<User> userList;
-        private Dictionary<string, User> loggedIn;
+        private readonly Dictionary<string, User> loggedIn;
         private static readonly int MIN_PASS_LENGTH = 6;
         private static readonly int MAX_PASS_LENGTH = 20;
         public UserController()
         {
-            BinaryTree<User> userList = new BinaryTree<User>(); 
-            Dictionary<string, User> loggedIn = new Dictionary<string, User>(); 
+            userList = new BinaryTree<User>(); 
+            loggedIn = new Dictionary<string, User>(); 
         }
         public void Register(String email, String password)
         {
