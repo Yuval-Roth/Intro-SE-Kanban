@@ -13,13 +13,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
     {
         UserService service = new UserService();
         BusinessLayer.UserController userController = new BusinessLayer.UserController();
-
-        [TestMethod()]
-        public void UserServiceTest()
-        {
-            Assert.AreEqual();
-                
-        }
+        
         //successful registration
         [TestMethod()]
         public void RegisterTest1()
