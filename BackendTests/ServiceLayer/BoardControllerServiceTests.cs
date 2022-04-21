@@ -27,9 +27,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void deleteBoardTest()
         {
             Assert.Fail();
-            //change
-            //test
-            //test2
         }
 
         [TestMethod()]
