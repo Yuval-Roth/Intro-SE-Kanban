@@ -11,16 +11,18 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
     [TestClass()]
     public class TaskServiceTests
     {
-        [TestMethod()]
-        public void TaskServiceTest()
-        {
-            Assert.Fail();
-        }
+        BoardService boardService = new BoardService();
+        TaskService taskService = new TaskService();
+        BusinessLayer.Date dueDate = new("25/6/2022");
 
         [TestMethod()]
-        public void GetTitleTest()
+        public void GetTitleTest1()
         {
-            Assert.Fail();
+            boardService.AddTask("test", dueDate, "JustTestin");
+            string title = taskService.GetTitle();
+
+            string expected = new Response(true, "JustTestin").GenerateJson();
+            string result = boardService.get
         }
 
         [TestMethod()]
