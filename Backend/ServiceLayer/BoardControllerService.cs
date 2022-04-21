@@ -9,23 +9,23 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         
         }
 
-        public string createBoard(BusinessLayer.User user, String title)
+        public string CreateBoard(BusinessLayer.User user, String title)
         {
             return "";
         }
-        public string deleteBoard(BusinessLayer.User user, String title)
+        public string DeleteBoard(BusinessLayer.User user, String title)
         {
             return "";
         }
-        public string getAllTasksByState(BusinessLayer.User user,Enum state)
+        public string GetAllTasksByState(BusinessLayer.User user,Enum state)
         {
             return "";
         }
-        public string getAllBoards(BusinessLayer.User user)
+        public string GetAllBoards(BusinessLayer.User user)
         {
             return "";
         }
-        public string searchBoard(BusinessLayer.User user, String title)
+        public string SearchBoard(BusinessLayer.User user, String title)
         {
             return "";
         }

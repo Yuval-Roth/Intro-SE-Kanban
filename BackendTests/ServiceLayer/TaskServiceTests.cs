@@ -18,49 +18,49 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         }
 
         [TestMethod()]
-        public void getTitleTest()
+        public void GetTitleTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void setTitleTest()
+        public void SetTitleTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void getDuedateTest()
+        public void GetDuedateTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void setDuedateTest()
+        public void SetDuedateTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void getDescriptionTest()
+        public void GetDescriptionTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void setDescriptionTest()
+        public void SetDescriptionTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void getStateTest()
+        public void GetStateTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void setStateTest()
+        public void SetStateTest()
         {
             Assert.Fail();
         }

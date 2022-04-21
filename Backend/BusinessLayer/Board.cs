@@ -19,11 +19,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public LinkedList<Task> InProgress { get; set; }
         public LinkedList<Task> Done { get; set; }
 
-        public LinkedList<Task> getTaskByType(Enum type) { return null; }
-        public void addTask(String title, Date duedate, String description) { }
-        public void removeTask(String title) { }
-        public void advanceTask(String title) { }
-        public Task searchTask(String title) { return null; }
+        public LinkedList<Task> GetTaskByType(Enum type) { return null; }
+        public void AddTask(String title, Date duedate, String description) { }
+        public void RemoveTask(String title) { }
+        public void AdvanceTask(String title) { }
+        public Task SearchTask(String title) { return null; }
 
     }
 }

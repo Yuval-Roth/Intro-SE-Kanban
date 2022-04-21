@@ -30,7 +30,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         }
         //user exist in the system
         [TestMethod()]
-        public void registerTest2()
+        public void RegisterTest2()
         {
             string expected = new Response(false, "User already exists").GenerateJson();
             string result = service.register("yuval@post.bgu.ac.il", "Ha12345");
@@ -93,7 +93,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         }
 
         [TestMethod()]
-        public void logInTest()
+        public void LogInTest()
         {
             
             Assert.Fail();
@@ -141,13 +141,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
 
         [TestMethod()]
-        public void setPasswordTest()
+        public void SetPasswordTest()
         {
             Assert.Fail();
         }
         //setEnail successful
         [TestMethod()]
-        public void setEmailTest()
+        public void SetEmailTest()
         {
             BusinessLayer.User newUser = new("printz@post.bgu.il", "Hadas12345");
             service.register("printz@post.bgu.il", "Hadas12345");
