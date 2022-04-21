@@ -18,7 +18,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		{
 			return "";
 		}
-		public string logOut(BusinessLayer.User user)
+		public string LogOut(BusinessLayer.User user)
 		{
 			return "";
 		}
