@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
-    internal class BoardsService
+    public class BoardsService
     {
 
         //==================================================
