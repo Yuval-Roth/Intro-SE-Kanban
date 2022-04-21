@@ -7,35 +7,35 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		public TaskService()
 		{
 		}
-		public string getTitle()
+		public string GetTitle()
 		{
 			return "";
 		}
-		public string setTitle(string t)
+		public string SetTitle(string t)
 		{
 			return "";
 		}
-		public string getDuedate()
+		public string GetDuedate()
 		{
 			return "";
 		}
-		public string setDuedate(BusinessLayer.Date d)
+		public string SetDuedate(BusinessLayer.Date d)
 		{
 			return "";
 		}
-		public string getDescription()
+		public string GetDescription()
 		{
 			return "";
 		}
-		public string setDescription(string d)
+		public string SetDescription(string d)
 		{
 			return "";
 		}
-		public string getState()
+		public string GetState()
 		{
 			return "";
 		}
-		public string setState(Enum e)
+		public string SetState(Enum e)
 		{
 			return "";
 		}

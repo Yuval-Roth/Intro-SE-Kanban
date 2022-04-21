@@ -14,54 +14,46 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         UserService service = new UserService();
 
         [TestMethod()]
-        public void UserServiceTest()
-        {
-            Assert.AreEqual();
-                
-        }
-
-        [TestMethod()]
-        public void registerTest1()
+        public void RegisterTest1()
         {
             string expected = new Response(true, "Registration successful!").GenerateJson();
-            string result = service.register("yuval@post.bgu.ac.il", "12345");
+            string result = service.Register("yuval@post.bgu.ac.il", "12345");
             Assert.AreEqual(expected, result);
         }
         [TestMethod()]
-        public void registerTest2()
+        public void RegisterTest2()
         {
             string expected = new Response(false, "User already exists").GenerateJson();
-            string result = service.register("yuval@post.bgu.ac.il", "12345");
-            result = service.register("yuval@post.bgu.ac.il", "12345");
+            string result = service.Register("yuval@post.bgu.ac.il", "12345");
+            result = service.Register("yuval@post.bgu.ac.il", "12345");
             Assert.AreEqual(expected, result);
         }
+        [TestMethod()]
+        public void DeleteUserTest() 
+        { 
+            Assert.Fail();
+        }
 
         [TestMethod()]
-        public void deleteUserTest()
+        public void LogInTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void logInTest()
+        public void LogOutTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void logOutTest()
+        public void SetPasswordTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void setPasswordTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void setEmailTest()
+        public void SetEmailTest()
         {
             Assert.Fail();
         }

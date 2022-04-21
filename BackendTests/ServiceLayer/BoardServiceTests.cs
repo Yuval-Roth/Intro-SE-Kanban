@@ -18,31 +18,31 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         }
 
         [TestMethod()]
-        public void getTitleTest()
+        public void GetTitleTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void getTasksByTypeTest()
+        public void GetTasksByTypeTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void addTaskTest()
+        public void AddTaskTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void removeTaskTest()
+        public void RemoveTaskTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void advanceTaskTest()
+        public void AdvanceTaskTest()
         {
             Assert.Fail();
         }

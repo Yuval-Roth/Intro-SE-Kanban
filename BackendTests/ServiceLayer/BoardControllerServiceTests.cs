@@ -18,31 +18,31 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         }
 
         [TestMethod()]
-        public void createBoardTest()
+        public void CreateBoardTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void deleteBoardTest()
+        public void DeleteBoardTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void getAllTasksByStateTest()
+        public void GetAllTasksByStateTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void getAllBoardsTest()
+        public void GetAllBoardsTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void searchBoardTest()
+        public void SearchBoardTest()
         {
             Assert.Fail();
         }

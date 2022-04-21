@@ -7,23 +7,23 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		public BoardService()
 		{
 		}
-		public string getTitle()
+		public string GetTitle()
 		{
 			return "";
 		}
-		public string getTasksByType(Enum type)
+		public string GetTasksByType(Enum type)
 		{
 			return "";
 		}
-		public string addTask(string title, BusinessLayer.Date dueDate, string description)
+		public string AddTask(string title, BusinessLayer.Date dueDate, string description)
 		{
 			return "";
 		}
-		public string removeTask(string title)
+		public string RemoveTask(string title)
 		{
 			return "";
 		}
-		public string advanceTask(string title)
+		public string AdvanceTask(string title)
 		{
 			return "";
 		}
