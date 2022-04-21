@@ -92,12 +92,74 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
         }
 
+
+        //user doesn't exist
+        //pass incorrect
+        //allready loggedIn
+        //null email
+        //null password
+       
+        //logIn successesful
         [TestMethod()]
         public void LogInTest()
         {
-            
-            Assert.Fail();
+            service.Register("printz@post.bgu.il", "Hadas12345");
+            string expected = new Response(true, "loggedIn succssesful").GenerateJson();
+            string result = service.LogIn("printz@post.bgu.il", "Hadas12345");
+            Assert.AreEqual(expected, result);
         }
+        //incorrect password
+        [TestMethod()]
+        public void LogInTest1()
+        {
+            service.Register("printz@post.bgu.il", "Hadas12345");
+            string expected = new Response(false, "Password incorrect").GenerateJson();
+            string result = service.LogIn("printz@post.bgu.il", "Hadas6789");
+            Assert.AreEqual(expected, result);
+        }
+        //user doesn't exist
+        [TestMethod()]
+        public void LogInTest2()
+        {
+            string expected = new Response(false, "User doesn't exist in the system").GenerateJson();
+            string result = service.LogIn("printz@post.bgu.il", "Hadas12345");
+            Assert.AreEqual(expected, result);
+        }
+        //user allready loggedIn
+        [TestMethod()]
+        public void LogInTest3()
+        {
+            service.Register("printz@post.bgu.il", "Hadas12345");
+            service.LogIn("printz@post.bgu.il", "Hadas12345");
+            string expected = new Response(false, "User allready loggedIn").GenerateJson();
+            string result = service.LogIn("printz@post.bgu.il", "Hadas12345");
+            Assert.AreEqual(expected, result);
+        }
+        //null email
+        [TestMethod()]
+        public void LogInTest4()
+        {
+            service.Register("printz@post.bgu.il", "Hadas12345");
+            string expected = new Response(false, "Email is null").GenerateJson();
+            string result = service.LogIn(null, "Hadas12345");
+            Assert.AreEqual(expected, result);
+        }
+        //null password
+        [TestMethod()]
+        public void LogInTest5()
+        {
+            service.Register("printz@post.bgu.il", "Hadas12345");
+            string expected = new Response(false, "Password is null").GenerateJson();
+            string result = service.LogIn("printz@post.bgu.il", null);
+            Assert.AreEqual(expected, result);
+        }
+
+
+
+
+
+
+
         //logOut successesful
         [TestMethod()]
         public void logOutTest()
@@ -123,67 +185,137 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         }
         //null user
         [TestMethod()]
-        public void logOutTest2()
+        public void LogOutTest2()
         {
             BusinessLayer.User newUser = null;
             string expected = new Response(false, "User isn't loggedIn").GenerateJson();
-            string result = service.logOut(newUser);
+            string result = service.LogOut(newUser);
             Assert.AreEqual(expected, result);
 
         }
         //successes
         //not register
         //password not same
-        //
+        //newpass illegal
+        //null user
+        //null oldpass
+        //null newpass
 
 
 
 
-
+        //successes serPassword
         [TestMethod()]
         public void SetPasswordTest()
         {
-            Assert.Fail();
+            BusinessLayer.User newUser = new("printz@post.bgu.il", "Hadas12345");
+            service.Register("printz@post.bgu.il", "Hadas12345");
+            string expected = new Response(true, "SetPassword successesful!").GenerateJson();
+            string result = service.SetPassword(newUser, "Hadas12345","Printz12345");
+            Assert.AreEqual(expected, result);
         }
+        //user doesn't exist
+        [TestMethod()]
+        public void SetPasswordTest1()
+        {
+            BusinessLayer.User newUser = new("printz@post.bgu.il", "Hadas12345");
+            string expected = new Response(false, "User doesn't exist in the system").GenerateJson();
+            string result = service.SetPassword(newUser, "Hadas12345", "Printz12345");
+            Assert.AreEqual(expected, result);
+        }
+        //checkMatchPassword fail
+        [TestMethod()]
+        public void SetPasswordTest2()
+        {
+            BusinessLayer.User newUser = new("printz@post.bgu.il", "Hadas12345");
+            service.Register("printz@post.bgu.il", "Hadas12345");
+            string expected = new Response(false, "Old password incorrect").GenerateJson();
+            string result = service.SetPassword(newUser, "Hadas6789", "Printz12345");
+            Assert.AreEqual(expected, result);
+        }
+        //new password illegal
+        [TestMethod()]
+        public void SetPasswordTest3()
+        {
+            BusinessLayer.User newUser = new("printz@post.bgu.il", "Hadas12345");
+            service.Register("printz@post.bgu.il", "Hadas12345");
+            string expected = new Response(false, "New password is Illegal").GenerateJson();
+            string result = service.SetPassword(newUser, "Hadas12345", "hadas12345");
+            Assert.AreEqual(expected, result);
+        }
+        //null user
+        [TestMethod()]
+        public void SetPasswordTest4()
+        {
+            BusinessLayer.User newUser = null;
+            service.Register("printz@post.bgu.il", "Hadas12345");
+            string expected = new Response(false, "User is null").GenerateJson();
+            string result = service.SetPassword(newUser, "Hadas12345", "Printz12345");
+            Assert.AreEqual(expected, result);
+        }
+        //null old password
+        [TestMethod()]
+        public void SetPasswordTest5()
+        {
+            BusinessLayer.User newUser = new("printz@post.bgu.il", "Hadas12345");
+            service.Register("printz@post.bgu.il", "Hadas12345");
+            string expected = new Response(false, "Old password is null").GenerateJson();
+            string result = service.SetPassword(newUser, null, "Printz12345");
+            Assert.AreEqual(expected, result);
+        }
+        //null new password
+        [TestMethod()]
+        public void SetPasswordTest6()
+        {
+            BusinessLayer.User newUser = new("printz@post.bgu.il", "Hadas12345");
+            service.Register("printz@post.bgu.il", "Hadas12345");
+            string expected = new Response(false, "New password is null").GenerateJson();
+            string result = service.SetPassword(newUser, "Hadas12345", null);
+            Assert.AreEqual(expected, result);
+        }
+
+
+
+
         //setEnail successful
         [TestMethod()]
         public void SetEmailTest()
         {
             BusinessLayer.User newUser = new("printz@post.bgu.il", "Hadas12345");
-            service.register("printz@post.bgu.il", "Hadas12345");
+            service.Register("printz@post.bgu.il", "Hadas12345");
             string expected = new Response(true, "Email changed succesfull!").GenerateJson();
-            string result = service.setEmail(newUser,"hadas@post.bgu.il");
+            string result = service.SetEmail(newUser,"hadas@post.bgu.il");
             Assert.AreEqual(expected, result);
         }
         //user doesn't exist
         [TestMethod()]
-        public void setEmailTest1()
+        public void SetEmailTest1()
         {
             BusinessLayer.User newUser = new("printz@post.bgu.il", "Hadas12345");
             string expected = new Response(false, "User doesn't exist").GenerateJson();
-            string result = service.setEmail(newUser, "hadas@post.bgu.il");
+            string result = service.SetEmail(newUser, "hadas@post.bgu.il");
             Assert.AreEqual(expected, result);
         }
         //email allready exist
         [TestMethod()]
-        public void setEmailTest2()
+        public void SetEmailTest2()
         {
             BusinessLayer.User newUser = new("printz@post.bgu.il", "Hadas12345");
             BusinessLayer.User newUser2 = new("hadas@post.bgu.il", "Hadas6789");
-            service.register("printz@post.bgu.il", "Hadas12345");
-            service.register("hadas@post.bgu.il", "Hadas6789");
+            service.Register("printz@post.bgu.il", "Hadas12345");
+            service.Register("hadas@post.bgu.il", "Hadas6789");
             string expected = new Response(false, "Email allreadt exist in the system").GenerateJson();
-            string result = service.setEmail(newUser, "hadas@post.bgu.il");
+            string result = service.SetEmail(newUser, "hadas@post.bgu.il");
             Assert.AreEqual(expected, result);
         }
         //null email
         [TestMethod()]
-        public void setEmailTest3()
+        public void SetEmailTest3()
         {
             BusinessLayer.User newUser = new("printz@post.bgu.il", "Hadas12345");
-            service.register("printz@post.bgu.il", "Hadas12345");
+            service.Register("printz@post.bgu.il", "Hadas12345");
             string expected = new Response(false, "Email is null").GenerateJson();
-            string result = service.setEmail(newUser, null);
+            string result = service.SetEmail(newUser, null);
             Assert.AreEqual(expected, result);
         }
 
