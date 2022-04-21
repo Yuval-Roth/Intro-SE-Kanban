@@ -6,7 +6,6 @@
     <AssemblyName>IntroSE.Kanban.Backend</AssemblyName>
     <OutputType>Library</OutputType>
   </PropertyGroup>
-
-  <ItemGroup>
-  </ItemGroup>
+    <ItemGroup>
+    </ItemGroup>
 </Project>

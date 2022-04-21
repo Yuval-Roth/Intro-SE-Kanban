@@ -11,7 +11,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		{
 			return "";
 		}
-		public string GetTasksByType(Enum type)
+		public string GetTask(string title) 
+		{
+			return "";
+		}
+		public string GetAllTasksByType(Enum type)
 		{
 			return "";
 		}

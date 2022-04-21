@@ -14,6 +14,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
 
     /// <summary>
+    /// ======================================================<br/>
     /// This class implements a generic binary tree that that is ordered with CompareTo()<br/>
     /// Therefore, it can only work with objects that are <c>IComparable</c><br/>
     /// <b>The class does not support duplicate elements</b>
