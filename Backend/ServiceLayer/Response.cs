@@ -8,9 +8,13 @@ using System.Text.Json.Serialization;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
-    public class Response
+    [Serializable]
+    public sealed class Response
     {
+        [JsonInclude]
         public readonly bool operationState;
+
+        [JsonInclude]
         public readonly string message;
 
         [JsonConstructor]
@@ -19,15 +23,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             this.operationState = operationState;
             this.message = message;
         }
+
         public string ToJson()
         {
-            return JsonController.Generate(this);
+            return JsonController.Serialize(this);
         }
         public static Response BuildFromJson(string json)
         {
-            return JsonController.DeserializeResponse(json);
+            return JsonController.Deserialize<Response>(json);
         }
-    
     }
     
 

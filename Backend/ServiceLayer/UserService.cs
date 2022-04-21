@@ -30,6 +30,19 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		{
 			return "";
 		}
+		public static string UserToJson(BusinessLayer.User user)
+		{
+			BusinessLayer.Serializable.User_Serializable toSerialize = new ()
+			{
+				Email = user.GetEmail(),
+				Password = "CENSORED"
+			};
+			return ServiceLayer.JsonController.Serialize(toSerialize);
+		}
+		public static BusinessLayer.User BuildUserFromJson(string json)
+		{
+			return ServiceLayer.JsonController.Deserialize<BusinessLayer.User>(json);
+		}
 	}
 }
 

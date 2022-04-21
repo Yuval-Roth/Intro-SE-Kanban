@@ -87,5 +87,21 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             return "";
         }
+        public static string TaskToJson(BusinessLayer.Task task)
+        {
+            BusinessLayer.Task toSerialize = new() 
+            {
+                Title=task.Title,
+                CreationTime=task.CreationTime,
+                Description=task.Description,
+                DueDate=task.DueDate,
+                State=task.State,
+            };
+            return JsonController.Serialize<BusinessLayer.Task>(toSerialize);
+        }
+        public static BusinessLayer.Task BuildTaskFromJson(string json) 
+        {
+            return JsonController.Deserialize<BusinessLayer.Task>(json);
+        }
     }
 }

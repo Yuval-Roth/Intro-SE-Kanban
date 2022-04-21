@@ -46,7 +46,7 @@ namespace IntroSE.Kanban.Backend_testing
         public static void DateTesting()
         {
             Backend.BusinessLayer.Date date = new Backend.BusinessLayer.Date("12.6.1998");
-            Console.WriteLine(date.Day());
+            Console.WriteLine(date.day);
         }
 
         public static void UserControllerTesting()
@@ -62,8 +62,8 @@ namespace IntroSE.Kanban.Backend_testing
         public static void JsonTesting()
         {
             Backend.ServiceLayer.Response response = new Backend.ServiceLayer.Response(true, "some response message");
-            string serialiedJson = response.GenerateJson();
-            Console.WriteLine(Backend.ServiceLayer.JsonController.BuildResponse(serialiedJson).message);
+            string serialiedJson = response.ToJson();
+            Console.WriteLine(Backend.ServiceLayer.JsonController.Deserialize<Backend.ServiceLayer.Response>(serialiedJson).message);
         }
     }
 }

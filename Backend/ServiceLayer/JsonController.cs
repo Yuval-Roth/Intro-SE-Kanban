@@ -5,23 +5,17 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 {
 	public static class JsonController
 	{
-		public static string Generate(Response response)
+		private readonly static JsonSerializerOptions options = new JsonSerializerOptions
 		{
-			JsonSerializerOptions options = new JsonSerializerOptions
-			{
-				WriteIndented = true,
-				IncludeFields = true
-			};
-			return JsonSerializer.Serialize(response,options);
+			WriteIndented = true
+		};
+		public static string Serialize<T>(T obj)
+		{
+			return JsonSerializer.Serialize<T>(obj, options);
 		}
-		public static Response DeserializeResponse(string json)
+		public static T Deserialize<T>(string json)
 		{
-			JsonSerializerOptions options = new JsonSerializerOptions
-			{
-				WriteIndented = true,
-				IncludeFields = true
-			};
-			return JsonSerializer.Deserialize<Response>(json,options);
+			return JsonSerializer.Deserialize<T>(json, options);
 		}
 	}
 }

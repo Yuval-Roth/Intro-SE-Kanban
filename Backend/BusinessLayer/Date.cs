@@ -20,9 +20,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 	/// </summary>
 	public class Date
 	{
-		private readonly int day;
-		private readonly int month;
-		private readonly int year;
+		public readonly int day;
+		public readonly int month;
+		public readonly int year;
 
 		/// <summary>
 		/// Build a <c>Date</c> object from a string<br/>
@@ -63,32 +63,32 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 			this.month = month;
 			this.year= year;
 		}
-		/// <summary>
-		/// Returns the day
-		/// </summary>
-		/// <returns>int</returns>
-		public int Day()
-		{
-			return day;
-		}
+		///// <summary>
+		///// Returns the day
+		///// </summary>
+		///// <returns>int</returns>
+		//public int Day()
+		//{
+		//	return day;
+		//}
 
-		/// <summary>
-		/// Returns the month
-		/// </summary>
-		/// <returns>int</returns>
-		public int Month()
-		{
-			return month;
-		}
+		///// <summary>
+		///// Returns the month
+		///// </summary>
+		///// <returns>int</returns>
+		//public int Month()
+		//{
+		//	return month;
+		//}
 
-		/// <summary>
-		/// returns the year
-		/// </summary>
-		/// <returns>int</returns>
-		public int Year()
-		{
-			return year;
-		}
+		///// <summary>
+		///// returns the year
+		///// </summary>
+		///// <returns>int</returns>
+		//public int Year()
+		//{
+		//	return year;
+		//}
 
 		/// <summary>
 		/// Returns a string representing the date
