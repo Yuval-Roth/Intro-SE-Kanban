@@ -110,6 +110,35 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
 
         }
+        //user isn't loggedIn
+        [TestMethod()]
+        public void logOutTest1()
+        {
+            BusinessLayer.User newUser = new("printz@post.bgu.il", "Hadas12345");
+            service.register("printz@post.bgu.il", "Hadas12345");
+            string expected = new Response(false, "User isn't loggedIn").GenerateJson();
+            string result = service.logOut(newUser);
+            Assert.AreEqual(expected, result);
+
+        }
+        //null user
+        [TestMethod()]
+        public void logOutTest2()
+        {
+            BusinessLayer.User newUser = null;
+            string expected = new Response(false, "User isn't loggedIn").GenerateJson();
+            string result = service.logOut(newUser);
+            Assert.AreEqual(expected, result);
+
+        }
+        //successes
+        //not register
+        //password not same
+        //
+
+
+
+
 
         [TestMethod()]
         public void setPasswordTest()
