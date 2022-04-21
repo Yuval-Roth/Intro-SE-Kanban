@@ -17,7 +17,8 @@ namespace IntroSE.Kanban.Backend_testing
         {
             //BinaryTreeTesting();
             //BoardTreeTesting();
-            DateTesting();
+            //datetesting();
+            UserControllerTesting();
 
         }
         public static void BinaryTreeTesting()
@@ -45,6 +46,15 @@ namespace IntroSE.Kanban.Backend_testing
         {
             Backend.BusinessLayer.Date date = new Backend.BusinessLayer.Date("12.6.1998");
             Console.WriteLine(date.Day());
+        }
+
+        public static void UserControllerTesting()
+        {
+            String pass = "afgHH123456";
+            String pass2 = "asHddggdgdgd33!@";
+            bool ans = Backend.BusinessLayer.UserController.IsLegalPassword(pass2);
+            Console.WriteLine(ans);
+            
         }
     }
 }
