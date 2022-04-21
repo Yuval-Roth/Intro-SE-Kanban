@@ -9,40 +9,40 @@ using System.Threading.Tasks;
 namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 {
     [TestClass()]
-    public class BoardControllerServiceTests
+    public class BoardServiceTests
     {
         [TestMethod()]
-        public void BoardControllerServiceTest()
+        public void BoardServiceTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void createBoardTest()
+        public void GetTitleTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void deleteBoardTest()
+        public void GetTasksByTypeTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void getAllTasksByStateTest()
+        public void AddTaskTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void getAllBoardsTest()
+        public void RemoveTaskTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void searchBoardTest()
+        public void AdvanceTaskTest()
         {
             Assert.Fail();
         }
