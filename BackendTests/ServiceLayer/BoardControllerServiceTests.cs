@@ -15,6 +15,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void BoardControllerServiceTest()
         {
             Assert.Fail();
+            string ans;
         }
 
         [TestMethod()]
