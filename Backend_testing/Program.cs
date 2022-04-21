@@ -1,4 +1,4 @@
-﻿
+﻿using System.Text.Json;
 namespace IntroSE.Kanban.Backend_testing
 {
     public class Program
@@ -18,7 +18,8 @@ namespace IntroSE.Kanban.Backend_testing
             //BinaryTreeTesting();
             //BoardTreeTesting();
             //datetesting();
-            UserControllerTesting();
+            //UserControllerTesting();
+            JsonTesting();
 
         }
         public static void BinaryTreeTesting()
@@ -57,6 +58,11 @@ namespace IntroSE.Kanban.Backend_testing
 
 
             
+        }
+        public static void JsonTesting()
+        {
+            Backend.ServiceLayer.Response response = new Backend.ServiceLayer.Response(true, "Hello World!");
+            Console.WriteLine(response.GenerateJson());
         }
     }
 }
