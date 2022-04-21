@@ -15,7 +15,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void BoardControllerServiceTest()
         {
             Assert.Fail();
-            string ans;
         }
 
         [TestMethod()]
@@ -28,7 +27,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void deleteBoardTest()
         {
             Assert.Fail();
-            //change
         }
 
         [TestMethod()]
