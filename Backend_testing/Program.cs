@@ -99,7 +99,7 @@ namespace IntroSE.Kanban.Backend_testing
             Backend.BusinessLayer.Board deserialized =
                 Backend.ServiceLayer.JsonController.Deserialize<Backend.BusinessLayer.Board>(json);
 
-            
+  
             foreach (Backend.BusinessLayer.Task task in deserialized.Backlog) 
             {
                 Console.WriteLine(task.Title);

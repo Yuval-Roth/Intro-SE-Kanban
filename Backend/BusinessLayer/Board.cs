@@ -14,6 +14,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private LinkedList<Task> inProgress;
         private LinkedList<Task> done;
 
+        //====================================
+        //            getters/setters
+        //====================================
+
         public Board(string title)
         {
             this.title = title;
@@ -39,6 +43,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             set { done = value; }
         }
 
+
+        //====================================
+        //            Functionality
+        //====================================
+
         public LinkedList<Task> GetTaskByType(Enum type) { return null; }
         public void AddTask(String title, Date duedate, String description) { }
         public void RemoveTask(String title) { }
@@ -51,14 +60,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //                  Json related
         //====================================================
 
-        //[JsonConstructor]
-        //public Board(string title, LinkedList<Task> backLog, LinkedList<Task> inProgress, LinkedList<Task> done)
-        //{
-        //    this.title = title;
-        //    this.backLog = backLog;
-        //    this.inProgress = inProgress;
-        //    this.done = done;
-        //}
         public Serializable.Board_Serializable GetSerializableInstance() 
         {
             LinkedList<Serializable.Task_Serializable> serializableBackLog = new();

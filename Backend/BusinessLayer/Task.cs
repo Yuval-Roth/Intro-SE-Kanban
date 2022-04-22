@@ -27,7 +27,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private readonly int DESCRIPTION_CHAR_CAP = 300;
 
 
-
+        //====================================
+        //            getters/setters
+        //====================================
 
         public string Title 
         {
@@ -60,24 +62,25 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             get { return descriptionCharCap; }
             set { descriptionCharCap = value;}
         }
-        
+
 
 
 
         //====================================================
         //                  Json related
         //====================================================
-     
+
         //[JsonConstructor]
-        //public Task(string title, string description, Date creationTime, Date dueDate, TaskStates state)
+        //public Task(string Title, string Description, Date CreationTime, Date DueDate, TaskStates State, bool DescriptionCharCap)
         //{
-        //    this.title = title;
-        //    this.description = description;
-        //    this.creationTime = creationTime;
-        //    this.dueDate = dueDate;
-        //    this.state = state;
+        //    title = Title;
+        //    description = Description;
+        //    creationTime = CreationTime;
+        //    dueDate = DueDate;
+        //    state = State;
+        //    descriptionCharCap = DescriptionCharCap;
         //}
-       
+
         public Serializable.Task_Serializable GetSerializableInstance() 
         {
             return new Serializable.Task_Serializable()
