@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
@@ -58,6 +59,14 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             return "";
         }
+        public static string BoardToJason(BusinessLayer.Board board)
+        {
+            return JsonController.Serialize(board.GetSerializableInstance());
+        }
+        public static BusinessLayer.Board BuildBoardFromJason(string json)
+        {
+            return JsonController.Deserialize<BusinessLayer.Board>(json);
+        }
 
         //==================================================
         //                    Task
@@ -71,7 +80,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             return "";
         }
-        public string SetTaskDuedate(BusinessLayer.User user, BusinessLayer.Board board, string taskTitle, BusinessLayer.Date newDate)
+        public string SetTaskDueDate(BusinessLayer.User user, BusinessLayer.Board board, string taskTitle, BusinessLayer.Date newDate)
         {
             return "";
         }
@@ -86,6 +95,22 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         public string GetTaskState(BusinessLayer.User user, BusinessLayer.Board board, string taskTitle)
         {
             return "";
+        }
+        public static string TaskToJson(BusinessLayer.Task task)
+        {
+            BusinessLayer.Serializable.Task_Serializable toSerialize = new() 
+            {
+                Title=task.Title,
+                CreationTime=task.CreationTime,
+                Description=task.Description,
+                DueDate=task.DueDate,
+                State=task.State,
+            };
+            return JsonController.Serialize(toSerialize);
+        }
+        public static BusinessLayer.Task BuildTaskFromJson(string json) 
+        {
+            return JsonController.Deserialize<BusinessLayer.Task>(json);
         }
     }
 }

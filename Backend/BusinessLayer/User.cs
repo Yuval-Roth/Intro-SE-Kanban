@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
@@ -6,12 +7,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 	{
 		private string email;
 		private string password;
+
+		[JsonConstructor]
 		public User(string email, string password)
 		{
 			this.email = email;
 			this.password = password;
 		}
-
 
 		public void SetPassword(String old, String newP)
 		{

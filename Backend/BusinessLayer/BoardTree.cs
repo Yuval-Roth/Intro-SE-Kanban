@@ -173,7 +173,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 foreach (Board board in boards)
                 {
-                    if (board.GetTitle() == title)
+                    if (board.Title == title)
                     {
                         throw new ArgumentException("A board titled "+title+" already exists");
                     }
@@ -194,7 +194,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 bool found = false;
                 foreach (Board board in boards)
                 {
-                    if (board.GetTitle() == title)
+                    if (board.Title == title)
                     {
                         found = true;
                         boards.Remove(board);
