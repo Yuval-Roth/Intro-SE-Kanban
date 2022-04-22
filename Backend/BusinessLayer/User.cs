@@ -41,7 +41,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		}
 		public int CompareTo(object obj)
 		{
-			if (obj == null)  throw new ArgumentNullException("obj is null");
+			if (obj == null) throw new ArgumentNullException("obj is null");
 			if (obj is User)
 			{
 				return ((User)obj).email.CompareTo(this.email);
@@ -51,6 +51,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 				throw new ArgumentException("can't compare because obj is not User");
 			}
 		}
+			//====================================================
+			//                  Json related
+			//====================================================
+
+			public Serializable.User_Serializable GetSerializableInstance()
+			{
+				return new Serializable.User_Serializable
+				{
+					Email = email,
+					Password = "CENSORED"
+				};
+			}
+		
 	}
 }
 

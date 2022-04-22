@@ -23,16 +23,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             this.operationState = operationState;
             this.message = message;
         }
-
-        public string ToJson()
-        {
-            return JsonController.Serialize(this);
-        }
-
-        public static Response BuildFromJson(string json)
-        {
-            return JsonController.Deserialize<Response>(json);
-        }
     }
     
 
