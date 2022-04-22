@@ -100,7 +100,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             BusinessLayer.Serializable.Task_Serializable toSerialize = new() 
             {
-                Title=task.GetTitle(),
+                Title=task.Title,
                 CreationTime=task.CreationTime,
                 Description=task.Description,
                 DueDate=task.DueDate,

@@ -61,7 +61,10 @@ namespace IntroSE.Kanban.Backend_testing
         }
         public static void JsonTesting()
         {
-            Backend.BusinessLayer.Serializable.Board_Serializable board = new();
+            Backend.BusinessLayer.Serializable.Board_Serializable board = new() 
+            {
+                Title = "TestBoard"
+            };
             board.Backlog = new LinkedList<Backend.BusinessLayer.Serializable.Task_Serializable>();
             board.Backlog.AddLast(new Backend.BusinessLayer.Serializable.Task_Serializable
             {
@@ -89,8 +92,40 @@ namespace IntroSE.Kanban.Backend_testing
                 DueDate = new Backend.BusinessLayer.Date("16/25/1909"),
                 State = Backend.BusinessLayer.TaskStates.done
             });
-            Console.WriteLine(Backend.ServiceLayer.JsonController.Serialize(board));
+            string json = Backend.ServiceLayer.JsonController.Serialize(board);
+            Console.WriteLine(json);
+            Console.WriteLine("=========================");
 
+            Backend.BusinessLayer.Board deserialized =
+                Backend.ServiceLayer.JsonController.Deserialize<Backend.BusinessLayer.Board>(json);
+
+            
+            foreach (Backend.BusinessLayer.Task task in deserialized.Backlog) 
+            {
+                Console.WriteLine(task.Title);
+                Console.WriteLine(task.Description);
+                Console.WriteLine(task.CreationTime);
+                Console.WriteLine(task.DueDate);
+                Console.WriteLine(task.State);
+            }
+            Console.WriteLine("=========================");
+            foreach (Backend.BusinessLayer.Task task in deserialized.InProgress)
+            {
+                Console.WriteLine(task.Title);
+                Console.WriteLine(task.Description);
+                Console.WriteLine(task.CreationTime);
+                Console.WriteLine(task.DueDate);
+                Console.WriteLine(task.State);
+            }
+            Console.WriteLine("=========================");
+            foreach (Backend.BusinessLayer.Task task in deserialized.Done)
+            {
+                Console.WriteLine(task.Title);
+                Console.WriteLine(task.Description);
+                Console.WriteLine(task.CreationTime);
+                Console.WriteLine(task.DueDate);
+                Console.WriteLine(task.State);
+            }
         }
     }
 }

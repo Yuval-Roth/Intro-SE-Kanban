@@ -14,6 +14,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer.Serializable
         public Date DueDate { get; set; }
         public string Description { get; set; }
         public TaskStates State { get; set; }
-        public Boolean DescriptionCharCap { get; set; }
+        public bool DescriptionCharCap { get; set; }
     }
 }
