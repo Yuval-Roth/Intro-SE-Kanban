@@ -62,10 +62,66 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
         }
 
+        //Delete successful
         [TestMethod()]
         public void DeleteBoardTest()
         {
-            throw new NotImplementedException();
+            BusinessLayer.User user = new("kfirniss@post.bgu.ac.il", "Ha12345");
+            string expected = JsonController.ConvertToJson(new Response(true, "Delete successful!"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.CreateBoard(user, "new board");
+            result = boardservice.DeleteBoard(user, "new board");
+            Assert.AreEqual(expected, result);
+        }
+
+        //user doesn't exist 
+        [TestMethod()]
+        public void DeleteBoardTest1()
+        {
+            BusinessLayer.User user = new("kfirniss@post.bgu.ac.il", "Ha12345");
+            string expected = JsonController.ConvertToJson(new Response(true, "user doesn't exist!"));
+            string result = boardservice.DeleteBoard(user, "new board");
+            Assert.AreEqual(expected, result);
+        }
+
+        //user doesn't login
+        [TestMethod()]
+        public void DeleteBoardTest2()
+        {
+            BusinessLayer.User user = new("kfirniss@post.bgu.ac.il", "Ha12345");
+            string expected = JsonController.ConvertToJson(new Response(true, "user doesn't login!"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.CreateBoard(user, "new board");
+            result = userservice.LogOut(user);
+            result = boardservice.DeleteBoard(user, "new board");
+            Assert.AreEqual(expected, result);
+        }
+
+        //user have no boards to delete
+        [TestMethod()]
+        public void DeleteBoardTest3()
+        {
+            BusinessLayer.User user = new("kfirniss@post.bgu.ac.il", "Ha12345");
+            string expected = JsonController.ConvertToJson(new Response(true, "user have no boards to delete!"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.DeleteBoard(user, "new board");
+            Assert.AreEqual(expected, result);
+        }
+
+        //board doesn't exist
+        [TestMethod()]
+        public void DeleteBoardTest4()
+        {
+            BusinessLayer.User user = new("kfirniss@post.bgu.ac.il", "Ha12345");
+            string expected = JsonController.ConvertToJson(new Response(true, "board doesn't exist!"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.CreateBoard(user, "new board");
+            result = boardservice.DeleteBoard(user, "another board");
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod()]
