@@ -482,11 +482,42 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
         }
 
-
+        //delete task successful
         [TestMethod()]
         public void RemoveTaskTest()
         {
-            throw new NotImplementedException();
+            string expected = JsonController.ConvertToJson(new Response(true, "delete task successful"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.CreateBoard(user, "new board");
+            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            result = boardservice.RemoveTask(user, newboard, "first task");
+            Assert.AreEqual(expected, result);
+        }
+
+        //user has no tasks to delete
+        [TestMethod()]
+        public void RemoveTaskTest1()
+        {
+            string expected = JsonController.ConvertToJson(new Response(false, "user has no tasks to delete!"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.CreateBoard(user, "new board");
+            result = boardservice.RemoveTask(user, newboard, "first task");
+            Assert.AreEqual(expected, result);
+        }
+
+        //task doesn't exist
+        [TestMethod()]
+        public void RemoveTaskTest2()
+        {
+            string expected = JsonController.ConvertToJson(new Response(false, "task doesn't exist!"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.CreateBoard(user, "new board");
+            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            result = boardservice.RemoveTask(user, newboard, "second task");
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod()]
