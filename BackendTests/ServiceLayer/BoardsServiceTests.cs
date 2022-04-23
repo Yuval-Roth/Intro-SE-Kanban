@@ -102,11 +102,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
         }
 
-        //user have no boards to delete
+        //user has no boards to delete
         [TestMethod()]
         public void DeleteBoardTest3()
         {
-            string expected = JsonController.ConvertToJson(new Response(false, "user have no boards to delete!"));
+            string expected = JsonController.ConvertToJson(new Response(false, "user has no boards to delete!"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.DeleteBoard(user, "new board");
@@ -126,7 +126,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         }
 
         //successful
-        [TestMethod()]
+        [TestMethod()] 
         public void GetAllTasksByStateTest()
         {
             string expected = JsonController.ConvertToJson(new Response(true, "need to implement"));
@@ -165,22 +165,22 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
         }
 
-        //user have no boards
+        //user has no boards
         [TestMethod()]
         public void GetAllTasksByStateTest3()
         {
-            string expected = JsonController.ConvertToJson(new Response(false, "user have no boards!"));
+            string expected = JsonController.ConvertToJson(new Response(false, "user has no boards!"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.GetAllTasksByState(user, state.backlog);
             Assert.AreEqual(expected, result);
         }
 
-        //user have no task on this state
+        //user has no task on this state
         [TestMethod()]
         public void GetAllTasksByStateTest4()
         {
-            string expected = JsonController.ConvertToJson(new Response(false, "user have no task on this state!"));
+            string expected = JsonController.ConvertToJson(new Response(false, "user has no task on this state!"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.CreateBoard(user, "new board");
@@ -227,11 +227,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
         }
 
-        //user have no boards
+        //user has no boards
         [TestMethod()]
         public void GetAllBoardsTest3()
         {
-            string expected = JsonController.ConvertToJson(new Response(false, "user have no boards!"));
+            string expected = JsonController.ConvertToJson(new Response(false, "user has no boards!"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.GetAllBoards(user);
@@ -323,11 +323,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
         }
 
-        //user have no tasks
+        //user has no tasks
         [TestMethod()]
         public void GetTaskTest3()
         {
-            string expected = JsonController.ConvertToJson(new Response(false, "user have no tasks!"));
+            string expected = JsonController.ConvertToJson(new Response(false, "user has no tasks!"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.CreateBoard(user, "new board");
@@ -348,11 +348,70 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
         }
 
+        //successful
         [TestMethod()]
         public void GetAllTasksByTypeTest()
         {
-            throw new NotImplementedException();
+            string expected = JsonController.ConvertToJson(new Response(true, "need to implement"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.CreateBoard(user, "new board");
+            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            result = boardservice.AddTask(user, newboard, "second task", duedate, "ni ni ni");
+            result = boardservice.GetAllTasksByType(user,newboard,state.backlog);
+            Assert.AreEqual(expected, result);
         }
+
+        //user doesn't exist
+        [TestMethod()]
+        public void GetAllTasksByTypeTest1()
+        {
+            string expected = JsonController.ConvertToJson(new Response(false, "user doesn't exist!"));
+            string result = boardservice.GetAllTasksByType(user, newboard, state.backlog);
+            Assert.AreEqual(expected, result);
+        }
+
+        //user doesn't login!
+        [TestMethod()]
+        public void GetAllTasksByTypeTest2()
+        {
+            string expected = JsonController.ConvertToJson(new Response(false, "user doesn't login!"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.CreateBoard(user, "new board");
+            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            result = boardservice.AddTask(user, newboard, "second task", duedate, "ni ni ni");
+            result = userservice.LogOut(user);
+            result = boardservice.GetAllTasksByType(user, newboard, state.backlog);
+            Assert.AreEqual(expected, result);
+        }
+
+        //user has no boards
+        [TestMethod()]
+        public void GetAllTasksByTypeTest3()
+        {
+            string expected = JsonController.ConvertToJson(new Response(false, "user has no boards!"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.GetAllTasksByType(user, newboard, state.backlog);
+            Assert.AreEqual(expected, result);
+        }
+
+        //user has no tasks on this type
+        [TestMethod()]
+        public void GetAllTasksByTypeTest4()
+        {
+            string expected = JsonController.ConvertToJson(new Response(true, "user has no tasks on this type!"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.CreateBoard(user, "new board");
+            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            result = boardservice.AddTask(user, newboard, "second task", duedate, "ni ni ni");
+            result = boardservice.GetAllTasksByType(user, newboard, state.inprogress);
+            Assert.AreEqual(expected, result);
+        }
+
+
 
         [TestMethod()]
         public void AddTaskTest()
