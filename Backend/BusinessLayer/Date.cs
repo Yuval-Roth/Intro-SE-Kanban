@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Text.Json.Serialization;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
@@ -18,11 +19,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 	/// <br/>
 	/// ===================
 	/// </summary>
+	[Serializable]
 	public class Date
 	{
-		private readonly int day;
-		private readonly int month;
-		private readonly int year;
+		[JsonInclude]
+		public readonly int day;
+		[JsonInclude]
+		public readonly int month;
+		[JsonInclude]
+		public readonly int year;
 
 		/// <summary>
 		/// Build a <c>Date</c> object from a string<br/>
@@ -36,7 +41,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		/// <exception cref="ArgumentException"></exception>
 		public Date(string s)
 		{
-			Regex reg = new Regex(@"([1-9]{1,2}\.[1-9]{1,2}\.[1-9]{4})|([1-9]{1,2}\/[1-9]{1,2}\/[1-9]{4})");
+			Regex reg = new Regex(@"([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4})|([0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4})");
 
 			if (reg.IsMatch(s) == false) throw new ArgumentException("Illegal date string");
 			
@@ -57,37 +62,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		/// <param name="day"></param>
 		/// <param name="month"></param>
 		/// <param name="year"></param>
+		[JsonConstructor]
 		public Date(int day,int month,int year)
 		{
 			this.day= day;
 			this.month = month;
 			this.year= year;
-		}
-		/// <summary>
-		/// Returns the day
-		/// </summary>
-		/// <returns>int</returns>
-		public int Day()
-		{
-			return day;
-		}
-
-		/// <summary>
-		/// Returns the month
-		/// </summary>
-		/// <returns>int</returns>
-		public int Month()
-		{
-			return month;
-		}
-
-		/// <summary>
-		/// returns the year
-		/// </summary>
-		/// <returns>int</returns>
-		public int Year()
-		{
-			return year;
 		}
 
 		/// <summary>

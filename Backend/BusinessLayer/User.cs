@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
@@ -25,11 +26,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		private string email;
 		private string password;
 
+
 		/// <summary>
 		/// Initialize email and password feilds
 		/// </summary>
 		/// <param name="email"></param>
 		/// <param name="password"></param>
+		[JsonConstructor]
 		public User(string email, string password)
 		{
 			this.email = email;
@@ -41,7 +44,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		/// </summary>
 		/// <param name="old"></param>
 		/// <param name="newP"></param>
-
 		public void SetPassword(String old, String newP)
 		{
 			if (old != null && newP != null)
@@ -98,7 +100,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		/// <exception cref="ArgumentException"></exception>
 		public int CompareTo(object obj)
 		{
-			if (obj == null)  throw new ArgumentNullException("obj is null");
+			if (obj == null) throw new ArgumentNullException("obj is null");
 			if (obj is User)
 			{
 				return ((User)obj).email.CompareTo(this.email);
@@ -108,6 +110,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 				throw new ArgumentException("can't compare because obj is not User");
 			}
 		}
+			//====================================================
+			//                  Json related
+			//====================================================
+
+			public Serializable.User_Serializable GetSerializableInstance()
+			{
+				return new Serializable.User_Serializable
+				{
+					Email = email,
+					Password = "CENSORED"
+				};
+			}
+		
 	}
 }
 
