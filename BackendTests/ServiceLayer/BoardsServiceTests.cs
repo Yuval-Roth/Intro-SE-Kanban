@@ -11,10 +11,55 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
     [TestClass()]
     public class BoardsServiceTests
     {
+        UserService userservice = new UserService();
+        BusinessLayer.UserController userController = new BusinessLayer.UserController();
+        BoardsService boardservice = new BoardsService();
+        BusinessLayer.BoardController boardController = new BusinessLayer.BoardController();
+
+        //create successful
         [TestMethod()]
         public void CreateBoardTest()
         {
-            throw new NotImplementedException();
+            BusinessLayer.User user = new("kfirniss@post.bgu.ac.il", "Ha12345");
+            string expected = JsonController.ConvertToJson(new Response(true, "creation successful!"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.CreateBoard(user, "new board");
+            Assert.AreEqual(expected, result);
+        }
+
+        //user doesn't exist
+        [TestMethod()]
+        public void CreateBoardTest1()
+        {
+            BusinessLayer.User user = new("kfirniss@post.bgu.ac.il", "Ha12345");
+            string expected = JsonController.ConvertToJson(new Response(true, "user doesn't exist!"));
+            string result = boardservice.CreateBoard(user, "new board");
+            Assert.AreEqual(expected, result);
+        }
+
+        //user doesn't login
+        [TestMethod()]
+        public void CreateBoardTest2()
+        {
+            BusinessLayer.User user = new("kfirniss@post.bgu.ac.il", "Ha12345");
+            string expected = JsonController.ConvertToJson(new Response(true, "user doesn't login!"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.CreateBoard(user, "new board");
+            Assert.AreEqual(expected, result);
+        }
+
+        //board already existed
+        [TestMethod()]
+        public void CreateBoardTest3()
+        {
+            BusinessLayer.User user = new("kfirniss@post.bgu.ac.il", "Ha12345");
+            string expected = JsonController.ConvertToJson(new Response(true, "board already existed!"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.CreateBoard(user, "new board");
+            result = boardservice.CreateBoard(user, "new board");
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod()]
