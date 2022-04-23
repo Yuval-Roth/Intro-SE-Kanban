@@ -412,12 +412,76 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         }
 
 
-
+        //add task successful
         [TestMethod()]
         public void AddTaskTest()
         {
-            throw new NotImplementedException();
+            string expected = JsonController.ConvertToJson(new Response(true, "add task successful"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.CreateBoard(user, "new board");
+            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            Assert.AreEqual(expected, result);
         }
+
+        //user doesn't exist
+        [TestMethod()]
+        public void AddTaskTest1()
+        {
+            string expected = JsonController.ConvertToJson(new Response(false, "user doesn't exist!"));
+            string result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            Assert.AreEqual(expected, result);
+        }
+
+        //user doesn't login
+        [TestMethod()]
+        public void AddTaskTest2()
+        {
+            string expected = JsonController.ConvertToJson(new Response(false, "user doesn't login!"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.CreateBoard(user, "new board");
+            result = userservice.LogOut(user);
+            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            Assert.AreEqual(expected, result);
+        }
+
+        //user has no boards
+        [TestMethod()]
+        public void AddTaskTest3()
+        {
+            string expected = JsonController.ConvertToJson(new Response(false, "user has no boards!"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            Assert.AreEqual(expected, result);
+        }
+
+        //board doesn't exist
+        [TestMethod()]
+        public void AddTaskTest4()
+        {
+            string expected = JsonController.ConvertToJson(new Response(false, "board doesn't exist!"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.CreateBoard(user, "new board");
+            result = boardservice.AddTask(user, anotherboard, "first task", duedate, "bla bla");
+            Assert.AreEqual(expected, result);
+        }
+
+        //task has already exist
+        [TestMethod()]
+        public void AddTaskTest5()
+        {
+            string expected = JsonController.ConvertToJson(new Response(false, "task has already exist"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.CreateBoard(user, "new board");
+            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            result = boardservice.AddTask(user, newboard, "first task", duedate, "ni ni ni");
+            Assert.AreEqual(expected, result);
+        }
+
 
         [TestMethod()]
         public void RemoveTaskTest()
