@@ -238,10 +238,53 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
         }
 
+        //successful
         [TestMethod()]
         public void SearchBoardTest()
         {
-            throw new NotImplementedException();
+            string expected = JsonController.ConvertToJson(new Response(true, "new board"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.CreateBoard(user, "new board");
+            result = boardservice.CreateBoard(user, "another board");
+            result = boardservice.SearchBoard(user, "new board");
+            Assert.AreEqual(expected, result);
+        }
+
+        //user doen't exist
+        [TestMethod()]
+        public void SearchBoardTest1()
+        {
+            string expected = JsonController.ConvertToJson(new Response(false, "user doen't exist!"));
+            string result = boardservice.SearchBoard(user, "new board");
+            Assert.AreEqual(expected, result);
+        }
+
+        //user doesn't login
+        [TestMethod()]
+        public void SearchBoardTest2()
+        {
+            string expected = JsonController.ConvertToJson(new Response(false, "user dosn't login!"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.CreateBoard(user, "new board");
+            result = boardservice.CreateBoard(user, "another board");
+            result = userservice.LogOut(user);
+            result = boardservice.SearchBoard(user, "new board");
+            Assert.AreEqual(expected, result);
+        }
+
+        //board doesn't exist
+        [TestMethod()]
+        public void SearchBoardTest3()
+        {
+            string expected = JsonController.ConvertToJson(new Response(false, "board doesn't exist!"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.CreateBoard(user, "new board");
+            result = boardservice.CreateBoard(user, "another board");
+            result = boardservice.SearchBoard(user, "three board");
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod()]
