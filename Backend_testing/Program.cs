@@ -19,7 +19,10 @@ namespace IntroSE.Kanban.Backend_testing
             //BoardTreeTesting();
             //datetesting();
             //UserControllerTesting();
-            JsonTesting();
+            //JsonTesting();
+            PasswordHashingTesting();
+
+
 
         }
         public static void BinaryTreeTesting()
@@ -126,6 +129,32 @@ namespace IntroSE.Kanban.Backend_testing
             //        Console.WriteLine(task.DueDate);
             //        Console.WriteLine(task.State);
             //    }
+
+
+           
+        }
+        public static void PasswordHashingTesting()
+        {
+            //int sum = 0;
+            //int max = 0;
+            //int min = 100000;
+            //for (int i = 0; i < 500; i++) 
+            //{
+            //    Backend.BusinessLayer.PasswordHash passwordHash = new Backend.BusinessLayer.PasswordHash();
+            //    string temp = passwordHash.Hash("t%3Ka6gaw2^1sJ5AF");
+            //    sum += temp.Length;
+            //    if (min > temp.Length) min = temp.Length;
+            //    if (max < temp.Length) max = temp.Length;
+            //}
+            //Console.WriteLine("min: "+min);
+            //Console.WriteLine("max: "+max);
+            //Console.WriteLine("avg: "+(sum / 500));
+            //for (int i = 0; i < 50; i++) 
+            //{
+            Backend.BusinessLayer.PasswordHash passwordHash = new Backend.BusinessLayer.PasswordHash();
+
+            Backend.BusinessLayer.User user = new("test","TestPassword12");
+            Console.WriteLine(user.CheckPasswordMatch("TestPassword12"));
         }
     }
 }

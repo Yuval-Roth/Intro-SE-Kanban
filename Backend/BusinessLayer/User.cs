@@ -25,7 +25,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 	{
 		private string email;
 		private string password;
-
+		private PasswordHash hasher;
 
 		/// <summary>
 		/// Initialize email and password feilds
@@ -36,7 +36,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		public User(string email, string password)
 		{
 			this.email = email;
-			this.password = password;
+			hasher = new PasswordHash();
+			this.password = hasher.Hash(password);
 		}
 
 		/// <summary>
@@ -48,7 +49,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		{
 			if (old != null && newP != null)
 			{
-				password = newP;
+				password = hasher.Hash(newP);
 			}
 		}
 
@@ -83,7 +84,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		public Boolean CheckPasswordMatch(String pass)
 		{
 			if (pass == null)  throw new ArgumentNullException("password is null"); 
-			if (password.Equals(pass)) {
+			if (password.Equals(hasher.Hash(pass))) {
 				return true;
 			}
 			return false;
