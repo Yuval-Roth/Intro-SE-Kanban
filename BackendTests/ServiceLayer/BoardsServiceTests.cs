@@ -191,10 +191,51 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
         }
 
+        //successful
         [TestMethod()]
         public void GetAllBoardsTest()
         {
-            throw new NotImplementedException();
+            string expected = JsonController.ConvertToJson(new Response(true, "need to implement"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.CreateBoard(user, "new board");
+            result = boardservice.CreateBoard(user, "another board");
+            result = boardservice.GetAllBoards(user);
+            Assert.AreEqual(expected, result);
+        }
+
+        //user doesn't exist
+        [TestMethod()]
+        public void GetAllBoardsTest1()
+        {
+            string expected = JsonController.ConvertToJson(new Response(false, "user doesn't exist!"));
+            string result = boardservice.GetAllBoards(user);
+            Assert.AreEqual(expected, result);
+        }
+
+        //user doesn't login
+        [TestMethod()]
+        public void GetAllBoardsTest2()
+        {
+            string expected = JsonController.ConvertToJson(new Response(false, "user doesn't login!"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.CreateBoard(user, "new board");
+            result = boardservice.CreateBoard(user, "another board");
+            result = userservice.LogOut(user);
+            result = boardservice.GetAllBoards(user);
+            Assert.AreEqual(expected, result);
+        }
+
+        //user have no boards
+        [TestMethod()]
+        public void GetAllBoardsTest3()
+        {
+            string expected = JsonController.ConvertToJson(new Response(false, "user have no boards!"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.GetAllBoards(user);
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod()]
