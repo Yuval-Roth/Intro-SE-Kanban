@@ -22,15 +22,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     {
         private long basePrime;
         private long[] primes;
-        private static readonly int PRIMES_LOWER_BOUND = 11111111;
-        private static readonly long PRIMES_UPPER_BOUND = 99999999;
-        private static readonly int BASE_PRIME_LOWER_BOUND = 11111111;
-        private static readonly int BASE_PRIME_UPPER_BOUND = 99999999;
+        private static readonly int PRIME_LOWER_BOUND = 11111111;
+        private static readonly int PRIME_UPPER_BOUND = 99999999;
 
         public PasswordHash()
         {
-            basePrime = GeneratePrimes(1, BASE_PRIME_LOWER_BOUND, BASE_PRIME_UPPER_BOUND)[0];
-            primes = GeneratePrimes(8,PRIMES_LOWER_BOUND,PRIMES_UPPER_BOUND);
+            basePrime = GeneratePrimes(1, PRIME_LOWER_BOUND, PRIME_UPPER_BOUND)[0];
+            primes = GeneratePrimes(8,PRIME_LOWER_BOUND,PRIME_UPPER_BOUND);
         }
         public string Hash(string s)
         { 
