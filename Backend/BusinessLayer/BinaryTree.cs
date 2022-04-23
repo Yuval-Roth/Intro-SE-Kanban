@@ -312,12 +312,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 {
                     return false;
                 }
-                
+          
             }
 
             /// <summary>
             /// search for a node with the specified element<br/><br/>
-            /// <b>Throws</b> <c>ArgumentException</c> if element is not in the <c>BinaryTree</c>
+            /// <b>Throws</b> <c>NoSuchElementException</c> if element is not in the <c>BinaryTree</c>
             /// </summary>
             /// <returns>BinaryTreeNode</returns>
             /// <exception cref="NoSuchElementException"></exception>
