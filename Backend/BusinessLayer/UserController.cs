@@ -230,7 +230,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <param name="pass"></param>
         /// <returns></returns>
-        public static bool IsLegalPassword(string pass)
+        private static bool IsLegalPassword(string pass)
         {
             Regex smallLetters = new Regex(@"[a-z]");
             Regex capitalLetters = new Regex(@"[A-Z]");
