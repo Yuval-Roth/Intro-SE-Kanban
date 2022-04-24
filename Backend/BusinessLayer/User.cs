@@ -47,7 +47,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		/// <param name="newP"></param>
 		public void SetPassword(String newP)
 		{
-			if (old != null && newP != null)
+			if (newP != null)
 			{
 				password = hasher.Hash(newP);
 			}
