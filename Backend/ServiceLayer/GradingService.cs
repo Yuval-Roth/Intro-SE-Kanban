@@ -48,10 +48,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     /// </summary>
     public class GradingService
     {
+        ServiceLayer.UserService serviceLayer;
 
         public GradingService()
         {
-            throw new NotImplementedException();
+            serviceLayer = new ServiceLayer.UserService();
         }
 
 
@@ -63,7 +64,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string Register(string email, string password)
         {
-            throw new NotImplementedException();
+            return serviceLayer.Register(email, password);
         }
 
 
@@ -75,7 +76,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>Response with user email, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string Login(string email, string password)
         {
-            throw new NotImplementedException();
+            return serviceLayer.LogIn(email, password);
         }
 
 
@@ -86,7 +87,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string Logout(string email)
         {
-            throw new NotImplementedException();
+            return serviceLayer.LogOut(email);
         }
 
         /// <summary>
