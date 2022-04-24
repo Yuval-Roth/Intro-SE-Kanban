@@ -45,7 +45,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		/// </summary>
 		/// <param name="old"></param>
 		/// <param name="newP"></param>
-		public void SetPassword(String old, String newP)
+		public void SetPassword(String newP)
 		{
 			if (old != null && newP != null)
 			{
