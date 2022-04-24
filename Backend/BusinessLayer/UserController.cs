@@ -170,7 +170,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             if (!IsLegalPassword(newP))  throw new ArgumentException("new password is illegal"); 
             if (user.CheckPasswordMatch(old))
             {
-                user.SetPassword(old, newP);    
+                user.SetPassword(newP);    
             }
             else
             {
