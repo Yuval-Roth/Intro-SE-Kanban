@@ -14,23 +14,23 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         //                  BoardController
         //==================================================
 
-        public string CreateBoard(string email, string title)
+        public string CreateBoard(BusinessLayer.User user, String title)
         {
             return "";
         }
-        public string DeleteBoard(string email, string title)
+        public string DeleteBoard(BusinessLayer.User user, String title)
         {
             return "";
         }
-        public string GetAllTasksByState(string email, string state)
+        public string GetAllTasksByState(BusinessLayer.User user, Enum state)
         {
             return "";
         }
-        public string GetAllBoards(string email)
+        public string GetAllBoards(BusinessLayer.User user)
         {
             return "";
         }
-        public string SearchBoard(string email, string title)
+        public string SearchBoard(BusinessLayer.User user, String title)
         {   
             return "";
         }
@@ -39,23 +39,23 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         //                    Board
         //==================================================
 
-        public string GetTask(string email, string boardTitle, string taskTitle)
+        public string GetTask(BusinessLayer.User user, BusinessLayer.Board board, string taskTitle)
         {
             return "";
         }
-        public string GetAllTasksByType(string email, string boardTitle, string taskType)
+        public string GetAllTasksByType(BusinessLayer.User user, BusinessLayer.Board board, Enum type)
         {
             return "";
         }
-        public string AddTask(string email, string boardTitle, string dueDate, string description)
+        public string AddTask(BusinessLayer.User user, BusinessLayer.Board board, string title, BusinessLayer.Date dueDate, string description)
         {          
             return "";
         }
-        public string RemoveTask(string email, string boardTitle, string title)
+        public string RemoveTask(BusinessLayer.User user, BusinessLayer.Board board, string title)
         {
             return "";
         }
-        public string AdvanceTask(string email, string boardTitle, string title)
+        public string AdvanceTask(BusinessLayer.User user, BusinessLayer.Board board, string title)
         {
             return "";
         }
@@ -64,27 +64,27 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         //                    Task
         //==================================================
 
-        public string SetTaskTitle(string email, string boardTitle, string taskTitle, string newTitle)
+        public string SetTaskTitle(BusinessLayer.User user, BusinessLayer.Board board, string taskTitle, string newTitle)
         {
             return "";
         }
-        public string GetTaskDuedate(string email, string boardTitle, string taskTitle)
+        public string GetTaskDuedate(BusinessLayer.User user, BusinessLayer.Board board, string taskTitle)
         {
             return "";
         }
-        public string SetTaskDueDate(string email, string boardTitle, string taskTitle, string newDate)
+        public string SetTaskDueDate(BusinessLayer.User user, BusinessLayer.Board board, string taskTitle, BusinessLayer.Date newDate)
         {
             return "";
         }
-        public string GetTaskDescription(string email, string boardTitle, string taskTitle)
+        public string GetTaskDescription(BusinessLayer.User user, BusinessLayer.Board board, string taskTitle)
         {
             return "";
         }
-        public string SetTaskDescription(string email, string boardTitle, string taskTitle, string newDescription)
+        public string SetTaskDescription(BusinessLayer.User user, BusinessLayer.Board board, string taskTitle, string newDescription)
         {
             return "";
         }
-        public string GetTaskState(string email, string boardTitle, string taskTitle)
+        public string GetTaskState(BusinessLayer.User user, BusinessLayer.Board board, string taskTitle)
         {
             return "";
         }        
