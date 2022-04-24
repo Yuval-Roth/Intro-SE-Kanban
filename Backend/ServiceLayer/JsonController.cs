@@ -10,18 +10,19 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		{
 			WriteIndented = true,
 		};
-		private static string Serialize<T>(T obj)
+		public static string Serialize<T>(T obj)
 		{
 			return JsonSerializer.Serialize<T>(obj, options);
 		}
-		private static T Deserialize<T>(string json)
+		public static T Deserialize<T>(string json)
 		{
 			return JsonSerializer.Deserialize<T>(json, options);
 		}
+		
+		
+		// these are temporary functions
 
-		//===================================================
-		//				Public functions
-		//===================================================
+
 		public static string ConvertToJson(BusinessLayer.Task task)
 		{
 			return Serialize(task.GetSerializableInstance());
