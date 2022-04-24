@@ -101,7 +101,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="password"></param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        public void LogIn(String email, String password)
+        public void LogIn(string email, string password)
         {
             if(password == null)  throw new ArgumentNullException ("password is null"); 
             if(email == null) throw new ArgumentNullException ("email is null"); 
@@ -161,7 +161,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="newP"></param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        public void SetPassword(User user, String old, String newP)
+        public void SetPassword(User user, string old, string newP)
         {
             if(user == null)  throw new ArgumentNullException("user is null");
             if (old == null)  throw new ArgumentNullException("old password is null"); 
@@ -188,7 +188,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
 
-        public void SetEmail(User user, String newE)
+        public void SetEmail(User user, string newE)
         {
             if (user == null) throw new ArgumentNullException("user is null");
             if (newE == null) throw new ArgumentNullException("new email is null"); 
@@ -209,7 +209,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="NoSuchElementException"></exception>
 
 
-        public User SearchUser(String email)
+        public User SearchUser(string email)
         {
             if (email == null) { throw new ArgumentNullException("email is null"); }
             User newUser = new User(email, "");

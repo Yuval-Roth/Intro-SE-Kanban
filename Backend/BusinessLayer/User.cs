@@ -45,7 +45,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		/// </summary>
 		/// <param name="old"></param>
 		/// <param name="newP"></param>
-		public void SetPassword(String newP)
+		public void SetPassword(string newP)
 		{
 			if (newP != null)
 			{
@@ -58,7 +58,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		/// </summary>
 		/// <param name="newE"></param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public void SetEmail(String newE)
+		public void SetEmail(string newE)
 		{
 			if (newE == null)  throw new ArgumentNullException("email is null");
 			email = newE;
@@ -68,7 +68,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		/// Returns user's email
 		/// </summary>
 		/// <returns></returns>
-		public String GetEmail()
+		public string GetEmail()
 		{
 			return email;
 		}
@@ -81,7 +81,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		/// <param name="pass"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentNullException"></exception>
-		public Boolean CheckPasswordMatch(String pass)
+		public Boolean CheckPasswordMatch(string pass)
 		{
 			if (pass == null)  throw new ArgumentNullException("password is null"); 
 			if (password.Equals(hasher.Hash(pass))) {
