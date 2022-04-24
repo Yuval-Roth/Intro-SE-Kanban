@@ -15,11 +15,11 @@ namespace IntroSE.Kanban.Backend_testing
 
         public static void Main(string[] args)
         {
-            //BinaryTreeTesting();
+            BinaryTreeTesting();
             //BoardTreeTesting();
             //datetesting();
             //UserControllerTesting();
-            JsonTesting();
+            //JsonTesting();
             //PasswordHashingTesting();
 
 
@@ -27,29 +27,33 @@ namespace IntroSE.Kanban.Backend_testing
         }
         public static void BinaryTreeTesting()
         {
-            Backend.BusinessLayer.BinaryTree<int> tree1 = new Backend.BusinessLayer.BinaryTree<int>();
-            tree1.Add(5);
-            Backend.BusinessLayer.BinaryTree<int> tree2 = new Backend.BusinessLayer.BinaryTree<int>();
-            tree2.Add(6);
-            
-            Console.WriteLine(tree1.Equals(tree2));
+            Backend.BusinessLayer.BinaryTree<int,int> tree1 = new();
+            tree1.Add(7,1);
+            tree1.Add(9,2);
+            tree1.Add(2,3);
+            tree1.Add(3,4);
+            tree1.Add(1,5);
+            tree1.Add(-5,6);
+
+            Console.WriteLine(tree1.GetData(7));
+
         }
         public static void BoardTreeTesting() 
         {
-            Backend.BusinessLayer.User user1 = new Backend.BusinessLayer.User("yuval", "12345");
-            Backend.BusinessLayer.User user2 = new Backend.BusinessLayer.User("yuval2", "12345");
-            Backend.BusinessLayer.BoardTree tree = new Backend.BusinessLayer.BoardTree();
+            //Backend.BusinessLayer.User user1 = new Backend.BusinessLayer.User("yuval", "12345");
+            //Backend.BusinessLayer.User user2 = new Backend.BusinessLayer.User("yuval2", "12345");
+            //Backend.BusinessLayer.BoardTree tree = new Backend.BusinessLayer.BoardTree();
 
-            Backend.BusinessLayer.Board board = tree.AddBoard(user1, "test");
-            tree.RemoveBoard(user1, "test");
-            tree.GetAllBoards(user1);
+            //Backend.BusinessLayer.Board board = tree.AddBoard(user1, "test");
+            //tree.RemoveBoard(user1, "test");
+            //tree.GetAllBoards(user1);
             //tree.RemoveBoard(user1, "test");
             //tree.GetAllBoards(user1);
         }
         public static void DateTesting()
         {
-            Backend.BusinessLayer.Date date = new Backend.BusinessLayer.Date("12.6.1998");
-            Console.WriteLine(date.day);
+            //Backend.BusinessLayer.Date date = new Backend.BusinessLayer.Date("12.6.1998");
+            //Console.WriteLine(date.day);
         }
 
         public static void UserControllerTesting()
@@ -64,12 +68,12 @@ namespace IntroSE.Kanban.Backend_testing
         }
         public static void JsonTesting()
         {
-            Backend.ServiceLayer.Response res = new("hello");
-            string json = Backend.ServiceLayer.JsonController.ConvertToJson(res);
-            Console.WriteLine(json);
-            Backend.ServiceLayer.Response des = Backend.ServiceLayer.JsonController.BuildFromJson<Backend.ServiceLayer.Response>(json);
-            Console.WriteLine(des.ReturnValue==null);
-            Console.WriteLine(des.ErrorMessage);
+            //Backend.ServiceLayer.Response res = new("hello");
+            //string json = Backend.ServiceLayer.JsonController.ConvertToJson(res);
+            //Console.WriteLine(json);
+            //Backend.ServiceLayer.Response des = Backend.ServiceLayer.JsonController.BuildFromJson<Backend.ServiceLayer.Response>(json);
+            //Console.WriteLine(des.ReturnValue==null);
+            //Console.WriteLine(des.ErrorMessage);
 
         }
         public static void PasswordHashingTesting()
@@ -90,10 +94,10 @@ namespace IntroSE.Kanban.Backend_testing
             //Console.WriteLine("avg: "+(sum / 500));
             //for (int i = 0; i < 50; i++) 
             //{
-            Backend.BusinessLayer.PasswordHash passwordHash = new Backend.BusinessLayer.PasswordHash();
+            //Backend.BusinessLayer.PasswordHash passwordHash = new Backend.BusinessLayer.PasswordHash();
 
-            Backend.BusinessLayer.User user = new("test","TestPassword12");
-            Console.WriteLine(user.CheckPasswordMatch("TestPassword12"));
+            //Backend.BusinessLayer.User user = new("test","TestPassword12");
+            //Console.WriteLine(user.CheckPasswordMatch("TestPassword12"));
         }
     }
 }

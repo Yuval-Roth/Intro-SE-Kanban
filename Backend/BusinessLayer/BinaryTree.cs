@@ -15,18 +15,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
     /// <summary>
     /// ======================================================<br/>
-    /// This class implements a generic binary tree that that is ordered with CompareTo()<br/>
-    /// Therefore, it can only work with objects that are <c>IComparable</c><br/>
-    /// <b>The class does not support duplicate elements</b>
+    /// This class implements a generic binary tree that that is ordered with a key that is IComparable<br/>
+    /// <b>The class does not support duplicate keys</b>
     /// <code>Supported operations:</code>
     /// <list type="bullet">Add()</list>
     /// <list type="bullet">Remove()</list>
     /// <list type="bullet">Contains()</list>
-    /// <list type="bullet">Search()</list>
+    /// <list type="bullet">GetData()</list>
     /// <list type="bullet">IsEmpty()</list>
-    /// <list type="bullet">ToStringInOrder()</list>
-    /// <list type="bullet">ToStringPreOrder()</list>
-    /// <list type="bullet">Equals()</list>
     /// <br/><br/>
     /// ===================
     /// <br/>
@@ -35,9 +31,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// ===================
     /// </summary>
 #pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
-    public class BinaryTree<T> where T : IComparable
+    public class BinaryTree<Key,Data> where Key : IComparable
     {
-        protected BinaryTreeNode root;
+        private BinaryTreeNode root;
 
         /// <summary>
         /// Creates an empty <c>BinaryTree</c>
@@ -48,25 +44,23 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
         ///<summary>
-        ///Adds an element into the <c>BinaryTree</c>.<br/><br/>
-        ///<b>throws</b> <c>ArgumentException</c> if the element already exists in the tree
+        /// Adds an element into the <c>BinaryTree</c>.<br/><br/>
+        ///<b>throws</b> <c>ArgumentException</c> if an element with the same key already exists in the tree
         ///</summary>
-        ///<returns>BinaryTreeNode pointer to the inserted object</returns>
         ///<exception cref="ArgumentException"></exception>
-        public BinaryTreeNode Add(T element)
+        public void Add(Key key, Data data)
         {
             // if tree is empty, add to the root
             if (root == null)
             {
-                root = new BinaryTreeNode(element);
-                return root;
+                root = new BinaryTreeNode(key,data);
             }
             //otherwise pass it down
             else
             {
                 try
                 {
-                    return root.Add(element);
+                    root.Add(key,data);
                 }
                 catch(ArgumentException)
                 {
@@ -77,35 +71,35 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
         ///<summary>
-        ///Removes an element from the <c>BinaryTree</c><br/><br/>
+        ///Removes the element with this key from the <c>BinaryTree</c><br/><br/>
         ///<b>Throws</b> <c>NoSuchElementException</c> if the element is not in the <c>BinaryTree</c>
         ///</summary>
         ///<exception cref="NoSuchElementException"></exception>
-        public void Remove(T element)
+        public void Remove(Key key)
         {
             if(root == null) throw new NoSuchElementException("No such element in the tree");
 
             //if the root is the target for removal
-            if (root.GetElement().CompareTo(element) == 0)
+            if (root.Key.CompareTo(key) == 0)
             {
                 //case 1: root has no children
-                if (root.GetLeft() == null & root.GetRight() == null)
+                if (root.Left == null & root.Right == null)
                 {
                     root = null;
                 }
 
                 //case 2: root has only a right child
-                else if (root.GetLeft() == null)
+                else if (root.Left == null)
                 {
-                    root = root.GetRight();
-                    root.SetParent(null);
+                    root = root.Right;
+                    root.Parent = null;
                 }
 
                 //case 3: root has only a left child
-                else if (root.GetRight() == null)
+                else if (root.Right == null)
                 {
-                    root = root.GetLeft();
-                    root.SetParent(null);
+                    root = root.Left;
+                    root.Parent = null;
                 }
 
                 //case 4: root has 2 children
@@ -115,16 +109,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     successor.Remove();
 
                     // copy children of old root
-                    if (root.GetLeft() != successor) successor.SetLeft(root.GetLeft());
-                    if (root.GetRight() != successor) successor.SetRight(root.GetRight());
+                    if (root.Left != successor) successor.Left = root.Left;
+                    if (root.Right != successor) successor.Right = root.Right;
 
                     // set children's parent to successor
-                    if (root.GetLeft() != null) root.GetLeft().SetParent(successor);
-                    if (root.GetRight() != null) root.GetRight().SetParent(successor);
+                    if (root.Left != null) root.Left.Parent = successor;
+                    if (root.Right != null) root.Right.Parent = successor;
 
                     // make the swap
                     root = successor;
-                    root.SetParent(null);
+                    root.Parent = null;
                 }
             }
             // root isn't the target for removal -> pass it down
@@ -132,7 +126,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 try
                 {
-                    root.Search(element).Remove();
+                    root.Search(key).Remove();
                 }
                 catch (NoSuchElementException)
                 {
@@ -143,109 +137,90 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                
         }
 
-        ///<summary>Check if the <c>BinaryTree</c> contains an element<br/><br/>
-        ///<b>Usage instructions:</b> Pass as an argument a "dummy" <c>IComparable</c> object that <br/> 
-        /// contains the key for comparison and the method will return <c>true</c> or <c>false</c> whether <br/>
-        /// the object exists in the <c>BinaryTree</c> or not
+        ///<summary>Check if the <c>BinaryTree</c> contains an element with this key<br/><br/>
         /// </summary>
-        ///<returns><c>true</c> if the element exists in the tree and <c>false</c> otherwise</returns>
-        public Boolean Contains(T element)
+        ///<returns><c>true</c> if an element with this key exists in the tree and <c>false</c> otherwise</returns>
+        public bool Contains(Key key)
         {
-           return root.Contains(element);
+           return root.Contains(key);
         }
 
         ///<summary>Check if the <c>BinaryTree</c> is empty</summary>
         ///<returns><c>true</c> if the tree is empty and <c>false</c> otherwise</returns>
-        public Boolean IsEmpty()
+        public bool IsEmpty()
         {
             return root == null;
         }
 
         /// <summary>
-        /// search for a node with the specified element<br/><br/>
-        /// <b>Usage instructions:</b> Pass as an argument a "dummy" <c>IComparable</c> object that <br/> 
-        /// contains the key for comparison and the search will return the object you<br/>
-        ///  are looking for
+        /// search for an element with the specified key and get its <c>Data</c><br/><br/>
         /// <br/><br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if element is not in the <c>BinaryTree</c>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if there is no element<br/>
+        /// with this key in the <c>BinaryTree</c>
         /// </summary>
-        /// <returns><c>BinaryTreeNode</c></returns>
+        /// <returns><c>The element's <c>Data</c></c></returns>
         /// <exception cref="NoSuchElementException"></exception>
-        public BinaryTreeNode Search(T element) 
+        public Data GetData(Key key) 
         {
             try
             {
-                return root.Search(element);
+                return root.Search(key).Data;
             }
             catch (NoSuchElementException)
             {
                 throw;
             } 
         }
-    
-        ///<summary>A string of all the elements in the tree in "in order"</summary>
-        ///<returns><c>string</c></returns>
-        public string ToStringInOrder()
-        {
-            return root.ToStringInOrder();
-        }
-
-        ///<summary>A string of all the elements in the tree in "pre order"</summary>
-        ///<returns><c>string</c></returns>
-        public string ToStringPreOrder() 
-        {
-            return root.ToStringPreOrder();
-        }
- 
-        public override Boolean Equals(object obj)
-        {
-            if (obj is BinaryTree<T> other)
-            {
-                if (this.ToStringInOrder().Equals(other.ToStringInOrder()) &&
-                    this.ToStringPreOrder().Equals(other.ToStringPreOrder()))
-                {
-                    return true;
-                }
-                else return false;
-            }
-            else return false;
-        }
-
-
-
 
         //===========================================================================
         //                                BinaryTreeNode
         //===========================================================================
 
-        public class BinaryTreeNode
+        private class BinaryTreeNode
         {
 
-            private readonly T element;
+            private readonly Key key;
+            private readonly Data data;
             private BinaryTreeNode left;
             private BinaryTreeNode right;
             private BinaryTreeNode parent;
 
-            public BinaryTreeNode(T element)
+            public BinaryTreeNode(Key key,Data data)
             {
                 left = null;
                 right = null;
                 parent = null;
-                this.element = element;
+                this.key = key;
+                this.data = data;
             }
-                                        //======================================
-                                        //            Getters / Setters
-                                        //======================================
+            //======================================
+            //            Getters / Setters
+            //======================================
 
 
-            public T GetElement() { return element; }
-            public BinaryTreeNode GetLeft() { return left; }
-            public BinaryTreeNode GetRight() { return right; }
-            public void SetParent(BinaryTreeNode parent) { this.parent = parent; }
-            public void SetLeft(BinaryTreeNode left) { this.left = left; }
-            public void SetRight(BinaryTreeNode right) { this.right = right; }
-
-
+            public Key Key
+            {
+                get { return key; }
+            }
+            public Data Data
+            {
+                get { return data; }
+            }
+            public BinaryTreeNode Left
+            {
+                get { return left; }
+                set { left = value; }
+            }
+            public BinaryTreeNode Right
+            {
+                get { return left; }
+                set { left = value; }
+            }
+            public BinaryTreeNode Parent
+            {
+                get { return parent; }
+                set { parent = value; }
+            }
 
 
             //======================================
@@ -255,58 +230,58 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
 
             ///<summary>
-            ///Adds an element into the <c>BinaryTree</c>.<br/><br/>
-            ///<b>throws</b> <c>ArgumentException</c> if the element already exists in the tree
+            /// Adds an element into the <c>BinaryTree</c>.<br/><br/>
+            ///<b>throws</b> <c>ArgumentException</c> if an element with the same key already exists in the tree
             ///</summary>
-            ///<returns>BinaryTreeNode pointer to the inserted object</returns>
-            public BinaryTreeNode Add(T element)
+            ///<exception cref="ArgumentException"></exception>
+            public void Add(Key key, Data data)
             {
                 //check if element already exists in the tree
-                if (this.element.CompareTo(element) == 0)
+                if (this.key.CompareTo(key) == 0)
                 {
                     throw new ArgumentException("Element already exists in the tree");
                 }
 
                 //find a place to add it
-                else if (this.element.CompareTo(element) > 0)
+                else if (this.key.CompareTo(key) > 0)
                 {
                     //empty spot
                     if (left == null) 
                     { 
-                        left = new BinaryTreeNode(element) 
+                        left = new BinaryTreeNode(key,data) 
                         {
                             parent = this
                         };      
-                        return left;
+                        //return left;
                     }
 
                     //pass it down
-                    else return left.Add(element);
+                    else  left.Add(key,data);
                 }
                 else
                 {
                     //empty spot
                     if (right == null)
                     {
-                        right = new BinaryTreeNode(element)
+                        right = new BinaryTreeNode(key,data)
                         {
                             parent = this
                         };
-                        return right;
+                        //return right;
                     }
 
                     //pass it down
-                    else return right.Add(element);
+                    else /*return*/ right.Add(key,data);
                 }
             }
 
-            ///<summary>Check if the <c>BinaryTree</c> contains an element</summary>
-            ///<returns><c>true</c> if the element exists in the tree and <c>false</c> otherwise</returns>
-            public Boolean Contains(T element)
+            ///<summary>Check if the <c>BinaryTree</c> contains a node with this key</summary>
+            ///<returns><c>true</c> if the node with this key exists in the tree and <c>false</c> otherwise</returns>
+            public bool Contains(Key key)
             {
                 try
                 {
-                    return Search(element) != null;
+                    return Search(key) != null;
                 }
                 catch (NoSuchElementException)
                 {
@@ -316,27 +291,27 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
 
             /// <summary>
-            /// search for a node with the specified element<br/><br/>
-            /// <b>Throws</b> <c>NoSuchElementException</c> if element is not in the <c>BinaryTree</c>
+            /// search for a node with the specified key<br/><br/>
+            /// <b>Throws</b> <c>NoSuchElementException</c> if a node with this key does not exist in the <c>BinaryTree</c>
             /// </summary>
             /// <returns>BinaryTreeNode</returns>
             /// <exception cref="NoSuchElementException"></exception>
-            public BinaryTreeNode Search(T element)
+            public BinaryTreeNode Search(Key key)
             {
                 //check if the current node is the target
-                if (this.element.CompareTo(element) == 0)
+                if (this.key.CompareTo(key) == 0)
                 {
                     return this;
                 }
 
                 //binary search for it
-                else if (left != null && this.element.CompareTo(element) > 0)
+                else if (left != null && this.key.CompareTo(key) > 0)
                 {
-                    return left.Search(element);
+                    return left.Search(key);
                 }
                 else if (right != null)
                 {
-                    return right.Search(element);
+                    return right.Search(key);
                 }
 
                 //can't find it
@@ -344,7 +319,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
 
             ///<summary>
-            ///Removes an element from the <c>BinaryTree</c><br/><br/>
+            ///Removes a node from the <c>BinaryTree</c><br/><br/>
             ///
             ///<b>Warning:</b> Only works on a node that is in a tree.<br/>
             ///can throw unexpected exceptions if misused
@@ -367,9 +342,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 {
                     if (ThisNodeIsALeftSon())
                     {
-                        parent.left = this.right;
+                        parent.left = right;
                     }
-                    else parent.right = this.right;
+                    else parent.right = right;
                 }
 
                 // case 3: node only has a left child
@@ -377,15 +352,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 {
                     if (ThisNodeIsALeftSon())
                     {
-                        parent.left = this.left;
+                        parent.left = left;
                     }
-                    else parent.right = this.left;
+                    else parent.right = left;
                 }
 
                 // case 4: node has 2 children
                 else
                 {
-                    BinaryTreeNode successor = this.Successor();
+                    BinaryTreeNode successor = Successor();
                     successor.Remove();
 
                     // make the successor the child of the old node's parent
@@ -393,15 +368,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     else if (ThisNodeIsARightSon()) parent.right = successor;
 
                     // copy children of old node
-                    if (successor != this.left) successor.left = this.left;
-                    if (successor != this.right) successor.right = this.right;
+                    if (successor != left) successor.left = left;
+                    if (successor != right) successor.right = right;
 
                     // set children's parent to successor
                     if (left != null) left.parent = successor;
                     if (right != null) right.parent = successor;
 
                     //copy parent of old node
-                    successor.parent = this.parent;  
+                    successor.parent = parent;  
                 }
 
             }
@@ -430,8 +405,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 // if there is no bigger ancestor, return null
                 else
                 {
-                    BinaryTreeNode current = this.parent;
-                    while (current != null && this.element.CompareTo(current.element) > 0)
+                    BinaryTreeNode current = parent;
+                    while (current != null && key.CompareTo(current.key) > 0)
                     {
                         current = current.parent;
                     }
@@ -455,47 +430,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 }
                 return current;
             }
-
-            ///<summary>A string of all the elements in the tree in "in order"</summary>
-            ///<returns><c>string</c></returns>
-            public string ToStringInOrder()
-            {
-                return ToStringInOrder("");
-            }
-            private string ToStringInOrder(string output)
-            {       
-                if(left != null)
-                 output = left.ToStringInOrder(output);
-
-                output += element.ToString() + " ";
-
-                if (right != null)
-                 output = right.ToStringInOrder(output);
-                return output;
-            }
-
-            ///<summary>A string of all the elements in the tree in "pre order"</summary>
-            ///<returns><c>string</c></returns>
-            public string ToStringPreOrder()
-            {
-                return ToStringPreOrder("");
-            }
-            private string ToStringPreOrder(string output)
-            {
-                output += element.ToString() + " ";
-                if (left != null)
-                    output = left.ToStringPreOrder(output);
-                if (right != null)
-                    output = right.ToStringPreOrder(output);
-                return output;
-            }
-            private Boolean ThisNodeIsARightSon() 
+            private bool ThisNodeIsARightSon() 
             {
                 if (parent != null) return parent.right == this;
                 
                 return false;
             }
-            private Boolean ThisNodeIsALeftSon()
+            private bool ThisNodeIsALeftSon()
             {
                 if (parent != null) return parent.left == this;
 
