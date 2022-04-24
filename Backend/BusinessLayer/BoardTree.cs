@@ -31,6 +31,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// </summary>
     public class BoardTree : BinaryTree<string> 
     {
+        private BinaryTree<string> tree;
+        
         /// <summary>
         /// Creates an empty <c>BoardTree</c>
         /// </summary>
