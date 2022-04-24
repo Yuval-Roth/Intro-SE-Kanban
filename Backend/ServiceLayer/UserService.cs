@@ -14,7 +14,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 			try
 			{
 				userController.Register(email, password);
-				Response res = new Response("");
+				Response res = new Response("{}");
 				return JsonController.ConvertToJson(res);
 			}
 			catch (ArgumentNullException ex)
@@ -34,7 +34,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
 				BusinessLayer.User toDelete = userController.SearchUser(email);
 				userController.DeleteUser(toDelete);
-				Response res = new Response("");
+				Response res = new Response("{}");
 				return JsonController.ConvertToJson(res);
 			}
             catch (ArgumentNullException ex)

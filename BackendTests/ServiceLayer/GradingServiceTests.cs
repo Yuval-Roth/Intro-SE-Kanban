@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 {
     [TestClass()]
-    public class UserServiceTests
+    public class GradingServiceTests
     {
         UserService service = new UserService();
-        
-        //successful registration
+
         [TestMethod()]
-        public void RegisterTest1()
+        //Registration success
+        public void RegisterTest()
         {
             string expected = JsonController.ConvertToJson(new Response("{}"));
             string result = service.Register("yuval@post.bgu.ac.il", "Ha12345");
@@ -23,7 +23,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         }
         //user exist in the system
         [TestMethod()]
-        public void RegisterTest2()
+        public void RegisterTest1()
         {
             string expected = JsonController.ConvertToJson(new Response("Element already exists in the tree"));
             string result = service.Register("yuval@post.bgu.ac.il", "Ha12345");
@@ -32,7 +32,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         }
         //invalid password
         [TestMethod()]
-        public void RegisterTest3()
+        public void RegisterTest2()
         {
             string expected = JsonController.ConvertToJson(new Response("Password illegal"));
             string result = service.Register("yuval@post.bgu.ac.il", "a12345");
@@ -40,7 +40,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         }
         //null email
         [TestMethod()]
-        public void RegisterTest4()
+        public void RegisterTest3()
         {
             string expected = JsonController.ConvertToJson(new Response("Email is null"));
             string result = service.Register(null, "Ha12345");
@@ -48,49 +48,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         }
         //null password
         [TestMethod()]
-        public void RegisterTest5()
+        public void RegisterTest4()
         {
             string expected = JsonController.ConvertToJson(new Response("Password is null"));
             string result = service.Register("yuval@post.bgu.ac.il", null);
             Assert.AreEqual(expected, result);
         }
 
-
-        //delete successful
         [TestMethod()]
-        public void DeleteUserTest()
-        {
-            service.Register("printz@post.bgu.il", "Hadas12345");
-            string expected = JsonController.ConvertToJson(new Response("{}"));
-            string result = service.DeleteUser("printz@post.bgu.il");
-            Assert.AreEqual(expected, result);
-        }
-        //user doesn't exist
-        [TestMethod()]
-        public void DeleteUserTest1()
-        {
-            string expected = JsonController.ConvertToJson(new Response("User doesn't exist"));
-            string result = service.DeleteUser("printz@post.bgu.il");
-            Assert.AreEqual(expected, result);
-        }
-        //null user
-        [TestMethod()]
-        public void DeleteUserTest2()
-        {
-            string expected = JsonController.ConvertToJson(new Response("User is null"));
-            string result = service.DeleteUser(null);
-            Assert.AreEqual(expected, result);
-        }
-
-
-        //user doesn't exist
-        //pass incorrect
-        //allready loggedIn
-        //null email
-        //null password
-       
-        //logIn successesful
-        [TestMethod()]
+        //LogIn success
         public void LogInTest()
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
@@ -144,9 +110,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
         }
 
+ 
         //logOut successesful
         [TestMethod()]
-        public void logOutTest()
+        public void LogOutTest()
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
             service.LogIn("printz@post.bgu.il", "Hadas12345");
@@ -174,119 +141,77 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
 
         }
-        //successes
-        //not register
-        //password not same
-        //newpass illegal
-        //null user
-        //null oldpass
-        //null newpass
 
-
-
-
-        //successes serPassword
         [TestMethod()]
-        public void SetPasswordTest()
+        public void LimitColumnTest()
         {
-            service.Register("printz@post.bgu.il", "Hadas12345");
-            string expected = JsonController.ConvertToJson(new Response("{}"));
-            string result = service.SetPassword("printz@post.bgu.il", "Hadas12345","Printz12345");
-            Assert.AreEqual(expected, result);
-        }
-        //user doesn't exist
-        [TestMethod()]
-        public void SetPasswordTest1()
-        {
-            string expected = JsonController.ConvertToJson(new Response("User is not in the system"));
-            string result = service.SetPassword("printz@post.bgu.il", "Hadas12345", "Printz12345");
-            Assert.AreEqual(expected, result);
-        }
-        //checkMatchPassword fail
-        [TestMethod()]
-        public void SetPasswordTest2()
-        {
-            service.Register("printz@post.bgu.il", "Hadas12345");
-            string expected = JsonController.ConvertToJson(new Response("Old Password incorrect"));
-            string result = service.SetPassword("printz@post.bgu.il", "Hadas6789", "Printz12345");
-            Assert.AreEqual(expected, result);
-        }
-        //new password illegal
-        [TestMethod()]
-        public void SetPasswordTest3()
-        {
-            service.Register("printz@post.bgu.il", "Hadas12345");
-            string expected = JsonController.ConvertToJson(new Response("New password is illegal"));
-            string result = service.SetPassword("printz@post.bgu.il", "Hadas12345", "hadas12345");
-            Assert.AreEqual(expected, result);
-        }
-        //null user
-        [TestMethod()]
-        public void SetPasswordTest4()
-        {
-            service.Register("printz@post.bgu.il", "Hadas12345");
-            string expected = JsonController.ConvertToJson(new Response("User is null"));
-            string result = service.SetPassword(null, "Hadas12345", "Printz12345");
-            Assert.AreEqual(expected, result);
-        }
-        //null old password
-        [TestMethod()]
-        public void SetPasswordTest5()
-        {
-            service.Register("printz@post.bgu.il", "Hadas12345");
-            string expected = JsonController.ConvertToJson(new Response("Old password is null"));
-            string result = service.SetPassword("printz@post.bgu.il", null, "Printz12345");
-            Assert.AreEqual(expected, result);
-        }
-        //null new password
-        [TestMethod()]
-        public void SetPasswordTest6()
-        {
-            service.Register("printz@post.bgu.il", "Hadas12345");
-            string expected = JsonController.ConvertToJson(new Response("New password is null"));
-            string result = service.SetPassword("printz@post.bgu.il", "Hadas12345", null);
-            Assert.AreEqual(expected, result);
+            Assert.Fail();
         }
 
-
-
-
-        //setEnail successful
         [TestMethod()]
-        public void SetEmailTest()
+        public void GetColumnLimitTest()
         {
-            service.Register("printz@post.bgu.il", "Hadas12345");
-            string expected = JsonController.ConvertToJson(new Response("{}"));
-            string result = service.SetEmail("printz@post.bgu.il", "hadas@post.bgu.il");
-            Assert.AreEqual(expected, result);
-        }
-        //user doesn't exist
-        [TestMethod()]
-        public void SetEmailTest1()
-        {
-            string expected = JsonController.ConvertToJson(new Response("User dosen't exist"));
-            string result = service.SetEmail("printz@post.bgu.il", "hadas@post.bgu.il");
-            Assert.AreEqual(expected, result);
-        }
-        //email allready exist
-        [TestMethod()]
-        public void SetEmailTest2()
-        {
-            service.Register("printz@post.bgu.il", "Hadas12345");
-            service.Register("hadas@post.bgu.il", "Hadas6789");
-            string expected = JsonController.ConvertToJson(new Response("A user with that email already exists in the system"));
-            string result = service.SetEmail("printz@post.bgu.il", "hadas@post.bgu.il");
-            Assert.AreEqual(expected, result);
-        }
-        //null email
-        [TestMethod()]
-        public void SetEmailTest3()
-        {
-            service.Register("printz@post.bgu.il", "Hadas12345");
-            string expected = JsonController.ConvertToJson(new Response("New email is null"));
-            string result = service.SetEmail("printz@post.bgu.il", null);
-            Assert.AreEqual(expected, result);
+            Assert.Fail();
         }
 
+        [TestMethod()]
+        public void GetColumnNameTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void AddTaskTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void UpdateTaskDueDateTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void UpdateTaskTitleTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void UpdateTaskDescriptionTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void AdvanceTaskTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void GetColumnTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void AddBoardTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void RemoveBoardTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void InProgressTasksTest()
+        {
+            Assert.Fail();
+        }
     }
 }
