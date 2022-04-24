@@ -7,27 +7,27 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		public UserService()
 		{
 		}
-		public string Register(String email, String password)
+		public string Register(string email, string password)
 		{
 			return "";
 		}
-		public string DeleteUser(BusinessLayer.User user)
+		public string DeleteUser(string email)
 		{
 			return "";
 		}
-		public string LogIn(String email, String password)
+		public string LogIn(string email, string password)
 		{
 			return "";
 		}
-		public string LogOut(BusinessLayer.User user)
+		public string LogOut(string email)
 		{
 			return "";
 		}
-		public string SetPassword(BusinessLayer.User user, String old, String newp)
+		public string SetPassword(string email, string old, string newp)
 		{
 			return "";
 		}
-		public string SetEmail(BusinessLayer.User user, String newe)
+		public string SetEmail(string email, string newEmail)
 		{
 			return "";
 		}
