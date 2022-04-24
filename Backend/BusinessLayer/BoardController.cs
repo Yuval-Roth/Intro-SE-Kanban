@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
-    internal class BoardController
+    public class BoardController
     {
-        
-        
+      
         public BoardTree Boards  { get; set; }
         public void CreateBoard(User user, string title) { }
         public void DeleteBoard(User user, string title) { }
@@ -17,7 +16,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public LinkedList<Board> GetBoards (User user) { return null; }
         public Board SearchBoard(User user, string title) { return null; }
 
-
+        public BoardController() {
+            Boards = new BoardTree();
+        }
 
     }
 }
