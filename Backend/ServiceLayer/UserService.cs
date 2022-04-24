@@ -9,7 +9,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		{
 			userController = new BusinessLayer.UserController();
 		}
-		public string Register(String email, String password)
+		public string Register(string email, string password)
 		{
 			try
 			{
@@ -28,7 +28,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 				return JsonController.ConvertToJson(res);
 			}
 		}
-		public string DeleteUser(BusinessLayer.User user)
+		public string DeleteUser(string email)
 		{
             try
             {
@@ -53,7 +53,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 				return JsonController.ConvertToJson(res);
 			}
 		}
-		public string LogIn(String email, String password)
+		public string LogIn(string email, string password)
 		{
             try
             {
@@ -72,7 +72,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 				return JsonController.ConvertToJson(res);
 			}
 		}
-		public string LogOut(BusinessLayer.User user)
+		public string LogOut(string email)
 		{
             try
             {
@@ -97,7 +97,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 				return JsonController.ConvertToJson(res);
 			}
 		}
-		public string SetPassword(BusinessLayer.User user, String old, String newp)
+		public string SetPassword(string email, string old, string newp)
 		{
             try
             {
@@ -122,7 +122,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 				return JsonController.ConvertToJson(res);
 			}
 		}
-		public string SetEmail(BusinessLayer.User user, String newe)
+		public string SetEmail(string email, string newEmail)
 		{
             try
             {
