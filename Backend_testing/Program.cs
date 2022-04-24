@@ -19,8 +19,8 @@ namespace IntroSE.Kanban.Backend_testing
             //BoardTreeTesting();
             //datetesting();
             //UserControllerTesting();
-            //JsonTesting();
-            PasswordHashingTesting();
+            JsonTesting();
+            //PasswordHashingTesting();
 
 
 
@@ -64,74 +64,13 @@ namespace IntroSE.Kanban.Backend_testing
         }
         public static void JsonTesting()
         {
-            //    Backend.BusinessLayer.Serializable.Board_Serializable board = new() 
-            //    {
-            //        Title = "TestBoard"
-            //    };
-            //    board.Backlog = new LinkedList<Backend.BusinessLayer.Serializable.Task_Serializable>();
-            //    board.Backlog.AddLast(new Backend.BusinessLayer.Serializable.Task_Serializable
-            //    {
-            //        Title = "task1",
-            //        CreationTime = new Backend.BusinessLayer.Date("16/25/1900"),
-            //        Description = "stahp",
-            //        DueDate = new Backend.BusinessLayer.Date("16/25/1909"),
-            //        State = Backend.BusinessLayer.TaskStates.backLog
-            //    });
-            //    board.InProgress = new LinkedList<Backend.BusinessLayer.Serializable.Task_Serializable>();
-            //    board.InProgress.AddLast(new Backend.BusinessLayer.Serializable.Task_Serializable
-            //    {
-            //        Title = "task2",
-            //        CreationTime = new Backend.BusinessLayer.Date("16/25/1900"),
-            //        Description = "STAHP",
-            //        DueDate = new Backend.BusinessLayer.Date("16/25/1909"),
-            //        State = Backend.BusinessLayer.TaskStates.inProgress
-            //    });
-            //    board.Done = new LinkedList<Backend.BusinessLayer.Serializable.Task_Serializable>();
-            //    board.Done.AddLast(new Backend.BusinessLayer.Serializable.Task_Serializable
-            //    {
-            //        Title = "task3",
-            //        CreationTime = new Backend.BusinessLayer.Date("16/25/1900"),
-            //        Description = "STAHHHHP",
-            //        DueDate = new Backend.BusinessLayer.Date("16/25/1909"),
-            //        State = Backend.BusinessLayer.TaskStates.done
-            //    });
-            //    string json = Backend.ServiceLayer.JsonController.Serialize(board);
-            //    Console.WriteLine(json);
-            //    Console.WriteLine("=========================");
+            Backend.ServiceLayer.Response res = new("hello");
+            string json = Backend.ServiceLayer.JsonController.ConvertToJson(res);
+            Console.WriteLine(json);
+            Backend.ServiceLayer.Response des = Backend.ServiceLayer.JsonController.BuildFromJson<Backend.ServiceLayer.Response>(json);
+            Console.WriteLine(des.ReturnValue==null);
+            Console.WriteLine(des.ErrorMessage);
 
-            //    Backend.BusinessLayer.Board deserialized =
-            //        Backend.ServiceLayer.JsonController.Deserialize<Backend.BusinessLayer.Board>(json);
-
-
-            //    foreach (Backend.BusinessLayer.Task task in deserialized.Backlog) 
-            //    {
-            //        Console.WriteLine(task.Title);
-            //        Console.WriteLine(task.Description);
-            //        Console.WriteLine(task.CreationTime);
-            //        Console.WriteLine(task.DueDate);
-            //        Console.WriteLine(task.State);
-            //    }
-            //    Console.WriteLine("=========================");
-            //    foreach (Backend.BusinessLayer.Task task in deserialized.InProgress)
-            //    {
-            //        Console.WriteLine(task.Title);
-            //        Console.WriteLine(task.Description);
-            //        Console.WriteLine(task.CreationTime);
-            //        Console.WriteLine(task.DueDate);
-            //        Console.WriteLine(task.State);
-            //    }
-            //    Console.WriteLine("=========================");
-            //    foreach (Backend.BusinessLayer.Task task in deserialized.Done)
-            //    {
-            //        Console.WriteLine(task.Title);
-            //        Console.WriteLine(task.Description);
-            //        Console.WriteLine(task.CreationTime);
-            //        Console.WriteLine(task.DueDate);
-            //        Console.WriteLine(task.State);
-            //    }
-
-
-           
         }
         public static void PasswordHashingTesting()
         {

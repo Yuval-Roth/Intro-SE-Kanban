@@ -12,16 +12,28 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     public sealed class Response
     {
         [JsonInclude]
-        public readonly bool operationState;
+        public readonly string? ErrorMessage;
 
         [JsonInclude]
-        public readonly string message;
+        public readonly object? ReturnValue;
+
+        public Response(string ErrorMessage)
+        {
+            this.ErrorMessage = ErrorMessage;
+            ReturnValue = null;
+        }
+
+        public Response(object ReturnValue)
+        {
+            this.ReturnValue = ReturnValue;
+            ErrorMessage = null;
+        }
 
         [JsonConstructor]
-        public Response(bool operationState, string message)
+        public Response(object? ReturnValue, string? ErrorMessage)
         {
-            this.operationState = operationState;
-            this.message = message;
+            this.ReturnValue = ReturnValue;
+            this.ErrorMessage = ErrorMessage;
         }
     }
     
