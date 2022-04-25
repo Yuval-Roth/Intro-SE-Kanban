@@ -48,19 +48,21 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         ///<b>throws</b> <c>ArgumentException</c> if an element with the same key already exists in the tree
         ///</summary>
         ///<exception cref="ArgumentException"></exception>
-        public void Add(Key key, Data data)
+        ///<returns>A pointer to the new user's data</returns>
+        public Data Add(Key key, Data data)
         {
             // if tree is empty, add to the root
             if (root == null)
             {
                 root = new BinaryTreeNode(key,data);
+                return root.Data;
             }
             //otherwise pass it down
             else
             {
                 try
                 {
-                    root.Add(key,data);
+                    return root.Add(key,data).Data;
                 }
                 catch(ArgumentException)
                 {
@@ -234,7 +236,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             ///<b>throws</b> <c>ArgumentException</c> if an element with the same key already exists in the tree
             ///</summary>
             ///<exception cref="ArgumentException"></exception>
-            public void Add(Key key, Data data)
+            public BinaryTreeNode Add(Key key, Data data)
             {
                 //check if element already exists in the tree
                 if (this.key.CompareTo(key) == 0)
@@ -251,12 +253,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         left = new BinaryTreeNode(key,data) 
                         {
                             parent = this
-                        };      
-                        //return left;
+                        };
+                        return left;
                     }
 
                     //pass it down
-                    else  left.Add(key,data);
+                    else left.Add(key,data);
                 }
                 else
                 {
@@ -267,11 +269,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         {
                             parent = this
                         };
-                        //return right;
+                        return right;
                     }
 
                     //pass it down
-                    else /*return*/ right.Add(key,data);
+                    else return right.Add(key,data);
                 }
             }
 

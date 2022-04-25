@@ -12,23 +12,23 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     //===========================================================================
 
 
-    ///// <summary>
-    ///// This class extends BinaryNode.<br/>
-    ///// The class manages a data structure of of <c>Board</c>s. <br/>
-    ///// The key used in all operations of this class is a <c>User</c> object. <br/>
-    ///// every unique <c>User</c> has his own set of <c>Board</c>s.
-    ///// 
-    ///// <code>Supported operations:</code>
-    ///// <list type="bullet">AddBoard()</list>
-    ///// <list type="bullet">RemoveBoard()</list>
-    ///// <list type="bullet">GetAllBoards()</list>
-    ///// <br/><br/>
-    ///// ===================
-    ///// <br/>
-    ///// <c>Ⓒ Yuval Roth</c>
-    ///// <br/>
-    ///// ===================
-    ///// </summary>
+    /// <summary>
+    /// The class manages a data structure of of <c>User</c>s and their <c>Board</c>s. <br/>
+    /// every unique <c>User</c> has his own set of <c>Board</c>s.
+    /// <code>Supported operations:</code>
+    /// <list type="bullet">SearchUser()</list>
+    /// <list type="bullet">AddUser()</list>
+    /// <list type="bullet">RemoveUser()</list>
+    /// <list type="bullet">GetAllBoards()</list>
+    /// <list type="bullet">AddBoard()</list>
+    /// <list type="bullet">RemoveBoard()</list>
+    /// <br/><br/>
+    /// ===================
+    /// <br/>
+    /// <c>Ⓒ Yuval Roth</c>
+    /// <br/>
+    /// ===================
+    /// </summary>
     public class UserData
     {
         private class DataUnit
@@ -44,7 +44,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
         /// <summary>
-        /// Searches for a user with the specified email
+        /// Searches for a user with the specified email<br/><br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the user doesn't exist
         /// </summary>
         /// <param name="email"></param>
         /// <returns>User</returns>
@@ -67,19 +68,28 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// Adds a user to the system
         /// </summary>
         /// <param name="email"></param>
-        /// <exception cref="NoSuchElementException"></exception>
-        public void AddUser(string email)
+        /// <exception cref="ArgumentException"></exception>
+        /// <returns>The added <c>User</c></returns>
+        public User AddUser(string email)
         {
             try
             {
-                tree.Add(email, new DataUnit());
+                return tree.Add(email, new DataUnit()).User;
             }
             catch (ArgumentException) 
             {
-                throw new NoSuchElementException("A user with the email '" +
-                    email + "' doesn't exist in the system");
+                throw new ArgumentException("A user with the email '" +
+                    email + "' already exists in the system");
             }        
         }
+
+        /// <summary>
+        /// Removes the user with the specified email from the system
+        /// <br/><br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the user doesn't exist in the system
+        /// </summary>
+        /// <param name="email"></param>
+        /// <exception cref="NoSuchElementException"></exception>
         public void RemoveUser(string email) 
         {
             try
