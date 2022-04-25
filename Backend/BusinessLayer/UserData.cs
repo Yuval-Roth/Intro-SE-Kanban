@@ -31,19 +31,32 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     ///// </summary>
     public class UserData
     {
-        private enum DataType
+        private class DataUnit
         {
-            Users,
-            Boards
+            public User User { get; set; }
+            public LinkedList<Board> boards { get; set; }
         }
-        private BinaryTree<string, object[]> tree;
+        private BinaryTree<string, DataUnit> tree;
 
         /// <summary>
         /// Creates an empty <c>BoardTree</c>
         /// </summary>
         public UserData()
         {
-            tree = new BinaryTree<string, object[]>();
+            tree = new BinaryTree<string, DataUnit>();
+        }
+        public User SearchUser(string email)
+        {
+            return tree.GetData(email).User;
+        }
+        public void AddUser(string email)
+        {
+            
+        
+        }
+        public LinkedList<Board> GetAllBoards(string email)
+        {
+            return tree.GetData(email).boards;
         }
     }
 }
