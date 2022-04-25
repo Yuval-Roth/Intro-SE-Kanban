@@ -293,10 +293,67 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
         }
 
+        //successful
         [TestMethod()]
         public void InProgressTasksTest()
         {
-            Assert.Fail();
+            string expected = JsonController.ConvertToJson(new Response(new Object()));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = service.AddBoard("kfirniss@post.bgu.ac.il", "another board");
+            result = service.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
+            result = service.AddTask("kfirniss@post.bgu.ac.il", "another board", "task 2", "ninini", new DateTime());
+            result = service.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
+            result = service.AdvanceTask("kfirniss@post.bgu.ac.il", "another board", 0, 1);
+            result = service.InProgressTasks("kfirniss@post.bgu.ac.il");
+            Assert.AreEqual(expected, result);
         }
+
+        //user dosen't exist
+        [TestMethod()]
+        public void InProgressTasksTest1()
+        {
+            string expected = JsonController.ConvertToJson(new Response("user doesn't exist!"));
+            string result = service.InProgressTasks("kfirniss@post.bgu.ac.il");
+            Assert.AreEqual(expected, result);
+        }
+
+        //user doesn't login
+        [TestMethod()]
+        public void InProgressTasksTest2()
+        {
+            string expected = JsonController.ConvertToJson(new Response("user doesn't login"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.InProgressTasks("kfirniss@post.bgu.ac.il");
+            Assert.AreEqual(expected, result);
+        }
+
+        //user has no boards
+        [TestMethod()]
+        public void InProgressTasksTest3()
+        {
+            string expected = JsonController.ConvertToJson(new Response("user has no boards"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.InProgressTasks("kfirniss@post.bgu.ac.il");
+            Assert.AreEqual(expected, result);
+        }
+
+        //user has no inprogress tasks
+        [TestMethod()]
+        public void InProgressTasksTest4()
+        {
+            string expected = JsonController.ConvertToJson(new Response("user has no inprogress tasks"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = service.AddBoard("kfirniss@post.bgu.ac.il", "another board");
+            result = service.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
+            result = service.AddTask("kfirniss@post.bgu.ac.il", "another board", "task 2", "ninini", new DateTime());
+            result = service.InProgressTasks("kfirniss@post.bgu.ac.il");
+            Assert.AreEqual(expected, result);
+        }
+
     }
 }
