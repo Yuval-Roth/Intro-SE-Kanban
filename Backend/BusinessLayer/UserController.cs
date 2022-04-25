@@ -27,10 +27,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <br/>
     /// ===================
     /// </summary>
-    public class UserController
+    internal class UserController
     {
-        private BinaryTree<User> userList;
-        private readonly Dictionary<string, User> loggedIn;
+        private UserData userData;
+        
         private static readonly int MIN_PASS_LENGTH = 6;
         private static readonly int MAX_PASS_LENGTH = 20;
 
@@ -38,10 +38,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// Creates an empty <c>BinaryTree</c> userList <br/>
         /// Creates an empty <c>Dictionary</c> loggedIn
         /// </summary>
-        public UserController()
+        public UserController(UserData userData)
         {
-            userList = new BinaryTree<User>(); 
-            loggedIn = new Dictionary<string, User>(); 
+            this.userData = userData; 
         }
 
         /// <summary>
@@ -54,7 +53,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
 
-        public void Register(String email, String password)
+        public void Register(string email, string password)
         {
             if(email == null){ throw new ArgumentNullException ("Email is null"); }
             if(password == null){ throw new ArgumentNullException("Password is null"); }

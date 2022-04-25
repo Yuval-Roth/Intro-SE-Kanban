@@ -258,7 +258,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     }
 
                     //pass it down
-                    else left.Add(key,data);
+                    else return left.Add(key,data);
                 }
                 else
                 {

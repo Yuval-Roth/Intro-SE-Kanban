@@ -19,6 +19,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <list type="bullet">SearchUser()</list>
     /// <list type="bullet">AddUser()</list>
     /// <list type="bullet">RemoveUser()</list>
+    /// <list type="bullet">UserLogInStatus()</list>
+    /// <list type="bullet">SetLoggedIn()</list>
+    /// <list type="bullet">SetLoggedOut()</list>
     /// <list type="bullet">GetAllBoards()</list>
     /// <list type="bullet">AddBoard()</list>
     /// <list type="bullet">RemoveBoard()</list>
@@ -29,7 +32,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <br/>
     /// ===================
     /// </summary>
-    public class UserData
+    internal class UserData
     {
         private class DataUnit
         {
@@ -37,10 +40,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             public LinkedList<Board> boards { get; set; }
         }
         private BinaryTree<string, DataUnit> tree;
+        private HashSet<string> loggedIn;
 
         public UserData()
         {
             tree = new BinaryTree<string, DataUnit>();
+            loggedIn = new HashSet<string>();
         }
 
         /// <summary>
@@ -60,21 +65,21 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 throw new NoSuchElementException("A user with the email '" +
                     email + "' doesn't exist in the system");
-            }
-            
+            }   
         }
-
         /// <summary>
         /// Adds a user to the system
         /// </summary>
         /// <param name="email"></param>
         /// <exception cref="ArgumentException"></exception>
         /// <returns>The added <c>User</c></returns>
-        public User AddUser(string email)
+        public User AddUser(string email, string password)
         {
             try
-            {
-                return tree.Add(email, new DataUnit()).User;
+            {   
+                DataUnit data = tree.Add(email, new DataUnit());
+                data.User = new User(email, password);
+                return data.User;
             }
             catch (ArgumentException) 
             {
@@ -101,6 +106,44 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new NoSuchElementException("A user with the email '" +
                     email + "' doesn't exist in the system");
             }
+        }
+
+        /// <summary>
+        /// Gets the user's logged in status
+        /// </summary>
+        /// <returns><c>true</c> if the user is logged in, <c>false</c>  otherwise</returns>
+        /// <param name="email"></param>
+        public bool UserLoggedInStatus(string email)
+        {
+            return loggedIn.Contains(email);
+        }
+
+        /// <summary>
+        /// Sets a user's logged in status to true
+        /// <br/><br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if the user's logged in status is already true
+        /// </summary>
+        /// <param name="email"></param>
+        /// <exception cref="ArgumentException"></exception>
+        public void SetLoggedIn(string email) 
+        {
+            if(UserLoggedInStatus(email) == false)
+                loggedIn.Add(email);
+            else throw new ArgumentException("The user with the email " + email + " is already logged in");
+        }
+
+        /// <summary>
+        /// Sets a user's logged in status to false
+        /// <br/><br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if the user's logged in status is already false
+        /// </summary>
+        /// <param name="email"></param>
+        /// <exception cref="ArgumentException"></exception>
+        public void SetLoggedOut(string email)
+        {
+            if (UserLoggedInStatus(email) == true)
+                loggedIn.Remove(email);
+            else throw new ArgumentException("The user with the email " + email + " is not logged in");
         }
 
         /// <summary>
@@ -181,7 +224,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         found = true;
                         break;
                     }
-
                 }
                 if (! found)
                     throw new ArgumentException("A board titled " +
