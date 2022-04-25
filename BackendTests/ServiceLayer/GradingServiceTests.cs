@@ -11,7 +11,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
     [TestClass()]
     public class GradingServiceTests
     {
-        UserService service = new UserService();
+        GradingService service = new GradingService();
 
         [TestMethod()]
         //Registration success
@@ -61,7 +61,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
             string expected = JsonController.ConvertToJson(new Response("{}"));
-            string result = service.LogIn("printz@post.bgu.il", "Hadas12345");
+            string result = service.Login("printz@post.bgu.il", "Hadas12345");
             Assert.AreEqual(expected, result);
         }
         //incorrect password
@@ -70,7 +70,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
             string expected = JsonController.ConvertToJson(new Response("Incorrect Password"));
-            string result = service.LogIn("printz@post.bgu.il", "Hadas6789");
+            string result = service.Login("printz@post.bgu.il", "Hadas6789");
             Assert.AreEqual(expected, result);
         }
         //user doesn't exist
@@ -78,7 +78,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void LogInTest2()
         {
             string expected = JsonController.ConvertToJson(new Response("There is no such user in the system"));
-            string result = service.LogIn("printz@post.bgu.il", "Hadas12345");
+            string result = service.Login("printz@post.bgu.il", "Hadas12345");
             Assert.AreEqual(expected, result);
         }
         //user allready loggedIn
@@ -86,9 +86,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void LogInTest3()
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
-            service.LogIn("printz@post.bgu.il", "Hadas12345");
+            service.Login("printz@post.bgu.il", "Hadas12345");
             string expected = JsonController.ConvertToJson(new Response("User is already logged in"));
-            string result = service.LogIn("printz@post.bgu.il", "Hadas12345");
+            string result = service.Login("printz@post.bgu.il", "Hadas12345");
             Assert.AreEqual(expected, result);
         }
         //null email
@@ -97,7 +97,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
             string expected = JsonController.ConvertToJson(new Response("Email is null"));
-            string result = service.LogIn(null, "Hadas12345");
+            string result = service.Login(null, "Hadas12345");
             Assert.AreEqual(expected, result);
         }
         //null password
@@ -106,7 +106,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
             string expected = JsonController.ConvertToJson(new Response("Password is null"));
-            string result = service.LogIn("printz@post.bgu.il", null);
+            string result = service.Login("printz@post.bgu.il", null);
             Assert.AreEqual(expected, result);
         }
 
@@ -116,9 +116,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void LogOutTest()
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
-            service.LogIn("printz@post.bgu.il", "Hadas12345");
+            service.Login("printz@post.bgu.il", "Hadas12345");
             string expected = JsonController.ConvertToJson(new Response("{}"));
-            string result = service.LogOut("printz@post.bgu.il");
+            string result = service.Logout("printz@post.bgu.il");
             Assert.AreEqual(expected, result);
 
         }
@@ -128,7 +128,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
             string expected = JsonController.ConvertToJson(new Response("User isn't loggedIn"));
-            string result = service.LogOut("printz@post.bgu.il");
+            string result = service.Logout("printz@post.bgu.il");
             Assert.AreEqual(expected, result);
 
         }
@@ -137,7 +137,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void LogOutTest2()
         {
             string expected = JsonController.ConvertToJson(new Response("User is null"));
-            string result = service.LogOut(null);
+            string result = service.Logout(null);
             Assert.AreEqual(expected, result);
 
         }
@@ -196,16 +196,101 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.Fail();
         }
 
+        //create successful
         [TestMethod()]
         public void AddBoardTest()
         {
-            Assert.Fail();
+            string expected = JsonController.ConvertToJson(new Response("{}"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            Assert.AreEqual(expected, result);
         }
 
+        //user doesn't exist
+        [TestMethod()]
+        public void AddBoardTest1()
+        {
+            string expected = JsonController.ConvertToJson(new Response("user doesn't exist!"));
+            string result = service.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            Assert.AreEqual(expected, result);
+        }
+
+        //user doesn't login
+        [TestMethod()]
+        public void AddBoardTest2()
+        {
+            string expected = JsonController.ConvertToJson(new Response(false, "user doesn't login!"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            Assert.AreEqual(expected, result);
+        }
+
+        //board already existed
+        [TestMethod()]
+        public void AddBoardTest3()
+        {
+            string expected = JsonController.ConvertToJson(new Response("board already existed!"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = service.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            Assert.AreEqual(expected, result);
+        }
+
+        //Delete successful
         [TestMethod()]
         public void RemoveBoardTest()
         {
-            Assert.Fail();
+            string expected = JsonController.ConvertToJson(new Response("{}"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = service.RemoveBoard("kfirniss@post.bgu.ac.il", "new board");
+            Assert.AreEqual(expected, result);
+        }
+
+        //user doesn't exist 
+        [TestMethod()]
+        public void RemoveBoardTest1()
+        {
+            string expected = JsonController.ConvertToJson(new Response("user doesn't exist!"));
+            string result = service.RemoveBoard("kfirniss@post.bgu.ac.il", "new board");
+            Assert.AreEqual(expected, result);
+        }
+
+        //user doesn't login
+        [TestMethod()]
+        public void RemoveBoardTest2()
+        {
+            string expected = JsonController.ConvertToJson(new Response("user doesn't login!"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = service.RemoveBoard("kfirniss@post.bgu.ac.il", "new board");
+            Assert.AreEqual(expected, result);
+        }
+
+        //user has no boards to delete
+        [TestMethod()]
+        public void RemoveBoardTest3()
+        {
+            string expected = JsonController.ConvertToJson(new Response("user has no boards to delete!"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.RemoveBoard("kfirniss@post.bgu.ac.il", "new board");
+            Assert.AreEqual(expected, result);
+        }
+
+        //board doesn't exist
+        [TestMethod()]
+        public void RemoveBoardTest4()
+        {
+            string expected = JsonController.ConvertToJson(new Response("board doesn't exist!"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = service.RemoveBoard("kfirniss@post.bgu.ac.il", "other board");
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod()]
