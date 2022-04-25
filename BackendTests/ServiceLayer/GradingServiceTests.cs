@@ -160,10 +160,59 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.Fail();
         }
 
+        //successful
         [TestMethod()]
         public void AddTaskTest()
         {
-            Assert.Fail();
+            string expected = JsonController.ConvertToJson(new Response("{}"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = service.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
+            Assert.AreEqual(expected, result);
+        }
+
+        //user doesn't exist
+        [TestMethod()]
+        public void AddTaskTest1()
+        {
+            string expected = JsonController.ConvertToJson(new Response("user doesn't exist"));
+            string result = service.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
+            Assert.AreEqual(expected, result);
+        }
+
+        //user doesn't login
+        [TestMethod()]
+        public void AddTaskTest2()
+        {
+            string expected = JsonController.ConvertToJson(new Response("user doesn't login"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
+            Assert.AreEqual(expected, result);
+        }
+
+        //board isn't exist
+        [TestMethod()]
+        public void AddTaskTest3()
+        {
+            string expected = JsonController.ConvertToJson(new Response("board isn't exist"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
+            Assert.AreEqual(expected, result);
+        }
+
+        //task is already exist
+        [TestMethod()]
+        public void AddTaskTest4()
+        {
+            string expected = JsonController.ConvertToJson(new Response("task is already exist"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = service.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
+            result = service.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "ni ni ni", new DateTime());
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod()]
