@@ -5,9 +5,9 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>IntroSE.Kanban.Backend_testing</AssemblyName>
-    <RootNamespace>IntroSE.Kanban.Backend_testing</RootNamespace>
-    <StartupObject>IntroSE.Kanban.Backend_testing.Program</StartupObject>
+    <AssemblyName>IntroSE.Kanban.selfTesting</AssemblyName>
+    <RootNamespace>IntroSE.Kanban.selfTesting</RootNamespace>
+    <StartupObject>IntroSE.Kanban.selfTesting.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

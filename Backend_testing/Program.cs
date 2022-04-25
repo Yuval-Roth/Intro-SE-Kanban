@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-namespace IntroSE.Kanban.Backend_testing
+namespace IntroSE.Kanban.selfTesting
 {
     public class Program
     {
