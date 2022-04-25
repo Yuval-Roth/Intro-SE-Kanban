@@ -19,7 +19,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <list type="bullet">SearchUser()</list>
     /// <list type="bullet">AddUser()</list>
     /// <list type="bullet">RemoveUser()</list>
-    /// <list type="bullet">UserLogInStatus()</list>
+    /// <list type="bullet">ContainsUser()</list>
+    /// <list type="bullet">UserLoggedInStatus()</list>
     /// <list type="bullet">SetLoggedIn()</list>
     /// <list type="bullet">SetLoggedOut()</list>
     /// <list type="bullet">GetAllBoards()</list>
@@ -32,7 +33,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <br/>
     /// ===================
     /// </summary>
-    internal class UserData
+    public class UserData
     {
         private class DataUnit
         {
@@ -69,6 +70,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
         /// <summary>
         /// Adds a user to the system
+        /// <br/><br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if a user with this email<br/>
+        /// already exists in the system
         /// </summary>
         /// <param name="email"></param>
         /// <exception cref="ArgumentException"></exception>
@@ -144,6 +148,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             if (UserLoggedInStatus(email) == true)
                 loggedIn.Remove(email);
             else throw new ArgumentException("The user with the email " + email + " is not logged in");
+        }
+
+        public bool ContainsUser(string email)
+        {
+            return tree.Contains(email);
         }
 
         /// <summary>
