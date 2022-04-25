@@ -142,10 +142,72 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         }
 
+        //successful
         [TestMethod()]
         public void LimitColumnTest()
         {
-            Assert.Fail();
+            string expected = JsonController.ConvertToJson(new Response("{}"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = service.LimitColumn("kfirniss@post.bgu.ac.il", "new board", 0, 1);
+            Assert.AreEqual(expected, result);
+        }
+
+        //user isn't exist
+        [TestMethod()]
+        public void LimitColumnTest1()
+        {
+            string expected = JsonController.ConvertToJson(new Response("user isn't exist"));
+            string result = service.LimitColumn("kfirniss@post.bgu.ac.il", "new board", 0, 1);
+            Assert.AreEqual(expected, result);
+        }
+
+        //user doesn't login
+        [TestMethod()]
+        public void LimitColumnTest2()
+        {
+            string expected = JsonController.ConvertToJson(new Response("{}"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.LimitColumn("kfirniss@post.bgu.ac.il", "new board", 0, 1);
+            Assert.AreEqual(expected, result);
+        }
+
+        //borard isn't exist
+        [TestMethod()]
+        public void LimitColumnTest3()
+        {
+            string expected = JsonController.ConvertToJson(new Response("{}"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.LimitColumn("kfirniss@post.bgu.ac.il", "new board", 0, 1);
+            Assert.AreEqual(expected, result);
+        }
+
+        //column isn't exist
+        [TestMethod()]
+        public void LimitColumnTest4()
+        {
+            string expected = JsonController.ConvertToJson(new Response("{}"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = service.LimitColumn("kfirniss@post.bgu.ac.il", "new board", 5, 1);
+            Assert.AreEqual(expected, result);
+        }
+
+        //column has more tasks than the limit
+        [TestMethod()]
+        public void LimitColumnTest5()
+        {
+            string expected = JsonController.ConvertToJson(new Response("column has more tasks than the limit"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = service.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
+            result = service.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 2", "ni ni ni", new DateTime());
+            result = service.LimitColumn("kfirniss@post.bgu.ac.il", "new board", 0, 1);
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod()]
