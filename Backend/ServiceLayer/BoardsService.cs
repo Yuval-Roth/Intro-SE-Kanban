@@ -10,6 +10,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     public class BoardsService
     {
 
+        private BusinessLayer.BoardController boardController;
+
+        public BoardsService()
+        {
+            boardController = new BusinessLayer.BoardController();
+        }
+
         //==================================================
         //                  BoardController
         //==================================================
@@ -33,6 +40,21 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         public string SearchBoard(string email, string title)
         {   
             return "";
+        }
+
+
+
+        public string AddBoard(string email, string name)
+        {
+            throw new NotImplementedException();
+        }
+        public string RemoveBoard(string email, string name)
+        {
+            throw new NotImplementedException();
+        }
+        public string InProgressTasks(string email)
+        {
+            throw new NotImplementedException();
         }
 
         //==================================================
@@ -59,6 +81,36 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             return "";
         }
+
+
+
+        public string LimitColumn(string email, string boardName, int columnOrdinal, int limit)
+        {
+            return "";
+        }
+        public string GetColumnLimit(string email, string boardName, int columnOrdinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetColumnName(string email, string boardName, int columnOrdinal)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string AddTask(string email, string boardName, string title, string description, DateTime dueDate)
+        {
+            throw new NotImplementedException();
+        }
+        public string AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
+        {
+            throw new NotImplementedException();
+        }
+        public string GetColumn(string email, string boardName, int columnOrdinal)
+        {
+            throw new NotImplementedException();
+        }
+
 
         //==================================================
         //                    Task
@@ -87,6 +139,20 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         public string GetTaskState(string email, string boardTitle, string taskTitle)
         {
             return "";
-        }        
+        }
+
+
+        public string UpdateTaskDueDate(string email, string boardName, int columnOrdinal, int taskId, DateTime dueDate)
+        {
+            throw new NotImplementedException();
+        }
+        public string UpdateTaskTitle(string email, string boardName, int columnOrdinal, int taskId, string title)
+        {
+            throw new NotImplementedException();
+        }
+        public string UpdateTaskDescription(string email, string boardName, int columnOrdinal, int taskId, string description)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
