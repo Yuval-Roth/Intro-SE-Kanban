@@ -6,16 +6,13 @@ namespace IntroSE.Kanban.selfTesting
 
         //============== READ ME ==================
 
-        // kfir and hadas, you might need to exclude from project class files that are causing compilation error
-        // in order to run testing here.
-
-        // ask yuval how to do it and how to re-include them after you're done
+        // This is an executable project to test code during development 
 
         //============== READ ME ================== 
 
         public static void Main(string[] args)
         {
-            BinaryTreeTesting();
+            //BinaryTreeTesting();
             //BoardTreeTesting();
             //datetesting();
             //UserControllerTesting();
@@ -27,15 +24,15 @@ namespace IntroSE.Kanban.selfTesting
         }
         public static void BinaryTreeTesting()
         {
-            Backend.BusinessLayer.BinaryTree<int,int> tree1 = new();
-            tree1.Add(7,1);
-            tree1.Add(9,2);
-            tree1.Add(2,3);
-            tree1.Add(3,4);
-            tree1.Add(1,5);
-            tree1.Add(-5,6);
+            //Backend.BusinessLayer.BinaryTree<int,int> tree1 = new();
+            //tree1.Add(7,1);
+            //tree1.Add(9,2);
+            //tree1.Add(2,3);
+            //tree1.Add(3,4);
+            //tree1.Add(1,5);
+            //tree1.Add(-5,6);
 
-            Console.WriteLine(tree1.GetData(7));
+            //Console.WriteLine(tree1.GetData(7));
 
         }
         public static void BoardTreeTesting() 
