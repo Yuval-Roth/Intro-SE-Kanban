@@ -48,13 +48,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     /// </summary>
     public class GradingService
     {
-        ServiceLayer.UserService userserviceLayer;
-        ServiceLayer.BoardsService boardsserviceLayer;
-
+        private BusinessLayer.UserData userData;
+        private UserService userServiceLayer;
+        private BoardsService boardServiceLayer;
+        
         public GradingService()
         {
-            userserviceLayer = new UserService();
-            boardsserviceLayer = new BoardsService();
+            userData = new();
+            userServiceLayer = new UserService(userData);
+            boardServiceLayer = new BoardsService(userData);
         }
 
 
@@ -66,7 +68,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string Register(string email, string password)
         {
-            return userserviceLayer.Register(email, password);
+            return userServiceLayer.Register(email, password);
         }
 
 
@@ -78,7 +80,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>Response with user email, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string Login(string email, string password)
         {
-            return userserviceLayer.LogIn(email, password);
+            return userServiceLayer.LogIn(email, password);
         }
 
 
@@ -89,7 +91,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string Logout(string email)
         {
-            return userserviceLayer.LogOut(email);
+            return userServiceLayer.LogOut(email);
         }
 
         /// <summary>
@@ -102,7 +104,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string LimitColumn(string email, string boardName, int columnOrdinal, int limit)
         {
-            return boardsserviceLayer.LimitColumn(email,boardName,columnOrdinal,limit);
+            return boardServiceLayer.LimitColumn(email,boardName,columnOrdinal,limit);
         }
 
         /// <summary>
@@ -114,7 +116,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>Response with column limit value, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string GetColumnLimit(string email, string boardName, int columnOrdinal)
         {
-            return boardsserviceLayer.GetColumnLimit(email,boardName,columnOrdinal);
+            return boardServiceLayer.GetColumnLimit(email,boardName,columnOrdinal);
         }
 
 
@@ -127,7 +129,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>Response with column name value, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string GetColumnName(string email, string boardName, int columnOrdinal)
         {
-            return boardsserviceLayer.GetColumnName(email, boardName, columnOrdinal);
+            return boardServiceLayer.GetColumnName(email, boardName, columnOrdinal);
         }
 
 
@@ -142,7 +144,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>Response with user-email, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string AddTask(string email, string boardName, string title, string description, DateTime dueDate)
         {
-            return boardsserviceLayer.AddTask(email, boardName, title, description, dueDate);
+            return boardServiceLayer.AddTask(email, boardName, title, description, dueDate);
         }
 
 
@@ -157,7 +159,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string UpdateTaskDueDate(string email, string boardName, int columnOrdinal, int taskId, DateTime dueDate)
         {
-            return boardsserviceLayer.UpdateTaskDueDate(email, boardName, columnOrdinal, taskId, dueDate);
+            return boardServiceLayer.UpdateTaskDueDate(email, boardName, columnOrdinal, taskId, dueDate);
         }
 
 
@@ -172,7 +174,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string UpdateTaskTitle(string email, string boardName, int columnOrdinal, int taskId, string title)
         {
-            return boardsserviceLayer.UpdateTaskTitle(email, boardName, columnOrdinal, taskId, title);
+            return boardServiceLayer.UpdateTaskTitle(email, boardName, columnOrdinal, taskId, title);
         }
 
 
@@ -187,7 +189,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string UpdateTaskDescription(string email, string boardName, int columnOrdinal, int taskId, string description)
         {
-            return boardsserviceLayer.UpdateTaskDescription(email, boardName, columnOrdinal, taskId, description);
+            return boardServiceLayer.UpdateTaskDescription(email, boardName, columnOrdinal, taskId, description);
         }
 
 
@@ -201,7 +203,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
         {
-            return boardsserviceLayer.AdvanceTask(email, boardName, columnOrdinal, taskId);
+            return boardServiceLayer.AdvanceTask(email, boardName, columnOrdinal, taskId);
         }
 
 
@@ -214,7 +216,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>Response with  a list of the column's tasks, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string GetColumn(string email, string boardName, int columnOrdinal)
         {
-            return boardsserviceLayer.GetColumn(email, boardName, columnOrdinal);
+            return boardServiceLayer.GetColumn(email, boardName, columnOrdinal);
         }
 
 
@@ -226,7 +228,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string AddBoard(string email, string name)
         {
-            return boardsserviceLayer.AddBoard(email, name);
+            return boardServiceLayer.AddBoard(email, name);
         }
 
 
@@ -238,7 +240,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string RemoveBoard(string email, string name)
         {
-            return boardsserviceLayer.RemoveBoard(email, name);
+            return boardServiceLayer.RemoveBoard(email, name);
         }
 
 
@@ -249,7 +251,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>Response with  a list of the in progress tasks, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string InProgressTasks(string email)
         {
-            return boardsserviceLayer.InProgressTasks(email);
+            return boardServiceLayer.InProgressTasks(email);
         }
     }
 }

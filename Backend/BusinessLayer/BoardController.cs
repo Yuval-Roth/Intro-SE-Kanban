@@ -16,8 +16,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public LinkedList<Board> GetBoards (User user) { return null; }
         public Board SearchBoard(User user, string title) { return null; }
 
-        public BoardController() {
+        public BoardController(UserData userData) {
             Boards = new UserData();
+            userData = new();
         }
 
     }
