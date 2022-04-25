@@ -5,11 +5,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 {
     public class BoardService
     {
-        BusinessLayer.Board board;
 
-        public BoardService(BusinessLayer.Board board)
+        public BoardService()
         {
-            this.board = board;
+           
         }
         public string GetTitle()
         {
@@ -34,6 +33,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         public string AdvanceTask(string title)
         {
             return "";
+        }
+        public string LimitColumn(string email, string boardName, int columnOrdinal, int limit)
+        {
+            throw new NotImplementedException();
         }
     }
 }
