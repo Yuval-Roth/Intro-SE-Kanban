@@ -43,6 +43,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             tree = new BinaryTree<string, DataUnit>();
         }
 
+        /// <summary>
+        /// Searches for a user with the specified email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns>User</returns>
+        /// <exception cref="NoSuchElementException"></exception>
         public User SearchUser(string email)
         {
             try
@@ -56,6 +62,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             
         }
+
+        /// <summary>
+        /// Adds a user to the system
+        /// </summary>
+        /// <param name="email"></param>
+        /// <exception cref="NoSuchElementException"></exception>
         public void AddUser(string email)
         {
             try
