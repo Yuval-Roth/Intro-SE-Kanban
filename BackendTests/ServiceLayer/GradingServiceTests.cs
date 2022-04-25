@@ -278,11 +278,58 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
         }
 
-
+        //successful
         [TestMethod()]
         public void GetColumnNameTest()
         {
-            Assert.Fail();
+            string expected = JsonController.ConvertToJson(new Response(new Object()));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = service.GetColumnName("kfirniss@post.bgu.ac.il", "new board", 0);
+            Assert.AreEqual(expected, result);
+        }
+
+        //user isn't exist
+        [TestMethod()]
+        public void GetColumnNameTest1()
+        {
+            string expected = JsonController.ConvertToJson(new Response("user isn't exist"));
+            string result = service.GetColumnName("kfirniss@post.bgu.ac.il", "new board", 0);
+            Assert.AreEqual(expected, result);
+        }
+
+        //user doesn't login
+        [TestMethod()]
+        public void GetColumNameTest2()
+        {
+            string expected = JsonController.ConvertToJson(new Response("user doesn't login"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.GetColumnName("kfirniss@post.bgu.ac.il", "new board", 0);
+            Assert.AreEqual(expected, result);
+        }
+
+        //board isn't exist
+        [TestMethod()]
+        public void GetColumnNameTest3()
+        {
+            string expected = JsonController.ConvertToJson(new Response("board isn't exist"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.GetColumnName("kfirniss@post.bgu.ac.il", "new board", 0);
+            Assert.AreEqual(expected, result);
+        }
+
+        //column isn't exist
+        [TestMethod()]
+        public void GetColumnNameTest4()
+        {
+            string expected = JsonController.ConvertToJson(new Response("column isn't exist"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = service.GetColumnName("kfirniss@post.bgu.ac.il", "new board", 7);
+            Assert.AreEqual(expected, result);
         }
 
         //successful
