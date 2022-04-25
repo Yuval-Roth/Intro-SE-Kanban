@@ -5,9 +5,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 	{
 		BusinessLayer.UserController userController;
 
-		public UserService()
+		public UserService(BusinessLayer.UserData userData)
 		{
-			userController = new BusinessLayer.UserController();
+			userController = new BusinessLayer.UserController(userData);
 		}
 		public string Register(string email, string password)
 		{

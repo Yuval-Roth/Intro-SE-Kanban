@@ -9,7 +9,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     public class BoardController
     {
       
-        public BoardTree Boards  { get; set; }
+        public UserData Boards  { get; set; }
         public void CreateBoard(User user, string title) { }
         public void DeleteBoard(User user, string title) { }
         public LinkedList<Task> GetAllTasksByState(User user, Enum state) { return null; }
@@ -17,7 +17,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public Board SearchBoard(User user, string title) { return null; }
 
         public BoardController() {
-            Boards = new BoardTree();
+            Boards = new UserData();
         }
 
     }
