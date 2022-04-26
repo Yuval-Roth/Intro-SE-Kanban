@@ -401,10 +401,75 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
         }
 
+
+        //successful
         [TestMethod()]
         public void UpdateTaskDueDateTest()
         {
-            Assert.Fail();
+            string expected = JsonController.ConvertToJson(new Response("{}"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = service.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
+            result = service.UpdateTaskDueDate("kfirniss@post.bgu.ac.il", "new board", 0, 1, new DateTime());
+            Assert.AreEqual(expected, result);
+        }
+
+        //user isn't exist
+        [TestMethod()]
+        public void UpdateTaskDueDateTest1()
+        {
+            string expected = JsonController.ConvertToJson(new Response("user isn't exist"));
+            string result = service.UpdateTaskDueDate("kfirniss@post.bgu.ac.il", "new board", 0, 1, new DateTime());
+            Assert.AreEqual(expected, result);
+        }
+
+        //user doesn't login
+        [TestMethod()]
+        public void UpdateTaskDueDateTest2()
+        {
+            string expected = JsonController.ConvertToJson(new Response("user doesn't login"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.UpdateTaskDueDate("kfirniss@post.bgu.ac.il", "new board", 0, 1, new DateTime());
+            Assert.AreEqual(expected, result);
+        }
+
+        //board isn't exist
+        [TestMethod()]
+        public void UpdateTaskDueDateTest3()
+        {
+            string expected = JsonController.ConvertToJson(new Response("board isn't exist"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.UpdateTaskDueDate("kfirniss@post.bgu.ac.il", "new board", 0, 1, new DateTime());
+            Assert.AreEqual(expected, result);
+        }
+
+        //column isn't exist
+        [TestMethod()]
+        public void UpdateTaskDueDateTest4()
+        {
+            string expected = JsonController.ConvertToJson(new Response("column isn't exist"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = service.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
+            result = service.UpdateTaskDueDate("kfirniss@post.bgu.ac.il", "new board", 5, 1, new DateTime());
+            Assert.AreEqual(expected, result);
+        }
+
+        //task isn't exist
+        [TestMethod()]
+        public void UpdateTaskDueDateTest5()
+        {
+            string expected = JsonController.ConvertToJson(new Response("task isn't exist"));
+            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = service.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = service.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
+            result = service.UpdateTaskDueDate("kfirniss@post.bgu.ac.il", "new board", 0, 5, new DateTime());
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod()]
