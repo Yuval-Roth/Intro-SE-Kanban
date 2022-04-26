@@ -30,15 +30,33 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             boardController = new(userData);
         }
 
+        /// <summary>
+        /// This method adds a board to the specific user.
+        /// </summary>
+        /// <param name="email">Email of the user. Must be logged in</param>
+        /// <param name="name">The name of the new board</param>
+        /// <returns>The string "{}", unless an error occurs (see <see cref="BoardControllerService"/>)</returns>
         public string AddBoard(string email, string name)
         {
             return "";
         }
+
+        /// <summary>
+        /// This method removes a board to the specific user.
+        /// </summary>
+        /// <param name="email">Email of the user. Must be logged in</param>
+        /// <param name="name">The name of the board</param>
+        /// <returns>The string "{}", unless an error occurs (see <see cref="BoardControllerService"/>)</returns>
         public string RemoveBoard(string email, string name)
         {
             return "";
         }
 
+        /// <summary>
+        /// This method returns all the tasks of the user by specific state.
+        /// </summary>
+        /// <param name="email">Email of the user. Must be logged in</param>
+        /// <returns>Response with a list of tasks by specific state, unless an error occurs (see <see cref="BoardControllerService"/>)</returns>
         public string GetAllTasksByState(string email, int columnOrdinal)
         {
             return "";
