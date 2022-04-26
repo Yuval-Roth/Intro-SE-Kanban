@@ -16,9 +16,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             boardController = new BusinessLayer.BoardController(userData);
         }
 
-        //==================================================
-        //                  BoardController
-        //==================================================
+        ////==================================================
+        ////                  BoardController
+        ////==================================================
 
         //public string CreateBoard(string email, string title)
         //{
@@ -54,9 +54,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         //    throw new NotImplementedException();
         //}
 
-        //==================================================
-        //                    Board
-        //==================================================
+        ////==================================================
+        ////                    Board
+        ////==================================================
 
         //public string GetTask(string email, string boardTitle, string taskTitle)
         //{
@@ -109,18 +109,18 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         //}
 
 
-        //==================================================
-        //                    Task
-        //==================================================
+        ////==================================================
+        ////                    Task
+        ////==================================================
 
-        public string SetTaskTitle(string email, string boardTitle, string taskTitle, string newTitle)
-        {
-            return "";
-        }
-        public string GetTaskDuedate(string email, string boardTitle, string taskTitle)
-        {
-            return "";
-        }
+        //public string SetTaskTitle(string email, string boardTitle, string taskTitle, string newTitle)
+        //{
+        //    return "";
+        //}
+        //public string GetTaskDuedate(string email, string boardTitle, string taskTitle)
+        //{
+        //    return "";
+        //}
         //public string SetTaskDueDate(string email, string boardTitle, string taskTitle, string newDate)
         //{
         //    return "";

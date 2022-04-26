@@ -12,14 +12,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             return "";
         }
-        public string GetTaskState(string email, string boardTitle, int columnOrdinal, int taskId)
-        {
-            return "";
-        }
-        public string UpdateTaskDueDate(string email, string boardTitle, int columnOrdinal, int taskId, DateTime dueDate)
-        {
-            return "";
-        }
         public string UpdateTaskTitle(string email, string boardTitle, int columnOrdinal, int taskId, string title)
         {
             return "";
@@ -28,6 +20,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             return "";
         }
+        //public string GetTaskState(string email, string boardTitle, int columnOrdinal, int taskId)
+        //{
+        //    return "";
+        //}
     }
     
 }

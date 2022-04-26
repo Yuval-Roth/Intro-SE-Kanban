@@ -8,14 +8,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 {
     public class BoardControllerService
     {
+        public string CreateBoard(string email, string title)
+        {
+            return "";
+        }
+        public string DeleteBoard(string email, string title)
+        {
+            return "";
+        }
     }
 
-    public string CreateBoard(string email, string title)
-    {
-        return "";
-    }
-    public string DeleteBoard(string email, string title)
-    {
-        return "";
-    }
+    
 }
