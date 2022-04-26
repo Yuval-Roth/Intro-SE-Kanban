@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
     [Serializable]
     public sealed class Response
     {
+        #nullable enable
         [JsonInclude]
         public readonly string? ErrorMessage;
 

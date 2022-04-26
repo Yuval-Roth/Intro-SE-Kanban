@@ -12,10 +12,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         private UserData userData;
         private BusinessLayer.BoardController boardController;
 
-        public BoardsService(UserData userData)
+        public BoardsService(BusinessLayer.UserData userData)
         {
-            this.userData = userData;
-            boardController = new BusinessLayer.BoardController();
+            boardController = new BusinessLayer.BoardController(userData);
         }
 
         //==================================================

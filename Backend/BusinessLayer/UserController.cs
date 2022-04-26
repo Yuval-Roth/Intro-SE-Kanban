@@ -29,8 +29,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// </summary>
     public class UserController
     {
-        private BinaryTree<User> userList;
-        private readonly Dictionary<string, User> loggedIn;
+        private UserData userData;
         private static readonly int MIN_PASS_LENGTH = 6;
         private static readonly int MAX_PASS_LENGTH = 20;
 
@@ -38,10 +37,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// Creates an empty <c>BinaryTree</c> userList <br/>
         /// Creates an empty <c>Dictionary</c> loggedIn
         /// </summary>
-        public UserController()
+        public UserController(UserData userData)
         {
-            userList = new BinaryTree<User>(); 
-            loggedIn = new Dictionary<string, User>(); 
+            this.userData = userData; 
         }
 
         /// <summary>
@@ -54,15 +52,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
 
-        public void Register(String email, String password)
+        public void Register(string email, string password)
         {
             if(email == null){ throw new ArgumentNullException ("Email is null"); }
             if(password == null){ throw new ArgumentNullException("Password is null"); }
             if (!IsLegalPassword(password)) { throw new ArgumentException("Password illegal"); }
-            User newUser = new User(email, password);
             try
             {
-                userList.Add(newUser);
+                userData.AddUser(email,password);
             }
             catch (ArgumentException)
             {
@@ -84,11 +81,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             if(user == null)  throw new ArgumentNullException("User is null");
             try
             {
-                userList.Remove(user);
+                userData.RemoveUser(user.GetEmail());
             }
             catch (NoSuchElementException)
             {
-                throw new NoSuchElementException("User doesn't exist");
+                throw;
             }
         }
 
@@ -105,20 +102,18 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         {
             if(password == null)  throw new ArgumentNullException ("Password is null"); 
             if(email == null) throw new ArgumentNullException ("Email is null"); 
-            User newUser=new User(email, password);
-            if (userList.Contains(newUser))
+            if (userData.ContainsUser(email))
             {
-                if (newUser.CheckPasswordMatch(password))
+                if (userData.SearchUser(email).CheckPasswordMatch(password))
                 {
                     try
                     {
-                        loggedIn.Add(email, newUser);
+                        userData.SetLoggedIn(email);
                     }
                     catch(ArgumentException)
                     {
-                        throw new ArgumentException("User is already logged in");
-                    }
-                    
+                        throw;
+                    }      
                 }
                 else
                 {
@@ -143,10 +138,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void LogOut(User user)
         {
             if (user == null)  throw new ArgumentNullException("User is null"); 
-            if (!loggedIn.ContainsValue(user))  throw new ArgumentException("User isn't loggedIn");
+            if (userData.UserLoggedInStatus(user.GetEmail()) == false)  throw new ArgumentException("User isn't loggedIn");
             try
             {
-                loggedIn.Remove(user.GetEmail());
+                userData.SetLoggedOut(user.GetEmail());
             }
             catch (ArgumentNullException)
             {
@@ -169,8 +164,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         {
             if(user == null)  throw new ArgumentNullException("User is null");
             if (old == null)  throw new ArgumentNullException("Old password is null"); 
-            if (newP == null)  throw new ArgumentNullException("New password is null"); 
-            if(!userList.Contains(user))  throw new ArgumentException("User is not in the system"); 
+            if (newP == null)  throw new ArgumentNullException("New password is null");
+            if (userData.ContainsUser(user.GetEmail()) == false)  throw new ArgumentException("User is not in the system"); 
             if (!IsLegalPassword(newP))  throw new ArgumentException("New password is illegal"); 
             if (user.CheckPasswordMatch(old))
             {
@@ -196,10 +191,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         {
             if (user == null) throw new ArgumentNullException("User is null");
             if (newE == null) throw new ArgumentNullException("New email is null"); 
-            if (!userList.Contains(user))  throw new ArgumentException("User dosen't exist"); 
-            User newUser = new User(newE, "");
-            if (userList.Contains(newUser))  throw new ArgumentException("A user with that email already exists in the system");
-            user.SetEmail(newE);
+            if (userData.ContainsUser(user.GetEmail()) == false)  throw new ArgumentException("User dosen't exist"); 
+            if (userData.ContainsUser(newE) == true)  throw new ArgumentException("A user with that email already exists in the system");
+                user.SetEmail(newE);
         }
 
         /// <summary>
@@ -216,14 +210,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public User SearchUser(string email)
         {
             if (email == null) { throw new ArgumentNullException("Email is null"); }
-            User newUser = new User(email, "");
             try
             {
-                return userList.Search(newUser).GetElement();
+                return userData.SearchUser(email);
             }
             catch (NoSuchElementException)
             {
-                throw new NoSuchElementException("User doesn't exist");
+                throw; ;
             }
         }
 
