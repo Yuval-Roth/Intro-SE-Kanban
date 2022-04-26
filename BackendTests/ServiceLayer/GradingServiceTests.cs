@@ -374,22 +374,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
         }
 
-        //task is already exist
-        [TestMethod()]
-        public void AddTaskTest4()
-        {
-            string expected = JsonController.ConvertToJson(new Response("task is already exist"));
-            string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = service.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-            result = service.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
-            result = service.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "ni ni ni", new DateTime());
-            Assert.AreEqual(expected, result);
-        }
-
         //column can't over the limit
         [TestMethod()]
-        public void AddTaskTest5()
+        public void AddTaskTest4()
         {
             string expected = JsonController.ConvertToJson(new Response("column can't over the limit"));
             string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");

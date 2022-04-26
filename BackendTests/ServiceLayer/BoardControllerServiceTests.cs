@@ -114,12 +114,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
         }
 
-        [TestMethod()]
-        public void GetAllTasksByStateTest()
-        {
-            Assert.Fail();
-        }
-
         //successful
         [TestMethod()]
         public void GetAllTasksByStateTest()
@@ -167,11 +161,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
         }
 
-        //user has no inprogress tasks
+        //user has no task on this state
         [TestMethod()]
         public void GetAllTasksByStateTest4()
         {
-            string expected = JsonController.ConvertToJson(new Response("user has no inprogress tasks"));
+            string expected = JsonController.ConvertToJson(new Response("user has no task on this state"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
