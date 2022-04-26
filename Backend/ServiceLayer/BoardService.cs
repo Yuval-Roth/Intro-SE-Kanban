@@ -8,7 +8,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 {
 
     /// <summary>
-	///This class implements UserService 
+	///This class implements BoardService 
 	///<br/>
 	///<code>Supported operations:</code>
 	///<br/>
@@ -54,9 +54,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// </summary>
         /// <param name="email">Email of the user. The user must be logged in.</param>
         /// <param name="boardTitle">The name of the board</param>
-        /// <param name="taskID">id of the task</param>
+        /// <param name="taskId">id of the task</param>
         /// <returns>The string "{}", unless an error occurs (see <see cref="BoardService"/>)</returns>
-        public string RemoveTask(string email, string boardTitle, int taskID)
+        public string RemoveTask(string email, string boardTitle, int taskId)
         {
             return "";
         }
