@@ -43,7 +43,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
         /// <summary>
-        /// Add new <c>User</c> to <c>BinaryTree</c> userList <br/> <br/>
+        /// Add new <c>User</c> to <c>UserData</c> userData <br/> <br/>
         /// <b>Throws</b> <c>ArgumentNullException</c> if email or password entered are null <br/>
         /// <b>Throws</b> <c>ArgumentException</c> if the user allready exists or if the password entered is illegal
         /// </summary>
@@ -69,9 +69,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
         /// <summary>
-        ///Delate <c>User</c> from the <c>BinaryTree</c> userList <br/> <br/>
+        ///Delate <c>User</c> from the <c>UserData</c> userData <br/> <br/>
         ///<b>Throws</b> <c>ArgumentNullException</c> if the user entered is null <br/>
-        ///<b>Throws</b> <c>NoSuchElementException</c> if the user doesn't exist in the userList
+        ///<b>Throws</b> <c>NoSuchElementException</c> if the user doesn't exist in the userData
         /// </summary>
         /// <param name="user"></param>
         /// <exception cref="NoSuchElementException"></exception>
