@@ -8,6 +8,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 {
     public class BoardControllerService
     {
+        private readonly BusinessLayer.BoardController boardController;
+
+        public BoardControllerService(BusinessLayer.UserData userData)
+        {
+            boardController = new(userData);
+        }
+
         public string CreateBoard(string email, string title)
         {
             return "";

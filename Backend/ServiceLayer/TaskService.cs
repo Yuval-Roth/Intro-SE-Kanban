@@ -8,6 +8,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 {
     public class TaskService
     {
+        private readonly BusinessLayer.BoardController boardController;
+
+        public TaskService(BusinessLayer.UserData userData)
+        {
+            boardController = new(userData);
+        }
+
         public string UpdateTaskDuedate(string email, string boardTitle,string columnOrdinal, string taskId)
         {
             return "";
@@ -20,10 +27,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             return "";
         }
-        //public string GetTaskState(string email, string boardTitle, int columnOrdinal, int taskId)
-        //{
-        //    return "";
-        //}
     }
     
 }

@@ -8,14 +8,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 {
     public class BoardService
     {
-        //public string GetAllBoards(string email)
-        //{
-        //    return "";
-        //}
-        //public string SearchBoard(string email, string title)
-        //{
-        //    return "";
-        //}
+        private readonly BusinessLayer.BoardController boardController;
+
+        public BoardService(BusinessLayer.UserData userData)
+        {
+            boardController = new(userData);
+        }
+
         public string AddTask(string email, string boardTitle, string dueDate, string description)
         {
             return "";
@@ -28,14 +27,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             return "";
         }
-        //public string GetTask(string email, string boardTitle, string taskId)
-        //{
-        //    return "";
-        //}
-        //public string GetAllTasksByType(string email, string boardTitle, string taskType)
-        //{
-        //    return "";
-        //}
         public string AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
         {
             return "";
