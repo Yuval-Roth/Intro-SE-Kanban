@@ -135,9 +135,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.CreateBoard(user, "new board");
             result = boardservice.CreateBoard(user, "another board");
-            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
-            result = boardservice.AddTask(user, anotherboard, "second task", duedate, "ni ni ni");
-            result = boardservice.GetAllTasksByState(user, state.backlog);
+            result = boardservice.AddTask(user, newboard, duedate, "bla bla");
+            result = boardservice.AddTask(user, anotherboard, duedate, "ni ni ni");
+            result = boardservice.GetAllTasksByState(user, state.backlog.ToString().ToString());
             Assert.AreEqual(expected, result);
         }
 
@@ -146,7 +146,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void GetAllTasksByStateTest1()
         {
             string expected = JsonController.ConvertToJson(new Response(false, "user doesn't exist!"));
-            string result = boardservice.GetAllTasksByState(user, state.backlog);
+            string result = boardservice.GetAllTasksByState(user, state.backlog.ToString().ToString());
             Assert.AreEqual(expected, result);
         }
 
@@ -159,10 +159,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.CreateBoard(user, "new board");
             result = boardservice.CreateBoard(user, "another board");
-            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
-            result = boardservice.AddTask(user, anotherboard, "second task", duedate, "ni ni ni");
+            result = boardservice.AddTask(user, newboard, duedate, "bla bla");
+            result = boardservice.AddTask(user, anotherboard, duedate, "ni ni ni");
             result = userservice.LogOut(user);
-            result = boardservice.GetAllTasksByState(user, state.backlog);
+            result = boardservice.GetAllTasksByState(user, state.backlog.ToString().ToString());
             Assert.AreEqual(expected, result);
         }
 
@@ -173,7 +173,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string expected = JsonController.ConvertToJson(new Response(false, "user has no boards!"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = boardservice.GetAllTasksByState(user, state.backlog);
+            result = boardservice.GetAllTasksByState(user, state.backlog.ToString().ToString());
             Assert.AreEqual(expected, result);
         }
 
@@ -186,9 +186,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.CreateBoard(user, "new board");
             result = boardservice.CreateBoard(user, "another board");
-            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
-            result = boardservice.AddTask(user, anotherboard, "second task", duedate, "ni ni ni");
-            result = boardservice.GetAllTasksByState(user, state.inprogress);
+            result = boardservice.AddTask(user, newboard, duedate, "bla bla");
+            result = boardservice.AddTask(user, anotherboard, duedate, "ni ni ni");
+            result = boardservice.GetAllTasksByState(user, state.inprogress.ToString().ToString());
             Assert.AreEqual(expected, result);
         }
 
@@ -296,7 +296,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.CreateBoard(user, "new board");
-            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            result = boardservice.AddTask(user, newboard, duedate, "bla bla");
             result = boardservice.GetTask(user, newboard, "first task");
             Assert.AreEqual(expected, result);
         }
@@ -318,7 +318,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.CreateBoard(user, "new board");
-            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            result = boardservice.AddTask(user, newboard, duedate, "bla bla");
             result = userservice.LogOut(user);
             result = boardservice.GetTask(user, newboard, "first task");
             Assert.AreEqual(expected, result);
@@ -344,7 +344,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.CreateBoard(user, "new board");
-            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            result = boardservice.AddTask(user, newboard,  duedate, "bla bla");
             result = boardservice.GetTask(user, newboard, "other task");
             Assert.AreEqual(expected, result);
         }
@@ -357,9 +357,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.CreateBoard(user, "new board");
-            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
-            result = boardservice.AddTask(user, newboard, "second task", duedate, "ni ni ni");
-            result = boardservice.GetAllTasksByType(user, newboard, state.backlog);
+            result = boardservice.AddTask(user, newboard,  duedate, "bla bla");
+            result = boardservice.AddTask(user, newboard,  duedate, "ni ni ni");
+            result = boardservice.GetAllTasksByType(user, newboard, state.backlog.ToString());
             Assert.AreEqual(expected, result);
         }
 
@@ -368,7 +368,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void GetAllTasksByTypeTest1()
         {
             string expected = JsonController.ConvertToJson(new Response(false, "user doesn't exist!"));
-            string result = boardservice.GetAllTasksByType(user, newboard, state.backlog);
+            string result = boardservice.GetAllTasksByType(user, newboard, state.backlog.ToString());
             Assert.AreEqual(expected, result);
         }
 
@@ -380,10 +380,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.CreateBoard(user, "new board");
-            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
-            result = boardservice.AddTask(user, newboard, "second task", duedate, "ni ni ni");
+            result = boardservice.AddTask(user, newboard,  duedate, "bla bla");
+            result = boardservice.AddTask(user, newboard,  duedate, "ni ni ni");
             result = userservice.LogOut(user);
-            result = boardservice.GetAllTasksByType(user, newboard, state.backlog);
+            result = boardservice.GetAllTasksByType(user, newboard, state.backlog.ToString());
             Assert.AreEqual(expected, result);
         }
 
@@ -394,7 +394,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string expected = JsonController.ConvertToJson(new Response(false, "user has no boards!"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = boardservice.GetAllTasksByType(user, newboard, state.backlog);
+            result = boardservice.GetAllTasksByType(user, newboard, state.backlog.ToString());
             Assert.AreEqual(expected, result);
         }
 
@@ -406,9 +406,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.CreateBoard(user, "new board");
-            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
-            result = boardservice.AddTask(user, newboard, "second task", duedate, "ni ni ni");
-            result = boardservice.GetAllTasksByType(user, newboard, state.inprogress);
+            result = boardservice.AddTask(user, newboard,  duedate, "bla bla");
+            result = boardservice.AddTask(user, newboard,  duedate, "ni ni ni");
+            result = boardservice.GetAllTasksByType(user, newboard, state.inprogress.ToString());
             Assert.AreEqual(expected, result);
         }
 
@@ -421,7 +421,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.CreateBoard(user, "new board");
-            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            result = boardservice.AddTask(user, newboard,  duedate, "bla bla");
             Assert.AreEqual(expected, result);
         }
 
@@ -430,7 +430,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void AddTaskTest1()
         {
             string expected = JsonController.ConvertToJson(new Response(false, "user doesn't exist!"));
-            string result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            string result = boardservice.AddTask(user, newboard,  duedate, "bla bla");
             Assert.AreEqual(expected, result);
         }
 
@@ -443,7 +443,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.CreateBoard(user, "new board");
             result = userservice.LogOut(user);
-            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            result = boardservice.AddTask(user, newboard,  duedate, "bla bla");
             Assert.AreEqual(expected, result);
         }
 
@@ -454,7 +454,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string expected = JsonController.ConvertToJson(new Response(false, "user has no boards!"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            result = boardservice.AddTask(user, newboard,  duedate, "bla bla");
             Assert.AreEqual(expected, result);
         }
 
@@ -466,7 +466,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.CreateBoard(user, "new board");
-            result = boardservice.AddTask(user, anotherboard, "first task", duedate, "bla bla");
+            result = boardservice.AddTask(user, anotherboard, duedate, "bla bla");
             Assert.AreEqual(expected, result);
         }
 
@@ -478,8 +478,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.CreateBoard(user, "new board");
-            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
-            result = boardservice.AddTask(user, newboard, "first task", duedate, "ni ni ni");
+            result = boardservice.AddTask(user, newboard,  duedate, "bla bla");
+            result = boardservice.AddTask(user, newboard, duedate, "ni ni ni");
             Assert.AreEqual(expected, result);
         }
 
@@ -491,7 +491,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.CreateBoard(user, "new board");
-            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            result = boardservice.AddTask(user, newboard,  duedate, "bla bla");
             result = boardservice.RemoveTask(user, newboard, "first task");
             Assert.AreEqual(expected, result);
         }
@@ -516,7 +516,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.CreateBoard(user, "new board");
-            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            result = boardservice.AddTask(user, newboard,  duedate, "bla bla");
             result = boardservice.RemoveTask(user, newboard, "second task");
             Assert.AreEqual(expected, result);
         }
@@ -529,7 +529,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.CreateBoard(user, "new board");
-            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            result = boardservice.AddTask(user, newboard,  duedate, "bla bla");
             result = boardservice.AdvanceTask(user, newboard, "first task");
             Assert.AreEqual(expected, result);
         }
@@ -542,7 +542,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.CreateBoard(user, "new board");
-            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            result = boardservice.AddTask(user, newboard,  duedate, "bla bla");
             result = boardservice.AdvanceTask(user, newboard, "first task");
             result = boardservice.AdvanceTask(user, newboard, "first task");
             Assert.AreEqual(expected, result);
@@ -556,7 +556,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.CreateBoard(user, "new board");
-            result = boardservice.AddTask(user, newboard, "first task", duedate, "bla bla");
+            result = boardservice.AddTask(user, newboard,  duedate, "bla bla");
             result = boardservice.AdvanceTask(user, newboard, "first task");
             result = boardservice.AdvanceTask(user, newboard, "first task");
             result = boardservice.AdvanceTask(user, newboard, "first task");
