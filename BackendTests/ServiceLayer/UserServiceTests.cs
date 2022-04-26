@@ -112,7 +112,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void LogInTest2()
         {
-            string expected = JsonController.ConvertToJson(new Response("There is no such user in the system"));
+            string expected = JsonController.ConvertToJson(new Response("A user with the email printz@post.bgu.il doesn't exist in the system"));
             string result = service.LogIn("printz@post.bgu.il", "Hadas12345");
             Assert.AreEqual(expected, result);
         }
@@ -122,7 +122,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
             service.LogIn("printz@post.bgu.il", "Hadas12345");
-            string expected = JsonController.ConvertToJson(new Response("User is already logged in"));
+            string expected = JsonController.ConvertToJson(new Response("The user with the email printz@post.bgu.il is already logged in"));
             string result = service.LogIn("printz@post.bgu.il", "Hadas12345");
             Assert.AreEqual(expected, result);
         }
