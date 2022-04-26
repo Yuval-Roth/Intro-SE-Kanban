@@ -417,7 +417,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         {
             string expected = JsonController.ConvertToJson(new Response("user doesn't login"));
             string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
             result = service.UpdateTaskDueDate("kfirniss@post.bgu.ac.il", "new board", 0, 1, new DateTime());
             Assert.AreEqual(expected, result);
         }
@@ -488,7 +487,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         {
             string expected = JsonController.ConvertToJson(new Response("user doesn't login"));
             string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
             result = service.UpdateTaskTitle("kfirniss@post.bgu.ac.il", "new board", 0, 1, "new task title name");
             Assert.AreEqual(expected, result);
         }
@@ -558,7 +556,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         {
             string expected = JsonController.ConvertToJson(new Response("user doesn't login"));
             string result = service.Register("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = service.Login("kfirniss@post.bgu.ac.il", "Ha12345");
             result = service.UpdateTaskDescription("kfirniss@post.bgu.ac.il", "new board", 0, 1, "new task description");
             Assert.AreEqual(expected, result);
         }
