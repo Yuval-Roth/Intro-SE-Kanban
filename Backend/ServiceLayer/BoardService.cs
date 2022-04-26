@@ -15,19 +15,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             boardController = new(userData);
         }
 
-        public string AddTask(string email, string boardTitle, string dueDate, string description)
+        public string AddTask(string email, string boardName, string title, string description, DateTime dueDate)
         {
             return "";
         }
         public string RemoveTask(string email, string boardTitle, string title)
-        {
-            return "";
-        }
-        public string GetAllTasksByState(string email, string state)
-        {
-            return "";
-        }
-        public string AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
         {
             return "";
         }

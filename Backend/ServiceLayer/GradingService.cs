@@ -50,13 +50,17 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     {
         private BusinessLayer.UserData userData;
         private UserService userServiceLayer;
-        private BoardsService boardServiceLayer;
-        
+        private BoardControllerService boardControllerServiceLayer;
+        private BoardService boardServiceLayer;
+        private TaskService taskServiceLayer;
+
         public GradingService()
         {
             userData = new();
             userServiceLayer = new UserService(userData);
-            boardServiceLayer = new BoardsService(userData);
+            boardControllerServiceLayer = new BoardControllerService(userData);
+            boardServiceLayer = new BoardService(userData);
+            taskServiceLayer = new TaskService(userData);
         }
 
 
@@ -159,7 +163,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string UpdateTaskDueDate(string email, string boardName, int columnOrdinal, int taskId, DateTime dueDate)
         {
-            return boardServiceLayer.UpdateTaskDueDate(email, boardName, columnOrdinal, taskId, dueDate);
+            return taskServiceLayer.UpdateTaskDueDate(email, boardName, columnOrdinal, taskId, dueDate);
         }
 
 
@@ -174,7 +178,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string UpdateTaskTitle(string email, string boardName, int columnOrdinal, int taskId, string title)
         {
-            return boardServiceLayer.UpdateTaskTitle(email, boardName, columnOrdinal, taskId, title);
+            return taskServiceLayer.UpdateTaskTitle(email, boardName, columnOrdinal, taskId, title);
         }
 
 
@@ -189,7 +193,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string UpdateTaskDescription(string email, string boardName, int columnOrdinal, int taskId, string description)
         {
-            return boardServiceLayer.UpdateTaskDescription(email, boardName, columnOrdinal, taskId, description);
+            return taskServiceLayer.UpdateTaskDescription(email, boardName, columnOrdinal, taskId, description);
         }
 
 
@@ -203,7 +207,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
         {
-            return boardServiceLayer.AdvanceTask(email, boardName, columnOrdinal, taskId);
+            return taskServiceLayer.AdvanceTask(email, boardName, columnOrdinal, taskId);
         }
 
 
@@ -228,7 +232,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string AddBoard(string email, string name)
         {
-            return boardServiceLayer.AddBoard(email, name);
+            return boardControllerServiceLayer.AddBoard(email, name);
         }
 
 
@@ -240,7 +244,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string RemoveBoard(string email, string name)
         {
-            return boardServiceLayer.RemoveBoard(email, name);
+            return boardControllerServiceLayer.RemoveBoard(email, name);
         }
 
 
@@ -251,7 +255,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>Response with  a list of the in progress tasks, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string InProgressTasks(string email)
         {
-            return boardServiceLayer.InProgressTasks(email);
+            return boardControllerServiceLayer.GetAllTasksByState(email,1);
         }
     }
 }
