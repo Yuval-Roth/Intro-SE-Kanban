@@ -8,13 +8,15 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 {
+
     [TestClass()]
+
     public class UserServiceTests
     {
         static BusinessLayer.UserData userData = new();
         UserService service = new UserService(userData);
-        
-        //successful registration
+
+
         [TestMethod()]
         public void RegisterTest1()
         {
