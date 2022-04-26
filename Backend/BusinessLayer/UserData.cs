@@ -38,7 +38,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private class DataUnit
         {
             public User User { get; set; }
-            public LinkedList<Board> boards { get; set; }
+            public LinkedList<Board> Boards { get; set; }
         }
         private BinaryTree<string, DataUnit> tree;
         private HashSet<string> loggedIn;
@@ -83,6 +83,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {   
                 DataUnit data = tree.Add(email, new DataUnit());
                 data.User = new User(email, password);
+                data.Boards = new LinkedList<Board>();
                 return data.User;
             }
             catch (ArgumentException) 
@@ -167,7 +168,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         {
             try
             {
-                return tree.GetData(email).boards;
+                return tree.GetData(email).Boards;
             }
             catch (NoSuchElementException)
             {
@@ -191,7 +192,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         {
             try
             {
-                LinkedList<Board> boardList = tree.GetData(email).boards;
+                LinkedList<Board> boardList = tree.GetData(email).Boards;
                 foreach (Board board in boardList) 
                 {
                     if (board.Title == title)
@@ -224,7 +225,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             try
             {
                 bool found = false;
-                LinkedList<Board> boardList = tree.GetData(email).boards;
+                LinkedList<Board> boardList = tree.GetData(email).Boards;
                 foreach (Board board in boardList)
                 {
                     if (board.Title == title) 

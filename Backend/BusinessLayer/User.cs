@@ -43,7 +43,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		/// <summary>
 		/// Replace the user's password with the new password entered
 		/// </summary>
-		/// <param name="old"></param>
 		/// <param name="newP"></param>
 		public void SetPassword(string newP)
 		{
