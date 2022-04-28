@@ -1,9 +1,12 @@
 ﻿using System.Text.Json;
+using log4net;
+
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace IntroSE.Kanban.selfTesting
 {
     public class Program
     {
-
+        
         //============== READ ME ==================
 
         // This is an executable project to test code during development 
@@ -18,6 +21,7 @@ namespace IntroSE.Kanban.selfTesting
             //UserControllerTesting();
             //JsonTesting();
             //PasswordHashingTesting();
+            logTesting();
 
 
 
@@ -96,6 +100,11 @@ namespace IntroSE.Kanban.selfTesting
             //Backend.BusinessLayer.User user = new("test","TestPassword12");
             //Console.WriteLine(user.CheckPasswordMatch("TestPassword12"));
         }
+        public static void logTesting()
+        {
+            log4net.ILog log = log4net.LogManager.GetLogger("file");
+            log.Error("Hello m8");
+    }
     }
 }
 
