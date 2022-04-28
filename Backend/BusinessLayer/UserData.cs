@@ -35,7 +35,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// </summary>
     public class UserData
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger("file");
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\UserData.cs");
 
         private class DataUnit
         {

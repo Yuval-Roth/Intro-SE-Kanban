@@ -1,17 +1,18 @@
 ﻿using System.Text.Json;
-using log4net;
 
-[assembly: log4net.Config.XmlConfigurator(Watch = true)]
+[assembly: log4net.Config.XmlConfigurator(ConfigFile ="log4net.config" ,Watch = true)]
 namespace IntroSE.Kanban.selfTesting
 {
     public class Program
     {
-        
+
         //============== READ ME ==================
 
         // This is an executable project to test code during development 
 
         //============== READ ME ================== 
+
+        private static log4net.ILog log = log4net.LogManager.GetLogger("selfTesting\\Program.cs");
 
         public static void Main(string[] args)
         {
@@ -102,9 +103,8 @@ namespace IntroSE.Kanban.selfTesting
         }
         public static void logTesting()
         {
-            log4net.ILog log = log4net.LogManager.GetLogger("file");
-            log.Error("Hello m8");
-    }
+            log.Debug("Hello m8");
+        }
     }
 }
 
