@@ -6,36 +6,24 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-
+#nullable enable
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
+
     [Serializable]
-    public sealed class Response
+    public sealed class Response<T>
     {
-        #nullable enable
         [JsonInclude]
-        public readonly string? ErrorMessage;
+        public readonly bool operationState;
 
         [JsonInclude]
-        public readonly object? ReturnValue;
-
-        public Response(string ErrorMessage)
-        {
-            this.ErrorMessage = ErrorMessage;
-            ReturnValue = null;
-        }
-
-        public Response(object ReturnValue)
-        {
-            this.ReturnValue = ReturnValue;
-            ErrorMessage = null;
-        }
+        public readonly T returnValue;
 
         [JsonConstructor]
-        public Response(object? ReturnValue, string? ErrorMessage)
+        public Response(bool operationState, T returnValue)
         {
-            this.ReturnValue = ReturnValue;
-            this.ErrorMessage = ErrorMessage;
+            this.operationState = operationState;
+            this.returnValue = returnValue;
         }
     }
     
