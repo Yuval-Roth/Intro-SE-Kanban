@@ -257,5 +257,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             return boardControllerServiceLayer.GetAllTasksByState(email,1);
         }
+
+        private class GradingResponse<T>
+        {
+            public readonly string 
+            GradingResponse(string response)
+            {
+                this.response = JsonController.Deserialize<Response<T>>(response);
+            }    
+            
+        }
     }
 }
