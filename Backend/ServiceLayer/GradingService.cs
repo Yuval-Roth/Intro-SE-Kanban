@@ -259,35 +259,27 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             return boardControllerServiceLayer.GetAllTasksByState(email,1);
         }
 
-
+        #nullable enable
         [Serializable]
-        private class GradingResponse<T>
+        private class GradingResponse<T> where T:struct
         {
-            #nullable enable
+            
             [JsonInclude]
-            public string? ErrorMessage;
+            public readonly string? ErrorMessage;
 
             [JsonInclude]
-            public object? ReturnValue;
+            public readonly T? ReturnValue;
 
-            private Response<T> response;
-
-            public GradingResponse(Response<T> response)
-            {
-                this.response = response;
-                build();
-            }
-
-            private void build()
+            public GradingResponse(Response<T?> response)
             {
                 if (response.operationState == true)
                 {
-                    this.ReturnValue = response.returnValue;
+                    ReturnValue = response.returnValue;
                     ErrorMessage = null;
                 }
                 else
                 {
-                    this.ReturnValue = null;
+                    ReturnValue = null;
                     ErrorMessage = response.returnValue.ToString();
                 }
             }
