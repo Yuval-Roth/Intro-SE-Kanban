@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
@@ -258,14 +259,38 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             return boardControllerServiceLayer.GetAllTasksByState(email,1);
         }
 
+
+        [Serializable]
         private class GradingResponse<T>
         {
-            public readonly string 
-            GradingResponse(string response)
+            #nullable enable
+            [JsonInclude]
+            public string? ErrorMessage;
+
+            [JsonInclude]
+            public object? ReturnValue;
+
+            private Response<T> response;
+
+            public GradingResponse(Response<T> response)
             {
-                this.response = JsonController.Deserialize<Response<T>>(response);
-            }    
-            
+                this.response = response;
+                build();
+            }
+
+            private void build()
+            {
+                if (response.operationState == true)
+                {
+                    this.ReturnValue = response.returnValue;
+                    ErrorMessage = null;
+                }
+                else
+                {
+                    this.ReturnValue = null;
+                    ErrorMessage = response.returnValue.ToString();
+                }
+            }
         }
     }
 }
