@@ -262,19 +262,16 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         #nullable enable
         [Serializable]
         public class GradingResponse<T>
-        {
-            
+        {   
             [JsonInclude]
             public readonly string? ErrorMessage;
 
             [JsonInclude]
             public readonly T? ReturnValue;
 
-            private Response<T> response;
-
-            public GradingResponse(Response<T> response)
+            public GradingResponse(string json)
             {
-                this.response = response;
+                Response<T> response = JsonController.Deserialize<Response<T>>(json);
                 if (response.operationState == true)
                 {
                     ReturnValue = response.returnValue;

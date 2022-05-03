@@ -44,7 +44,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		{
 			return Serialize(user.GetSerializableInstance());
 		}
-		public static string ConvertToJson(Response response)
+		public static string ConvertToJson<T>(Response<T> response)
 		{
 			return Serialize(response);
 		}

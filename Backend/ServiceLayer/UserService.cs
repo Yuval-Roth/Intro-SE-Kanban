@@ -49,17 +49,17 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 			try
 			{
 				userController.Register(email, password);
-				Response res = new Response("{}");
+				Response<string> res = new(true,"{}");
 				return JsonController.ConvertToJson(res);
 			}
 			catch (ArgumentNullException ex)
 			{
-				Response res = new Response(ex.Message);
+				Response<string> res = new(false,ex.Message);
 				return JsonController.ConvertToJson(res);
 			}
 			catch (ArgumentException ex)
 			{
-				Response res = new Response(ex.Message);
+				Response<string> res = new(false, ex.Message);
 				return JsonController.ConvertToJson(res);
 			}
 		}
@@ -79,22 +79,22 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
 				BusinessLayer.User toDelete = userController.SearchUser(email);
 				userController.DeleteUser(toDelete);
-				Response res = new Response("{}");
+				Response<string> res = new(true, "{}");
 				return JsonController.ConvertToJson(res);
 			}
             catch (ArgumentNullException ex)
             {
-				Response res = new Response(ex.Message);
+				Response<string> res = new(true, "{}");
 				return JsonController.ConvertToJson(res);
 			}
 			catch (BusinessLayer.NoSuchElementException ex)
 			{
-				Response res = new Response(ex.Message);
+				Response<string> res = new(false,ex.Message);
 				return JsonController.ConvertToJson(res);
 			}
 			catch (ArgumentException ex)
             {
-				Response res = new Response(ex.Message);
+				Response<string> res = new(false,ex.Message);
 				return JsonController.ConvertToJson(res);
 			}
 		}
@@ -113,17 +113,17 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
 				userController.LogIn(email, password);
-				Response res = new Response("{}");
+				Response<string> res = new(true, "{}");
 				return JsonController.ConvertToJson(res);
 			}
 			catch (ArgumentNullException ex)
             {
-				Response res = new Response(ex.Message);
+				Response<string> res = new(false,ex.Message);
 				return JsonController.ConvertToJson(res);
 			}
 			catch (ArgumentException ex)
             {
-				Response res = new Response(ex.Message);
+				Response<string> res = new(false,ex.Message);
 				return JsonController.ConvertToJson(res);
 			}
 		}
@@ -143,22 +143,22 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
 				BusinessLayer.User toLogOut = userController.SearchUser(email);
 				userController.LogOut(toLogOut);
-				Response res = new Response("{}");
+				Response<string> res = new(true, "{}");
 				return JsonController.ConvertToJson(res);
 			}
 			catch (ArgumentNullException ex)
 			{
-				Response res = new Response(ex.Message);
+				Response<string> res = new(false,ex.Message);
 				return JsonController.ConvertToJson(res);
 			}
 			catch (BusinessLayer.NoSuchElementException ex)
             {
-				Response res = new Response(ex.Message);
+				Response<string> res = new(false,ex.Message);
 				return JsonController.ConvertToJson(res);
 			}
 			catch (ArgumentException ex)
 			{
-				Response res = new Response(ex.Message);
+				Response<string> res = new(false,ex.Message);
 				return JsonController.ConvertToJson(res);
 			}
 		}
@@ -178,22 +178,22 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
 				BusinessLayer.User toSetPassword = userController.SearchUser(email);
 				userController.SetPassword(toSetPassword, old, newP);
-				Response res = new Response("{}");
+				Response<string> res = new(true, "{}");
 				return JsonController.ConvertToJson(res);
 			}
 			catch (ArgumentNullException ex)
 			{
-				Response res = new Response(ex.Message);
+				Response<string> res = new(false,ex.Message);
 				return JsonController.ConvertToJson(res);
 			}
 			catch (BusinessLayer.NoSuchElementException ex)
 			{
-				Response res = new Response(ex.Message);
+				Response<string> res = new(false,ex.Message);
 				return JsonController.ConvertToJson(res);
 			}
 			catch (ArgumentException ex)
 			{
-				Response res = new Response(ex.Message);
+				Response<string> res = new(false,ex.Message);
 				return JsonController.ConvertToJson(res);
 			}
 		}
@@ -213,22 +213,22 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
 				BusinessLayer.User toSetEmail = userController.SearchUser(email);
 				userController.SetEmail(toSetEmail, newEmail);
-				Response res = new Response("{}");
+				Response<string> res = new(true, "{}");
 				return JsonController.ConvertToJson(res);
 			}
 			catch (ArgumentNullException ex)
 			{
-				Response res = new Response(ex.Message);
+				Response<string> res = new(false,ex.Message);
 				return JsonController.ConvertToJson(res);
 			}
 			catch (BusinessLayer.NoSuchElementException ex)
 			{
-				Response res = new Response(ex.Message);
+				Response<string> res = new(false,ex.Message);
 				return JsonController.ConvertToJson(res);
 			}
 			catch (ArgumentException ex)
 			{
-				Response res = new Response(ex.Message);
+				Response<string> res = new(false,ex.Message);
 				return JsonController.ConvertToJson(res);
 			}
 		}
