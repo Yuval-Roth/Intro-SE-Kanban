@@ -16,16 +16,18 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// The class manages a data structure of of <c>User</c>s and their <c>Board</c>s. <br/>
     /// every unique <c>User</c> has his own set of <c>Board</c>s.
     /// <code>Supported operations:</code>
-    /// <list type="bullet">SearchUser()</list>
-    /// <list type="bullet">AddUser()</list>
-    /// <list type="bullet">RemoveUser()</list>
-    /// <list type="bullet">ContainsUser()</list>
-    /// <list type="bullet">UserLoggedInStatus()</list>
-    /// <list type="bullet">SetLoggedIn()</list>
-    /// <list type="bullet">SetLoggedOut()</list>
-    /// <list type="bullet">GetAllBoards()</list>
-    /// <list type="bullet">AddBoard()</list>
-    /// <list type="bullet">RemoveBoard()</list>
+    /// <list type="bullet">
+    /// <item>SearchUser()</item>
+    /// <item>AddUser()</item>
+    /// <item>RemoveUser()</item>
+    /// <item>ContainsUser()</item>
+    /// <item>UserLoggedInStatus()</item>
+    /// <item>SetLoggedIn()</item>
+    /// <item>SetLoggedOut()</item>
+    /// <item>GetAllBoards()</item>
+    /// <item>AddBoard()</item>
+    /// <item>RemoveBoard()</item>
+    /// </list>
     /// <br/><br/>
     /// ===================
     /// <br/>

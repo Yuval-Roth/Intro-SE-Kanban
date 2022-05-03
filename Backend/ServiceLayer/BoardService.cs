@@ -15,7 +15,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 	/// <list type="bullet">AddTask()</list>
 	/// <list type="bullet">RemoveTask()</list>
 	/// <list type="bullet">LimitColumn()</list>
-    /// /// <list type="bullet">GetColumnLimit()</list>
+    /// <list type="bullet">GetColumnLimit()</list>
 	/// <list type="bullet">GetColumnName()</list>
 	/// <list type="bullet">GetColumn()</list>
 	/// <br/><br/>
@@ -43,7 +43,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <param name="title">Title of the new task</param>
         /// <param name="description">Description of the new task</param>
         /// <param name="dueDate">The due date if the new task</param>
-        /// <returns>Response with user-email, unless an error occurs (see <see cref="BoardService"/>)</returns>
+		/// <returns>
+		/// Json formatted as so:
+		/// <code>
+		///	{
+		///		operationState: bool 
+		///		returnValue: // (operationState == true) => empty string
+		/// }			// (operationState == false) => error message		
+		/// </code>
+		/// </returns>
         public string AddTask(string email, string boardName, string title, string description, DateTime dueDate)
         {
             return "";
@@ -55,7 +63,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <param name="email">Email of the user. The user must be logged in.</param>
         /// <param name="boardTitle">The name of the board</param>
         /// <param name="taskId">id of the task</param>
-        /// <returns>The string "{}", unless an error occurs (see <see cref="BoardService"/>)</returns>
+        /// <returns>
+		/// Json formatted as so:
+		/// <code>
+		///	{
+		///		operationState: bool 
+		///		returnValue: // (operationState == true) => empty string
+		/// }			// (operationState == false) => error message		
+		/// </code>
+		/// </returns>
         public string RemoveTask(string email, string boardTitle, int taskId)
         {
             return "";
@@ -68,7 +84,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <param name="boardName">The name of the board</param>
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <param name="limit">The new limit value. A value of -1 indicates no limit.</param>
-        /// <returns>The string "{}", unless an error occurs (see <see cref="BoardService"/>)</returns>
+        /// <returns>
+		/// Json formatted as so:
+		/// <code>
+		///	{
+		///		operationState: bool 
+		///		returnValue: // (operationState == true) => empty string
+		/// }			// (operationState == false) => error message		
+		/// </code>
+		/// </returns>
         public string LimitColumn(string email, string boardName, int columnOrdinal, int limit)
         {
             return "";
@@ -80,7 +104,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <param name="email">The email address of the user, must be logged in</param>
         /// <param name="boardName">The name of the board</param>
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
-        /// <returns>Response with column limit value, unless an error occurs (see <see cref="BoardService"/>)</returns>
+        /// <returns>
+		/// Json formatted as so:
+		/// <code>
+		///	{
+		///		operationState: bool 
+		///		returnValue: // (operationState == true) => column limit
+		/// }			// (operationState == false) => error message		
+		/// </code>
+		/// </returns>
         public string GetColumnLimit(string email, string boardName, int columnOrdinal)
         {
             return "";
@@ -92,7 +124,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <param name="email">The email address of the user, must be logged in</param>
         /// <param name="boardName">The name of the board</param>
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
-        /// <returns>Response with column name value, unless an error occurs (see <see cref="BoardService"/>)</returns>
+        /// <returns>
+		/// Json formatted as so:
+		/// <code>
+		///	{
+		///		operationState: bool 
+		///		returnValue: // (operationState == true) => column name
+		/// }	             // (operationState == false) => error message		
+		/// </code>
+		/// </returns>
         public string GetColumnName(string email, string boardName, int columnOrdinal)
         {
             return "";
@@ -104,7 +144,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <param name="email">Email of the user. Must be logged in</param>
         /// <param name="boardName">The name of the board</param>
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
-        /// <returns>Response with  a list of the column's tasks, unless an error occurs (see <see cref="BoardService"/>)</returns>
+        /// <returns>
+		/// Json formatted as so:
+		/// <code>
+		///	{
+		///		operationState: bool 
+		///		returnValue: string // (operationState == true) => LinkedList&lt;Task&gt;
+		/// }				// (operationState == false) => error message		
+		/// </code>
+		/// </returns>
         public string GetColumn(string email, string boardName, int columnOrdinal)
         {
             return "";

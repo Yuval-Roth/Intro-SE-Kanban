@@ -35,7 +35,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// </summary>
         /// <param name="email">Email of the user. Must be logged in</param>
         /// <param name="name">The name of the new board</param>
-        /// <returns>The string "{}", unless an error occurs (see <see cref="BoardControllerService"/>)</returns>
+        /// <returns>
+		/// Json formatted as so:
+		/// <code>
+		///	{
+		///		operationState: bool 
+		///		returnValue: string // (operationState == true) => empty string
+		/// }				// (operationState == false) => error message		
+		/// </code>
+		/// </returns>
         public string AddBoard(string email, string name)
         {
             return "";
@@ -46,7 +54,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// </summary>
         /// <param name="email">Email of the user. Must be logged in</param>
         /// <param name="name">The name of the board</param>
-        /// <returns>The string "{}", unless an error occurs (see <see cref="BoardControllerService"/>)</returns>
+        /// <returns>
+		/// Json formatted as so:
+		/// <code>
+		///	{
+		///		operationState: bool 
+		///		returnValue: // (operationState == true) => empty string
+		/// }			// (operationState == false) => error message		
+		/// </code>
+		/// </returns>
         public string RemoveBoard(string email, string name)
         {
             return "";
@@ -57,6 +73,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// </summary>
         /// <param name="email">Email of the user. Must be logged in</param>
         /// /// <param name="columnOrdinal">column id . Must be between zero and numbers of columns</param>
+        /// /// <returns>
+		/// Json formatted as so:
+		/// <code>
+		///	{
+		///		operationState: bool 
+		///		returnValue: //(operationState == true) => LinkedList&lt;Task&gt;
+		/// }		      //(operationState == false) => string with error message		
+		/// </code>
+		/// </returns>
         /// <returns>Response with a list of tasks by specific state, unless an error occurs (see <see cref="BoardControllerService"/>)</returns>
         public string GetAllTasksByState(string email, int columnOrdinal)
         {
