@@ -75,6 +75,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = userServiceLayer.Register(email, password);
             GradingResponse<string> res = new(json);
+            if (res.ErrorMessage == null)
+                return "{}";
             return JsonController.ConvertToJson(res);
         }
 
@@ -89,6 +91,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = userServiceLayer.LogIn(email, password);
             GradingResponse<string> res = new(json);
+            if (res.ErrorMessage == null)
+                return email;
             return JsonController.ConvertToJson(res);
         }
 
@@ -102,6 +106,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = userServiceLayer.LogOut(email);
             GradingResponse<string> res = new(json);
+            if (res.ErrorMessage == null)
+                return "{}";
             return JsonController.ConvertToJson(res);
         }
 
@@ -117,6 +123,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = boardServiceLayer.LimitColumn(email,boardName,columnOrdinal,limit);
             GradingResponse<string> res = new(json);
+            if (res.ErrorMessage == null)
+                return "{}";
             return JsonController.ConvertToJson(res);
         }
 
