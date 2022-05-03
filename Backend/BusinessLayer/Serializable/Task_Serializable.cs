@@ -9,11 +9,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer.Serializable
     [Serializable]
     public sealed class Task_Serializable
     {
+        public int Id { get; set; }
+        public DateTime CreationTime { get; set; }
         public string Title { get; set; }
-        public Date CreationTime { get; set; }
-        public Date DueDate { get; set; }
         public string Description { get; set; }
-        public TaskStates State { get; set; }
-        public bool DescriptionCharCap { get; set; }
+        public DateTime DueDate { get; set; }
     }
 }

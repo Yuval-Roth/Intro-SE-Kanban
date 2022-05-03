@@ -10,11 +10,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		{
 			WriteIndented = true,
 		};
-		public static string Serialize<T>(T obj)
+		private static string Serialize<T>(T obj)
 		{
 			return JsonSerializer.Serialize<T>(obj, options);
 		}
-		public static T Deserialize<T>(string json)
+		private static T Deserialize<T>(string json)
 		{
 			return JsonSerializer.Deserialize<T>(json, options);
 		}
@@ -44,13 +44,17 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		{
 			return Serialize(user.GetSerializableInstance());
 		}
-		public static string ConvertToJson(Response response)
+		public static string ConvertToJson<T>(Response<T> response)
+		{
+			return Serialize(response);
+		}
+		public static string ConvertToJson<T>(GradingService.GradingResponse<T> response)
 		{
 			return Serialize(response);
 		}
 		public static T BuildFromJson<T>(string json)
 		{
-			return JsonController.Deserialize<T>(json);
+			return Deserialize<T>(json);
 		}
 	}
 }
