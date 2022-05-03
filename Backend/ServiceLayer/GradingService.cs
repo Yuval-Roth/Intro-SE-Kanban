@@ -261,7 +261,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 
         #nullable enable
         [Serializable]
-        private class GradingResponse<T> where T:struct
+        public class GradingResponse<T>
         {
             
             [JsonInclude]
@@ -270,17 +270,22 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             [JsonInclude]
             public readonly T? ReturnValue;
 
-            public GradingResponse(Response<T?> response)
+            private Response<T> response;
+
+            public GradingResponse(Response<T> response)
             {
+                this.response = response;
                 if (response.operationState == true)
                 {
                     ReturnValue = response.returnValue;
-                    ErrorMessage = null;
+                }
+                else if (response.returnValue is string)
+                {
+                    ErrorMessage = response.returnValue as string;
                 }
                 else
                 {
-                    ReturnValue = null;
-                    ErrorMessage = response.returnValue.ToString();
+                    throw new NotSupportedException("Response.operationState is false and returnValue is not string");
                 }
             }
         }
