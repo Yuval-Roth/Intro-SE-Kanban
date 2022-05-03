@@ -301,7 +301,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 
             public GradingResponse(string json)
             {
-                Response<T> response = JsonController.Deserialize<Response<T>>(json);
+                Response<T> response = JsonController.BuildFromJson<Response<T>>(json);
                 if (response.operationState == true)
                 {
                     ReturnValue = response.returnValue;

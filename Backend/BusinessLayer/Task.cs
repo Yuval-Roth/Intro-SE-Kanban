@@ -18,10 +18,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     public class Task
     {
 
+        private int id;
+        private DateTime creationTime;
         private string title;
         private string description;
-        private Date creationTime;
-        private Date dueDate;
+        private DateTime dueDate;
+
         private TaskStates state;
         private bool descriptionCharCap;
         private readonly int DESCRIPTION_CHAR_CAP = 300;
@@ -31,18 +33,24 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //            getters/setters
         //====================================
 
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
+
         public string Title 
         {
             get { return title; }
             set { title = value; }
         }
     
-        public Date CreationTime 
+        public DateTime CreationTime 
         {
             get { return creationTime; }
             set { creationTime = value; } 
         }
-        public Date DueDate 
+        public DateTime DueDate 
         {
             get { return dueDate; }
             set { dueDate = value; }
@@ -57,7 +65,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             get { return state; }
             set { state = value; }
         }
-        public Boolean DescriptionCharCap
+        public bool DescriptionCharCap
         {
             get { return descriptionCharCap; }
             set { descriptionCharCap = value;}
@@ -85,11 +93,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         {
             return new Serializable.Task_Serializable()
             {
-                Title = Title,
-                Description = Description,
-                CreationTime = CreationTime,
-                DueDate = DueDate,
-                State = State,
+                Id = id,
+                CreationTime = creationTime,
+                Title = title,
+                Description = description,
+                DueDate = dueDate,
             };
         }
     }
