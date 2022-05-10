@@ -56,7 +56,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public void Register(string email, string password)
         {
-            if(email == null){
+            log.Debug("Register() for: " + email);
+            if (email == null){
                 log.Error("Register() failed: '" + email + "' is null");
                 throw new ArgumentNullException ("Email is null"); }
             if(password == null){
@@ -67,14 +68,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new ArgumentException("Password illegal"); }
             try
             {
-                log.Debug("Register() for: " + email);
                 userData.AddUser(email,password);
+                log.Debug("Register() success");
             }
             catch (ArgumentException)
             {
-                log.Error("Register() failed: '" + email + "' allready exist in the system");
+                log.Error("Register() failed: '" + email + "' already exist in the system");
                 throw new ArgumentException("A user whith that " + email +
-                    " allready exist in the system");
+                    " already exist in the system");
             }
             
         }
@@ -89,6 +90,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentNullException"></exception>
         public void DeleteUser(User user)
         {
+            log.Debug("DeleteUser() for: " + user);
             if (user == null)
             {
                 log.Error("DeleteUser() failed: '" + user + "' is null");
@@ -96,8 +98,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             try
             {
-                log.Debug("DeleteUser() for: " + user);
                 userData.RemoveUser(user.GetEmail());
+                log.Debug("DeleteUser() success");
             }
             catch (NoSuchElementException)
             {
@@ -117,6 +119,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         public void LogIn(string email, string password)
         {
+            log.Debug("LogIn() for: " + email);
             if (password == null)
             {
                 log.Error("LogIn() failed: '" + password + "' is null");
@@ -133,8 +136,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 {
                     try
                     {
-                        log.Debug("LogIn() for: " + email);
                         userData.SetLoggedIn(email);
+                        log.Debug("LogIn() success");
                     }
                     catch(ArgumentException)
                     {
@@ -166,6 +169,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public void LogOut(User user)
         {
+            log.Debug("LogOut() for " + user);
             if (user == null)
             {
                 log.Error("LogOut() failed: '" + user + "' is null");
@@ -173,8 +177,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             try
             {
-                log.Debug("LogOut() for " + user);
                 userData.SetLoggedOut(user.GetEmail());
+                log.Debug("LogOut() success");
             }
             catch (ArgumentException)
             {
@@ -196,6 +200,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         public void SetPassword(User user, string old, string newP)
         {
+            log.Debug("SetPassword() for : '" + user + "' from '" + old + "' to '" + newP);
             if (user == null)
             {
                 log.Error("SetPassword() failed: '" + user + "' is null");
@@ -218,13 +223,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             if (!IsLegalPassword(newP))
             {
-                log.Error("SrtPassword() failed: '" + newP + "' is illegal");
+                log.Error("SetPassword() failed: '" + newP + "' is illegal");
                 throw new ArgumentException("New password is illegal");
             }
             if (user.CheckPasswordMatch(old))
             {
-                log.Debug("SetPassword() for : '" + user + "' from '" + old + "' to '" + newP);
-                user.SetPassword(newP);    
+                user.SetPassword(newP);
+                log.Debug("SetPassword() success");
             }
             else
             {
@@ -245,6 +250,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public void SetEmail(User user, string newE)
         {
+            log.Debug("SetEmail() for '" + user + "' to '" + newE);
             if (user == null)
             {
                 log.Error("SetEmail() failed: '" + user + "' is null");
@@ -265,8 +271,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("SetEmail() failed: user with " + newE + " allready exist in the system");
                 throw new ArgumentException("A user with that email already exists in the system");
             }
-            log.Debug("SetEmail() for '" + user + "' to '" + newE);
             user.SetEmail(newE);
+            log.Debug("SetEmail() success");
         }
 
         /// <summary>
@@ -282,6 +288,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public User SearchUser(string email)
         {
+            log.Debug("SearchUser() for: '" + email);
             if (email == null) 
             {
                 log.Error("SearchUser() failed: '" + email + "' is null");
@@ -289,8 +296,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             try
             {
-                log.Debug("SearchUser() for: '" + email)''
-                return userData.SearchUser(email);
+                User user = userData.SearchUser(email);
+                log.Debug("SearchUser() success");
+                return user;
             }
             catch (NoSuchElementException)
             {
