@@ -172,7 +172,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Info(email + " is now logged out");
                 loggedIn.Remove(email);
             }
-
             else
             {
                 log.Error("SetLoggedOut() failed: '" + email + "' is not logged in");
