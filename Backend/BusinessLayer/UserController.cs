@@ -29,6 +29,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// </summary>
     public class UserController
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\UserController.cs");
+
         private UserData userData;
         private static readonly int MIN_PASS_LENGTH = 6;
         private static readonly int MAX_PASS_LENGTH = 20;
@@ -54,16 +56,25 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public void Register(string email, string password)
         {
-            if(email == null){ throw new ArgumentNullException ("Email is null"); }
-            if(password == null){ throw new ArgumentNullException("Password is null"); }
-            if (!IsLegalPassword(password)) { throw new ArgumentException("Password illegal"); }
+            if(email == null){
+                log.Error("Register() failed: '" + email + "' is null");
+                throw new ArgumentNullException ("Email is null"); }
+            if(password == null){
+                log.Error("Register() failed: '" + password + "' is null");
+                throw new ArgumentNullException("Password is null"); }
+            if (!IsLegalPassword(password)) {
+                log.Error("Register() failed: '" + password + "' is illegal");
+                throw new ArgumentException("Password illegal"); }
             try
             {
+                log.Debug("Register() for: " + email);
                 userData.AddUser(email,password);
             }
             catch (ArgumentException)
             {
-                throw;
+                log.Error("Register() failed: '" + email + "' allready exist in the system");
+                throw new ArgumentException("A user whith that " + email +
+                    " allready exist in the system");
             }
             
         }
@@ -78,14 +89,20 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentNullException"></exception>
         public void DeleteUser(User user)
         {
-            if(user == null)  throw new ArgumentNullException("User is null");
+            if (user == null)
+            {
+                log.Error("DeleteUser() failed: '" + user + "' is null");
+                throw new ArgumentNullException("User is null");
+            }
             try
             {
+                log.Debug("DeleteUser() for: " + user);
                 userData.RemoveUser(user.GetEmail());
             }
             catch (NoSuchElementException)
             {
-                throw;
+                log.Error("DeleteUser() failed: " + user + " doesn't exist in the system");
+                throw new NoSuchElementException(user + " doesn't exist in the system");
             }
         }
 
@@ -100,28 +117,40 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         public void LogIn(string email, string password)
         {
-            if(password == null)  throw new ArgumentNullException ("Password is null"); 
-            if(email == null) throw new ArgumentNullException ("Email is null"); 
+            if (password == null)
+            {
+                log.Error("LogIn() failed: '" + password + "' is null");
+                throw new ArgumentNullException("Password is null");
+            }
+            if (email == null)
+            {
+                log.Error("LogIn() failed: '" + email + "' is null");
+                throw new ArgumentNullException("Email is null");
+            }
             if (userData.ContainsUser(email))
             {
                 if (userData.SearchUser(email).CheckPasswordMatch(password))
                 {
                     try
                     {
+                        log.Debug("LogIn() for: " + email);
                         userData.SetLoggedIn(email);
                     }
                     catch(ArgumentException)
                     {
-                        throw;
+                        log.Error("LogIn() failed: user with '" + email + "' allready loggedIn");
+                        throw new ArgumentException("A user with '" + email + "' allready loggedIn");
                     }      
                 }
                 else
                 {
+                    log.Error("LogIn() failed: " + password + "incorrect");
                     throw new ArgumentException("Incorrect Password");
                 }
             }
             else
             {
+                log.Error("LogIn() failed: there is no user with " + email + " in the system");
                 throw new ArgumentException("There is no such user in the system");  
             }
         }
@@ -137,15 +166,20 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public void LogOut(User user)
         {
-            if (user == null)  throw new ArgumentNullException("User is null"); 
-            if (userData.UserLoggedInStatus(user.GetEmail()) == false)  throw new ArgumentException("User isn't loggedIn");
+            if (user == null)
+            {
+                log.Error("LogOut() failed: '" + user + "' is null");
+                throw new ArgumentNullException("User is null");
+            }
             try
             {
+                log.Debug("LogOut() for " + user);
                 userData.SetLoggedOut(user.GetEmail());
             }
-            catch (ArgumentNullException)
+            catch (ArgumentException)
             {
-                throw;
+                log.Error("LogOut() failed: " + user + "is not logget in");
+                throw new ArgumentException(user + " is not logged in");
             }
             
         }
@@ -162,17 +196,39 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         public void SetPassword(User user, string old, string newP)
         {
-            if(user == null)  throw new ArgumentNullException("User is null");
-            if (old == null)  throw new ArgumentNullException("Old password is null"); 
-            if (newP == null)  throw new ArgumentNullException("New password is null");
-            if (userData.ContainsUser(user.GetEmail()) == false)  throw new ArgumentException("User is not in the system"); 
-            if (!IsLegalPassword(newP))  throw new ArgumentException("New password is illegal"); 
+            if (user == null)
+            {
+                log.Error("SetPassword() failed: '" + user + "' is null");
+                throw new ArgumentNullException("User is null");
+            }
+            if (old == null)
+            {
+                log.Error("SetPassword() failed: '" + old + "' is null");
+                throw new ArgumentNullException("Old password is null");
+            }
+            if (newP == null)
+            {
+                log.Error("SetPassword() failed: '" + newP + "' is null");
+                throw new ArgumentNullException("New password is null");
+            }
+            if (userData.ContainsUser(user.GetEmail()) == false)
+            {
+                log.Error("SetPassword() failed: '" + user + "' is not in the system");
+                throw new ArgumentException("User is not in the system");
+            }
+            if (!IsLegalPassword(newP))
+            {
+                log.Error("SrtPassword() failed: '" + newP + "' is illegal");
+                throw new ArgumentException("New password is illegal");
+            }
             if (user.CheckPasswordMatch(old))
             {
+                log.Debug("SetPassword() for : '" + user + "' from '" + old + "' to '" + newP);
                 user.SetPassword(newP);    
             }
             else
             {
+                log.Error("SetPassword() failed: '" + old + "' incorrect");
                 throw new ArgumentException("Old Password incorrect");
             }
         }
@@ -189,11 +245,28 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public void SetEmail(User user, string newE)
         {
-            if (user == null) throw new ArgumentNullException("User is null");
-            if (newE == null) throw new ArgumentNullException("New email is null"); 
-            if (userData.ContainsUser(user.GetEmail()) == false)  throw new ArgumentException("User dosen't exist"); 
-            if (userData.ContainsUser(newE) == true)  throw new ArgumentException("A user with that email already exists in the system");
-                user.SetEmail(newE);
+            if (user == null)
+            {
+                log.Error("SetEmail() failed: '" + user + "' is null");
+                throw new ArgumentNullException("User is null");
+            }
+            if (newE == null)
+            {
+                log.Error("SetEmail() failed: '" + newE + "' is null");
+                throw new ArgumentNullException("New email is null");
+            }
+            if (userData.ContainsUser(user.GetEmail()) == false)
+            {
+                log.Error("SetEmail() failed: '" + user + "' doesn't exist");
+                throw new ArgumentException("User dosen't exist");
+            }
+            if (userData.ContainsUser(newE) == true)
+            {
+                log.Error("SetEmail() failed: user with " + newE + " allready exist in the system");
+                throw new ArgumentException("A user with that email already exists in the system");
+            }
+            log.Debug("SetEmail() for '" + user + "' to '" + newE);
+            user.SetEmail(newE);
         }
 
         /// <summary>
@@ -209,14 +282,20 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public User SearchUser(string email)
         {
-            if (email == null) { throw new ArgumentNullException("Email is null"); }
+            if (email == null) 
+            {
+                log.Error("SearchUser() failed: '" + email + "' is null");
+                throw new ArgumentNullException("Email is null"); 
+            }
             try
             {
+                log.Debug("SearchUser() for: '" + email)''
                 return userData.SearchUser(email);
             }
             catch (NoSuchElementException)
             {
-                throw; ;
+                log.Error("SearchUser() failed: user with '" + email + "' doesn't exist in the system");
+                throw new NoSuchElementException("User with '" + email + "' doesn't exist in the system");
             }
         }
 
