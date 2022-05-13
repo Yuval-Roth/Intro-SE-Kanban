@@ -20,9 +20,9 @@ namespace IntroSE.Kanban.selfTesting
             //BoardTreeTesting();
             //datetesting();
             //UserControllerTesting();
-            //JsonTesting();
+            JsonTesting();
             //PasswordHashingTesting();
-            logTesting();
+            //logTesting();
 
 
 
@@ -70,12 +70,27 @@ namespace IntroSE.Kanban.selfTesting
         }
         public static void JsonTesting()
         {
-            //Backend.ServiceLayer.Response res = new("hello");
-            //string json = Backend.ServiceLayer.JsonController.ConvertToJson(res);
-            //Console.WriteLine(json);
-            //Backend.ServiceLayer.Response des = Backend.ServiceLayer.JsonController.BuildFromJson<Backend.ServiceLayer.Response>(json);
-            //Console.WriteLine(des.ReturnValue==null);
-            //Console.WriteLine(des.ErrorMessage);
+            Backend.ServiceLayer.Response<string> res = new(true,"hello");
+            string json = Backend.ServiceLayer.JsonController.ConvertToJson(res);
+            Console.WriteLine(json);
+            Backend.ServiceLayer.Response<string> des = Backend.ServiceLayer.JsonController.BuildFromJson<Backend.ServiceLayer.Response<string>>(json);
+            Console.WriteLine(des.returnValue);
+            Console.WriteLine(des.operationState);
+            Console.WriteLine("========================");
+            Backend.BusinessLayer.Task task = new()
+            {
+                Id= 1,
+                Title= "sup",
+                CreationTime= DateTime.Now,
+                DueDate= DateTime.Now,
+                Description = "bro"
+            };
+            Backend.ServiceLayer.Response<Backend.BusinessLayer.Task> res1 = new(true, task);
+            json = Backend.ServiceLayer.JsonController.ConvertToJson(res1);
+            Backend.ServiceLayer.Response<Backend.BusinessLayer.Task> des1 = Backend.ServiceLayer.JsonController.BuildFromJson<Backend.ServiceLayer.Response<Backend.BusinessLayer.Task>>(json);
+            Console.WriteLine(des1.returnValue.Id);
+            Console.WriteLine(des1.returnValue.Description);
+            Console.WriteLine(des1.operationState);
 
         }
         public static void PasswordHashingTesting()

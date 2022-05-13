@@ -5,7 +5,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 {
 
 	/// <summary>
-	///This class implements the object <c>User</c> that is <c>IComparable</c>
+	///This class implements the object <c>User</c>
 	///<br/>
 	///<code>Supported operations:</code>
 	///<br/>
@@ -13,7 +13,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 	/// <list type="bullet">SetEmail()</list>
 	/// <list type="bullet">GetEmail()</list>
 	/// <list type="bullet">CheckPasswordMatch()</list>
-	/// <list type="bullet">CompareTo()</list>
 	/// <br/><br/>
 	/// ===================
 	/// <br/>
@@ -21,14 +20,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 	/// <br/>
 	/// ===================
 	/// </summary>
-	public class User : IComparable
-	{
+	public class User
+    {
 		private string email;
 		private string password;
-		private PasswordHash hasher;
 
 		/// <summary>
-		/// Initialize email and password feilds
+		/// Initialize email and password fields
 		/// </summary>
 		/// <param name="email"></param>
 		/// <param name="password"></param>
@@ -36,8 +34,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		public User(string email, string password)
 		{
 			this.email = email;
-			hasher = new PasswordHash();
-			this.password = hasher.Hash(password);
+			this.password = password;
 		}
 
 		/// <summary>
@@ -48,7 +45,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		{
 			if (newP != null)
 			{
-				password = hasher.Hash(newP);
+				password = newP;
 			}
 		}
 
@@ -80,36 +77,36 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		/// <param name="pass"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentNullException"></exception>
-		public Boolean CheckPasswordMatch(string pass)
+		public bool CheckPasswordMatch(string pass)
 		{
 			if (pass == null)  throw new ArgumentNullException("password is null"); 
-			if (password.Equals(hasher.Hash(pass))) {
+			if (password.Equals(pass)) {
 				return true;
 			}
 			return false;
 		}
 
-		/// <summary>
-		/// Compare this instance with the entered object and indicates whether this instance is bigger, smaller or same as the object <br/><br/>
-		///<b>Throws</b> <c>ArgumentNullException</c> if the object entered is null <br/>
-		///<b>Throws</b> <c>ArgumentException</c> if the object isn't instance of User <br/>
-		/// </summary>
-		/// <param name="obj"></param>
-		/// <returns></returns>
-		/// <exception cref="ArgumentNullException"></exception>
-		/// <exception cref="ArgumentException"></exception>
-		public int CompareTo(object obj)
-		{
-			if (obj == null) throw new ArgumentNullException("obj is null");
-			if (obj is User)
-			{
-				return ((User)obj).email.CompareTo(this.email);
-			}
-			else
-			{
-				throw new ArgumentException("can't compare because obj is not User");
-			}
-		}
+		///// <summary>
+		///// Compare this instance with the entered object and indicates whether this instance is bigger, smaller or same as the object <br/><br/>
+		/////<b>Throws</b> <c>ArgumentNullException</c> if the object entered is null <br/>
+		/////<b>Throws</b> <c>ArgumentException</c> if the object isn't instance of User <br/>
+		///// </summary>
+		///// <param name="obj"></param>
+		///// <returns></returns>
+		///// <exception cref="ArgumentNullException"></exception>
+		///// <exception cref="ArgumentException"></exception>
+		//public int CompareTo(object obj)
+		//{
+		//	if (obj == null) throw new ArgumentNullException("obj is null");
+		//	if (obj is User)
+		//	{
+		//		return ((User)obj).email.CompareTo(this.email);
+		//	}
+		//	else
+		//	{
+		//		throw new ArgumentException("can't compare because obj is not User");
+		//	}
+		//}
 			//====================================================
 			//                  Json related
 			//====================================================
