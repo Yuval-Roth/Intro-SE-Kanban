@@ -144,7 +144,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         ///<returns><c>true</c> if an element with this key exists in the tree and <c>false</c> otherwise</returns>
         public bool Contains(Key key)
         {
-           return root.Contains(key);
+            try
+            {
+                return root.Contains(key);
+            }
+            catch (NullReferenceException)
+            {
+                return false;
+            }
         }
 
         ///<summary>Check if the <c>BinaryTree</c> is empty</summary>
