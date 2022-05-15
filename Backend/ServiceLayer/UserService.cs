@@ -231,7 +231,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
 				BusinessLayer.User toSetEmail = userController.SearchUser(email);
 				userController.SetEmail(toSetEmail, newEmail);
-				Response<string> res = new(true, "{}");
+				Response<string> res = new(true, "");
 				return JsonController.ConvertToJson(res);
 			}
 			catch (ArgumentNullException ex)

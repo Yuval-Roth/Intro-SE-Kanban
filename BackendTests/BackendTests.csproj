@@ -6,12 +6,6 @@
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="ServiceLayer\**" />
-    <EmbeddedResource Remove="ServiceLayer\**" />
-    <None Remove="ServiceLayer\**" />
-  </ItemGroup>
    
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.14" />
