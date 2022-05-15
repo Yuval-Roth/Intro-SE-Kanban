@@ -20,10 +20,10 @@ namespace IntroSE.Kanban.selfTesting
             //BoardTreeTesting();
             //datetesting();
             //UserControllerTesting();
-            JsonTesting();
+            //JsonTesting();
             //PasswordHashingTesting();
             //logTesting();
-
+            registerTest();
 
 
         }
@@ -119,6 +119,14 @@ namespace IntroSE.Kanban.selfTesting
         public static void logTesting()
         {
             log.Debug("Hello m8");
+        }
+        public static void registerTest()
+        {
+            Backend.BusinessLayer.UserData UD = new();
+            Backend.ServiceLayer.UserService US = new(UD);
+            Backend.BusinessLayer.BinaryTree<string, string> tree = new();
+            //US.Register("printz@post.bgu.ac.il", "Hadas12345");
+            US.DeleteUser("printz@post.bgu.ac.il");
         }
     }
 }
