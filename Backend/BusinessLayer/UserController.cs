@@ -104,7 +104,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             catch (NoSuchElementException)
             {
                 log.Error("DeleteUser() failed: " + user + " doesn't exist in the system");
-                throw new NoSuchElementException(user + " doesn't exist in the system");
+                throw new NoSuchElementException("User doesn't exist in the system");
             }
         }
 
