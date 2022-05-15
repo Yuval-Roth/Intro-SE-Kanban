@@ -13,9 +13,14 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
     public class UserServiceTests
     {
-        static BusinessLayer.UserData userData = new();
-        UserService service = new UserService(userData);
+        UserService service;
+        BusinessLayer.UserData userData;
 
+        public UserServiceTests() 
+        {
+            userData = new();
+            service = new UserService(userData);
+        }
 
         [TestMethod()]
         public void RegisterTestSuccess()

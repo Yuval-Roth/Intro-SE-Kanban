@@ -60,9 +60,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             //if (email == null){
               //  log.Error("Register() failed: '" + email + "' is null");
               //  throw new ArgumentNullException ("Email is null"); }
-            if(password == null){
-                log.Error("Register() failed: '" + password + "' is null");
-                throw new ArgumentNullException("Password is null"); }
+           // if(password == null){
+             //   log.Error("Register() failed: '" + password + "' is null");
+               // throw new ArgumentNullException("Password is null"); }
             if (!IsLegalPassword(password)) {
                 log.Error("Register() failed: '" + password + "' is illegal");
                 throw new ArgumentException("Password illegal"); }
@@ -141,8 +141,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     }
                     catch(ArgumentException)
                     {
-                        log.Error("LogIn() failed: user with '" + email + "' allready loggedIn");
-                        throw new ArgumentException("A user with '" + email + "' allready loggedIn");
+                        log.Error("LogIn() failed: user with '" + email + "' already loggedIn");
+                        throw new ArgumentException("The user with the email " + email + " is already logged in");
                     }      
                 }
                 else
@@ -183,7 +183,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             catch (ArgumentException)
             {
                 log.Error("LogOut() failed: " + user + "is not logget in");
-                throw new ArgumentException(user + " is not logged in");
+                throw new ArgumentException("User isn't loggedIn");
             }
             
         }
