@@ -57,9 +57,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void Register(string email, string password)
         {
             log.Debug("Register() for: " + email);
-            if (email == null){
-                log.Error("Register() failed: '" + email + "' is null");
-                throw new ArgumentNullException ("Email is null"); }
+            //if (email == null){
+              //  log.Error("Register() failed: '" + email + "' is null");
+              //  throw new ArgumentNullException ("Email is null"); }
             if(password == null){
                 log.Error("Register() failed: '" + password + "' is null");
                 throw new ArgumentNullException("Password is null"); }
@@ -91,11 +91,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void DeleteUser(User user)
         {
             log.Debug("DeleteUser() for: " + user);
-            if (user == null)
-            {
-                log.Error("DeleteUser() failed: '" + user + "' is null");
-                throw new ArgumentNullException("User is null");
-            }
+          //  if (user == null)
+           // {
+           //     log.Error("DeleteUser() failed: '" + user + "' is null");
+            //    throw new ArgumentNullException("User is null");
+          //  }
             try
             {
                 userData.RemoveUser(user.GetEmail());
@@ -120,16 +120,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void LogIn(string email, string password)
         {
             log.Debug("LogIn() for: " + email);
-            if (password == null)
-            {
-                log.Error("LogIn() failed: '" + password + "' is null");
-                throw new ArgumentNullException("Password is null");
-            }
-            if (email == null)
-            {
-                log.Error("LogIn() failed: '" + email + "' is null");
-                throw new ArgumentNullException("Email is null");
-            }
+           // if (password == null)
+           // {
+           //     log.Error("LogIn() failed: '" + password + "' is null");
+            //    throw new ArgumentNullException("Password is null");
+            //}
+          //  if (email == null)
+           // {
+          //      log.Error("LogIn() failed: '" + email + "' is null");
+            //    throw new ArgumentNullException("Email is null");
+           // }
             if (userData.ContainsUser(email))
             {
                 if (userData.SearchUser(email).CheckPasswordMatch(password))
@@ -170,11 +170,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void LogOut(User user)
         {
             log.Debug("LogOut() for " + user);
-            if (user == null)
-            {
-                log.Error("LogOut() failed: '" + user + "' is null");
-                throw new ArgumentNullException("User is null");
-            }
+          //  if (user == null)
+          //  {
+          //      log.Error("LogOut() failed: '" + user + "' is null");
+           //     throw new ArgumentNullException("User is null");
+          //  }
             try
             {
                 userData.SetLoggedOut(user.GetEmail());
@@ -201,21 +201,21 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void SetPassword(User user, string old, string newP)
         {
             log.Debug("SetPassword() for : '" + user + "' from '" + old + "' to '" + newP);
-            if (user == null)
-            {
-                log.Error("SetPassword() failed: '" + user + "' is null");
-                throw new ArgumentNullException("User is null");
-            }
-            if (old == null)
-            {
-                log.Error("SetPassword() failed: '" + old + "' is null");
-                throw new ArgumentNullException("Old password is null");
-            }
-            if (newP == null)
-            {
-                log.Error("SetPassword() failed: '" + newP + "' is null");
-                throw new ArgumentNullException("New password is null");
-            }
+         //   if (user == null)
+          //  {
+           //     log.Error("SetPassword() failed: '" + user + "' is null");
+           //     throw new ArgumentNullException("User is null");
+         //   }
+          //  if (old == null)
+          //  {
+          //      log.Error("SetPassword() failed: '" + old + "' is null");
+           //     throw new ArgumentNullException("Old password is null");
+           // }
+          //  if (newP == null)
+          //  {
+           //     log.Error("SetPassword() failed: '" + newP + "' is null");
+            //    throw new ArgumentNullException("New password is null");
+           // }
             if (userData.ContainsUser(user.GetEmail()) == false)
             {
                 log.Error("SetPassword() failed: '" + user + "' is not in the system");
@@ -251,16 +251,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void SetEmail(User user, string newE)
         {
             log.Debug("SetEmail() for '" + user + "' to '" + newE);
-            if (user == null)
-            {
-                log.Error("SetEmail() failed: '" + user + "' is null");
-                throw new ArgumentNullException("User is null");
-            }
-            if (newE == null)
-            {
-                log.Error("SetEmail() failed: '" + newE + "' is null");
-                throw new ArgumentNullException("New email is null");
-            }
+           // if (user == null)
+           // {
+           //     log.Error("SetEmail() failed: '" + user + "' is null");
+           //     throw new ArgumentNullException("User is null");
+           // }
+           // if (newE == null)
+           // {
+            //    log.Error("SetEmail() failed: '" + newE + "' is null");
+            //    throw new ArgumentNullException("New email is null");
+          //  }
             if (userData.ContainsUser(user.GetEmail()) == false)
             {
                 log.Error("SetEmail() failed: '" + user + "' doesn't exist");
@@ -289,11 +289,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public User SearchUser(string email)
         {
             log.Debug("SearchUser() for: '" + email);
-            if (email == null) 
-            {
-                log.Error("SearchUser() failed: '" + email + "' is null");
-                throw new ArgumentNullException("Email is null"); 
-            }
+           // if (email == null) 
+           // {
+           //     log.Error("SearchUser() failed: '" + email + "' is null");
+            //    throw new ArgumentNullException("Email is null"); 
+          //  }
             try
             {
                 User user = userData.SearchUser(email);
