@@ -9,10 +9,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 {
     public class Board
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\Board.cs");
+
+        private int counterID;
         private string title;
-        private LinkedList<Task> backLog;
-        private LinkedList<Task> inProgress;
-        private LinkedList<Task> done;
+        private Dictionary<int, LinkedList<Task>> columns;
+        private int [] columnLimit;
 
         //====================================
         //            getters/setters
@@ -21,26 +23,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public Board(string title)
         {
             this.title = title;
+            counterID = 0;
+            columnLimit = new int[3];
+            columnLimit[0] = -1;
+            columnLimit[1] = -1;
+            columnLimit[2] = -1;
+            columns.Add(0, new LinkedList<Task>());
+            columns.Add(1, new LinkedList<Task>());
+            columns.Add(2, new LinkedList<Task>());
         }
         public string Title
         { 
             get { return title; }
             set { title = value; }
-        }
-        public LinkedList<Task> Backlog
-        { 
-            get { return backLog; }
-            set { backLog = value; }
-        }
-        public LinkedList<Task> InProgress
-        {
-            get { return inProgress; }
-            set { inProgress = value; }
-        }
-        public LinkedList<Task> Done 
-        {
-            get { return done; } 
-            set { done = value; }
         }
 
 
@@ -49,7 +44,20 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //====================================
 
         public LinkedList<Task> GetTaskByType(Enum type) { return null; }
-        public void AddTask(String title, Date duedate, String description) { }
+        public void AddTask(String title, DateTime duedate, String description)
+        {
+            if (columnLimit[0]!=-1 && columns[0]!=null && columns[0].Count() + 1 == columnLimit[0])
+            {
+                log.Error("AddTask() failed: board '" + this.title + "' has a limit and can't contains more task");
+                throw new ArgumentException("A board titled " +
+                        this.title + " has a limit and can't contains more task");
+            }
+            LinkedList<Task> list = columns[0];
+            list.AddLast(new Task(counterID, title, duedate, description));
+            counterID++;
+            columns[0]= list;
+            log.Debug("AddTask() success");
+        }
         public void RemoveTask(String title) { }
         public void AdvanceTask(String title) { }
         public Task SearchTask(String title) { return null; }

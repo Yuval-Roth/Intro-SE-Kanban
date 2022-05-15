@@ -28,6 +28,17 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private bool descriptionCharCap;
         private readonly int DESCRIPTION_CHAR_CAP = 300;
 
+        public Task(int id, string title, DateTime duedate,string description)
+        {
+            this.id = id;
+            this.title = title;
+            this.dueDate = duedate;
+            this.description = description;
+            creationTime = new DateTime();
+            state = TaskStates.backLog;
+            descriptionCharCap= false;
+        }
+
 
         //====================================
         //            getters/setters

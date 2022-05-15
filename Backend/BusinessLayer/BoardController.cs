@@ -107,7 +107,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             catch (NoSuchElementException)
             {
-                log.Error("RemoveBoard() failed: '" + email + "' doesn't exist");
+                log.Error("SearchBoard() failed: '" + email + "' doesn't exist");
                 throw new NoSuchElementException("A user with the email '" +
                     email + "' doesn't exist in the system");
             }

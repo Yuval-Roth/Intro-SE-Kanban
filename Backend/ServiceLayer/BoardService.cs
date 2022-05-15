@@ -61,9 +61,21 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "user isn't log in");
                 return JsonController.ConvertToJson(res);
             }
-            if (boardController.SearchBoard(email, boardName) == null)
+            try
             {
-                Response<string> res = new(false, "Board isn't log in");
+                BusinessLayer.Board board = boardController.SearchBoard(email,boardName);
+                board.AddTask(title, dueDate, description);
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (BusinessLayer.NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
         }
