@@ -162,7 +162,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <returns><c>The element's <c>Data</c></c></returns>
         /// <exception cref="NoSuchElementException"></exception>
-        public Data GetData(Key key) 
+        public Data GetData(Key key)
         {
             try
             {
@@ -171,7 +171,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             catch (NoSuchElementException)
             {
                 throw;
-            } 
+            }
+            catch (NullReferenceException)
+            {
+                throw new NoSuchElementException("No such element in the tree");
+            }
         }
 
         //===========================================================================
