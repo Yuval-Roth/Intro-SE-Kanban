@@ -141,6 +141,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void LogOut(string email)
         {
             log.Debug("LogOut() for " + email);
+            if (userData.ContainsUser(email) == false)
+            {
+                log.Error("LogOut() failed: there is no user with " + email + " in the system");
+                throw new ArgumentException("There is no such user in the system");
+            }
             try
             {
                 userData.SetLoggedOut(email);
