@@ -20,7 +20,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		}
 		
 		
-		// these are temporary functions
+		//public functions
 
 
 		public static string ConvertToJson(BusinessLayer.Task task)
