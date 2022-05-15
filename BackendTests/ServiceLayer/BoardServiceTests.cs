@@ -199,7 +199,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnLimitTest()
         {
-            string expected = JsonController.ConvertToJson(new Response<object>(false,new object()));
+            string expected = JsonController.ConvertToJson(new Response<object>(true,new object()));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -321,7 +321,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnTest()
         {
-            string expected = JsonController.ConvertToJson(new Response<object>(false,new object()));
+            string expected = JsonController.ConvertToJson(new Response<object>(true,new object()));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
