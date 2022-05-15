@@ -45,7 +45,37 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         name + " already exists for the user with the email " + email);
             }
         }
-        public void DeleteBoard(User user, string title) { }
+        public void RemoveBoard(String email, string name)
+        {
+            log.Debug("RemoveBoard() for: " + email + "Board's name" + name);
+            if (email == null)
+            {
+                log.Error("RemoveBoard() failed: '" + email + "' is null");
+                throw new ArgumentNullException("Email is null");
+            }
+            if (name == null)
+            {
+                log.Error("RemoveBoard() failed: '" + name + "' is null");
+                throw new ArgumentNullException("name is null");
+            }
+            try
+            {
+                userData.RemoveBoard(email, name);
+                log.Debug("RemoveBoard() success");
+            }
+            catch (NoSuchElementException)
+            {
+                log.Error("RemoveBoard() failed: '" + email + "' doesn't exist");
+                throw new NoSuchElementException("A user with the email '" +
+                    email + "' doesn't exist in the system");
+            }
+            catch (ArgumentException)
+            {
+                log.Error("RemoveBoard() failed: board '" + name + "' doesn't exist for " + email);
+                throw new ArgumentException("A board titled '" +
+                                name + "' doesn't exists for the user with the email " + email);
+            }
+        }
         public LinkedList<Task> GetAllTasksByState(User user, Enum state) { return null; }
         public LinkedList<Board> GetBoards (User user) { return null; }
         public Board SearchBoard(User user, string title) { return null; }

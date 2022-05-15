@@ -87,7 +87,27 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string RemoveBoard(string email, string name)
         {
-            return "";
+            if (userController.isLogIn(email) == false)
+            {
+                Response<string> res = new(false, "user isn't log in");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                boardController.RemoveBoard(email, name);
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (BusinessLayer.NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
 
         /// <summary>
