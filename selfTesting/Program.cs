@@ -122,11 +122,10 @@ namespace IntroSE.Kanban.selfTesting
         }
         public static void registerTest()
         {
-            Backend.BusinessLayer.UserData UD = new();
-            Backend.ServiceLayer.UserService US = new(UD);
-            Backend.BusinessLayer.BinaryTree<string, string> tree = new();
-            //US.Register("printz@post.bgu.ac.il", "Hadas12345");
-            US.DeleteUser("printz@post.bgu.ac.il");
+            Backend.ServiceLayer.GradingService gs = new();
+            gs.Register("test", "sismaSababa23");
+            Console.WriteLine(gs.Login("test", "sismaSababa23"));
+            Console.WriteLine(gs.Logout("test"));
         }
     }
 }
