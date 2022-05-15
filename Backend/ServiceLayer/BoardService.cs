@@ -29,9 +29,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     public class BoardService
     {
         private readonly BusinessLayer.BoardController boardController;
+        private readonly BusinessLayer.UserController userController;
 
         public BoardService(BusinessLayer.UserData userData)
         {
+            userController = new(userData);
             boardController = new(userData);
         }
 
@@ -54,7 +56,16 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string AddTask(string email, string boardName, string title, string description, DateTime dueDate)
         {
-            return "";
+            if (userController.isLogIn(email) == false)
+            {
+                Response<string> res = new(false, "user isn't log in");
+                return JsonController.ConvertToJson(res);
+            }
+            if (boardController.SearchBoard(email, boardName) == null)
+            {
+                Response<string> res = new(false, "Board isn't log in");
+                return JsonController.ConvertToJson(res);
+            }
         }
 
         /// <summary>

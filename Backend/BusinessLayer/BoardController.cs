@@ -14,7 +14,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         {
             this.userData = userData;
         }
-        public void AddBoard(String email, string name)
+        public void AddBoard(string email, string name)
         {
             log.Debug("AddBoard() for: " + email + "Board's name" + name);
             if (email == null)
@@ -45,7 +45,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         name + " already exists for the user with the email " + email);
             }
         }
-        public void RemoveBoard(String email, string name)
+        public void RemoveBoard(string email, string name)
         {
             log.Debug("RemoveBoard() for: " + email + "Board's name" + name);
             if (email == null)
@@ -78,7 +78,40 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
         public LinkedList<Task> GetAllTasksByState(User user, Enum state) { return null; }
         public LinkedList<Board> GetBoards (User user) { return null; }
-        public Board SearchBoard(User user, string title) { return null; }
+        public Board SearchBoard(string email, string name) {
+            log.Debug("SearchBoard() for: " + email + "Board's name" + name);
+            if (email == null)
+            {
+                log.Error("SearchBoard() failed: '" + email + "' is null");
+                throw new ArgumentNullException("Email is null");
+            }
+            if (name == null)
+            {
+                log.Error("SearchBoard() failed: '" + name + "' is null");
+                throw new ArgumentNullException("name is null");
+            }
+            try
+            {
+                LinkedList<Board> boardList = userData.GetBoards(email);
+                foreach (Board board in boardList)
+                {
+                    if (board.Title == name)
+                    {
+                        log.Debug("SearchBoard() success");
+                        return board;
+                    }
+                }
+                log.Error("SearchBoard() failed: '" + name + "' doesn't exist");
+                throw new NoSuchElementException("A board titled '" +
+                                name + "' doesn't exists for the user with the email " + email);
+            }
+            catch (NoSuchElementException)
+            {
+                log.Error("RemoveBoard() failed: '" + email + "' doesn't exist");
+                throw new NoSuchElementException("A user with the email '" +
+                    email + "' doesn't exist in the system");
+            }
+        }
 
     }
 }
