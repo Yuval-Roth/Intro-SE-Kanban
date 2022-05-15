@@ -138,7 +138,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         public string GetColumnLimit(string email, string boardName, int columnOrdinal)
         {
             string json = boardServiceLayer.GetColumnLimit(email,boardName,columnOrdinal);
-            GradingResponse<int> res = new(json);
+            GradingResponse<string> res = new(json);
             return JsonController.ConvertToJson(res);
         }
 
