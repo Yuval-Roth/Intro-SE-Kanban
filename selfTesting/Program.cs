@@ -133,11 +133,19 @@ namespace IntroSE.Kanban.selfTesting
         {
             string email = "prinrz@post.bgu.ac.il";
             string email1 = "Prein@pdij";
-            string email2 = "12344.@gmail.com";
+            string email2 = "12344.@gmail.com"; //false/ true?
             string email3 = "hadaspr100gmail.com";
             string email4 = "hadas@gmailcom";
             string email5 = null;
-            bool ans = Backend.BusinessLayer.UserController.IsEmailValid(email5);
+            string email6 = "fdsa";
+            string email7 = "fdsa@";
+            string email8 = "fdsa@fdsa";
+            string email9 = "fdsa@fdsa.";
+            string email10 = "someone@somewhere.com";
+            string email11 = "someone@somewhere.co.uk";
+            string email12 = "someone+tag@somewhere.net"; // false/true?
+            string email13 = "futureTLD@somewhere.fooo";
+            bool ans = Backend.BusinessLayer.UserController.IsEmailValid(email13);
             Console.WriteLine(ans);
         }
     }

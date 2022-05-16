@@ -29,6 +29,14 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = service.Register("yuval@post.bgu.ac.il", "Ha12345");
             Assert.AreEqual(expected, result);
         }
+        //illegal email
+        [TestMethod()]
+        public void RegisterTestInvalidEmail()
+        {
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "email illegal"));
+            string result = service.Register("Printzpost.bgu.ac.il", "Ha12345");
+            Assert.AreEqual(expected , result);
+        }
         //user exist in the system
         [TestMethod()]
         public void RegisterTestExistUser()
