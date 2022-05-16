@@ -86,6 +86,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 			return false;
 		}
 
+
 		///// <summary>
 		///// Compare this instance with the entered object and indicates whether this instance is bigger, smaller or same as the object <br/><br/>
 		/////<b>Throws</b> <c>ArgumentNullException</c> if the object entered is null <br/>

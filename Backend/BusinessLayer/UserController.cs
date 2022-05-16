@@ -266,6 +266,20 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             return false;
         }
+
+        public static bool IsEmailValid(string email)
+        {
+            if(email == null)
+            {
+                return false;
+            }
+            Regex valid = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+            if(valid.Matches(email).Count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
 
