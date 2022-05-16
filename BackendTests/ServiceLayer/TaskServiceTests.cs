@@ -87,7 +87,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void UpdateTaskDueDateTest5()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"task isn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '5' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -112,7 +112,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void UpdateTaskTitleTest1()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"user isn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't exist in the system"));
             string result = taskservice.UpdateTaskTitle("kfirniss@post.bgu.ac.il", "new board", 0, 1, "new task title name");
             Assert.AreEqual(expected, result);
         }
@@ -121,7 +121,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void UpdateTaskTitleTest2()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"user doesn't login"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = taskservice.UpdateTaskTitle("kfirniss@post.bgu.ac.il", "new board", 0, 1, "new task title name");
             Assert.AreEqual(expected, result);
@@ -155,7 +155,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void UpdateTaskTitleTest5()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"task isn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
