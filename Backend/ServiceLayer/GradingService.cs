@@ -236,7 +236,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
         {
-            string json = taskServiceLayer.AdvanceTask(email, boardName, columnOrdinal, taskId);
+            string json = boardServiceLayer.AdvanceTask(email, boardName, columnOrdinal, taskId);
             GradingResponse<string> res = new(json);
             return JsonController.ConvertToJson(res);
         }
