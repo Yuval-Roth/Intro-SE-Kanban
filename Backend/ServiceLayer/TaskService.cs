@@ -27,9 +27,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     public class TaskService
     {
         private readonly BusinessLayer.BoardController boardController;
+        private readonly BusinessLayer.UserController userController;
 
         public TaskService(BusinessLayer.UserData userData)
         {
+            userController = new(userData);
             boardController = new(userData);
         }
 
@@ -45,7 +47,29 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="TaskService"/>)</returns>
         public string UpdateTaskDueDate(string email, string boardName, int columnOrdinal, int taskId, DateTime dueDate)
         {
-            return "";
+            if (userController.isLogIn(email) == false)
+            {
+                Response<string> res = new(false, "user isn't log in");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
+                BusinessLayer.Task task = board.SearchTask(taskId);
+                task.DueDate = dueDate;
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (BusinessLayer.NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
 
         /// <summary>

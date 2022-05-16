@@ -65,17 +65,20 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public DateTime DueDate 
         {
             get { return dueDate; }
-            set { dueDate = value; }
+            set {
+                log.Debug("UpdateDueDate() for taskId: " + id);
+                if (value == null)
+                {
+                    log.Error("AdvanceTask() failed: value is null");
+                    throw new NoSuchElementException("value is null");
+                }
+                dueDate = value; 
+                }
         }
         public string Description
         {
             get { return description; }
             set { description = value; }
-        }
-        public TaskStates State
-        {
-            get { return state; }
-            set { state = value; }
         }
         public bool DescriptionCharCap
         {
