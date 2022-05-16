@@ -32,7 +32,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AddTaskTest1()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"user doesn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled new board has a limit and can't contains more task"));
             string result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
             Assert.AreEqual(expected, result);
         }
@@ -41,7 +41,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AddTaskTest2()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"user doesn't login"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled new board has a limit and can't contains more task"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
             Assert.AreEqual(expected, result);
@@ -51,7 +51,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AddTaskTest3()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"board isn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled new board has a limit and can't contains more task"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
@@ -62,7 +62,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AddTaskTest4()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"column can't over the limit"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled new board has a limit and can't contains more task"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -89,7 +89,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RemoveTaskTest1()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"user doesn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
             string result = boardservice.RemoveTask("kfirniss@post.bgu.ac.il", "new board", 1);
             Assert.AreEqual(expected, result);
         }
@@ -98,7 +98,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RemoveTaskTest2()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"user doesn't login"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.RemoveTask("kfirniss@post.bgu.ac.il", "new board", 1);
             Assert.AreEqual(expected, result);
@@ -144,7 +144,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AdvanceTaskTest1()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "user doesn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
             string result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
             Assert.AreEqual(expected, result);
         }
@@ -153,7 +153,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AdvanceTaskTest2()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "user doesn't login"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
             Assert.AreEqual(expected, result);
