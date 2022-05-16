@@ -119,8 +119,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = boardServiceLayer.LimitColumn(email,boardName,columnOrdinal,limit);
             GradingResponse<string> res = new(json);
-            //if (res.ErrorMessage == null)
-            //    return "{}";
+            if (res.ErrorMessage == null)
+                return "{}";
             return JsonController.ConvertToJson(res);
         }
 
@@ -167,6 +167,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = boardServiceLayer.AddTask(email, boardName, title, description, dueDate);
             GradingResponse<string> res = new(json);
+            if (res.ErrorMessage == null)
+                return email;
             return JsonController.ConvertToJson(res);
         }
 
@@ -184,6 +186,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = taskServiceLayer.UpdateTaskDueDate(email, boardName, columnOrdinal, taskId, dueDate);
             GradingResponse<string> res = new(json);
+            if (res.ErrorMessage == null)
+                return "{}";
             return JsonController.ConvertToJson(res);
         }
 
@@ -201,6 +205,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = taskServiceLayer.UpdateTaskTitle(email, boardName, columnOrdinal, taskId, title);
             GradingResponse<string> res = new(json);
+            if (res.ErrorMessage == null)
+                return "{}";
             return JsonController.ConvertToJson(res);
         }
 
@@ -218,6 +224,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = taskServiceLayer.UpdateTaskDescription(email, boardName, columnOrdinal, taskId, description);
             GradingResponse<string> res = new(json);
+            if (res.ErrorMessage == null)
+                return "{}";
             return JsonController.ConvertToJson(res);
         }
 
@@ -234,6 +242,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = boardServiceLayer.AdvanceTask(email, boardName, columnOrdinal, taskId);
             GradingResponse<string> res = new(json);
+            if (res.ErrorMessage == null)
+                return "{}";
             return JsonController.ConvertToJson(res);
         }
 
@@ -263,6 +273,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = boardControllerServiceLayer.AddBoard(email, name);
             GradingResponse<string> res = new(json);
+            if (res.ErrorMessage == null)
+                return "{}";
             return JsonController.ConvertToJson(res);
         }
 
@@ -277,6 +289,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = boardControllerServiceLayer.RemoveBoard(email, name);
             GradingResponse<string> res = new(json);
+            if (res.ErrorMessage == null)
+                return "{}";
             return JsonController.ConvertToJson(res);
         }
 
