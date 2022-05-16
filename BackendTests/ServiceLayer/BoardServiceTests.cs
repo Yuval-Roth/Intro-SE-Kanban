@@ -297,7 +297,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnLimitTest()
         {
-            string expected = JsonController.ConvertToJson(new Response<object>(true,new object()));
+            string expected = JsonController.ConvertToJson(new Response<object>(true,1));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -365,7 +365,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnNameTest()
         {
-            string expected = JsonController.ConvertToJson(new Response<object>(false,new object()));
+            string expected = JsonController.ConvertToJson(new Response<object>(true,"backLog"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -419,7 +419,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnTest()
         {
-            string expected = JsonController.ConvertToJson(new Response<object>(true,new object()));
+            LinkedList<BusinessLayer.Task> tasks = new LinkedList<BusinessLayer.Task>();
+            tasks.AddLast(new BusinessLayer.Task(0, "task 1", new DateTime(), "bla bla bla"));
+
+            string expected = JsonController.ConvertToJson(new Response<object>(true,tasks));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
