@@ -23,7 +23,8 @@ namespace IntroSE.Kanban.selfTesting
             //JsonTesting();
             //PasswordHashingTesting();
             //logTesting();
-            registerTest();
+            //registerTest();
+            validEmailTest();
 
 
         }
@@ -68,33 +69,33 @@ namespace IntroSE.Kanban.selfTesting
 
             
         }
-        public static void JsonTesting()
-        {
-            Backend.ServiceLayer.Response<string> res = new(true,"hello");
-            string json = Backend.ServiceLayer.JsonController.ConvertToJson(res);
-            Console.WriteLine(json);
-            Backend.ServiceLayer.Response<string> des = Backend.ServiceLayer.JsonController.BuildFromJson<Backend.ServiceLayer.Response<string>>(json);
-            Console.WriteLine(des.returnValue);
-            Console.WriteLine(des.operationState);
-            Console.WriteLine("========================");
-            Backend.BusinessLayer.Task task = new()
-            {
-                Id= 1,
-                Title= "sup",
-                CreationTime= DateTime.Now,
-                DueDate= DateTime.Now,
-                Description = "bro"
-            };
-            Backend.ServiceLayer.Response<Backend.BusinessLayer.Task> res1 = new(true, task);
-            json = Backend.ServiceLayer.JsonController.ConvertToJson(res1);
-            Backend.ServiceLayer.Response<Backend.BusinessLayer.Task> des1 = Backend.ServiceLayer.JsonController.BuildFromJson<Backend.ServiceLayer.Response<Backend.BusinessLayer.Task>>(json);
-            Console.WriteLine(des1.returnValue.Id);
-            Console.WriteLine(des1.returnValue.Description);
-            Console.WriteLine(des1.operationState);
+        //public static void JsonTesting()
+        //{
+        //    Backend.ServiceLayer.Response<string> res = new(true,"hello");
+        //    string json = Backend.ServiceLayer.JsonController.ConvertToJson(res);
+        //    Console.WriteLine(json);
+        //    Backend.ServiceLayer.Response<string> des = Backend.ServiceLayer.JsonController.BuildFromJson<Backend.ServiceLayer.Response<string>>(json);
+        //    Console.WriteLine(des.returnValue);
+        //    Console.WriteLine(des.operationState);
+        //    Console.WriteLine("========================");
+        //    Backend.BusinessLayer.Task task = new()
+        //    {
+        //        Id= 1,
+        //        Title= "sup",
+        //        CreationTime= DateTime.Now,
+        //        DueDate= DateTime.Now,
+        //        Description = "bro"
+        //    };
+        //    Backend.ServiceLayer.Response<Backend.BusinessLayer.Task> res1 = new(true, task);
+        //    json = Backend.ServiceLayer.JsonController.ConvertToJson(res1);
+        //    Backend.ServiceLayer.Response<Backend.BusinessLayer.Task> des1 = Backend.ServiceLayer.JsonController.BuildFromJson<Backend.ServiceLayer.Response<Backend.BusinessLayer.Task>>(json);
+        //    Console.WriteLine(des1.returnValue.Id);
+        //    Console.WriteLine(des1.returnValue.Description);
+        //    Console.WriteLine(des1.operationState);
 
-        }
-        public static void PasswordHashingTesting()
-        {
+        //}
+        //public static void PasswordHashingTesting()
+        //{
             //int sum = 0;
             //int max = 0;
             //int min = 100000;
@@ -115,17 +116,41 @@ namespace IntroSE.Kanban.selfTesting
 
             //Backend.BusinessLayer.User user = new("test","TestPassword12");
             //Console.WriteLine(user.CheckPasswordMatch("TestPassword12"));
-        }
-        public static void logTesting()
-        {
-            log.Debug("Hello m8");
-        }
-        public static void registerTest()
+        //}
+        //public static void logTesting()
+        //{
+        //    log.Debug("Hello m8");
+        //}
+        //public static void registerTest()
+        //{
+        //    Backend.ServiceLayer.GradingService gs = new();
+        //    gs.Register("test", "sismaSababa23");
+        //    Console.WriteLine(gs.Login("test", "sismaSababa23"));
+        //    Console.WriteLine(gs.Logout("test"));
+        //}
+
+        public static void validEmailTest()
         {
             Backend.ServiceLayer.GradingService gs = new();
             //gs.Register("test", "sismaSababa23");
             //Console.WriteLine(gs.Login("test", "sismaSababa23"));
             //Console.WriteLine(gs.Logout("test"));
+            string email = "prinrz@post.bgu.ac.il";
+            string email1 = "Prein@pdij";
+            string email2 = "12344.@gmail.com"; //false/ true?
+            string email3 = "hadaspr100gmail.com";
+            string email4 = "hadas@gmailcom";
+            string email5 = null;
+            string email6 = "fdsa";
+            string email7 = "fdsa@";
+            string email8 = "fdsa@fdsa";
+            string email9 = "fdsa@fdsa.";
+            string email10 = "someone@somewhere.com";
+            string email11 = "someone@somewhere.co.uk";
+            string email12 = "someone+tag@somewhere.net"; // false/true?
+            string email13 = "futureTLD@somewhere.fooo";
+            bool ans = Backend.BusinessLayer.UserController.IsEmailValid(email13);
+            Console.WriteLine(ans);
         }
     }
 }
