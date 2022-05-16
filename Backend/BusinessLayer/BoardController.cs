@@ -142,7 +142,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
         public Board SearchBoard(string email, string name) {
-            log.Debug("SearchBoard() for: " + email + "Board's name" + name);
+            log.Debug("SearchBoard() for: " + email + " Board's name " + name);
             if (!userData.ContainsUser(email))
             {
                 log.Error("SearchBoard() failed: '" + email + "' doesn't exist");
@@ -155,27 +155,18 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new NoSuchElementException("A user with the email '" +
                     email + "' doesn't login to the system");
             }
-            try
+            LinkedList<Board> boardList = userData.GetBoards(email);
+            foreach (Board board in boardList)
             {
-                LinkedList<Board> boardList = userData.GetBoards(email);
-                foreach (Board board in boardList)
+                if (board.Title == name)
                 {
-                    if (board.Title == name)
-                    {
-                        log.Debug("SearchBoard() success");
-                        return board;
-                    }
+                    log.Debug("SearchBoard() success");
+                    return board;
                 }
-                log.Error("SearchBoard() failed: '" + name + "' doesn't exist");
-                throw new NoSuchElementException("A board titled '" +
-                                name + "' doesn't exists for the user with the email " + email);
             }
-            catch (NoSuchElementException)
-            {
-                log.Error("SearchBoard() failed: '" + email + "' doesn't exist");
-                throw new NoSuchElementException("A user with the email '" +
-                    email + "' doesn't exist in the system");
-            }
+            log.Error("SearchBoard() failed: '" + name + "' doesn't exist");
+            throw new NoSuchElementException("A board titled '" +
+                            name + "' doesn't exists for the user with the email " + email);
         }
 
     }
