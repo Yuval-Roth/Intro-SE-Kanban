@@ -29,7 +29,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         //successful
         [TestMethod()]
-        public void UpdateTaskDueDateTest()
+        public void UpdateTaskDueDateSuccess()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(true,""));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
@@ -42,7 +42,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         //user isn't exist
         [TestMethod()]
-        public void UpdateTaskDueDateTest1()
+        public void UpdateTaskDueDateUserIsntExist()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't exist in the system"));
             string result = taskservice.UpdateTaskDueDate("kfirniss@post.bgu.ac.il", "new board", 0, 1, new DateTime());
@@ -51,7 +51,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         //user doesn't login
         [TestMethod()]
-        public void UpdateTaskDueDateTest2()
+        public void UpdateTaskDueDateUserIsntLog()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
@@ -61,7 +61,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         //board isn't exist
         [TestMethod()]
-        public void UpdateTaskDueDateTest3()
+        public void UpdateTaskDueDateBoardIsntExist()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled 'new board' doesn't exists for the user with the email kfirniss@post.bgu.ac.il"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
@@ -72,7 +72,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         //column isn't exist
         [TestMethod()]
-        public void UpdateTaskDueDateTest4()
+        public void UpdateTaskDueDateColumnIsntExist()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "columnOrdinal '5' is illegal"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
@@ -85,7 +85,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         //task isn't exist
         [TestMethod()]
-        public void UpdateTaskDueDateTest5()
+        public void UpdateTaskDueDateTaskIsntExist()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '5' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
@@ -97,7 +97,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         //successful
         [TestMethod()]
-        public void UpdateTaskTitleTest()
+        public void UpdateTaskTitleTestSuccess()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(true,""));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
@@ -110,7 +110,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         //user isn't exist
         [TestMethod()]
-        public void UpdateTaskTitleTest1()
+        public void UpdateTaskTitleUserIsntExist()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't exist in the system"));
             string result = taskservice.UpdateTaskTitle("kfirniss@post.bgu.ac.il", "new board", 0, 1, "new task title name");
@@ -119,7 +119,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         //user doesn't login
         [TestMethod()]
-        public void UpdateTaskTitleTest2()
+        public void UpdateTaskTitleUserIsntLog()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
@@ -129,7 +129,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         //board isn't exist
         [TestMethod()]
-        public void UpdateTaskTitleTest3()
+        public void UpdateTaskTitleBoardIsntExist()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled 'new board' doesn't exists for the user with the email kfirniss@post.bgu.ac.il"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
@@ -140,7 +140,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         //column isn't exist
         [TestMethod()]
-        public void UpdateTaskTitleTest4()
+        public void UpdateTaskTitleColumnIsntExist()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "columnOrdinal '5' is illegal"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
@@ -153,7 +153,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         //task isn't exist
         [TestMethod()]
-        public void UpdateTaskTitleTest5()
+        public void UpdateTaskTitleTaskIsntExist()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
@@ -165,7 +165,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         //successful
         [TestMethod()]
-        public void UpdateTaskDescriptionTest()
+        public void UpdateTaskDescriptionSuccess()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(true,""));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
@@ -178,7 +178,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         //user isn't exist
         [TestMethod()]
-        public void UpdateTaskDescriptionTest1()
+        public void UpdateTaskDescriptionUserIsntExist()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't exist in the system"));
             string result = taskservice.UpdateTaskDescription("kfirniss@post.bgu.ac.il", "new board", 0, 0, "new task description");
@@ -187,7 +187,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         //user doesn't login
         [TestMethod()]
-        public void UpdateTaskDescriptionTest2()
+        public void UpdateTaskDescriptionUserIsntLog()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
@@ -197,7 +197,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         //board isn't exist
         [TestMethod()]
-        public void UpdateTaskDescriptionTest3()
+        public void UpdateTaskDescriptionBoardIsntExist()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled 'new board' doesn't exists for the user with the email kfirniss@post.bgu.ac.il"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
@@ -208,7 +208,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         //column isn't exist
         [TestMethod()]
-        public void UpdateTaskDescriptionTest4()
+        public void UpdateTaskDescriptionColumnIsntExist()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "columnOrdinal '3' is illegal"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
@@ -221,7 +221,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         //task isn't exist
         [TestMethod()]
-        public void UpdateTaskDescriptionTest5()
+        public void UpdateTaskDescriptionTaskIsntExist()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '0' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
