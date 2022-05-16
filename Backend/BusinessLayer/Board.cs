@@ -157,6 +157,21 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             return columnLimit[columnOrdinal];
         }
 
+
+        public string GetColumnName(int columnOrdinal)
+        {
+            log.Debug("GetColumnName() columnOrdinal: " + columnOrdinal);
+            if (columnOrdinal < 0 || columnOrdinal > 2)
+            {
+                log.Error("GetColumnName() failed: '" + columnOrdinal + "' doesn't exist");
+                throw new NoSuchElementException("A column '" +
+                    columnOrdinal + "' doesn't exist in the Board");
+            }
+            
+            log.Debug("GetColumnName() success");
+            return ((TaskStates) columnOrdinal).ToString();
+        }
+
         //====================================================
         //                  Json related
         //====================================================
