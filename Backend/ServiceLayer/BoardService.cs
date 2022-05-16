@@ -278,7 +278,28 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string GetColumn(string email, string boardName, int columnOrdinal)
         {
-            return "";
+            if (userController.isLogIn(email) == false)
+            {
+                Response<string> res = new(false, "user isn't log in");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
+                LinkedList<Task> column = board.GetColumn(columnOrdinal);
+                Response<LinkedList<Task>> res = new(true, column);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (BusinessLayer.NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
     }
     

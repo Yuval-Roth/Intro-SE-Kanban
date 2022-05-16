@@ -172,6 +172,21 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             return ((TaskStates) columnOrdinal).ToString();
         }
 
+
+        public LinkedList<Task> GetColumn(int columnOrdinal)
+        {
+            log.Debug("GetColumn() columnOrdinal: " + columnOrdinal);
+            if (columnOrdinal < 0 || columnOrdinal > 2)
+            {
+                log.Error("GetColumn() failed: '" + columnOrdinal + "' doesn't exist");
+                throw new NoSuchElementException("A column '" +
+                    columnOrdinal + "' doesn't exist in the Board");
+            }
+
+            log.Debug("GetColumn() success");
+            return columns[columnOrdinal];
+        }
+
         //====================================================
         //                  Json related
         //====================================================
