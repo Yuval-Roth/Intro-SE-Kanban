@@ -17,6 +17,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
     public class Task
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\Task.cs");
 
         private int id;
         private DateTime creationTime;
@@ -85,6 +86,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //====================================
         //            Functionality
         //====================================
+
+        public void AdvanceTask()
+        {
+            log.Debug("AdvanceTask() for taskId: " + id);
+            if(state == TaskStates.done)
+            {
+                log.Error("AdvanceTask() failed: '" + id + "' is done");
+                throw new ArgumentException("the task '" +
+                    id + "' is already done");
+            }
+            state++;
+            log.Debug("AdvanceTask() success");
+        }
 
 
 
