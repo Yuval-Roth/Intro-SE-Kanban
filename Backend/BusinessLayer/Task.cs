@@ -88,7 +88,21 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public string Description
         {
             get { return description; }
-            set { description = value; }
+            set {
+                log.Debug("UpdateDescription() for taskId: " + id);
+                if (value == null)
+                {
+                    log.Error("UpdateDescription() failed: value is null");
+                    throw new NoSuchElementException("value is null");
+                }
+                if(descriptionCharCap==true && value.Length > DESCRIPTION_CHAR_CAP)
+                {
+                    log.Error("UpdateDescription() failed: " + value + " is over the description limit");
+                    throw new ArgumentException(value + " is over the description limit");
+                }
+                log.Debug("UpdateDescription() success");
+                description = value;
+                }
         }
         public bool DescriptionCharCap
         {
