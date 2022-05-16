@@ -20,10 +20,10 @@ namespace IntroSE.Kanban.selfTesting
             //BoardTreeTesting();
             //datetesting();
             //UserControllerTesting();
-            JsonTesting();
+            //JsonTesting();
             //PasswordHashingTesting();
             //logTesting();
-
+            registerTest();
 
 
         }
@@ -119,6 +119,13 @@ namespace IntroSE.Kanban.selfTesting
         public static void logTesting()
         {
             log.Debug("Hello m8");
+        }
+        public static void registerTest()
+        {
+            Backend.ServiceLayer.GradingService gs = new();
+            gs.Register("test", "sismaSababa23");
+            Console.WriteLine(gs.Login("test", "sismaSababa23"));
+            Console.WriteLine(gs.Logout("test"));
         }
     }
 }

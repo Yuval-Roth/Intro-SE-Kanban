@@ -144,7 +144,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         ///<returns><c>true</c> if an element with this key exists in the tree and <c>false</c> otherwise</returns>
         public bool Contains(Key key)
         {
-           return root.Contains(key);
+            try
+            {
+                return root.Contains(key);
+            }
+            catch (NullReferenceException)
+            {
+                return false;
+            }
         }
 
         ///<summary>Check if the <c>BinaryTree</c> is empty</summary>
@@ -162,7 +169,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <returns><c>The element's <c>Data</c></c></returns>
         /// <exception cref="NoSuchElementException"></exception>
-        public Data GetData(Key key) 
+        public Data GetData(Key key)
         {
             try
             {
@@ -171,7 +178,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             catch (NoSuchElementException)
             {
                 throw;
-            } 
+            }
+            catch (NullReferenceException)
+            {
+                throw new NoSuchElementException("No such element in the tree");
+            }
         }
 
         //===========================================================================
