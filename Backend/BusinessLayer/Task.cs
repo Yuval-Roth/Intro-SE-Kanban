@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
     
-    internal enum TaskStates
+    public enum TaskStates
     {
         backLog,
         inProgress,

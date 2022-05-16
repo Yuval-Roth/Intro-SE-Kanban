@@ -25,12 +25,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             this.title = title;
             counterID = 0;
             columnLimit = new int[3];
-            columnLimit[0] = -1;
-            columnLimit[1] = -1;
-            columnLimit[2] = -1;
-            columns.Add(0, new LinkedList<Task>());
-            columns.Add(1, new LinkedList<Task>());
-            columns.Add(2, new LinkedList<Task>());
+            columnLimit[(int)TaskStates.backLog] = -1;
+            columnLimit[(int)TaskStates.inProgress] = -1;
+            columnLimit[(int)TaskStates.done] = -1;
+            columns.Add((int)TaskStates.backLog, new LinkedList<Task>());
+            columns.Add((int)TaskStates.inProgress, new LinkedList<Task>());
+            columns.Add((int)TaskStates.done, new LinkedList<Task>());
         }
         public string Title
         { 
