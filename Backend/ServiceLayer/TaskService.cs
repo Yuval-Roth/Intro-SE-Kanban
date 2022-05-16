@@ -50,6 +50,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
+                if (columnOrdinal < 0 | columnOrdinal > 2)
+                    throw new ArgumentException("columnOrdinal '" + columnOrdinal + "' is illegal");
+
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
                 BusinessLayer.Task task = board.SearchTask(taskId,columnOrdinal);
                 task.DueDate = dueDate;
@@ -81,6 +84,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
+                if (columnOrdinal < 0 | columnOrdinal > 2)
+                    throw new ArgumentException("columnOrdinal '" + columnOrdinal + "' is illegal");
+
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
                 BusinessLayer.Task task = board.SearchTask(taskId, columnOrdinal);
                 task.Title = title;
@@ -144,6 +150,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
+                if (columnOrdinal < 0 | columnOrdinal > 2)
+                    throw new ArgumentException("columnOrdinal '" + columnOrdinal + "' is illegal");
+
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
                 BusinessLayer.Task task = board.SearchTask(taskId, columnOrdinal);
                 task.LimitDescription();
