@@ -54,7 +54,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public string Title 
         {
             get { return title; }
-            set { title = value; }
+            set {
+                log.Debug("UpdateTitle() for taskId: " + id);
+                if (value == null)
+                {
+                    log.Error("UpdateTitle() failed: value is null");
+                    throw new NoSuchElementException("value is null");
+                }
+                log.Debug("UpdateTitle() success");
+                title = value;
+                }
         }
     
         public DateTime CreationTime 
@@ -69,11 +78,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Debug("UpdateDueDate() for taskId: " + id);
                 if (value == null)
                 {
-                    log.Error("AdvanceTask() failed: value is null");
+                    log.Error("UpdateDueDate() failed: value is null");
                     throw new NoSuchElementException("value is null");
                 }
-                dueDate = value; 
-                }
+                dueDate = value;
+                log.Debug("UpdateDueDate() success");
+            }
         }
         public string Description
         {
