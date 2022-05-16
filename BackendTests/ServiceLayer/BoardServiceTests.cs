@@ -129,6 +129,92 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         //successful
         [TestMethod()]
+        public void AdvanceTaskTest()
+        {
+            string expected = JsonController.ConvertToJson(new Response<string>(true, ""));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
+            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
+            Assert.AreEqual(expected, result);
+        }
+
+        //user doesn't exist
+        [TestMethod()]
+        public void AdvanceTaskTest1()
+        {
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "user doesn't exist"));
+            string result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
+            Assert.AreEqual(expected, result);
+        }
+
+        //user doesn't login
+        [TestMethod()]
+        public void AdvanceTaskTest2()
+        {
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "user doesn't login"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
+            Assert.AreEqual(expected, result);
+        }
+
+        //board isn't exist
+        [TestMethod()]
+        public void AdvanceTaskTest3()
+        {
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "board isn't exist"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
+            Assert.AreEqual(expected, result);
+        }
+
+        //task isn't exist in the column
+        [TestMethod()]
+        public void AdvanceTaskTest4()
+        {
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "task isn't exist in the column"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
+            Assert.AreEqual(expected, result);
+        }
+
+        //task is done
+        [TestMethod()]
+        public void AdvanceTaskTest5()
+        {
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "task is done"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
+            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
+            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 1, 1);
+            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 2, 1);
+            Assert.AreEqual(expected, result);
+        }
+
+        //column can't over the limit
+        [TestMethod()]
+        public void AdvanceTaskTest6()
+        {
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "column can't over the limit"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
+            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 2", "ni ni ni", new DateTime());
+            result = boardservice.LimitColumn("kfirniss@post.bgu.ac.il", "new board", 1, 1);
+            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
+            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 2);
+            Assert.AreEqual(expected, result);
+        }
+
+        //successful
+        [TestMethod()]
         public void LimitColumnTest()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(true,""));
