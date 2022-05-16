@@ -131,8 +131,8 @@ namespace IntroSE.Kanban.selfTesting
 
         public static void validEmailTest()
         {
-            bool ans = Backend.BusinessLayer.UserController.IsEmailValid("printz@post.bgu.ac.il");
-            //bool ans = uc.IsEmailValid("printz@post.bgu.ac.il");
+            string email = "prinrz@post.bgu.ac.il";
+            bool ans = Backend.BusinessLayer.UserController.IsEmailValid(email);
             Console.WriteLine(ans);
         }
     }
