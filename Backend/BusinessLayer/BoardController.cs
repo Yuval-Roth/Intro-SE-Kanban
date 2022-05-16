@@ -76,10 +76,33 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                                 name + "' doesn't exists for the user with the email " + email);
             }
         }
-        public LinkedList<Task> GetAllTasksByState(User user, Enum state)
+        public LinkedList<Task> GetAllTasksByState(string email, int columnOrdinal)
             {
-            return null;
+            log.Debug("GetAllTasksByState() for: " + "Board's name" + columnOrdinal);
+            if (email == null)
+            {
+                log.Error("GetAllTasksByState() failed: '" + email + "' is null");
+                throw new ArgumentNullException("Email is null");
             }
+            if (columnOrdinal < 0 || columnOrdinal > 2)
+            {
+                log.Error("GetAllTasksByState() failed: '" + columnOrdinal + "' doesn't exist");
+                throw new NoSuchElementException("A column '" +
+                    columnOrdinal + "' doesn't exist in the Board");
+            }
+            
+                LinkedList<Task> tasks = new LinkedList<Task>();
+                LinkedList<Board> boards = GetBoards(email);
+                foreach (Board board in boards)
+                {
+                    foreach (Task task in board.GetColumn(columnOrdinal))
+                    {
+                        tasks.AddLast(task);
+                    }
+                }
+            log.Debug("GetAllTasksByState() success");
+            return tasks;
+        }
         public LinkedList<Board> GetBoards (string email) {
             log.Debug("AddBoard() for: " + email);
             if (email == null)
