@@ -108,7 +108,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RemoveTaskTest3()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"board isn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.RemoveTask("kfirniss@post.bgu.ac.il", "new board", 1);
@@ -163,7 +163,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AdvanceTaskTest3()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "board isn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
@@ -174,7 +174,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AdvanceTaskTest4()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "task isn't exist in the column"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -186,7 +186,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AdvanceTaskTest5()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "task is done"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -201,7 +201,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AdvanceTaskTest6()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "column can't over the limit"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '2' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -450,7 +450,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnTest4()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"column isn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A column '5' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
