@@ -32,7 +32,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AddBoardTest1()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"true,user doesn't exist!"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't exist in the system"));
             string result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             Assert.AreEqual(expected, result);
         }
@@ -41,7 +41,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AddBoardTest2()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "user doesn't login!"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result =boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             Assert.AreEqual(expected, result);
@@ -125,8 +125,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "another board");
             result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
             result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "another board", "task 2", "ninini", new DateTime());
-            result = taskservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
-            result = taskservice.AdvanceTask("kfirniss@post.bgu.ac.il", "another board", 0, 1);
+            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
+            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "another board", 0, 1);
             result = boardcontrollerservice.GetAllTasksByState("kfirniss@post.bgu.ac.il",1);
             Assert.AreEqual(expected, result);
         }
