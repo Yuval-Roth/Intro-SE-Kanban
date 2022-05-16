@@ -60,7 +60,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AddBoardTest3()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"board already existed!"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled new board already exists for the user with the email kfirniss@post.bgu.ac.il"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -127,7 +127,14 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetAllTasksByStateTest()
         {
-            string expected = JsonController.ConvertToJson(new Response<object>(true,new object()));
+            LinkedList<BusinessLayer.Task> board = new();
+            board.AddLast(new BusinessLayer.Task()
+            {
+
+
+            }
+            );
+            string expected = JsonController.ConvertToJson(new Response<object>(true, board));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
