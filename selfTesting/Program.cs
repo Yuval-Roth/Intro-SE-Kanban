@@ -123,9 +123,9 @@ namespace IntroSE.Kanban.selfTesting
         public static void registerTest()
         {
             Backend.ServiceLayer.GradingService gs = new();
-            gs.Register("test", "sismaSababa23");
-            Console.WriteLine(gs.Login("test", "sismaSababa23"));
-            Console.WriteLine(gs.Logout("test"));
+            //gs.Register("test", "sismaSababa23");
+            //Console.WriteLine(gs.Login("test", "sismaSababa23"));
+            //Console.WriteLine(gs.Logout("test"));
         }
     }
 }

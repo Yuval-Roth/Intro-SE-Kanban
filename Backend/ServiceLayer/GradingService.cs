@@ -75,8 +75,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = userServiceLayer.Register(email, password);
             GradingResponse<string> res = new(json);
-            if (res.ErrorMessage == null)
-                return "{}";
             return JsonController.ConvertToJson(res);
         }
 
@@ -106,8 +104,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = userServiceLayer.LogOut(email);
             GradingResponse<string> res = new(json);
-            if (res.ErrorMessage == null)
-                return "{}";
             return JsonController.ConvertToJson(res);
         }
 
@@ -123,8 +119,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = boardServiceLayer.LimitColumn(email,boardName,columnOrdinal,limit);
             GradingResponse<string> res = new(json);
-            if (res.ErrorMessage == null)
-                return "{}";
+            //if (res.ErrorMessage == null)
+            //    return "{}";
             return JsonController.ConvertToJson(res);
         }
 
@@ -300,11 +296,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         #nullable enable
         [Serializable]
         public class GradingResponse<T>
-        {   
+        {
             [JsonInclude]
+            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
             public readonly string? ErrorMessage;
 
             [JsonInclude]
+            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
             public readonly T? ReturnValue;
 
             public GradingResponse(string json)
@@ -312,7 +310,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<T> response = JsonController.BuildFromJson<Response<T>>(json);
                 if (response.operationState == true)
                 {
-                    ReturnValue = response.returnValue;
+                    if (response.returnValue as string != "")
+                        ReturnValue = response.returnValue;
                 }
                 else if (response.returnValue is string)
                 {

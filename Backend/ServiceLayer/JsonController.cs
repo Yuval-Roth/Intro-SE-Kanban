@@ -12,16 +12,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		};
 		private static string Serialize<T>(T obj)
 		{
-			return JsonSerializer.Serialize<T>(obj, options);
+			return JsonSerializer.Serialize(obj, options);
 		}
 		private static T Deserialize<T>(string json)
 		{
 			return JsonSerializer.Deserialize<T>(json, options);
 		}
-		
-		
-		//public functions
 
+
+		//public functions
 
 		public static string ConvertToJson(BusinessLayer.Task task)
 		{
