@@ -17,16 +17,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void AddBoard(string email, string name)
         {
             log.Debug("AddBoard() for: " + email + "Board's name" + name);
-            if (email == null)
-            {
-                log.Error("AddBoard() failed: '" + email + "' is null");
-                throw new ArgumentNullException("Email is null");
-            }
-            if (name == null)
-            {
-                log.Error("AddBoard() failed: '" + name + "' is null");
-                throw new ArgumentNullException("name is null");
-            }
             if (!userData.ContainsUser(email))
             {
                 log.Error("AddBoard() failed: '" + email + "' doesn't exist");
@@ -60,16 +50,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void RemoveBoard(string email, string name)
         {
             log.Debug("RemoveBoard() for: " + email + "Board's name" + name);
-            if (email == null)
-            {
-                log.Error("RemoveBoard() failed: '" + email + "' is null");
-                throw new ArgumentNullException("Email is null");
-            }
-            if (name == null)
-            {
-                log.Error("RemoveBoard() failed: '" + name + "' is null");
-                throw new ArgumentNullException("name is null");
-            }
             if (!userData.ContainsUser(email))
             {
                 log.Error("RemoveBoard() failed: '" + email + "' doesn't exist");
@@ -103,11 +83,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public LinkedList<Task> GetAllTasksByState(string email, int columnOrdinal)
             {
             log.Debug("GetAllTasksByState() for: " + "Board's name" + columnOrdinal);
-            if (email == null)
-            {
-                log.Error("GetAllTasksByState() failed: '" + email + "' is null");
-                throw new ArgumentNullException("Email is null");
-            }
             if (!userData.ContainsUser(email))
             {
                 log.Error("GetAllTasksByState() failed: '" + email + "' doesn't exist");
@@ -141,11 +116,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
         public LinkedList<Board> GetBoards (string email) {
             log.Debug("GetBoards() for: " + email);
-            if (email == null)
-            {
-                log.Error("GetBoards() failed: '" + email + "' is null");
-                throw new ArgumentNullException("Email is null");
-            }
             if (!userData.ContainsUser(email))
             {
                 log.Error("GetBoards() failed: '" + email + "' doesn't exist");
@@ -173,16 +143,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
         public Board SearchBoard(string email, string name) {
             log.Debug("SearchBoard() for: " + email + "Board's name" + name);
-            if (email == null)
-            {
-                log.Error("SearchBoard() failed: '" + email + "' is null");
-                throw new ArgumentNullException("Email is null");
-            }
-            if (name == null)
-            {
-                log.Error("SearchBoard() failed: '" + name + "' is null");
-                throw new ArgumentNullException("name is null");
-            }
             if (!userData.ContainsUser(email))
             {
                 log.Error("SearchBoard() failed: '" + email + "' doesn't exist");

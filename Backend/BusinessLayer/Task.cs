@@ -56,11 +56,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             get { return title; }
             set {
                 log.Debug("UpdateTitle() for taskId: " + id);
-                if (value == null)
-                {
-                    log.Error("UpdateTitle() failed: '" + value + "' is null");
-                    throw new NoSuchElementException("Title is null");
-                }
                 log.Debug("UpdateTitle() success");
                 title = value;
                 }
@@ -85,11 +80,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             get { return description; }
             set {
                 log.Debug("UpdateDescription() for taskId: " + id);
-                if (value == null)
-                {
-                    log.Error("UpdateDescription() failed: '" + value + "' is null");
-                    throw new NoSuchElementException("Description is null");
-                }
                 if(descriptionCharCap==true && value.Length > DESCRIPTION_CHAR_CAP)
                 {
                     log.Error("UpdateDescription() failed: description is over the description limit");
