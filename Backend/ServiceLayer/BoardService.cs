@@ -97,8 +97,30 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string RemoveTask(string email, string boardTitle, int taskId)
         {
-            return "";
+            if (userController.isLogIn(email) == false)
+            {
+                Response<string> res = new(false, "user isn't log in");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                BusinessLayer.Board board = boardController.SearchBoard(email, boardTitle);
+                board.RemoveTask(taskId);
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (BusinessLayer.NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
+    }
 
         /// <summary>
         /// This method limits the number of tasks in a specific column.

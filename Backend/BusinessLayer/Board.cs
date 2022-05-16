@@ -44,6 +44,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //====================================
 
         public LinkedList<Task> GetTaskByType(Enum type) { return null; }
+
+
         public void AddTask(String title, DateTime duedate, String description)
         {
             if (columnLimit[0]!=-1 && columns[0]!=null && columns[0].Count() + 1 == columnLimit[0])
@@ -58,7 +60,27 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             columns[0]= list;
             log.Debug("AddTask() success");
         }
-        public void RemoveTask(String title) { }
+
+        public void RemoveTask(int taskId)
+        {
+            log.Debug("RemoveTask() taskId: " + taskId);
+            bool found = false;
+            for (int i = 0; i < columns.Count; i++)
+            {
+                LinkedList<Task> list = columns[i];
+                foreach (Task task in list)
+                {
+                    if (task.Id == taskId) { found = true; list.Remove(task); break; }
+                }
+                if (found) { break; }
+            }
+            if (!found)
+            {
+                log.Error("RemoveTask() failed: '" + taskId + "' doesn't exist");
+                throw new NoSuchElementException("A Task with the taskId '" +
+                    taskId + "' doesn't exist in the Board");
+            }
+        }
         public void AdvanceTask(String title) { }
         public Task SearchTask(String title) { return null; }
 

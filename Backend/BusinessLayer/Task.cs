@@ -82,6 +82,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             set { descriptionCharCap = value;}
         }
 
+        //====================================
+        //            Functionality
+        //====================================
 
 
 
