@@ -91,7 +91,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
-            result = boardservice.RemoveTask("kfirniss@post.bgu.ac.il", "new board", 1);
+            result = boardservice.RemoveTask("kfirniss@post.bgu.ac.il", "new board", 0);
             Assert.AreEqual(expected, result);
         }
 
@@ -100,7 +100,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void RemoveTaskTest1()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
-            string result = boardservice.RemoveTask("kfirniss@post.bgu.ac.il", "new board", 1);
+            string result = boardservice.RemoveTask("kfirniss@post.bgu.ac.il", "new board", 0);
             Assert.AreEqual(expected, result);
         }
 
@@ -110,7 +110,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = boardservice.RemoveTask("kfirniss@post.bgu.ac.il", "new board", 1);
+            result = boardservice.RemoveTask("kfirniss@post.bgu.ac.il", "new board", 0);
             Assert.AreEqual(expected, result);
         }
 
@@ -121,7 +121,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = boardservice.RemoveTask("kfirniss@post.bgu.ac.il", "new board", 1);
+            result = boardservice.RemoveTask("kfirniss@post.bgu.ac.il", "new board", 0);
             Assert.AreEqual(expected, result);
         }
 
@@ -133,7 +133,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-            result = boardservice.RemoveTask("kfirniss@post.bgu.ac.il", "new board", 1);
+            result = boardservice.RemoveTask("kfirniss@post.bgu.ac.il", "new board", 0);
             Assert.AreEqual(expected, result);
         }
 
@@ -146,7 +146,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
-            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
+            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
             Assert.AreEqual(expected, result);
         }
 
@@ -155,7 +155,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void AdvanceTaskTest1()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
-            string result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
+            string result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
             Assert.AreEqual(expected, result);
         }
 
@@ -165,7 +165,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
+            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
             Assert.AreEqual(expected, result);
         }
 
@@ -176,7 +176,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
+            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
             Assert.AreEqual(expected, result);
         }
 
@@ -188,7 +188,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
+            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
             Assert.AreEqual(expected, result);
         }
 
@@ -201,9 +201,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
-            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
-            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 1, 1);
-            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 2, 1);
+            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
+            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 1, 0);
+            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 2, 0);
             Assert.AreEqual(expected, result);
         }
 
@@ -218,8 +218,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
             result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 2", "ni ni ni", new DateTime());
             result = boardservice.LimitColumn("kfirniss@post.bgu.ac.il", "new board", 1, 1);
+            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
             result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
-            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 2);
             Assert.AreEqual(expected, result);
         }
 
