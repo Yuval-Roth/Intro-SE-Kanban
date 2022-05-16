@@ -46,7 +46,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Add new <c>User</c> to <c>UserData</c> userData <br/> <br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the user allready exists or if the password entered is illegal
+        /// <b>Throws</b> <c>ArgumentException</c> if the user allready exists or if the password entered is illegal or the email entered is illegal
         /// </summary>
         /// <param name="email"></param>
         /// <param name="password"></param>
@@ -58,6 +58,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             if (!IsLegalPassword(password)) {
                 log.Error("Register() failed: '" + password + "' is illegal");
                 throw new ArgumentException("Password illegal"); }
+            if (!IsEmailValid(email))
+            {
+                log.Error("Register() failed: '" + email + "' is illegal");
+                throw new ArgumentException("email illegal"); }
             try
             {
                 userData.AddUser(email,password);
@@ -207,6 +211,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 log.Error("SetEmail() failed: '" + user + "' doesn't exist");
                 throw new ArgumentException("User dosen't exist");
+            }
+            if (!IsEmailValid(newE))
+            {
+                log.Error("SetEmail() failed: " + newE + " is illegal");
+                throw new ArgumentException("New email illegal");
             }
             if (userData.ContainsUser(newE) == true)
             {
