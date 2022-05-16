@@ -176,7 +176,28 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// </returns>
         public string LimitColumn(string email, string boardName, int columnOrdinal, int limit)
         {
-            return "";
+            if (userController.isLogIn(email) == false)
+            {
+                Response<string> res = new(false, "user isn't log in");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
+                board.LimitColumn(columnOrdinal,limit);
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (BusinessLayer.NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
 
         /// <summary>
@@ -286,8 +307,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
-                LinkedList<Task> column = board.GetColumn(columnOrdinal);
-                Response<LinkedList<Task>> res = new(true, column);
+                LinkedList<BusinessLayer.Task> column = board.GetColumn(columnOrdinal);
+                Response<LinkedList<BusinessLayer.Task>> res = new(true, column);
                 return JsonController.ConvertToJson(res);
             }
             catch (BusinessLayer.NoSuchElementException ex)

@@ -48,6 +48,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public void AddTask(String title, DateTime duedate, String description)
         {
+            log.Debug("AddTask() for columntaskId: " + title + ", " + description + ", " + duedate);
             if (columnLimit[0]!=-1 && columns[0]!=null && columns[0].Count() == columnLimit[0])
             {
                 log.Error("AddTask() failed: board '" + this.title + "' has a limit and can't contains more task");
@@ -85,7 +86,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public void AdvanceTask(int columnOrdinal, int taskId)
         {
-            log.Debug("AdvsnceTask() for columntaskId: " + columnOrdinal + ", " + taskId);
+            log.Debug("AdvanceTask() for column and taskId: " + columnOrdinal + ", " + taskId);
             if (columnOrdinal<0 || columnOrdinal > 2) 
             {
                 log.Error("AdvanceTask() failed: '" + columnOrdinal + "' doesn't exist");
@@ -185,6 +186,32 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             log.Debug("GetColumn() success");
             return columns[columnOrdinal];
+        }
+
+
+        public void LimitColumn(int columnOrdinal, int limit)
+        {
+            log.Debug("LimitColumn() for column and limit: " + columnOrdinal + ", " + limit);
+            if (limit <= 0)
+            {
+                log.Error("LimitColumn() failed: '" + limit + "' the limit is negative");
+                throw new NoSuchElementException("A limit '" +
+                    limit + "' is negative");
+            }
+            if (columnOrdinal < 0 || columnOrdinal > 2)
+            {
+                log.Error("LimitColumn() failed: '" + columnOrdinal + "' doesn't exist");
+                throw new NoSuchElementException("A column '" +
+                    columnOrdinal + "' doesn't exist in the Board");
+            }
+            if (columns[columnOrdinal].Count > limit)
+            {
+                log.Error("LimitColumn() failed: '" + columnOrdinal + "' size is bigger than th limit " +limit);
+                throw new NoSuchElementException("A column '" +
+                    columnOrdinal + "' size is bigger than th limit " + limit);
+            }
+            log.Debug("LimitColumn() success");
+            columnLimit[columnOrdinal] = limit;
         }
 
         //====================================================
