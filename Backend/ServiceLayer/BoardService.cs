@@ -196,7 +196,28 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string GetColumnLimit(string email, string boardName, int columnOrdinal)
         {
-            return "";
+            if (userController.isLogIn(email) == false)
+            {
+                Response<string> res = new(false, "user isn't log in");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
+                int columnlimit=board.GetColumnLimit(columnOrdinal);
+                Response<int> res = new(true, columnlimit);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (BusinessLayer.NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
 
         /// <summary>

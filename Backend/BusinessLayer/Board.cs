@@ -129,7 +129,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 LinkedList<Task> list = columns[i];
                 foreach (Task task in list)
                 {
-                    if (task.Id == taskId) {log.Debug("RemoveTask() success"); return task; }
+                    if (task.Id == taskId) {log.Debug("SearchTask() success"); return task; }
                 }
             }   
                 log.Error("SearchTask() failed: '" + taskId + "' doesn't exist");
@@ -138,7 +138,24 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
 
-
+        public int GetColumnLimit(int columnOrdinal)
+        {
+            log.Debug("GetColumnLimit() columnOrdinal: " + columnOrdinal);
+            if (columnOrdinal < 0 || columnOrdinal > 2)
+            {
+                log.Error("GetColumnLimit() failed: '" + columnOrdinal + "' doesn't exist");
+                throw new NoSuchElementException("A column '" +
+                    columnOrdinal + "' doesn't exist in the Board");
+            }
+            if (columnLimit[columnOrdinal] == -1)
+            {
+                log.Error("GetColumnLimit() failed: '" + columnOrdinal + "' has no limit");
+                throw new ArgumentException("A column '" +
+                    columnOrdinal + "' has no limit");
+            }
+            log.Debug("GetColumnLimit() success");
+            return columnLimit[columnOrdinal];
+        }
 
         //====================================================
         //                  Json related
@@ -147,19 +164,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public Serializable.Board_Serializable GetSerializableInstance() 
         {
             LinkedList<Serializable.Task_Serializable> serializableBackLog = new();
-            foreach (Task task in Backlog)
+            foreach (Task task in columns[0])
             {
                 serializableBackLog.AddLast(task.GetSerializableInstance());
             }
 
             LinkedList<Serializable.Task_Serializable> serializableInProgress = new();
-            foreach (Task task in inProgress)
+            foreach (Task task in columns[1])
             {
                 serializableInProgress.AddLast(task.GetSerializableInstance());
             }
 
             LinkedList<Serializable.Task_Serializable> serializableDone = new();
-            foreach (Task task in done)
+            foreach (Task task in columns[2])
             {
                 serializableDone.AddLast(task.GetSerializableInstance());
             }
