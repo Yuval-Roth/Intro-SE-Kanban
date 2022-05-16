@@ -128,12 +128,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void GetAllTasksByStateTest()
         {
             LinkedList<BusinessLayer.Task> board = new();
-            board.AddLast(new BusinessLayer.Task()
-            {
-
-
-            }
-            );
+            board.AddLast(new BusinessLayer.Task(0, "task 1", new DateTime(), "bla bla bla"));
+            board.AddLast(new BusinessLayer.Task(0, "task 2", new DateTime(), "ninini"));
+            board.ElementAt(0).AdvanceTask();
+            board.ElementAt(1).AdvanceTask();
             string expected = JsonController.ConvertToJson(new Response<object>(true, board));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
