@@ -245,6 +245,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Debug("AddBoard() success");
                 return toReturn;
             }
+            catch (NullReferenceException)
+            {
+                log.Error("GetBoards() failed: '" + email + "' doesn't exist");
+                throw new NoSuchElementException("A user with the email '" +
+                    email + "' doesn't exist in the system");
+            }
             catch (NoSuchElementException)
             {
                 log.Error("AddBoard() failed: '" + email + "' doesn't exist");
