@@ -25,6 +25,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             this.title = title;
             counterID = 0;
             columnLimit = new int[3];
+            columns = new();
             columnLimit[(int)TaskStates.backLog] = -1;
             columnLimit[(int)TaskStates.inProgress] = -1;
             columnLimit[(int)TaskStates.done] = -1;

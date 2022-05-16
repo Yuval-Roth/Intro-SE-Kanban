@@ -247,9 +247,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             catch (NullReferenceException)
             {
-                log.Error("GetBoards() failed: '" + email + "' doesn't exist");
-                throw new NoSuchElementException("A user with the email '" +
-                    email + "' doesn't exist in the system");
+                throw new NoSuchElementException();
             }
             catch (NoSuchElementException)
             {
