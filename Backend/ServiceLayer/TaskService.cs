@@ -12,10 +12,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 	///<br/>
 	///<code>Supported operations:</code>
 	///<br/>
-	/// <list type="bullet">AdvanceTask()</list>
 	/// <list type="bullet">UpdateTaskDueDate()</list>
 	/// <list type="bullet">UpdateTaskTitle()</list>
     /// /// <list type="bullet">UpdateTaskDescription()</list>
+    /// /// /// <list type="bullet">LimitDescription()</list>
 	/// <br/><br/>
 	/// ===================
 	/// <br/>
@@ -28,24 +28,14 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     public class TaskService
     {
         private readonly BusinessLayer.BoardController boardController;
+        private readonly BusinessLayer.UserController userController;
 
         public TaskService(BusinessLayer.UserData userData)
         {
+            userController = new(userData);
             boardController = new(userData);
         }
 
-        /// <summary>
-        /// This method advances a task to the next column
-        /// </summary>
-        /// <param name="email">Email of user. Must be logged in</param>
-        /// <param name="boardName">The name of the board</param>
-        /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
-        /// <param name="taskId">The task to be updated identified task ID</param>
-        /// <returns>The string "{}", unless an error occurs (see <see cref="TaskService"/>)</returns>
-        public string AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
-        {
-            return "";
-        }
 
         /// <summary>
         /// This method updates the due date of a task
@@ -58,7 +48,29 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="TaskService"/>)</returns>
         public string UpdateTaskDueDate(string email, string boardName, int columnOrdinal, int taskId, DateTime dueDate)
         {
-            return "";
+            if (userController.isLogIn(email) == false)
+            {
+                Response<string> res = new(false, "user isn't log in");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
+                BusinessLayer.Task task = board.SearchTask(taskId);
+                task.DueDate = dueDate;
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (BusinessLayer.NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
 
         /// <summary>
@@ -72,7 +84,29 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="TaskService"/>)</returns>
         public string UpdateTaskTitle(string email, string boardName, int columnOrdinal, int taskId, string title)
         {
-            return "";
+            if (userController.isLogIn(email) == false)
+            {
+                Response<string> res = new(false, "user isn't log in");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
+                BusinessLayer.Task task = board.SearchTask(taskId);
+                task.Title = title;
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (BusinessLayer.NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
 
         /// <summary>
@@ -86,8 +120,65 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string UpdateTaskDescription(string email, string boardName, int columnOrdinal, int taskId, string description)
         {
-            return "";
+            if (userController.isLogIn(email) == false)
+            {
+                Response<string> res = new(false, "user isn't log in");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
+                BusinessLayer.Task task = board.SearchTask(taskId);
+                task.Description = description;
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (BusinessLayer.NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
+
+        /// <summary>
+        /// This method limit task description.
+        /// </summary>
+        /// <param name="email">Email of user. Must be logged in</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="taskId">The task to be updated identified task ID</param>
+        /// <returns>The string "{}", unless an error occurs (see <see cref="TaskService"/>)</returns>
+        public string LimitDescription(string email, string boardName, int taskId)
+        {
+            if (userController.isLogIn(email) == false)
+            {
+                Response<string> res = new(false, "user isn't log in");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
+                BusinessLayer.Task task = board.SearchTask(taskId);
+                task.LimitDescription();
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (BusinessLayer.NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+        }
+
     }
     
 }

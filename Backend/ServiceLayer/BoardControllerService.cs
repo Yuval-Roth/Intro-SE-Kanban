@@ -24,9 +24,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     public class BoardControllerService
     {
         private readonly BusinessLayer.BoardController boardController;
+        private readonly BusinessLayer.UserController userController;
 
         public BoardControllerService(BusinessLayer.UserData userData)
         {
+            userController = new(userData);
             boardController = new(userData);
         }
 
@@ -46,7 +48,27 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string AddBoard(string email, string name)
         {
-            return "";
+            if (userController.isLogIn(email) == false)
+            {
+                Response<string> res = new(false, "user isn't log in");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                boardController.AddBoard(email, name);
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (BusinessLayer.NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
 
         /// <summary>
@@ -65,7 +87,27 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string RemoveBoard(string email, string name)
         {
-            return "";
+            if (userController.isLogIn(email) == false)
+            {
+                Response<string> res = new(false, "user isn't log in");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                boardController.RemoveBoard(email, name);
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (BusinessLayer.NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
 
         /// <summary>
@@ -85,7 +127,27 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>Response with a list of tasks by specific state, unless an error occurs (see <see cref="BoardControllerService"/>)</returns>
         public string GetAllTasksByState(string email, int columnOrdinal)
         {
-            return "";
+            if (userController.isLogIn(email) == false)
+            {
+                Response<string> res = new(false, "user isn't log in");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                LinkedList<BusinessLayer.Task> tasks = boardController.GetAllTasksByState(email, columnOrdinal);
+                Response<LinkedList<BusinessLayer.Task>> res = new(true, tasks);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (BusinessLayer.NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
     }
 

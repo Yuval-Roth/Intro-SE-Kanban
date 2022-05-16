@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
     
-    public enum TaskStates
+    internal enum TaskStates
     {
         backLog,
         inProgress,
@@ -17,6 +17,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
     public class Task
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\Task.cs");
 
         private int id;
         private DateTime creationTime;
@@ -27,6 +28,17 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private TaskStates state;
         private bool descriptionCharCap;
         private readonly int DESCRIPTION_CHAR_CAP = 300;
+
+        public Task(int id, string title, DateTime duedate,string description)
+        {
+            this.id = id;
+            this.title = title;
+            this.dueDate = duedate;
+            this.description = description;
+            creationTime = new DateTime();
+            state = TaskStates.backLog;
+            descriptionCharCap= false;
+        }
 
 
         //====================================
@@ -42,7 +54,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public string Title 
         {
             get { return title; }
-            set { title = value; }
+            set {
+                log.Debug("UpdateTitle() for taskId: " + id);
+                if (value == null)
+                {
+                    log.Error("UpdateTitle() failed: value is null");
+                    throw new NoSuchElementException("value is null");
+                }
+                log.Debug("UpdateTitle() success");
+                title = value;
+                }
         }
     
         public DateTime CreationTime 
@@ -53,17 +74,35 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public DateTime DueDate 
         {
             get { return dueDate; }
-            set { dueDate = value; }
+            set {
+                log.Debug("UpdateDueDate() for taskId: " + id);
+                if (value == null)
+                {
+                    log.Error("UpdateDueDate() failed: value is null");
+                    throw new NoSuchElementException("value is null");
+                }
+                dueDate = value;
+                log.Debug("UpdateDueDate() success");
+            }
         }
         public string Description
         {
             get { return description; }
-            set { description = value; }
-        }
-        public TaskStates State
-        {
-            get { return state; }
-            set { state = value; }
+            set {
+                log.Debug("UpdateDescription() for taskId: " + id);
+                if (value == null)
+                {
+                    log.Error("UpdateDescription() failed: value is null");
+                    throw new NoSuchElementException("value is null");
+                }
+                if(descriptionCharCap==true && value.Length > DESCRIPTION_CHAR_CAP)
+                {
+                    log.Error("UpdateDescription() failed: " + value + " is over the description limit");
+                    throw new ArgumentException(value + " is over the description limit");
+                }
+                log.Debug("UpdateDescription() success");
+                description = value;
+                }
         }
         public bool DescriptionCharCap
         {
@@ -71,8 +110,34 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             set { descriptionCharCap = value;}
         }
 
+        //====================================
+        //            Functionality
+        //====================================
 
+        public void AdvanceTask()
+        {
+            log.Debug("AdvanceTask() for taskId: " + id);
+            if(state == TaskStates.done)
+            {
+                log.Error("AdvanceTask() failed: '" + id + "' is done");
+                throw new ArgumentException("the task '" +
+                    id + "' is already done");
+            }
+            state++;
+            log.Debug("AdvanceTask() success");
+        }
 
+        public void LimitDescription()
+        {
+            log.Debug("AdvanceTask() for taskId: " + id);
+            if(description.Length> DESCRIPTION_CHAR_CAP)
+            {
+                log.Error("UpdateDescription() failed: " + description + " is over the limit");
+                throw new ArgumentException(description + " is over the limit");
+            }
+            descriptionCharCap = true;
+            log.Debug("LimitDescription() success");
+        }
 
         //====================================================
         //                  Json related
