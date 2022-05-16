@@ -48,7 +48,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public void AddTask(String title, DateTime duedate, String description)
         {
-            if (columnLimit[0]!=-1 && columns[0]!=null && columns[0].Count() + 1 == columnLimit[0])
+            if (columnLimit[0]!=-1 && columns[0]!=null && columns[0].Count() == columnLimit[0])
             {
                 log.Error("AddTask() failed: board '" + this.title + "' has a limit and can't contains more task");
                 throw new ArgumentException("A board titled " +
@@ -80,9 +80,48 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new NoSuchElementException("A Task with the taskId '" +
                     taskId + "' doesn't exist in the Board");
             }
+            else { log.Debug("RemoveTask() success"); }
         }
-        public void AdvanceTask(String title) { }
-        public Task SearchTask(String title) { return null; }
+
+        public void AdvanceTask(int columnOrdinal, int taskId)
+        {
+            log.Debug("AdvsnceTask() for columntaskId: " + columnOrdinal + ", " + taskId);
+            if (columnOrdinal<0 || columnOrdinal > 2) 
+            {
+                log.Error("AdvanceTask() failed: '" + columnOrdinal + "' doesn't exist");
+                throw new NoSuchElementException("A column '" +
+                    columnOrdinal + "' doesn't exist in the Board");
+            }
+            if (columnOrdinal == 2)
+            {
+                log.Error("AdvanceTask() failed: '" + columnOrdinal + "'value is done");
+                throw new ArgumentException("the task '" +
+                    taskId + "' is already done");
+            }
+            bool found = false;
+            foreach(Task task in columns[columnOrdinal])
+            {
+                if (task.Id == taskId) { found=true; break; }
+            }
+            if (!found)
+            {
+                log.Error("AdvanceTask() failed: '" + taskId + "'doesn't found in the column " +columnOrdinal);
+                throw new NoSuchElementException("the task '" +
+                    taskId + "'doesn't found in the column " + columnOrdinal);
+            }
+            int nextcolumnordinal = columnOrdinal + 1;
+            if(columns[nextcolumnordinal].Count() == columnLimit[nextcolumnordinal])
+            {
+                log.Error("AdvanceTask() failed: '" + taskId + "'the next column " + nextcolumnordinal + "'is over the limit");
+                throw new ArgumentException("'the next column " + nextcolumnordinal + "'is over the limit");
+            }
+            Task toAdvance = SearchTask(taskId);
+            columns[columnOrdinal].Remove(toAdvance);
+            columns[nextcolumnordinal].AddLast(toAdvance);
+            log.Debug("AdvanceTask() success");
+        }
+
+        public Task SearchTask(int taskId) { return null; }
 
 
 

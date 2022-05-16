@@ -12,7 +12,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 	///<br/>
 	///<code>Supported operations:</code>
 	///<br/>
-	/// <list type="bullet">AdvanceTask()</list>
 	/// <list type="bullet">UpdateTaskDueDate()</list>
 	/// <list type="bullet">UpdateTaskTitle()</list>
     /// /// <list type="bullet">UpdateTaskDescription()</list>
@@ -34,18 +33,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             boardController = new(userData);
         }
 
-        /// <summary>
-        /// This method advances a task to the next column
-        /// </summary>
-        /// <param name="email">Email of user. Must be logged in</param>
-        /// <param name="boardName">The name of the board</param>
-        /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
-        /// <param name="taskId">The task to be updated identified task ID</param>
-        /// <returns>The string "{}", unless an error occurs (see <see cref="TaskService"/>)</returns>
-        public string AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
-        {
-            return "";
-        }
 
         /// <summary>
         /// This method updates the due date of a task

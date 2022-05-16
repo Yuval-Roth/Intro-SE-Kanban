@@ -14,6 +14,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 	///<br/>
 	/// <list type="bullet">AddTask()</list>
 	/// <list type="bullet">RemoveTask()</list>
+    /// /// <list type="bullet">AdvanceTask()</list>
 	/// <list type="bullet">LimitColumn()</list>
     /// <list type="bullet">GetColumnLimit()</list>
 	/// <list type="bullet">GetColumnName()</list>
@@ -120,7 +121,42 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
         }
-    }
+
+
+        /// <summary>
+        /// This method advances a task to the next column
+        /// </summary>
+        /// <param name="email">Email of user. Must be logged in</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
+        /// <param name="taskId">The task to be updated identified task ID</param>
+        /// <returns>The string "{}", unless an error occurs (see <see cref="BoardService"/>)</returns>
+        public string AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
+        {
+            if (userController.isLogIn(email) == false)
+            {
+                Response<string> res = new(false, "user isn't log in");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
+                board.AdvanceTask(columnOrdinal,taskId);
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (BusinessLayer.NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+        }
+
 
         /// <summary>
         /// This method limits the number of tasks in a specific column.
@@ -130,14 +166,14 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <param name="limit">The new limit value. A value of -1 indicates no limit.</param>
         /// <returns>
-		/// Json formatted as so:
-		/// <code>
-		///	{
-		///		operationState: bool 
-		///		returnValue: // (operationState == true) => empty string
-		/// }			// (operationState == false) => error message		
-		/// </code>
-		/// </returns>
+        /// Json formatted as so:
+        /// <code>
+        ///	{
+        ///		operationState: bool 
+        ///		returnValue: // (operationState == true) => empty string
+        /// }			// (operationState == false) => error message		
+        /// </code>
+        /// </returns>
         public string LimitColumn(string email, string boardName, int columnOrdinal, int limit)
         {
             return "";
