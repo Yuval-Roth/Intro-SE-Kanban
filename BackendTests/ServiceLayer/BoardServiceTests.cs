@@ -101,7 +101,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RemoveTaskTest1()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't exist in the system"));
             string result = boardservice.RemoveTask("kfirniss@post.bgu.ac.il", "new board", 0);
             Assert.AreEqual(expected, result);
         }
@@ -110,7 +110,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RemoveTaskTest2()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.RemoveTask("kfirniss@post.bgu.ac.il", "new board", 0);
             Assert.AreEqual(expected, result);
@@ -120,7 +120,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RemoveTaskTest3()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled 'new board' doesn't exists for the user with the email kfirniss@post.bgu.ac.il"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.RemoveTask("kfirniss@post.bgu.ac.il", "new board", 0);
@@ -156,7 +156,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AdvanceTaskTest1()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't exist in the system"));
             string result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
             Assert.AreEqual(expected, result);
         }
@@ -165,7 +165,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AdvanceTaskTest2()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
             Assert.AreEqual(expected, result);
@@ -175,7 +175,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AdvanceTaskTest3()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled 'new board' doesn't exists for the user with the email kfirniss@post.bgu.ac.il"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
@@ -186,7 +186,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AdvanceTaskTest4()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '0' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -198,7 +198,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AdvanceTaskTest5()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '1' doesn't exist in the Board"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "the task '0' is already done"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -213,7 +213,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AdvanceTaskTest6()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '2' doesn't exist in the Board"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "'the next column 1'is over the limit"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -241,7 +241,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void LimitColumnTest1()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"user isn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't exist in the system"));
             string result = boardservice.LimitColumn("kfirniss@post.bgu.ac.il", "new board", 0, 1);
             Assert.AreEqual(expected, result);
         }
@@ -250,7 +250,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void LimitColumnTest2()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(true,""));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.LimitColumn("kfirniss@post.bgu.ac.il", "new board", 0, 1);
             Assert.AreEqual(expected, result);
@@ -260,7 +260,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void LimitColumnTest3()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(true,""));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled 'new board' doesn't exists for the user with the email kfirniss@post.bgu.ac.il"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.LimitColumn("kfirniss@post.bgu.ac.il", "new board", 0, 1);
@@ -271,7 +271,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void LimitColumnTest4()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(true,""));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A column '5' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -283,7 +283,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void LimitColumnTest5()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"column has more tasks than the limit"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A column '0' size is bigger than th limit 1"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -310,7 +310,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnLimitTest1()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"user isn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't exist in the system"));
             string result = boardservice.GetColumnLimit("kfirniss@post.bgu.ac.il", "new board", 0);
             Assert.AreEqual(expected, result);
         }
@@ -319,7 +319,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnLimitTest2()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"user doesn't login"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.GetColumnLimit("kfirniss@post.bgu.ac.il", "new board", 0);
             Assert.AreEqual(expected, result);
@@ -329,7 +329,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnLimitTest3()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"board isn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled 'new board' doesn't exists for the user with the email kfirniss@post.bgu.ac.il"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.GetColumnLimit("kfirniss@post.bgu.ac.il", "new board", 0);
@@ -340,7 +340,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnLimitTest4()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"column isn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A column '7' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -353,7 +353,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnLimitTest5()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"column is unlimited"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A column '0' has no limit"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -377,7 +377,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnNameTest1()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"user isn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't exist in the system"));
             string result = boardservice.GetColumnName("kfirniss@post.bgu.ac.il", "new board", 0);
             Assert.AreEqual(expected, result);
         }
@@ -386,7 +386,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumNameTest2()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"user doesn't login"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.GetColumnName("kfirniss@post.bgu.ac.il", "new board", 0);
             Assert.AreEqual(expected, result);
@@ -396,7 +396,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnNameTest3()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"board isn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled 'new board' doesn't exists for the user with the email kfirniss@post.bgu.ac.il"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.GetColumnName("kfirniss@post.bgu.ac.il", "new board", 0);
@@ -407,7 +407,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnNameTest4()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"column isn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A column '7' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -432,7 +432,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnTest1()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"user isn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't exist in the system"));
             string result = boardservice.GetColumn("kfirniss@post.bgu.ac.il", "new board", 0);
             Assert.AreEqual(expected, result);
         }
@@ -441,7 +441,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnTest2()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"user doesn't login"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.GetColumn("kfirniss@post.bgu.ac.il", "new board", 0);
             Assert.AreEqual(expected, result);
@@ -451,7 +451,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnTest3()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"board isn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled 'new board' doesn't exists for the user with the email kfirniss@post.bgu.ac.il"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.GetColumn("kfirniss@post.bgu.ac.il", "new board", 0);
