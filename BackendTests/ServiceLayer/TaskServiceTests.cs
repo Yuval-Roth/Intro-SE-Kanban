@@ -12,11 +12,20 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
     public class TaskServiceTests
     {
 
-        static BusinessLayer.UserData userData = new();
-        UserService userservice = new(userData);
-        BoardControllerService boardcontrollerservice = new(userData);
-        BoardService boardservice = new(userData);
-        TaskService taskservice = new(userData);
+        BusinessLayer.UserData userData;
+        UserService userservice;
+        BoardControllerService boardcontrollerservice;
+        BoardService boardservice;
+        TaskService taskservice;
+
+        public TaskServiceTests()
+        {
+            userData = new();
+            userservice = new(userData);
+            boardcontrollerservice = new(userData);
+            boardservice = new(userData);
+            taskservice = new(userData);
+        }
 
         //successful
         [TestMethod()]
@@ -27,7 +36,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
-            result = taskservice.UpdateTaskDueDate("kfirniss@post.bgu.ac.il", "new board", 0, 1, new DateTime());
+            result = taskservice.UpdateTaskDueDate("kfirniss@post.bgu.ac.il", "new board", 0, 0, new DateTime());
             Assert.AreEqual(expected, result);
         }
 
@@ -35,7 +44,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void UpdateTaskDueDateTest1()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"user isn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't exist in the system"));
             string result = taskservice.UpdateTaskDueDate("kfirniss@post.bgu.ac.il", "new board", 0, 1, new DateTime());
             Assert.AreEqual(expected, result);
         }
@@ -44,7 +53,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void UpdateTaskDueDateTest2()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"user doesn't login"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = taskservice.UpdateTaskDueDate("kfirniss@post.bgu.ac.il", "new board", 0, 1, new DateTime());
             Assert.AreEqual(expected, result);
@@ -165,7 +174,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
-            result = taskservice.UpdateTaskDescription("kfirniss@post.bgu.ac.il", "new board", 0, 1, "new task description");
+            result = taskservice.UpdateTaskDescription("kfirniss@post.bgu.ac.il", "new board", 0, 0, "new task description");
             Assert.AreEqual(expected, result);
         }
 
@@ -173,8 +182,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void UpdateTaskDescriptionTest1()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"user isn't exist"));
-            string result = taskservice.UpdateTaskDescription("kfirniss@post.bgu.ac.il", "new board", 0, 1, "new task description");
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't exist in the system"));
+            string result = taskservice.UpdateTaskDescription("kfirniss@post.bgu.ac.il", "new board", 0, 0, "new task description");
             Assert.AreEqual(expected, result);
         }
 
@@ -182,9 +191,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void UpdateTaskDescriptionTest2()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"user doesn't login"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = taskservice.UpdateTaskDescription("kfirniss@post.bgu.ac.il", "new board", 0, 1, "new task description");
+            result = taskservice.UpdateTaskDescription("kfirniss@post.bgu.ac.il", "new board", 0, 0, "new task description");
             Assert.AreEqual(expected, result);
         }
 
@@ -192,10 +201,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void UpdateTaskDescriptionTest3()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"board isn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled 'new board' doesn't exists for the user with the email kfirniss@post.bgu.ac.il"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = taskservice.UpdateTaskDescription("kfirniss@post.bgu.ac.il", "new board", 0, 1, "new task description");
+            result = taskservice.UpdateTaskDescription("kfirniss@post.bgu.ac.il", "new board", 0, 0, "new task description");
             Assert.AreEqual(expected, result);
         }
 
@@ -203,12 +212,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void UpdateTaskDescriptionTest4()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"column isn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "columnOrdinal '3' is illegal"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
-            result = taskservice.UpdateTaskDescription("kfirniss@post.bgu.ac.il", "new board", 0, 1, "new task description");
+            result = taskservice.UpdateTaskDescription("kfirniss@post.bgu.ac.il", "new board", 3, 0, "new task description");
             Assert.AreEqual(expected, result);
         }
 
@@ -216,12 +225,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void UpdateTaskDescriptionTest5()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"task isn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '0' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
-            result = taskservice.UpdateTaskDescription("kfirniss@post.bgu.ac.il", "new board", 0, 1, "new task description");
+            result = taskservice.UpdateTaskDescription("kfirniss@post.bgu.ac.il", "new board", 0, 0, "new task description");
             Assert.AreEqual(expected, result);
         }
     }

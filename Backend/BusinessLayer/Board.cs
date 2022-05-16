@@ -121,6 +121,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             log.Debug("AdvanceTask() success");
         }
 
+        public Task SearchTask(int taskId, int columnOrdinal)
+        {
+            log.Debug("SearchTask() taskId: " + taskId);
+            LinkedList<Task> list = columns[columnOrdinal];
+            foreach (Task task in list)
+            {
+                if (task.Id == taskId) { log.Debug("SearchTask() success"); return task; }
+            }
+            log.Error("SearchTask() failed: '" + taskId + "' doesn't exist");
+            throw new NoSuchElementException("A Task with the taskId '" +
+                taskId + "' doesn't exist in the Board");
+        }
+
         public Task SearchTask(int taskId) 
         {
             log.Debug("SearchTask() taskId: " + taskId);
