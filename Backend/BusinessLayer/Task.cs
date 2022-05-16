@@ -127,7 +127,17 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             log.Debug("AdvanceTask() success");
         }
 
-
+        public void LimitDescription()
+        {
+            log.Debug("AdvanceTask() for taskId: " + id);
+            if(description.Length> DESCRIPTION_CHAR_CAP)
+            {
+                log.Error("UpdateDescription() failed: " + description + " is over the limit");
+                throw new ArgumentException(description + " is over the limit");
+            }
+            descriptionCharCap = true;
+            log.Debug("LimitDescription() success");
+        }
 
         //====================================================
         //                  Json related

@@ -15,6 +15,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 	/// <list type="bullet">UpdateTaskDueDate()</list>
 	/// <list type="bullet">UpdateTaskTitle()</list>
     /// /// <list type="bullet">UpdateTaskDescription()</list>
+    /// /// /// <list type="bullet">LimitDescription()</list>
 	/// <br/><br/>
 	/// ===================
 	/// <br/>
@@ -143,6 +144,41 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
         }
+
+        /// <summary>
+        /// This method limit task description.
+        /// </summary>
+        /// <param name="email">Email of user. Must be logged in</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="taskId">The task to be updated identified task ID</param>
+        /// <returns>The string "{}", unless an error occurs (see <see cref="TaskService"/>)</returns>
+        public string LimitDescription(string email, string boardName, int taskId)
+        {
+            if (userController.isLogIn(email) == false)
+            {
+                Response<string> res = new(false, "user isn't log in");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
+                BusinessLayer.Task task = board.SearchTask(taskId);
+                task.LimitDescription();
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (BusinessLayer.NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+        }
+
     }
     
 }
