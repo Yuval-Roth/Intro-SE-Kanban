@@ -146,7 +146,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
-            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
+            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
             Assert.AreEqual(expected, result);
         }
 
