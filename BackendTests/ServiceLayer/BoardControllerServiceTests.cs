@@ -11,11 +11,20 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
     [TestClass()]
     public class BoardControllerServiceTests
     {
-        static BusinessLayer.UserData userData= new();
-        UserService userservice = new(userData);
-        BoardControllerService boardcontrollerservice = new(userData);
-        BoardService boardservice = new(userData);
-        TaskService taskservice = new(userData);
+        BusinessLayer.UserData userData;
+        UserService userservice;
+        BoardControllerService boardcontrollerservice;
+        BoardService boardservice;
+        TaskService taskservice;
+
+        public BoardControllerServiceTests()
+        {
+            userData = new();
+            userservice = new(userData);
+            boardcontrollerservice = new(userData);
+            boardservice = new(userData);
+            taskservice = new(userData);
+        }
 
         //create successful
         [TestMethod()]
