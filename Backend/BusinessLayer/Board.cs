@@ -43,12 +43,20 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //            Functionality
         //====================================
 
-        public LinkedList<Task> GetTaskByType(Enum type) { return null; }
 
-
-        public void AddTask(String title, DateTime duedate, String description)
+        public void AddTask(string title, DateTime duedate, string description)
         {
-            log.Debug("AddTask() for columntaskId: " + title + ", " + description + ", " + duedate);
+            log.Debug("AddTask() for taskId: " + title + ", " + description + ", " + duedate);
+            if (title == null)
+            {
+                log.Error("AddTask() failed: '" + title + "' is null");
+                throw new ArgumentNullException("Title is null");
+            }
+            if (description == null)
+            {
+                log.Error("AddTask() failed: '" + description + "' is null");
+                throw new ArgumentNullException("Description is null");
+            }
             if (columnLimit[0]!=-1 && columns[0]!=null && columns[0].Count() == columnLimit[0])
             {
                 log.Error("AddTask() failed: board '" + this.title + "' has a limit and can't contains more task");

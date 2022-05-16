@@ -58,8 +58,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Debug("UpdateTitle() for taskId: " + id);
                 if (value == null)
                 {
-                    log.Error("UpdateTitle() failed: value is null");
-                    throw new NoSuchElementException("value is null");
+                    log.Error("UpdateTitle() failed: '" + value + "' is null");
+                    throw new NoSuchElementException("Title is null");
                 }
                 log.Debug("UpdateTitle() success");
                 title = value;
@@ -76,11 +76,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             get { return dueDate; }
             set {
                 log.Debug("UpdateDueDate() for taskId: " + id);
-                if (value == null)
-                {
-                    log.Error("UpdateDueDate() failed: value is null");
-                    throw new NoSuchElementException("value is null");
-                }
                 dueDate = value;
                 log.Debug("UpdateDueDate() success");
             }
@@ -92,13 +87,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Debug("UpdateDescription() for taskId: " + id);
                 if (value == null)
                 {
-                    log.Error("UpdateDescription() failed: value is null");
-                    throw new NoSuchElementException("value is null");
+                    log.Error("UpdateDescription() failed: '" + value + "' is null");
+                    throw new NoSuchElementException("Description is null");
                 }
                 if(descriptionCharCap==true && value.Length > DESCRIPTION_CHAR_CAP)
                 {
-                    log.Error("UpdateDescription() failed: " + value + " is over the description limit");
-                    throw new ArgumentException(value + " is over the description limit");
+                    log.Error("UpdateDescription() failed: description is over the description limit");
+                    throw new ArgumentException("Description is over the description limit");
                 }
                 log.Debug("UpdateDescription() success");
                 description = value;

@@ -57,11 +57,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string AddTask(string email, string boardName, string title, string description, DateTime dueDate)
         {
-            if (userController.isLogIn(email) == false)
-            {
-                Response<string> res = new(false, "user isn't log in");
-                return JsonController.ConvertToJson(res);
-            }
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email,boardName);
@@ -98,11 +93,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string RemoveTask(string email, string boardTitle, int taskId)
         {
-            if (userController.isLogIn(email) == false)
-            {
-                Response<string> res = new(false, "user isn't log in");
-                return JsonController.ConvertToJson(res);
-            }
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardTitle);
@@ -133,11 +123,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="BoardService"/>)</returns>
         public string AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
         {
-            if (userController.isLogIn(email) == false)
-            {
-                Response<string> res = new(false, "user isn't log in");
-                return JsonController.ConvertToJson(res);
-            }
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
@@ -178,11 +163,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// </returns>
         public string LimitColumn(string email, string boardName, int columnOrdinal, int limit)
         {
-            if (userController.isLogIn(email) == false)
-            {
-                Response<string> res = new(false, "user isn't log in");
-                return JsonController.ConvertToJson(res);
-            }
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
@@ -219,11 +199,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string GetColumnLimit(string email, string boardName, int columnOrdinal)
         {
-            if (userController.isLogIn(email) == false)
-            {
-                Response<string> res = new(false, "user isn't log in");
-                return JsonController.ConvertToJson(res);
-            }
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
@@ -260,11 +235,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string GetColumnName(string email, string boardName, int columnOrdinal)
         {
-            if (userController.isLogIn(email) == false)
-            {
-                Response<string> res = new(false, "user isn't log in");
-                return JsonController.ConvertToJson(res);
-            }
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
@@ -301,11 +271,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string GetColumn(string email, string boardName, int columnOrdinal)
         {
-            if (userController.isLogIn(email) == false)
-            {
-                Response<string> res = new(false, "user isn't log in");
-                return JsonController.ConvertToJson(res);
-            }
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);

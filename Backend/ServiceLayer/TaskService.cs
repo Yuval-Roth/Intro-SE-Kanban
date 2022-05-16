@@ -48,11 +48,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="TaskService"/>)</returns>
         public string UpdateTaskDueDate(string email, string boardName, int columnOrdinal, int taskId, DateTime dueDate)
         {
-            if (userController.isLogIn(email) == false)
-            {
-                Response<string> res = new(false, "user isn't log in");
-                return JsonController.ConvertToJson(res);
-            }
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
@@ -84,11 +79,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="TaskService"/>)</returns>
         public string UpdateTaskTitle(string email, string boardName, int columnOrdinal, int taskId, string title)
         {
-            if (userController.isLogIn(email) == false)
-            {
-                Response<string> res = new(false, "user isn't log in");
-                return JsonController.ConvertToJson(res);
-            }
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
@@ -120,11 +110,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string UpdateTaskDescription(string email, string boardName, int columnOrdinal, int taskId, string description)
         {
-            if (userController.isLogIn(email) == false)
-            {
-                Response<string> res = new(false, "user isn't log in");
-                return JsonController.ConvertToJson(res);
-            }
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
@@ -154,11 +139,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>The string "{}", unless an error occurs (see <see cref="TaskService"/>)</returns>
         public string LimitDescription(string email, string boardName, int taskId)
         {
-            if (userController.isLogIn(email) == false)
-            {
-                Response<string> res = new(false, "user isn't log in");
-                return JsonController.ConvertToJson(res);
-            }
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);

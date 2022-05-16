@@ -23,6 +23,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 	/// </summary>
     public class BoardControllerService
     {
+
         private readonly BusinessLayer.BoardController boardController;
         private readonly BusinessLayer.UserController userController;
 
@@ -48,11 +49,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string AddBoard(string email, string name)
         {
-            if (userController.isLogIn(email) == false)
-            {
-                Response<string> res = new(false, "user isn't log in");
-                return JsonController.ConvertToJson(res);
-            }
             try
             {
                 boardController.AddBoard(email, name);
@@ -87,11 +83,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string RemoveBoard(string email, string name)
         {
-            if (userController.isLogIn(email) == false)
-            {
-                Response<string> res = new(false, "user isn't log in");
-                return JsonController.ConvertToJson(res);
-            }
             try
             {
                 boardController.RemoveBoard(email, name);
@@ -127,11 +118,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>Response with a list of tasks by specific state, unless an error occurs (see <see cref="BoardControllerService"/>)</returns>
         public string GetAllTasksByState(string email, int columnOrdinal)
         {
-            if (userController.isLogIn(email) == false)
-            {
-                Response<string> res = new(false, "user isn't log in");
-                return JsonController.ConvertToJson(res);
-            }
             try
             {
                 LinkedList<BusinessLayer.Task> tasks = boardController.GetAllTasksByState(email, columnOrdinal);

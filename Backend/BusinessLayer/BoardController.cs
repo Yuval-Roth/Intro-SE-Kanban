@@ -27,6 +27,18 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("AddBoard() failed: '" + name + "' is null");
                 throw new ArgumentNullException("name is null");
             }
+            if (!userData.ContainsUser(email))
+            {
+                log.Error("AddBoard() failed: '" + email + "' doesn't exist");
+                throw new NoSuchElementException("A user with the email '" +
+                    email + "' doesn't exist in the system");
+            }
+            if (!userData.UserLoggedInStatus(email))
+            {
+                log.Error("AddBoard() failed: '" + email + "' doesn't login");
+                throw new NoSuchElementException("A user with the email '" +
+                    email + "' doesn't login to the system");
+            }
             try
             {
                 userData.AddBoard(email, name);
@@ -58,6 +70,18 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("RemoveBoard() failed: '" + name + "' is null");
                 throw new ArgumentNullException("name is null");
             }
+            if (!userData.ContainsUser(email))
+            {
+                log.Error("RemoveBoard() failed: '" + email + "' doesn't exist");
+                throw new NoSuchElementException("A user with the email '" +
+                    email + "' doesn't exist in the system");
+            }
+            if (!userData.UserLoggedInStatus(email))
+            {
+                log.Error("RemoveBoard() failed: '" + email + "' doesn't login");
+                throw new NoSuchElementException("A user with the email '" +
+                    email + "' doesn't login to the system");
+            }
             try
             {
                 userData.RemoveBoard(email, name);
@@ -84,6 +108,18 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("GetAllTasksByState() failed: '" + email + "' is null");
                 throw new ArgumentNullException("Email is null");
             }
+            if (!userData.ContainsUser(email))
+            {
+                log.Error("GetAllTasksByState() failed: '" + email + "' doesn't exist");
+                throw new NoSuchElementException("A user with the email '" +
+                    email + "' doesn't exist in the system");
+            }
+            if (!userData.UserLoggedInStatus(email))
+            {
+                log.Error("GetAllTasksByState() failed: '" + email + "' doesn't login");
+                throw new NoSuchElementException("A user with the email '" +
+                    email + "' doesn't login to the system");
+            }
             if (columnOrdinal < 0 || columnOrdinal > 2)
             {
                 log.Error("GetAllTasksByState() failed: '" + columnOrdinal + "' doesn't exist");
@@ -104,21 +140,33 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             return tasks;
         }
         public LinkedList<Board> GetBoards (string email) {
-            log.Debug("AddBoard() for: " + email);
+            log.Debug("GetBoards() for: " + email);
             if (email == null)
             {
-                log.Error("AddBoard() failed: '" + email + "' is null");
+                log.Error("GetBoards() failed: '" + email + "' is null");
                 throw new ArgumentNullException("Email is null");
+            }
+            if (!userData.ContainsUser(email))
+            {
+                log.Error("GetBoards() failed: '" + email + "' doesn't exist");
+                throw new NoSuchElementException("A user with the email '" +
+                    email + "' doesn't exist in the system");
+            }
+            if (!userData.UserLoggedInStatus(email))
+            {
+                log.Error("GetBoards() failed: '" + email + "' doesn't login");
+                throw new NoSuchElementException("A user with the email '" +
+                    email + "' doesn't login to the system");
             }
             try
             {
                 LinkedList<Board> output = userData.GetBoards(email);
-                log.Debug("AddBoard() success");
+                log.Debug("GetBoards() success");
                 return output;
             }
             catch (NoSuchElementException)
             {
-                log.Error("AddBoard() failed: '" + email + "' doesn't exist");
+                log.Error("GetBoards() failed: '" + email + "' doesn't exist");
                 throw new NoSuchElementException("A user with the email '" +
                     email + "' doesn't exist in the system");
             }
@@ -134,6 +182,18 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 log.Error("SearchBoard() failed: '" + name + "' is null");
                 throw new ArgumentNullException("name is null");
+            }
+            if (!userData.ContainsUser(email))
+            {
+                log.Error("SearchBoard() failed: '" + email + "' doesn't exist");
+                throw new NoSuchElementException("A user with the email '" +
+                    email + "' doesn't exist in the system");
+            }
+            if (!userData.UserLoggedInStatus(email))
+            {
+                log.Error("SearchBoard() failed: '" + email + "' doesn't login");
+                throw new NoSuchElementException("A user with the email '" +
+                    email + "' doesn't login to the system");
             }
             try
             {
