@@ -131,7 +131,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RemoveTaskTest4()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(true,""));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A Task with the taskId '0' doesn't exist in the Board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -471,19 +471,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
             result = boardservice.GetColumn("kfirniss@post.bgu.ac.il", "new board", 5);
-            Assert.AreEqual(expected, result);
-        }
-
-        //column is empty
-        [TestMethod()]
-        public void GetColumnTest5()
-        {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"column is empty"));
-            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
-            result = boardservice.GetColumn("kfirniss@post.bgu.ac.il", "new board", 1);
             Assert.AreEqual(expected, result);
         }
     }
