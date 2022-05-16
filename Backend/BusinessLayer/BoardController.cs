@@ -76,8 +76,30 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                                 name + "' doesn't exists for the user with the email " + email);
             }
         }
-        public LinkedList<Task> GetAllTasksByState(User user, Enum state) { return null; }
-        public LinkedList<Board> GetBoards (User user) { return null; }
+        public LinkedList<Task> GetAllTasksByState(User user, Enum state)
+            {
+            return null;
+            }
+        public LinkedList<Board> GetBoards (string email) {
+            log.Debug("AddBoard() for: " + email);
+            if (email == null)
+            {
+                log.Error("AddBoard() failed: '" + email + "' is null");
+                throw new ArgumentNullException("Email is null");
+            }
+            try
+            {
+                LinkedList<Board> output = userData.GetBoards(email);
+                log.Debug("AddBoard() success");
+                return output;
+            }
+            catch (NoSuchElementException)
+            {
+                log.Error("AddBoard() failed: '" + email + "' doesn't exist");
+                throw new NoSuchElementException("A user with the email '" +
+                    email + "' doesn't exist in the system");
+            }
+        }
         public Board SearchBoard(string email, string name) {
             log.Debug("SearchBoard() for: " + email + "Board's name" + name);
             if (email == null)
