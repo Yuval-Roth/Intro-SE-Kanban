@@ -36,6 +36,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime());
             Assert.AreEqual(expected, result);
+            
+
         }
 
         //user doesn't exist

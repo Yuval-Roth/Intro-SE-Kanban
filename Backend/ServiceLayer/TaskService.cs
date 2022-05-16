@@ -50,8 +50,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
+                if (columnOrdinal < 0 | columnOrdinal > 2)
+                    throw new ArgumentException("columnOrdinal '" + columnOrdinal + "' is illegal");
+
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
-                BusinessLayer.Task task = board.SearchTask(taskId);
+                BusinessLayer.Task task = board.SearchTask(taskId,columnOrdinal);
                 task.DueDate = dueDate;
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
@@ -81,8 +84,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
+                if (columnOrdinal < 0 | columnOrdinal > 2)
+                    throw new ArgumentException("columnOrdinal '" + columnOrdinal + "' is illegal");
+
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
-                BusinessLayer.Task task = board.SearchTask(taskId);
+                BusinessLayer.Task task = board.SearchTask(taskId, columnOrdinal);
                 task.Title = title;
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
@@ -109,11 +115,14 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <param name="description">New description for the task</param>
         /// <returns>The string "{}", unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string UpdateTaskDescription(string email, string boardName, int columnOrdinal, int taskId, string description)
-        {
+        { 
             try
             {
+                if (columnOrdinal < 0 | columnOrdinal > 2)
+                    throw new ArgumentException("columnOrdinal '" + columnOrdinal + "' is illegal");
+
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
-                BusinessLayer.Task task = board.SearchTask(taskId);
+                BusinessLayer.Task task = board.SearchTask(taskId, columnOrdinal);
                 task.Description = description;
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
@@ -137,12 +146,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <param name="boardName">The name of the board</param>
         /// <param name="taskId">The task to be updated identified task ID</param>
         /// <returns>The string "{}", unless an error occurs (see <see cref="TaskService"/>)</returns>
-        public string LimitDescription(string email, string boardName, int taskId)
+        public string LimitDescription(string email, string boardName,int columnOrdinal, int taskId)
         {
             try
             {
+                if (columnOrdinal < 0 | columnOrdinal > 2)
+                    throw new ArgumentException("columnOrdinal '" + columnOrdinal + "' is illegal");
+
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
-                BusinessLayer.Task task = board.SearchTask(taskId);
+                BusinessLayer.Task task = board.SearchTask(taskId, columnOrdinal);
                 task.LimitDescription();
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
