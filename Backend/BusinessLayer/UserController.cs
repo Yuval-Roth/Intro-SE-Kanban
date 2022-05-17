@@ -282,7 +282,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 return false;
             }
-            Regex valid = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+            Regex valid = new Regex(@"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$");
             if(valid.Matches(email).Count > 0)
             {
                 return true;
