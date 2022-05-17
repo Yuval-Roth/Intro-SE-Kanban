@@ -117,12 +117,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetAllTasksByStateTest_successful()
         {
-            LinkedList<BusinessLayer.Task> board = new();
-            board.AddLast(new BusinessLayer.Task(0, "task 1", new DateTime(2022, 05, 20), "bla bla bla"));
-            board.AddLast(new BusinessLayer.Task(0, "task 2", new DateTime(2022, 05, 20), "ninini"));
-            board.ElementAt(0).AdvanceTask();
-            board.ElementAt(1).AdvanceTask();
-            string expected = JsonController.ConvertToJson(new Response<object>(true, board));
+            LinkedList<BusinessLayer.Task> boards = new();
+            boards.AddLast(new BusinessLayer.Task(0, "task 1", new DateTime(2022, 05, 20), "bla bla bla"));
+            boards.AddLast(new BusinessLayer.Task(0, "task 2", new DateTime(2022, 05, 20), "ninini"));
+            boards.ElementAt(0).AdvanceTask();
+            boards.ElementAt(1).AdvanceTask();
+            string expected = JsonController.ConvertToJson(new Response<LinkedList<BusinessLayer.Task>>(true, boards));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -132,7 +132,14 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
             result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "another board", 0, 0);
             result = boardcontrollerservice.GetAllTasksByState("kfirniss@post.bgu.ac.il",1);
-            Assert.AreEqual(expected, result);
+            Response<LinkedList<BusinessLayer.Task>> exp = JsonController.BuildFromJson<Response<LinkedList<BusinessLayer.Task>>>(expected);
+            Response<LinkedList<BusinessLayer.Task>> act = JsonController.BuildFromJson<Response<LinkedList<BusinessLayer.Task>>>(result);
+            BusinessLayer.Task tExp1 = exp.returnValue.ElementAt(0);
+            BusinessLayer.Task tAct1 = act.returnValue.ElementAt(0);
+            BusinessLayer.Task tExp2 = exp.returnValue.ElementAt(1);
+            BusinessLayer.Task tAct2 = act.returnValue.ElementAt(1);
+            Assert.IsFalse(tExp1.Id != tAct1.Id || tExp1.Title != tAct1.Title || tExp1.Description != tAct1.Description || tExp1.DueDate != tAct1.DueDate);
+            Assert.IsFalse(tExp2.Id != tAct2.Id || tExp2.Title != tAct2.Title || tExp2.Description != tAct2.Description || tExp2.DueDate != tAct2.DueDate);
         }
 
         [TestMethod()]

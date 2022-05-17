@@ -365,7 +365,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnNameTestSuccess()
         {
-            string expected = JsonController.ConvertToJson(new Response<object>(true,"backlog"));
+            string expected = JsonController.ConvertToJson(new Response<string>(true,"backlog"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
