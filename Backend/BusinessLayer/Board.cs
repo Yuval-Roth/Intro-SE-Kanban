@@ -154,7 +154,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public int GetColumnLimit(int columnOrdinal)
         {
             log.Debug("GetColumnLimit() columnOrdinal: " + (TaskStates)columnOrdinal);
-            if (columnOrdinal < 0 || columnOrdinal > 2)
+            if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done)
             {
                 log.Error("GetColumnLimit() failed: '" + (TaskStates)columnOrdinal + "' doesn't exist");
                 throw new NoSuchElementException("A column '" +

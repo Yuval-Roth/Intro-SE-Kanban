@@ -422,13 +422,17 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             LinkedList<BusinessLayer.Task> tasks = new LinkedList<BusinessLayer.Task>();
             tasks.AddLast(new BusinessLayer.Task(0, "task 1", new DateTime(2022, 05, 20), "bla bla bla"));
 
-            string expected = JsonController.ConvertToJson(new Response<object>(true,tasks));
+            string expected = JsonController.ConvertToJson(new Response<LinkedList<BusinessLayer.Task>>(true,tasks));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2022, 05, 20));
             result = boardservice.GetColumn("kfirniss@post.bgu.ac.il", "new board", 0);
-            Assert.AreEqual(expected, result);
+            Response<LinkedList<BusinessLayer.Task>> exp = JsonController.BuildFromJson<Response<LinkedList<BusinessLayer.Task>>>(expected);
+            Response<LinkedList<BusinessLayer.Task>> act = JsonController.BuildFromJson<Response<LinkedList<BusinessLayer.Task>>>(result);
+            BusinessLayer.Task tExp = exp.returnValue.ElementAt(0);
+            BusinessLayer.Task tAct = act.returnValue.ElementAt(0);
+            Assert.IsFalse(tExp.Id != tAct.Id || tExp.Title != tAct.Title || tExp.Description != tAct.Description || tExp.DueDate != tAct.DueDate);
         }
 
         //user isn't exist

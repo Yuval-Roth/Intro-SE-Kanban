@@ -311,7 +311,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
                 LinkedList<BusinessLayer.Task> column = board.GetColumn(columnOrdinal);
-                return JsonController.ConvertToJson(column);
+                Response<LinkedList<BusinessLayer.Task>> res = new(true, column);
+                return JsonController.ConvertToJson(res);
             }
             catch (BusinessLayer.NoSuchElementException ex)
             {
