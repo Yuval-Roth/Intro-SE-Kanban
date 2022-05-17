@@ -10,8 +10,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     
     public enum TaskStates
     {
-        backLog,
-        inProgress,
+        backlog,
+        inprogress,
         done
     }
 
@@ -20,24 +20,46 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\Task.cs");
 
         private int id;
-        private DateTime creationTime;
+        private readonly DateTime creationTime;
         private string title;
         private string description;
         private DateTime dueDate;
 
         private TaskStates state;
-        private bool descriptionCharCap;
-        private readonly int DESCRIPTION_CHAR_CAP = 300;
+        private readonly int MAX_DESCRIPTION_CHAR_CAP = 300;
+        private readonly int MAX_TITLE_CHAR_CAP = 50;
+        private readonly int MIN_TITLE_CHAR_CAP = 1;
 
         public Task(int id, string title, DateTime duedate,string description)
         {
+            log.Debug("Task() for id: " + id);
+            if (title.Length < MIN_TITLE_CHAR_CAP)
+            {
+                log.Error("Task() failed: title is empty");
+                throw new ArgumentException("title is empty");
+            }
+            if (title.Length > MAX_TITLE_CHAR_CAP)
+            {
+                log.Error("Task() failed: title is over the limit");
+                throw new ArgumentException("title is over the limit");
+            }
+            if (description.Length > MAX_DESCRIPTION_CHAR_CAP)
+            {
+                log.Error("Task() failed: description is over the limit");
+                throw new ArgumentException("description is over the limit");
+            }
+            if(duedate.CompareTo(DateTime.Now) < 1)
+            {
+                log.Error("Task() failed: due date was passed");
+                throw new ArgumentException("due date was passed");
+            }
             this.id = id;
             this.title = title;
             this.dueDate = duedate;
             this.description = description;
-            creationTime = new DateTime();
-            state = TaskStates.backLog;
-            descriptionCharCap= false;
+            creationTime = DateTime.Now;
+            state = TaskStates.backlog;
+            log.Debug("Task() success");
         }
 
 
@@ -56,6 +78,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             get { return title; }
             set {
                 log.Debug("UpdateTitle() for taskId: " + id);
+                if (value.Length < MIN_TITLE_CHAR_CAP)
+                {
+                    log.Error("UpdateTitle() failed: title is empty");
+                    throw new ArgumentException("title is empty");
+                }
+                if (value.Length > MAX_TITLE_CHAR_CAP)
+                {
+                    log.Error("UpdateTitle() failed: title is over the limit");
+                    throw new ArgumentException("title is over the limit");
+                }
                 log.Debug("UpdateTitle() success");
                 title = value;
                 }
@@ -64,13 +96,18 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public DateTime CreationTime 
         {
             get { return creationTime; }
-            set { creationTime = value; } 
+            set { } 
         }
         public DateTime DueDate 
         {
             get { return dueDate; }
             set {
                 log.Debug("UpdateDueDate() for taskId: " + id);
+                if (value.CompareTo(DateTime.Now) < 1)
+                {
+                    log.Error("UpdateDueDate() failed: due date was passed");
+                    throw new ArgumentException("due date was passed");
+                }
                 dueDate = value;
                 log.Debug("UpdateDueDate() success");
             }
@@ -80,19 +117,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             get { return description; }
             set {
                 log.Debug("UpdateDescription() for taskId: " + id);
-                if(descriptionCharCap==true && value.Length > DESCRIPTION_CHAR_CAP)
+                if (value.Length > MAX_DESCRIPTION_CHAR_CAP)
                 {
-                    log.Error("UpdateDescription() failed: description is over the description limit");
-                    throw new ArgumentException("Description is over the description limit");
+                    log.Error("Task() failed: description is over the limit");
+                    throw new ArgumentException("description is over the limit");
                 }
                 log.Debug("UpdateDescription() success");
                 description = value;
                 }
-        }
-        public bool DescriptionCharCap
-        {
-            get { return descriptionCharCap; }
-            set { descriptionCharCap = value;}
         }
 
         //====================================
@@ -110,18 +142,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             state++;
             log.Debug("AdvanceTask() success");
-        }
-
-        public void LimitDescription()
-        {
-            log.Debug("AdvanceTask() for taskId: " + id);
-            if(description.Length> DESCRIPTION_CHAR_CAP)
-            {
-                log.Error("UpdateDescription() failed: " + description + " is over the limit");
-                throw new ArgumentException(description + " is over the limit");
-            }
-            descriptionCharCap = true;
-            log.Debug("LimitDescription() success");
         }
 
         //====================================================

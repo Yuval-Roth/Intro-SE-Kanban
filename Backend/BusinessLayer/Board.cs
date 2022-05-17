@@ -26,11 +26,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             counterID = 0;
             columnLimit = new int[3];
             columns = new();
-            columnLimit[(int)TaskStates.backLog] = -1;
-            columnLimit[(int)TaskStates.inProgress] = -1;
+            columnLimit[(int)TaskStates.backlog] = -1;
+            columnLimit[(int)TaskStates.inprogress] = -1;
             columnLimit[(int)TaskStates.done] = -1;
-            columns.Add((int)TaskStates.backLog, new LinkedList<Task>());
-            columns.Add((int)TaskStates.inProgress, new LinkedList<Task>());
+            columns.Add((int)TaskStates.backlog, new LinkedList<Task>());
+            columns.Add((int)TaskStates.inprogress, new LinkedList<Task>());
             columns.Add((int)TaskStates.done, new LinkedList<Task>());
         }
         public string Title
