@@ -168,9 +168,9 @@ namespace IntroSE.Kanban.selfTesting
             Backend.ServiceLayer.GradingService gs = new();
             gs.userServiceLayer.Register("blahblah@gmail.com", "SismaTil123");
             gs.userServiceLayer.LogIn("blahblah@gmail.com", "SismaTil123");
-            gs.boardControllerServiceLayer.AddBoard("blahblah@gmail.com","test");
-            gs.LimitColumn("blahblah@gmail.com","test",1,2);
-            Console.WriteLine(gs.GetColumnLimit("blahblah@gmail.com", "test", 0));
+            gs.boardControllerServiceLayer.AddBoard("blahblah@gmail.com", "test");
+            gs.AddTask("blahblah@gmail.com", "test", "toDo", "stam", new DateTime());
+            Console.WriteLine(gs.GetColumn("blahblah@gmail.com", "test", 0));
         }
     }
 }

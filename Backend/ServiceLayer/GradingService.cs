@@ -256,14 +256,16 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>Response with  a list of the column's tasks, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string GetColumn(string email, string boardName, int columnOrdinal)
         {
-            string json = boardServiceLayer.GetColumn(email, boardName, columnOrdinal);
+            
             try
             {
+                string json = boardServiceLayer.GetColumn(email, boardName, columnOrdinal);
                 GradingResponse<LinkedList<BusinessLayer.Task>> resOk = new(json);
                 return JsonController.ConvertToJson(resOk);
             }
             catch (Exception)
             {
+                string json = boardServiceLayer.GetColumn(email, boardName, columnOrdinal);
                 GradingResponse<string> resError = new(json);
                 return JsonController.ConvertToJson(resError);
             }
@@ -305,14 +307,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>Response with  a list of the in progress tasks, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string InProgressTasks(string email)
         {
-            string json = boardControllerServiceLayer.GetAllTasksByState(email,1);
             try
             {
+                string json = boardControllerServiceLayer.GetAllTasksByState(email, 1);
                 GradingResponse<LinkedList<BusinessLayer.Task>> resOk = new(json);
                 return JsonController.ConvertToJson(resOk);
             }
             catch (Exception)
             {
+                string json = boardControllerServiceLayer.GetAllTasksByState(email, 1);
                 GradingResponse<string> resError = new(json);
                 return JsonController.ConvertToJson(resError);
             }
@@ -335,8 +338,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<T> response = JsonController.BuildFromJson<Response<T>>(json);
                 if (response.operationState == true)
                 {
-                    if (response.returnValue is string & response.returnValue as string != "")
+                    if (response.returnValue is string)
+                    {
+                        if (response.returnValue as string != "")
+                            ReturnValue = response.returnValue;
+                    }
+                    else
+                    {
                         ReturnValue = response.returnValue;
+                    }
                 }
                 else if (response.returnValue is string)
                 {
