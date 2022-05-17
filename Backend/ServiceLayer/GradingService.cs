@@ -337,8 +337,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 {
                     if (response.returnValue is string & response.returnValue as string != "")
                         ReturnValue = response.returnValue;
-                    else if (response.returnValue is int)
-                        ReturnValue = response.returnValue;
                 }
                 else if (response.returnValue is string)
                 {
