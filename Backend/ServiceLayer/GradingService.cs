@@ -131,19 +131,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <returns>Response with column limit value, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string GetColumnLimit(string email, string boardName, int columnOrdinal)
-        {  
-            try
+        {
+            string json = boardServiceLayer.GetColumnLimit(email, boardName, columnOrdinal);
+            if (GetOperationState(json) == true)
             {
-                string json = boardServiceLayer.GetColumnLimit(email, boardName, columnOrdinal);
-                intResponse resOk = new(json);
-                return JsonController.ConvertToJson(resOk);
+                return JsonController.ConvertToJson(new intResponse(json));
             }
-            catch (JsonException)
-            {
-                string json = boardServiceLayer.GetColumnLimit(email, boardName, columnOrdinal);
-                GradingResponse<string> resError = new(json);
-                return JsonController.ConvertToJson(resError);
-            }
+            else return JsonController.ConvertToJson(new GradingResponse<string>(json));
         }
 
 
@@ -257,18 +251,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>Response with  a list of the column's tasks, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string GetColumn(string email, string boardName, int columnOrdinal)
         {
-            try
+            string json = boardServiceLayer.GetColumn(email, boardName, columnOrdinal);
+            if (GetOperationState(json) == true)
             {
-                string json = boardServiceLayer.GetColumn(email, boardName, columnOrdinal);
-                GradingResponse<LinkedList<BusinessLayer.Task>> resOk = new(json);
-                return JsonController.ConvertToJson(resOk);
+                return JsonController.ConvertToJson(new GradingResponse<LinkedList<BusinessLayer.Task>>(json));
             }
-            catch (JsonException)
-            {
-                string json = boardServiceLayer.GetColumn(email, boardName, columnOrdinal);
-                GradingResponse<string> resError = new(json);
-                return JsonController.ConvertToJson(resError);
-            }
+            else return JsonController.ConvertToJson(new GradingResponse<string>(json));
         }
 
 
@@ -307,18 +295,25 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>Response with  a list of the in progress tasks, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string InProgressTasks(string email)
         {
-            try
+            string json = boardControllerServiceLayer.GetAllTasksByState(email, 1);
+            if (GetOperationState(json) == true)
             {
-                string json = boardControllerServiceLayer.GetAllTasksByState(email, 1);
-                GradingResponse<LinkedList<BusinessLayer.Task>> resOk = new(json);
-                return JsonController.ConvertToJson(resOk);
+                return JsonController.ConvertToJson(new GradingResponse<LinkedList<BusinessLayer.Task>>(json));
             }
-            catch (JsonException)
+            else return JsonController.ConvertToJson(new GradingResponse<string>(json));
+        }
+
+
+
+
+        public static bool GetOperationState(string json)
+        {
+            Response<object> res = JsonController.BuildFromJson<Response<object>>(json);
+            if (res.operationState == true)
             {
-                string json = boardControllerServiceLayer.GetAllTasksByState(email, 1);
-                GradingResponse<string> resError = new(json);
-                return JsonController.ConvertToJson(resError);
+                return true;
             }
+            else return false;
         }
 
         #nullable enable
