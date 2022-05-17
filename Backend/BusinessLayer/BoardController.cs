@@ -145,7 +145,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new NoSuchElementException("A user with the email '" +
                     email + "' doesn't login to the system");
             }
-            if (columnOrdinal < 0 || columnOrdinal > 2)
+            if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done)
             {
                 log.Error("GetAllTasksByState() failed: '" + (TaskStates)columnOrdinal + "' doesn't exist");
                 throw new NoSuchElementException("A column '" +

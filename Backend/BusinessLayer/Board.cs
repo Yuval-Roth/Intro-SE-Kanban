@@ -48,16 +48,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void AddTask(string title, DateTime duedate, string description)
         {
             log.Debug("AddTask() for taskId: " + title + ", " + description + ", " + duedate);
-            if (columnLimit[0]!=-1 && columns[0]!=null && columns[0].Count() == columnLimit[0])
+            if (columnLimit[(int)TaskStates.backlog] !=-1 && columns[(int)TaskStates.backlog] !=null && columns[(int)TaskStates.backlog].Count() == columnLimit[(int)TaskStates.backlog])
             {
                 log.Error("AddTask() failed: board '" + this.title + "' has a limit and can't contains more task");
                 throw new ArgumentException("A board titled " +
                         this.title + " has a limit and can't contains more task");
             }
-            LinkedList<Task> list = columns[0];
+            LinkedList<Task> list = columns[(int) TaskStates.backlog];
             list.AddLast(new Task(counterID, title, duedate, description));
             counterID++;
-            columns[0]= list;
+            columns[(int)TaskStates.backlog] = list;
             log.Debug("AddTask() success");
         }
 
@@ -86,7 +86,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void AdvanceTask(int columnOrdinal, int taskId)
         {
             log.Debug("AdvanceTask() for column and taskId: " + (TaskStates)columnOrdinal + ", " + taskId);
-            if (columnOrdinal<0 || columnOrdinal > 2) 
+            if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done) 
             {
                 log.Error("AdvanceTask() failed: '" + (TaskStates)columnOrdinal + "' doesn't exist");
                 throw new NoSuchElementException("A column '" +
@@ -174,7 +174,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public string GetColumnName(int columnOrdinal)
         {
             log.Debug("GetColumnName() columnOrdinal: " + (TaskStates)columnOrdinal);
-            if (columnOrdinal < 0 || columnOrdinal > 2)
+            if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done)
             {
                 log.Error("GetColumnName() failed: '" + (TaskStates)columnOrdinal + "' doesn't exist");
                 throw new NoSuchElementException("A column '" +
@@ -189,7 +189,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public LinkedList<Task> GetColumn(int columnOrdinal)
         {
             log.Debug("GetColumn() columnOrdinal: " + (TaskStates)columnOrdinal);
-            if (columnOrdinal < 0 || columnOrdinal > 2)
+            if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done)
             {
                 log.Error("GetColumn() failed: '" + (TaskStates)columnOrdinal + "' doesn't exist");
                 throw new NoSuchElementException("A column '" +
@@ -210,7 +210,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new NoSuchElementException("A limit '" +
                     limit + "' is negative");
             }
-            if (columnOrdinal < 0 || columnOrdinal > 2)
+            if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done)
             {
                 log.Error("LimitColumn() failed: '" + (TaskStates)columnOrdinal + "' doesn't exist");
                 throw new NoSuchElementException("A column '" +
@@ -230,7 +230,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void UnlimitColumn(int columnOrdinal)
         {
             log.Debug("UnimitColumn() for column: " + (TaskStates)columnOrdinal);
-            if (columnOrdinal < 0 || columnOrdinal > 2)
+            if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done)
             {
                 log.Error("LimitColumn() failed: '" + (TaskStates)columnOrdinal + "' doesn't exist");
                 throw new NoSuchElementException("A column '" +
@@ -247,19 +247,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public Serializable.Board_Serializable GetSerializableInstance() 
         {
             LinkedList<Serializable.Task_Serializable> serializableBackLog = new();
-            foreach (Task task in columns[0])
+            foreach (Task task in columns[(int) TaskStates.backlog])
             {
                 serializableBackLog.AddLast(task.GetSerializableInstance());
             }
 
             LinkedList<Serializable.Task_Serializable> serializableInProgress = new();
-            foreach (Task task in columns[1])
+            foreach (Task task in columns[(int)TaskStates.inprogress])
             {
                 serializableInProgress.AddLast(task.GetSerializableInstance());
             }
 
             LinkedList<Serializable.Task_Serializable> serializableDone = new();
-            foreach (Task task in columns[2])
+            foreach (Task task in columns[(int)TaskStates.done])
             {
                 serializableDone.AddLast(task.GetSerializableInstance());
             }
