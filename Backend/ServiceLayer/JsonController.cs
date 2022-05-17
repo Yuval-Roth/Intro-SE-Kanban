@@ -48,10 +48,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 			}
 			return Serialize(taskList_Serializable);
 		}
-		public static string ConvertToJson(LinkedList<BusinessLayer.Serializable.Task_Serializable> tasklist)
-		{
-			return Serialize(tasklist);
-		}
 		public static string ConvertToJson(BusinessLayer.User user)
 		{
 			return Serialize(user.GetSerializableInstance());
