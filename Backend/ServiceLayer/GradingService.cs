@@ -130,12 +130,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <returns>Response with column limit value, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string GetColumnLimit(string email, string boardName, int columnOrdinal)
-        {
-            
+        {  
             try
             {
                 string json = boardServiceLayer.GetColumnLimit(email, boardName, columnOrdinal);
-                GradingResponse<int> resOk = new(json);
+                intResponse resOk = new(json);
                 return JsonController.ConvertToJson(resOk);
             }
             catch (Exception)
@@ -257,6 +256,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>Response with  a list of the column's tasks, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string GetColumn(string email, string boardName, int columnOrdinal)
         {
+            string json = boardServiceLayer.GetColumn(email, boardName, columnOrdinal);
             try
             {
                 string json = boardServiceLayer.GetColumn(email, boardName, columnOrdinal);
@@ -307,27 +307,20 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>Response with  a list of the in progress tasks, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string InProgressTasks(string email)
         {
-            string json = boardControllerServiceLayer.GetAllTasksByState(email,1);
             try
             {
+                string json = boardControllerServiceLayer.GetAllTasksByState(email, 1);
                 GradingResponse<LinkedList<BusinessLayer.Task>> resOk = new(json);
                 return JsonController.ConvertToJson(resOk);
             }
             catch (Exception)
             {
+                string json = boardControllerServiceLayer.GetAllTasksByState(email, 1);
                 GradingResponse<string> resError = new(json);
                 return JsonController.ConvertToJson(resError);
             }
         }
 
-        public class Integer
-        {
-            public readonly int value;
-
-            public Integer(int num) { value = num; }
-
-            //public override string ToString() { return ""+value; }
-        }
         #nullable enable
         [Serializable]
         public class GradingResponse<T>
@@ -345,10 +338,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<T> response = JsonController.BuildFromJson<Response<T>>(json);
                 if (response.operationState == true)
                 {
-                    if (response.returnValue is string & response.returnValue as string != "")
+                    if (response.returnValue is string)
+                    {
+                        if (response.returnValue as string != "")
+                            ReturnValue = response.returnValue;
+                    }
+                    else
+                    {
                         ReturnValue = response.returnValue;
-                    else if (response.returnValue is int)
-                        ReturnValue = response.returnValue;
+                    }
                 }
                 else if (response.returnValue is string)
                 {
@@ -358,6 +356,20 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 {
                     throw new NotSupportedException("Response.operationState is false and returnValue is not string");
                 }
+            }
+        #nullable disable
+
+        }
+        public class intResponse
+        {
+            [JsonInclude]
+            public readonly int ReturnValue;
+
+            [JsonConstructor]
+            public intResponse(string json)
+            {
+                Response<int> response = JsonController.BuildFromJson<Response<int>>(json);
+                ReturnValue = response.returnValue;
             }
         }
     }
