@@ -130,12 +130,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <returns>Response with column limit value, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string GetColumnLimit(string email, string boardName, int columnOrdinal)
-        {
-            
+        {  
             try
             {
                 string json = boardServiceLayer.GetColumnLimit(email, boardName, columnOrdinal);
-                GradingResponse<int> resOk = new(json);
+                intResponse resOk = new(json);
                 return JsonController.ConvertToJson(resOk);
             }
             catch (Exception)
@@ -319,14 +318,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
-        public class Integer
-        {
-            public readonly int value;
-
-            public Integer(int num) { value = num; }
-
-            //public override string ToString() { return ""+value; }
-        }
         #nullable enable
         [Serializable]
         public class GradingResponse<T>
@@ -357,6 +348,20 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 {
                     throw new NotSupportedException("Response.operationState is false and returnValue is not string");
                 }
+            }
+        #nullable disable
+
+        }
+        public class intResponse
+        {
+            [JsonInclude]
+            public readonly int ReturnValue;
+
+            [JsonConstructor]
+            public intResponse(string json)
+            {
+                Response<int> response = JsonController.BuildFromJson<Response<int>>(json);
+                ReturnValue = response.returnValue;
             }
         }
     }

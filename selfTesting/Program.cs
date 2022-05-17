@@ -170,7 +170,7 @@ namespace IntroSE.Kanban.selfTesting
             gs.userServiceLayer.LogIn("blahblah@gmail.com", "SismaTil123");
             gs.boardControllerServiceLayer.AddBoard("blahblah@gmail.com","test");
             gs.LimitColumn("blahblah@gmail.com","test",1,2);
-            gs.GetColumnLimit("blahblah@gmail.com", "test", 1);
+            Console.WriteLine(gs.GetColumnLimit("blahblah@gmail.com", "test", 0));
         }
     }
 }
