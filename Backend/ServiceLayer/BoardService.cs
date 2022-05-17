@@ -180,6 +180,44 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
+
+        /// <summary>
+        /// This method unlimits the number of tasks in a specific column.
+        /// </summary>
+        /// <param name="email">The email address of the user, must be logged in</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
+        /// <returns>
+        /// Json formatted as so:
+        /// <code>
+        ///	{
+        ///		operationState: bool 
+        ///		returnValue: // (operationState == true) => empty string
+        /// }			// (operationState == false) => error message		
+        /// </code>
+        /// </returns>
+        public string UnlimitColumn(string email, string boardName, int columnOrdinal)
+        {
+            try
+            {
+                BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
+                board.UnlimitColumn(columnOrdinal);
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (BusinessLayer.NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+        }
+
+
         /// <summary>
         /// This method gets the limit of a specific column.
         /// </summary>
