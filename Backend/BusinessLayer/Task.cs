@@ -96,7 +96,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public DateTime CreationTime 
         {
             get { return creationTime; }
-            set { creationTime = value; } 
+            set { CreationTime = value; } 
         }
         public DateTime DueDate 
         {
