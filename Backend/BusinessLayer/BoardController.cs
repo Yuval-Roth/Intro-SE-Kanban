@@ -147,9 +147,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done)
             {
-                log.Error("GetAllTasksByState() failed: '" + (TaskStates)columnOrdinal + "' doesn't exist");
+                log.Error("GetAllTasksByState() failed: '" + columnOrdinal + "' doesn't exist");
                 throw new NoSuchElementException("A column '" +
-                    (TaskStates)columnOrdinal + "' doesn't exist in the Board");
+                    columnOrdinal + "' doesn't exist in the Board");
             }
             
                 LinkedList<Task> tasks = new LinkedList<Task>();

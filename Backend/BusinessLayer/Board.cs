@@ -7,6 +7,29 @@ using System.Text.Json.Serialization;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
+
+    /// <summary>
+    ///This class controls the actions users' board.<br/>
+    ///<br/>
+    ///<code>Supported operations:</code>
+    ///<br/>
+    /// <list type="bullet">AddTask()</list>
+    /// <list type="bullet">RemoveTask()</list>
+    /// <list type="bullet">AdvanceTask()</list>
+    /// <list type="bullet">SearchTask()</list>
+    /// <list type="bullet">GetColumnLimit()</list>
+    /// <list type="bullet">GetColumnName()</list>
+    /// <list type="bullet">GetColumn()</list>
+    /// <list type="bullet">LimitColumn()</list>
+    /// <list type="bullet">UnlimitColumn()</list>
+    /// <br/><br/>
+    /// ===================
+    /// <br/>
+    /// <c>Ⓒ Kfir Nissim</c>
+    /// <br/>
+    /// ===================
+    /// </summary>
+
     public class Board
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\Board.cs");
@@ -45,6 +68,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //====================================
 
 
+        /// <summary>
+        /// Add new <c>Task</c> to <c>Board</c> board <br/> <br/>
+        /// <b>Throws</b> <c>Exception</c> if the backlog column reach the limit
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="duedate"></param>
+        /// <param name="description"></param>
+        /// <exception cref="ArgumentException"></exception>
         public void AddTask(string title, DateTime duedate, string description)
         {
             log.Debug("AddTask() for taskId: " + title + ", " + description + ", " + duedate);
@@ -61,6 +92,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             log.Debug("AddTask() success");
         }
 
+
+        /// <summary>
+        /// Remove <c>Task</c> from <c>Board</c> board <br/> <br/>
+        /// <b>Throws</b> <c>Exception</c> if the task isn't exist
+        /// </summary>
+        /// <param name="taskId"></param>
+        /// <exception cref="ArgumentException"></exception>
         public void RemoveTask(int taskId)
         {
             log.Debug("RemoveTask() taskId: " + taskId);
@@ -83,14 +121,22 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             else { log.Debug("RemoveTask() success"); }
         }
 
+
+        /// <summary>
+        /// Advance <c>Task</c> from <c>Board</c> board <br/> <br/>
+        /// <b>Throws</b> <c>Exception</c> if the task isn't exist int the column, or column is illegal, or next column is reach the limit
+        /// </summary>
+        /// <param name="taskId"></param>
+        /// <param name="columnOrdinal"></param>
+        /// <exception cref="ArgumentException"></exception>
         public void AdvanceTask(int columnOrdinal, int taskId)
         {
             log.Debug("AdvanceTask() for column and taskId: " + (TaskStates)columnOrdinal + ", " + taskId);
             if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done) 
             {
-                log.Error("AdvanceTask() failed: '" + (TaskStates)columnOrdinal + "' doesn't exist");
+                log.Error("AdvanceTask() failed: '" + columnOrdinal + "' doesn't exist");
                 throw new NoSuchElementException("A column '" +
-                    (TaskStates)columnOrdinal + "' doesn't exist in the Board");
+                    columnOrdinal + "' doesn't exist in the Board");
             }
             if ((TaskStates)columnOrdinal == TaskStates.done)
             {
@@ -121,8 +167,21 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             log.Debug("AdvanceTask() success");
         }
 
+
+        /// <summary>
+        /// Search <c>Task</c> from <c>Board</c> board <br/> <br/>
+        /// <b>Throws</b> <c>Exception</c> if the task isn't exist or column is illegal
+        /// </summary>
+        /// <param name="taskId"></param>
+        /// <param name="columnOrdinal"></param>
+        /// <exception cref="ArgumentException"></exception>
         public Task SearchTask(int taskId, int columnOrdinal)
         {
+            if ((columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done)){
+                log.Error("AdvanceTask() failed: '" + columnOrdinal + "' doesn't exist");
+                throw new NoSuchElementException("A column '" +
+                    columnOrdinal + "' doesn't exist in the Board");
+            }
             log.Debug("SearchTask() taskId: " + taskId);
             LinkedList<Task> list = columns[columnOrdinal];
             foreach (Task task in list)
@@ -134,6 +193,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 taskId + "' doesn't exist in the Board");
         }
 
+        /// <summary>
+        /// Search <c>Task</c> from <c>Board</c> board <br/> <br/>
+        /// <b>Throws</b> <c>Exception</c> if the task isn't exist
+        /// </summary>
+        /// <param name="taskId"></param>
+        /// <returns>Task, unless an error occurs</returns>
+        /// <exception cref="ArgumentException"></exception>
         public Task SearchTask(int taskId) 
         {
             log.Debug("SearchTask() taskId: " + taskId);
@@ -150,15 +216,21 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     taskId + "' doesn't exist in the Board");
         }
 
-
+        /// <summary>
+        /// Get<c>column limit</c> from <c>Board</c> board <br/> <br/>
+        /// <b>Throws</b> <c>Exception</c> if column isn't exist or column has no limit
+        /// </summary>
+        /// <param name="columnOrdinal"></param>
+        /// <returns>int column limit, unless an error occurs</returns>
+        /// <exception cref="ArgumentException"></exception>
         public int GetColumnLimit(int columnOrdinal)
         {
             log.Debug("GetColumnLimit() columnOrdinal: " + (TaskStates)columnOrdinal);
             if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done)
             {
-                log.Error("GetColumnLimit() failed: '" + (TaskStates)columnOrdinal + "' doesn't exist");
+                log.Error("GetColumnLimit() failed: '" + columnOrdinal + "' doesn't exist");
                 throw new NoSuchElementException("A column '" +
-                    (TaskStates)columnOrdinal + "' doesn't exist in the Board");
+                    columnOrdinal + "' doesn't exist in the Board");
             }
             if (columnLimit[columnOrdinal] == -1)
             {
@@ -171,36 +243,55 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
 
+        /// <summary>
+        /// Get<c>column name</c> from <c>Board</c> board <br/> <br/>
+        /// <b>Throws</b> <c>Exception</c> if column isn't exist
+        /// </summary>
+        /// <param name="columnOrdinal"></param>
+        /// <returns>column name, unless an error occurs</returns>
+        /// <exception cref="ArgumentException"></exception>
         public string GetColumnName(int columnOrdinal)
         {
             log.Debug("GetColumnName() columnOrdinal: " + (TaskStates)columnOrdinal);
             if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done)
             {
-                log.Error("GetColumnName() failed: '" + (TaskStates)columnOrdinal + "' doesn't exist");
+                log.Error("GetColumnName() failed: '" + columnOrdinal + "' doesn't exist");
                 throw new NoSuchElementException("A column '" +
-                    (TaskStates)columnOrdinal + "' doesn't exist in the Board");
+                    columnOrdinal + "' doesn't exist in the Board");
             }
             
             log.Debug("GetColumnName() success");
             return ((TaskStates) columnOrdinal).ToString();
         }
 
-
+        /// <summary>
+        /// Get<c>column</c> from <c>Board</c> board <br/> <br/>
+        /// <b>Throws</b> <c>Exception</c> if column isn't exist
+        /// </summary>
+        /// <param name="columnOrdinal"></param>
+        /// <returns>LinkedList of task, unless an error occurs</returns>
+        /// <exception cref="ArgumentException"></exception>
         public LinkedList<Task> GetColumn(int columnOrdinal)
         {
             log.Debug("GetColumn() columnOrdinal: " + (TaskStates)columnOrdinal);
             if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done)
             {
-                log.Error("GetColumn() failed: '" + (TaskStates)columnOrdinal + "' doesn't exist");
+                log.Error("GetColumn() failed: '" + columnOrdinal + "' doesn't exist");
                 throw new NoSuchElementException("A column '" +
-                    (TaskStates)columnOrdinal + "' doesn't exist in the Board");
+                    columnOrdinal + "' doesn't exist in the Board");
             }
 
             log.Debug("GetColumn() success");
             return columns[columnOrdinal];
         }
 
-
+        /// <summary>
+        /// Limit<c>column</c> from <c>Board</c> board <br/> <br/>
+        /// <b>Throws</b> <c>Exception</c> if column isn't exist or limit is illegal or column is over thr limit
+        /// </summary>
+        /// <param name="columnOrdinal"></param>
+        /// <param name="limit"></param>
+        /// <exception cref="ArgumentException"></exception>
         public void LimitColumn(int columnOrdinal, int limit)
         {
             log.Debug("LimitColumn() for column and limit: " + (TaskStates)columnOrdinal + ", " + limit);
@@ -212,9 +303,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done)
             {
-                log.Error("LimitColumn() failed: '" + (TaskStates)columnOrdinal + "' doesn't exist");
+                log.Error("LimitColumn() failed: '" + columnOrdinal + "' doesn't exist");
                 throw new NoSuchElementException("A column '" +
-                    (TaskStates)columnOrdinal + "' doesn't exist in the Board");
+                    columnOrdinal + "' doesn't exist in the Board");
             }
             if (columns[columnOrdinal].Count > limit)
             {
@@ -226,15 +317,20 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             columnLimit[columnOrdinal] = limit;
         }
 
-
+        /// <summary>
+        /// Unlimit<c>column</c> from <c>Board</c> board <br/> <br/>
+        /// <b>Throws</b> <c>Exception</c> if column isn't exist
+        /// </summary>
+        /// <param name="columnOrdinal"></param>
+        /// <exception cref="ArgumentException"></exception>
         public void UnlimitColumn(int columnOrdinal)
         {
             log.Debug("UnimitColumn() for column: " + (TaskStates)columnOrdinal);
             if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done)
             {
-                log.Error("LimitColumn() failed: '" + (TaskStates)columnOrdinal + "' doesn't exist");
+                log.Error("LimitColumn() failed: '" + columnOrdinal + "' doesn't exist");
                 throw new NoSuchElementException("A column '" +
-                    (TaskStates)columnOrdinal + "' doesn't exist in the Board");
+                    columnOrdinal + "' doesn't exist in the Board");
             }
             log.Debug("LimitColumn() success");
             columnLimit[columnOrdinal] = -1;
