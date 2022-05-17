@@ -25,8 +25,8 @@ namespace IntroSE.Kanban.selfTesting
             //logTesting();
             //registerTest();
             //validEmailTest();
-            enumsTests();
-
+            //enumsTests();
+            gradingTests();
 
         }
         //public static void BinaryTreeTesting()
@@ -162,6 +162,15 @@ namespace IntroSE.Kanban.selfTesting
         public static void enumsTests()
         {
             Console.WriteLine("hello: "+(int)State.backlog);
+        }
+        public static void gradingTests()
+        {
+            Backend.ServiceLayer.GradingService gs = new();
+            gs.userServiceLayer.Register("blahblah@gmail.com", "SismaTil123");
+            gs.userServiceLayer.LogIn("blahblah@gmail.com", "SismaTil123");
+            gs.boardControllerServiceLayer.AddBoard("blahblah@gmail.com","test");
+            gs.LimitColumn("blahblah@gmail.com","test",1,2);
+            gs.GetColumnLimit("blahblah@gmail.com", "test", 1);
         }
     }
 }

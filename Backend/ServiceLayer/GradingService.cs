@@ -49,11 +49,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     /// </summary>
     public class GradingService
     {
-        private BusinessLayer.UserData userData;
-        private UserService userServiceLayer;
-        private BoardControllerService boardControllerServiceLayer;
-        private BoardService boardServiceLayer;
-        private TaskService taskServiceLayer;
+        public BusinessLayer.UserData userData;
+        public UserService userServiceLayer;
+        public BoardControllerService boardControllerServiceLayer;
+        public BoardService boardServiceLayer;
+        public TaskService taskServiceLayer;
 
         public GradingService()
         {
@@ -131,14 +131,16 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>Response with column limit value, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string GetColumnLimit(string email, string boardName, int columnOrdinal)
         {
-            string json = boardServiceLayer.GetColumnLimit(email,boardName,columnOrdinal);
+            
             try
             {
+                string json = boardServiceLayer.GetColumnLimit(email, boardName, columnOrdinal);
                 GradingResponse<int> resOk = new(json);
                 return JsonController.ConvertToJson(resOk);
             }
             catch (Exception)
             {
+                string json = boardServiceLayer.GetColumnLimit(email, boardName, columnOrdinal);
                 GradingResponse<string> resError = new(json);
                 return JsonController.ConvertToJson(resError);
             }
@@ -317,6 +319,14 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
+        public class Integer
+        {
+            public readonly int value;
+
+            public Integer(int num) { value = num; }
+
+            //public override string ToString() { return ""+value; }
+        }
         #nullable enable
         [Serializable]
         public class GradingResponse<T>
@@ -334,7 +344,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<T> response = JsonController.BuildFromJson<Response<T>>(json);
                 if (response.operationState == true)
                 {
-                    if (response.returnValue as string != "")
+                    if (response.returnValue is string & response.returnValue as string != "")
+                        ReturnValue = response.returnValue;
+                    else if (response.returnValue is int)
                         ReturnValue = response.returnValue;
                 }
                 else if (response.returnValue is string)
