@@ -256,7 +256,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>Response with  a list of the column's tasks, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string GetColumn(string email, string boardName, int columnOrdinal)
         {
-            string json = boardServiceLayer.GetColumn(email, boardName, columnOrdinal);
             try
             {
                 string json = boardServiceLayer.GetColumn(email, boardName, columnOrdinal);

@@ -171,12 +171,10 @@ namespace IntroSE.Kanban.selfTesting
             gs.userServiceLayer.LogIn("blahblah@gmail.com", "SismaTil123");
             gs.AddBoard("blahblah@gmail.com", "test");
             gs.AddTask("blahblah@gmail.com", "test", "toDo", "stam", new DateTime());
-            gs.AdvanceTask("blahblah@gmail.com", "test",0, 0);
+            gs.AdvanceTask("blahblah@gmail.com", "test", 0, 0);
             gs.AddTask("blahblah@gmail.com", "test", "toDo", "stam", new DateTime());
             gs.AdvanceTask("blahblah@gmail.com", "test", 0, 1);
             Console.WriteLine(gs.InProgressTasks("blahblah@gmail.com"));
-
-
         }
     }
 
