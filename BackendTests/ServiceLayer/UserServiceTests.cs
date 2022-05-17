@@ -123,6 +123,16 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = service.LogIn("printz@post.bgu.il", "Hadas6789");
             Assert.AreEqual(expected, result);
         }
+
+        [TestMethod()]
+        public void LogInTestIllegalEmail()
+        {
+            service.Register("@post.bgu.il", "Hadas12345");
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "Illegal email"));
+            string result = service.LogIn("@post.bgu.il", "Hadas12345");
+            Assert.AreEqual(expected, result);
+        }
+
         //user doesn't exist
         [TestMethod()]
         public void LogInTestUserDoesntExist()
@@ -160,6 +170,16 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             service.Register("printz@post.bgu.il", "Hadas12345");
             string expected = JsonController.ConvertToJson(new Response<string>(false,"User isn't loggedIn"));
             string result = service.LogOut("printz@post.bgu.il");
+            Assert.AreEqual(expected, result);
+
+        }
+
+        [TestMethod()]
+        public void LogOutTestIllegalEmail()
+        {
+            service.Register("printz@post.bgu.il", "Hadas12345");
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "Illegal email"));
+            string result = service.LogOut("@post.bgu.il");
             Assert.AreEqual(expected, result);
 
         }

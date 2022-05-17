@@ -99,7 +99,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Log in User to the system-Add user to <c>Dictionary</c> loogedIn <br/><br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the user is allready loggedIn or <br/> if user with those email and password doesn't exist <br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if the user is allready loggedIn or <br/> if user with those email and password doesn't exist or <br/> if email illegal
         /// </summary>
         /// <param name="email"></param>
         /// <param name="password"></param>
@@ -107,6 +107,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void LogIn(string email, string password)
         {
             log.Debug("LogIn() for: " + email);
+            if(!IsEmailValid(email))
+            {
+                log.Error("LogIn() failed: " + email + " illegal");
+                throw new ArgumentException("Illegal email");
+            }
             if (userData.ContainsUser(email))
             {
                 if (userData.SearchUser(email).CheckPasswordMatch(password))
@@ -137,7 +142,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Log out user from the system- Remove user from <c>Dictionary</c> loogedIn <br/><br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the user isn't logged in
+        /// <b>Throws</b> <c>ArgumentException</c> if the user isn't logged in or <br/> if email is illegal
         /// </summary>
         /// <param name="user"></param>
         /// <exception cref="ArgumentException"></exception>
@@ -145,6 +150,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void LogOut(string email)
         {
             log.Debug("LogOut() for " + email);
+            if(!IsEmailValid(email))
+            {
+                log.Error("LogOut() failed: " + email + " illegal");
+                throw new ArgumentException("Illegal email");
+            }
             if (userData.ContainsUser(email) == false)
             {
                 log.Error("LogOut() failed: there is no user with " + email + " in the system");
