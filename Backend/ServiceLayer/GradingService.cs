@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using System.Text.Json;
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
@@ -137,7 +138,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 intResponse resOk = new(json);
                 return JsonController.ConvertToJson(resOk);
             }
-            catch (Exception)
+            catch (JsonException)
             {
                 string json = boardServiceLayer.GetColumnLimit(email, boardName, columnOrdinal);
                 GradingResponse<string> resError = new(json);
@@ -262,7 +263,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 GradingResponse<LinkedList<BusinessLayer.Task>> resOk = new(json);
                 return JsonController.ConvertToJson(resOk);
             }
-            catch (Exception)
+            catch (JsonException)
             {
                 string json = boardServiceLayer.GetColumn(email, boardName, columnOrdinal);
                 GradingResponse<string> resError = new(json);
@@ -312,7 +313,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 GradingResponse<LinkedList<BusinessLayer.Task>> resOk = new(json);
                 return JsonController.ConvertToJson(resOk);
             }
-            catch (Exception)
+            catch (JsonException)
             {
                 string json = boardControllerServiceLayer.GetAllTasksByState(email, 1);
                 GradingResponse<string> resError = new(json);
