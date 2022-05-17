@@ -144,30 +144,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <param name="boardName">The name of the board</param>
         /// <param name="taskId">The task to be updated identified task ID</param>
         /// <returns>The string "{}", unless an error occurs (see <see cref="TaskService"/>)</returns>
-        public string LimitDescription(string email, string boardName,int columnOrdinal, int taskId)
-        {
-            try
-            {
-                if (columnOrdinal < 0 | columnOrdinal > 2)
-                    throw new ArgumentException("columnOrdinal '" + columnOrdinal + "' is illegal");
-
-                BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
-                BusinessLayer.Task task = board.SearchTask(taskId, columnOrdinal);
-                task.LimitDescription();
-                Response<string> res = new(true, "");
-                return JsonController.ConvertToJson(res);
-            }
-            catch (BusinessLayer.NoSuchElementException ex)
-            {
-                Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
-            }
-            catch (ArgumentException ex)
-            {
-                Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
-            }
-        }
 
     }
     

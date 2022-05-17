@@ -132,7 +132,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         public LinkedList<Task> GetAllTasksByState(string email, int columnOrdinal)
             {
-            log.Debug("GetAllTasksByState() for: " + "Board's name" + columnOrdinal);
+            log.Debug("GetAllTasksByState() for: " + "Board's name" + (TaskStates)columnOrdinal);
             if (!userData.ContainsUser(email))
             {
                 log.Error("GetAllTasksByState() failed: '" + email + "' doesn't exist");
@@ -147,9 +147,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             if (columnOrdinal < 0 || columnOrdinal > 2)
             {
-                log.Error("GetAllTasksByState() failed: '" + columnOrdinal + "' doesn't exist");
+                log.Error("GetAllTasksByState() failed: '" + (TaskStates)columnOrdinal + "' doesn't exist");
                 throw new NoSuchElementException("A column '" +
-                    columnOrdinal + "' doesn't exist in the Board");
+                    (TaskStates)columnOrdinal + "' doesn't exist in the Board");
             }
             
                 LinkedList<Task> tasks = new LinkedList<Task>();
