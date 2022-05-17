@@ -273,13 +273,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
                 LinkedList<BusinessLayer.Task> column = board.GetColumn(columnOrdinal);
-                LinkedList<BusinessLayer.Serializable.Task_Serializable> column_serializeable = new();
-                foreach (BusinessLayer.Task task in column)
-                {
-                    column_serializeable.AddLast(task.GetSerializableInstance());
-                }
-                Response<LinkedList<BusinessLayer.Serializable.Task_Serializable>> res = new(true, column_serializeable);
-                return JsonController.ConvertToJson(res);
+                return JsonController.ConvertToJson(column);
             }
             catch (BusinessLayer.NoSuchElementException ex)
             {
