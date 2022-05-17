@@ -48,10 +48,42 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         }
         //invalid password
         [TestMethod()]
-        public void RegisterTestIllegalPassword()
+        public void RegisterTestIllegalPasswordNoBigLetters()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false,"Password illegal"));
             string result = service.Register("yuval@post.bgu.ac.il", "a12345");
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod()]
+        public void RegisterTestIllegalNoSmallLetters()
+        {
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "Password illegal"));
+            string result = service.Register("yuval@post.bgu.ac.il", "H12345");
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod()]
+        public void RegisterTestIllegalNoNumbers()
+        {
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "Password illegal"));
+            string result = service.Register("yuval@post.bgu.ac.il", "Haaaaa");
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod()]
+        public void RegisterTestIllegalTooShort()
+        {
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "Password illegal"));
+            string result = service.Register("yuval@post.bgu.ac.il", "Ha12");
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod()]
+        public void RegisterTestIllegalTooLong()
+        {
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "Password illegal"));
+            string result = service.Register("yuval@post.bgu.ac.il", "Ha13345678895gh226557hsgdb");
             Assert.AreEqual(expected, result);
         }
 
