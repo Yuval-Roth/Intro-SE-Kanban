@@ -16,6 +16,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 	/// <list type="bullet">RemoveTask()</list>
     /// /// <list type="bullet">AdvanceTask()</list>
 	/// <list type="bullet">LimitColumn()</list>
+    /// <list type="bullet">UnlimitColumn()</list>
     /// <list type="bullet">GetColumnLimit()</list>
 	/// <list type="bullet">GetColumnName()</list>
 	/// <list type="bullet">GetColumn()</list>

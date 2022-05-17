@@ -14,8 +14,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 	///<br/>
 	/// <list type="bullet">UpdateTaskDueDate()</list>
 	/// <list type="bullet">UpdateTaskTitle()</list>
-    /// /// <list type="bullet">UpdateTaskDescription()</list>
-    /// /// /// <list type="bullet">LimitDescription()</list>
+    /// <list type="bullet">UpdateTaskDescription()</list>
 	/// <br/><br/>
 	/// ===================
 	/// <br/>
