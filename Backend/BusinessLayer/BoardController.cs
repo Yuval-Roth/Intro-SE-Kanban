@@ -6,14 +6,46 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
+
+    /// <summary>
+    ///This class controls the actions users' boards.<br/>
+    ///<br/>
+    ///<code>Supported operations:</code>
+    ///<br/>
+    /// <list type="bullet">AddBoard()</list>
+    /// <list type="bullet">RemoveBoard()</list>
+    /// <list type="bullet">GetAllTasksByState()</list>
+    /// <list type="bullet">GetBoards()</list>
+    /// <list type="bullet">SearchBoard()</list>
+    /// <br/><br/>
+    /// ===================
+    /// <br/>
+    /// <c>Ⓒ Kfir Nissim</c>
+    /// <br/>
+    /// ===================
+    /// </summary>
+
     public class BoardController
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\BoardController.cs");
         UserData userData;
+
+        /// <summary>
+        /// Creates an empty <c>BinaryTree</c> userList <br/>
+        /// Creates an empty <c>LinkList</c> Boards
+        /// </summary>
         public BoardController(UserData userData)
         {
             this.userData = userData;
         }
+
+        /// <summary>
+        /// Add new <c>Board</c> to <c>UserData</c> userData <br/> <br/>
+        /// <b>Throws</b> <c>Exception</c> if the user isn't exists or isn't login or Board already exist
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="name"></param>
+        /// <exception cref="ArgumentException"></exception>
         public void AddBoard(string email, string name)
         {
             log.Debug("AddBoard() for: " + email + "Board's name" + name);
@@ -47,6 +79,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         name + " already exists for the user with the email " + email);
             }
         }
+
+
+        /// <summary>
+        /// Remove <c>Board</c> from <c>UserData</c> userData <br/> <br/>
+        /// <b>Throws</b> <c>Exception</c> if the user isn't exists or isn't login or Board isn't exist
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="name"></param>
+        /// <exception cref="ArgumentException"></exception>
         public void RemoveBoard(string email, string name)
         {
             log.Debug("RemoveBoard() for: " + email + "Board's name" + name);
@@ -80,6 +121,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                                 name + "' doesn't exists for the user with the email " + email);
             }
         }
+
+        /// <summary>
+        /// Returns <c>tasks' list</c> from <c>UserData</c> userData <br/> <br/>
+        /// <b>Throws</b> <c>Exception</c> if the user isn't exists or isn't login
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="columnOrdinal"></param>
+        /// <returns>A list of tasks by specific state, unless an error occurs</returns>
+        /// <exception cref="ArgumentException"></exception>
         public LinkedList<Task> GetAllTasksByState(string email, int columnOrdinal)
             {
             log.Debug("GetAllTasksByState() for: " + "Board's name" + columnOrdinal);
@@ -114,6 +164,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             log.Debug("GetAllTasksByState() success");
             return tasks;
         }
+
+
+        /// <summary>
+        /// Returns <c>boards' list</c> from <c>UserData</c> userData <br/> <br/>
+        /// <b>Throws</b> <c>Exception</c> if the user isn't exists or isn't login
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns>A list of Boards, unless an error occurs</returns>
+        /// <exception cref="ArgumentException"></exception>
         public LinkedList<Board> GetBoards (string email) {
             log.Debug("GetBoards() for: " + email);
             if (!userData.ContainsUser(email))
@@ -141,6 +200,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     email + "' doesn't exist in the system");
             }
         }
+
+
+        /// <summary>
+        /// Returns <c>board</c> from <c>UserData</c> userData <br/> <br/>
+        /// <b>Throws</b> <c>Exception</c> if the user isn't exists or isn't login or board isn't exist
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns>Board, unless an error occurs</returns>
+        /// <exception cref="ArgumentException"></exception>
         public Board SearchBoard(string email, string name) {
             log.Debug("SearchBoard() for: " + email + " Board's name " + name);
             if (!userData.ContainsUser(email))
