@@ -25,8 +25,8 @@ namespace IntroSE.Kanban.selfTesting
             //logTesting();
             //registerTest();
             //validEmailTest();
-            enumsTests();
-
+            //enumsTests();
+            gradingTests();
 
         }
         //public static void BinaryTreeTesting()
@@ -163,8 +163,6 @@ namespace IntroSE.Kanban.selfTesting
         {
             Console.WriteLine("hello: "+(int)State.backlog);
         }
-
-
     }
 }
 
