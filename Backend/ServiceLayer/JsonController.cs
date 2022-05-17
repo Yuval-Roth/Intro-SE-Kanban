@@ -39,19 +39,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 			}
 			return Serialize(boardList_Serializable);
 		}
-		public static string ConvertToJson(LinkedList<BusinessLayer.Task> taskList)
-		{
-			LinkedList<BusinessLayer.Serializable.Task_Serializable> taskList_Serializable = new();
-			foreach (BusinessLayer.Task task in taskList)
-			{
-				taskList_Serializable.AddLast(task.GetSerializableInstance());
-			}
-			return Serialize(taskList_Serializable);
-		}
-		public static string ConvertToJson(LinkedList<BusinessLayer.Serializable.Task_Serializable> tasklist)
-		{
-			return Serialize(tasklist);
-		}
 		public static string ConvertToJson(BusinessLayer.User user)
 		{
 			return Serialize(user.GetSerializableInstance());
@@ -64,7 +51,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		{
 			return Serialize(response);
 		}
-		public static string ConvertToJson(GradingService.intResponse response)
+		public static string ConvertToJson<T>(GradingService.Integer response)
 		{
 			return Serialize(response);
 		}
