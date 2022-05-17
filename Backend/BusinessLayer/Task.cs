@@ -7,7 +7,26 @@ using System.Text.Json.Serialization;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
-    
+
+
+    /// <summary>
+    ///This class controls the actions users' task.<br/>
+    ///<br/>
+    ///<code>Supported operations:</code>
+    ///<br/>
+    /// <list type="bullet">Task()</list>
+    /// <list type="bullet">AdvanceTask()</list>
+    /// <list type="bullet">SetTitle()</list>
+    /// <list type="bullet">SetDescription()</list>
+    /// <list type="bullet">SetDueDate()</list>
+    /// <br/><br/>
+    /// ===================
+    /// <br/>
+    /// <c>Ⓒ Kfir Nissim</c>
+    /// <br/>
+    /// ===================
+    /// </summary>
+
     public enum TaskStates
     {
         backlog,
@@ -30,6 +49,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private readonly int MAX_TITLE_CHAR_CAP = 50;
         private readonly int MIN_TITLE_CHAR_CAP = 1;
 
+
+        /// <summary>
+        /// Build <c>Task</c> <br/> <br/>
+        /// <b>Throws</b> <c>Exception</c> if the title or description over their char cap, or due date is passed
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="duedate"></param>
+        /// <param name="description"></param>
+        /// <exception cref="ArgumentException"></exception>
         public Task(int id, string title, DateTime duedate,string description)
         {
             log.Debug("Task() for id: " + id);
@@ -73,6 +101,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             set { id = value; }
         }
 
+
+        /// <summary>
+        /// Set <c>Task Title</c> to <c>Task</c> task <br/> <br/>
+        /// <b>Throws</b> <c>Exception</c> if the title over his char cap
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentException"></exception>
         public string Title 
         {
             get { return title; }
@@ -98,6 +133,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             get { return creationTime; }
             set { creationTime = value; } 
         }
+
+
+        /// <summary>
+        /// Set <c>Task DueDate</c> to <c>Task</c> task <br/> <br/>
+        /// <b>Throws</b> <c>Exception</c> if the due date is passed
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentException"></exception>
         public DateTime DueDate 
         {
             get { return dueDate; }
@@ -112,6 +155,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Debug("UpdateDueDate() success");
             }
         }
+
+
+        /// <summary>
+        /// Set <c>Task Description</c> to <c>Task</c> task <br/> <br/>
+        /// <b>Throws</b> <c>Exception</c> if the Description over his char cap
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentException"></exception>
         public string Description
         {
             get { return description; }
@@ -131,6 +182,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //            Functionality
         //====================================
 
+
+        /// <summary>
+        /// Advance <c>Task</c> <br/> <br/>
+        /// <b>Throws</b> <c>Exception</c> if task state is done
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentException"></exception>
         public void AdvanceTask()
         {
             log.Debug("AdvanceTask() for taskId: " + id);
