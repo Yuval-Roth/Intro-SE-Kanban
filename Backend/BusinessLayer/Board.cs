@@ -244,12 +244,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new NoSuchElementException("A column '" +
                     columnOrdinal + "' doesn't exist in the Board");
             }
-            if (columnLimit[columnOrdinal] == -1)
-            {
-                log.Error("GetColumnLimit() failed: '" + (TaskStates)columnOrdinal + "' has no limit");
-                throw new ArgumentException("A column '" +
-                    (TaskStates)columnOrdinal + "' has no limit");
-            }
             log.Debug("GetColumnLimit() success");
             return columnLimit[columnOrdinal];
         }
@@ -307,7 +301,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void LimitColumn(int columnOrdinal, int limit)
         {
             log.Debug("LimitColumn() for column and limit: " + columnOrdinal + ", " + limit);
-            if (limit < 0)
+            if (limit < -1)
             {
                 log.Error("LimitColumn() failed: '" + limit + "' the limit is negative");
                 throw new NoSuchElementException("A limit '" +
@@ -319,7 +313,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new NoSuchElementException("A column '" +
                     columnOrdinal + "' doesn't exist in the Board");
             }
-            if (columns[columnOrdinal].Count > limit)
+            if (columns[columnOrdinal].Count > limit && limit!=-1)
             {
                 log.Error("LimitColumn() failed: '" + (TaskStates)columnOrdinal + "' size is bigger than th limit " +limit);
                 throw new NoSuchElementException("A column '" +

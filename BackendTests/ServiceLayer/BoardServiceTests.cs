@@ -353,7 +353,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnLimitTestColumnIsUnlimited()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A column 'backlog' has no limit"));
+            string expected = JsonController.ConvertToJson(new Response<int>(true,-1));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
