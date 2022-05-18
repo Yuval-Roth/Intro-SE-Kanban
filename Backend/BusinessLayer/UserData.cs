@@ -65,7 +65,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             try
             {
                 log.Debug("SearchUser() for: " + email);
-                return tree.GetData(email).User;
+                User output = tree.GetData(email).User;
+                log.Debug("SearchUser() success");
+                return output;
             }
             catch (NoSuchElementException)
             {
@@ -89,9 +91,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 log.Debug("AddUser() for: " + email);
                 DataUnit data = tree.Add(email, new DataUnit());
-                log.Debug("AddUser() success");
                 data.User = new User(email, password);
                 data.Boards = new LinkedList<Board>();
+                log.Debug("AddUser() success");
                 return data.User;
             }
             catch (ArgumentException) 
@@ -198,7 +200,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             try
             {
                 log.Debug("GetBoards() for: " + email);
-                return tree.GetData(email).Boards;
+                LinkedList<Board> output = tree.GetData(email).Boards;
+                log.Debug("GetBoards() success");
+                return output; 
             }
             catch (NoSuchElementException)
             {
@@ -284,6 +288,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     {
                         boardList.Remove(board);
                         found = true;
+                        log.Debug("RemoveBoard() success");
                         break;
                     }
                 }

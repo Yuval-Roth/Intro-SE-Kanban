@@ -188,6 +188,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Debug("UpdateDueDate() success");
             }
         }
+        
 
         //====================================
         //            Functionality

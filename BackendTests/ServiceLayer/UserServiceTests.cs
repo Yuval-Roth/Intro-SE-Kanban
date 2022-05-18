@@ -100,7 +100,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void DeleteUserTestUserDoesntExist()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"User with 'printz@post.bgu.il' doesn't exist in the system"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "User doesn\u0027t exist in the system"));
             string result = service.DeleteUser("printz@post.bgu.il");
             Assert.AreEqual(expected, result);
         }

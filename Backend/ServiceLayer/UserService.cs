@@ -78,8 +78,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		{
             try
             {
-				BusinessLayer.User toDelete = userController.SearchUser(email);
-				userController.DeleteUser(toDelete);
+				userController.DeleteUser(email);
 				Response<string> res = new(true,"");
 				return JsonController.ConvertToJson(res);
 			}
