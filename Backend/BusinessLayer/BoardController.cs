@@ -172,7 +172,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Returns <c>board</c> from <c>UserData</c> userData <br/> <br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if the user doesn't exist<br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the user or the board doesn't exist<br/>
         /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't logged in
         /// </summary>
         /// <param name="email"></param>
