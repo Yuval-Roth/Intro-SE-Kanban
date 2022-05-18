@@ -316,7 +316,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             else return false;
         }
 
-        #nullable enablec
+        #nullable enable
         [Serializable]
         public class GradingResponse<T>
         {
