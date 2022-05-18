@@ -88,10 +88,23 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             log.Debug("AddTask() for: " + title + ", " + description + ", " + duedate);
             if (columns[(int)TaskStates.backlog].Count != columnLimit[(int)TaskStates.backlog])
             {
-                columns[(int)TaskStates.backlog].AddLast(new Task(taskIDCounter, title, duedate, description));
-                taskStateTracker.Add(taskIDCounter, TaskStates.backlog);
-                taskIDCounter++;
-                log.Debug("AddTask() success");
+                try
+                {
+                    columns[(int)TaskStates.backlog].AddLast(new Task(taskIDCounter, title, duedate, description));
+                    taskStateTracker.Add(taskIDCounter, TaskStates.backlog);
+                    taskIDCounter++;
+                    log.Debug("AddTask() success");
+                }
+                catch (ArgumentException e)
+                {
+                    log.Error("AddTask() failed: '" + e.Message);
+                    throw new ArgumentException(e.Message);
+                }
+                catch (NoSuchElementException e)
+                {
+                    log.Error("AddTask() failed: '" + e.Message);
+                    throw new NoSuchElementException(e.Message);
+                }
             }
             else 
             {
@@ -155,7 +168,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 {
                     if (state != TaskStates.done)
                     {
-                        if (columns[(int)state + 1].Count != columnLimit[(int)state + 1])
+                        if (columns[(int)state + 1].Count < columnLimit[(int)state + 1] | columnLimit[(int)state + 1] == -1)
                         {
                             Task toAdvance = SearchTask(taskId);
                             columns[(int)state].Remove(toAdvance);
@@ -234,23 +247,17 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             if (taskStateTracker.ContainsKey(taskId))
             {
                 LinkedList<Task> taskList = columns[(int)taskStateTracker[taskId]];
+                Task output;
                 foreach (Task task in taskList)
                 {
                     if (task.Id == taskId)
                     {
                         log.Debug("SearchTask() success");
-                        return task;
+                        output = task;
+                        break;
                     }
                 }
-                //======================================================================================================
-                // this part of the code should generally never run. if it does, there is a serious problem somewhere.
-                //======================================================================================================
-                log.Fatal("FATAL ERROR: task numbered"+taskId +"exists in the taskStateTracker and not in the column '"+
-                    taskStateTracker[taskId] + "' where it's supposed to be");
-                throw new OperationCanceledException("FATAL ERROR: task numbered" + taskId +
-                    "exists in the taskStateTracker and not in the column '" +
-                    taskStateTracker[taskId] + "' where it's supposed to be");
-                //======================================================================================================
+                return output;
             }
             else
             {
@@ -274,18 +281,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             log.Debug("GetColumnLimit() success");
             return columnLimit[columnOrdinal];
-
-            //if (columnLimit[columnOrdinal] != -1)
-            //{
-            //    log.Debug("GetColumnLimit() success");
-            //    return columnLimit[columnOrdinal];
-            //}
-            //else 
-            //{
-            //    log.Error("GetColumnLimit() failed: '" + (TaskStates)columnOrdinal + "' has no limit");
-            //    throw new ArgumentException("the column '" +
-            //        (TaskStates)columnOrdinal + "' has no limit");
-            //}
         }
 
 

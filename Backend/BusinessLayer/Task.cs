@@ -38,8 +38,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\Task.cs");
 
-        private int id;
-        private DateTime creationTime;
+        private readonly int id;
+        private readonly DateTime creationTime;
         private string title;
         private string description;
         private DateTime dueDate;
@@ -98,7 +98,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public int Id
         {
             get { return id; }
-            set { id = value; }
+            set { }
         }
 
 
@@ -113,6 +113,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             get { return title; }
             set {
                 log.Debug("UpdateTitle() for taskId: " + id);
+                if (state == TaskStates.done)
+                {
+                    log.Error("UpdateTitle() failed: " + id + "is done");
+                    throw new ArgumentException("the task '" +
+                        Id + "' is already done");
+                }
                 if (value.Length < MIN_TITLE_CHAR_CAP)
                 {
                     log.Error("UpdateTitle() failed: title is empty");
@@ -131,7 +137,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public DateTime CreationTime 
         {
             get { return creationTime; }
-            set { creationTime = value; } 
+            set { } 
         }
 
 
@@ -146,6 +152,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             get { return dueDate; }
             set {
                 log.Debug("UpdateDueDate() for taskId: " + id);
+                if (state == TaskStates.done)
+                {
+                    log.Error("UpdateDueDate() failed: " + id + "is done");
+                    throw new ArgumentException("the task '" +
+                        Id + "' is already done");
+                }
                 if (value.CompareTo(DateTime.Now) < 1)
                 {
                     log.Error("UpdateDueDate() failed: due date was passed");
@@ -168,9 +180,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             get { return description; }
             set {
                 log.Debug("UpdateDescription() for taskId: " + id);
+                if (state == TaskStates.done)
+                {
+                    log.Error("UpdateDescription() failed: " + id + "is done");
+                    throw new ArgumentException("the task '" +
+                        Id + "' is already done");
+                }
                 if (value.Length > MAX_DESCRIPTION_CHAR_CAP)
                 {
-                    log.Error("Task() failed: description is over the limit");
+                    log.Error("UpdateDescription() failed: description is over the limit");
                     throw new ArgumentException("description is over the limit");
                 }
                 log.Debug("UpdateDescription() success");

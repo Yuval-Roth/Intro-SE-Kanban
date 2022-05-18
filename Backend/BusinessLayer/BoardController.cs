@@ -145,7 +145,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         public LinkedList<Task> GetAllTasksByState(string email, int columnOrdinal)
             {
-            log.Debug("GetAllTasksByState() for: " + "Board's name" + (TaskStates)columnOrdinal);
+            log.Debug("GetAllTasksByState() for: " + "Board's name" + columnOrdinal);
             if (!userData.ContainsUser(email))
             {
                 log.Error("GetAllTasksByState() failed: '" + email + "' doesn't exist");
