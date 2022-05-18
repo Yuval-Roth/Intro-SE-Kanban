@@ -143,7 +143,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         public void AdvanceTask(int columnOrdinal, int taskId)
         {
-            log.Debug("AdvanceTask() for column and taskId: " + (TaskStates)columnOrdinal + ", " + taskId);
+            log.Debug("AdvanceTask() for column and taskId: " + columnOrdinal + ", " + taskId);
             if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done) 
             {
                 log.Error("AdvanceTask() failed: '" + columnOrdinal + "' doesn't exist");
@@ -189,12 +189,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         public Task SearchTask(int taskId, int columnOrdinal)
         {
+            log.Debug("SearchTask() taskId: " + taskId + " ,columnOrdinal: " + columnOrdinal);
             if ((columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done)){
                 log.Error("AdvanceTask() failed: '" + columnOrdinal + "' doesn't exist");
                 throw new NoSuchElementException("A column '" +
                     columnOrdinal + "' doesn't exist in the Board");
             }
-            log.Debug("SearchTask() taskId: " + taskId);
             LinkedList<Task> list = columns[columnOrdinal];
             foreach (Task task in list)
             {
@@ -237,7 +237,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         public int GetColumnLimit(int columnOrdinal)
         {
-            log.Debug("GetColumnLimit() columnOrdinal: " + (TaskStates)columnOrdinal);
+            log.Debug("GetColumnLimit() columnOrdinal: " + columnOrdinal);
             if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done)
             {
                 log.Error("GetColumnLimit() failed: '" + columnOrdinal + "' doesn't exist");
@@ -264,7 +264,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         public string GetColumnName(int columnOrdinal)
         {
-            log.Debug("GetColumnName() columnOrdinal: " + (TaskStates)columnOrdinal);
+            log.Debug("GetColumnName() columnOrdinal: " + columnOrdinal);
             if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done)
             {
                 log.Error("GetColumnName() failed: '" + columnOrdinal + "' doesn't exist");
@@ -285,7 +285,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         public LinkedList<Task> GetColumn(int columnOrdinal)
         {
-            log.Debug("GetColumn() columnOrdinal: " + (TaskStates)columnOrdinal);
+            log.Debug("GetColumn() columnOrdinal: " + columnOrdinal);
             if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done)
             {
                 log.Error("GetColumn() failed: '" + columnOrdinal + "' doesn't exist");
@@ -306,7 +306,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         public void LimitColumn(int columnOrdinal, int limit)
         {
-            log.Debug("LimitColumn() for column and limit: " + (TaskStates)columnOrdinal + ", " + limit);
+            log.Debug("LimitColumn() for column and limit: " + columnOrdinal + ", " + limit);
             if (limit < 0)
             {
                 log.Error("LimitColumn() failed: '" + limit + "' the limit is negative");
@@ -337,7 +337,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         public void UnlimitColumn(int columnOrdinal)
         {
-            log.Debug("UnimitColumn() for column: " + (TaskStates)columnOrdinal);
+            log.Debug("UnimitColumn() for column: " + columnOrdinal);
             if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done)
             {
                 log.Error("LimitColumn() failed: '" + columnOrdinal + "' doesn't exist");
