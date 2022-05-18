@@ -42,7 +42,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <param name="taskId">The task to be updated identified task ID</param>
         /// <param name="dueDate">The new due date of the column</param>
-        /// <returns>The string "{}", unless an error occurs (see <see cref="TaskService"/>)</returns>
+        /// <returns>
+		/// Json formatted as so:
+		/// <code>
+		///	{
+		///		operationState: bool 
+		///		returnValue: // (operationState == true) => empty string
+		/// }			// (operationState == false) => error message		
+		/// </code>
+		/// </returns>
         public string UpdateTaskDueDate(string email, string boardName, int columnOrdinal, int taskId, DateTime dueDate)
         {
             try
@@ -78,7 +86,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <param name="taskId">The task to be updated identified task ID</param>
         /// <param name="title">New title for the task</param>
-        /// <returns>The string "{}", unless an error occurs (see <see cref="TaskService"/>)</returns>
+        /// <returns>
+		/// Json formatted as so:
+		/// <code>
+		///	{
+		///		operationState: bool 
+		///		returnValue: // (operationState == true) => empty string
+		/// }			// (operationState == false) => error message		
+		/// </code>
+		/// </returns>
         public string UpdateTaskTitle(string email, string boardName, int columnOrdinal, int taskId, string title)
         {
             try
@@ -114,7 +130,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <param name="taskId">The task to be updated identified task ID</param>
         /// <param name="description">New description for the task</param>
-        /// <returns>The string "{}", unless an error occurs (see <see cref="TaskService"/>)</returns>
+        /// <returns>
+		/// Json formatted as so:
+		/// <code>
+		///	{
+		///		operationState: bool 
+		///		returnValue: // (operationState == true) => empty string
+		/// }			// (operationState == false) => error message		
+		/// </code>
+		/// </returns>
         public string UpdateTaskDescription(string email, string boardName, int columnOrdinal, int taskId, string description)
         { 
             try
