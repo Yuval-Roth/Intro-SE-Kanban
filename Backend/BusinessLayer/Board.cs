@@ -34,10 +34,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\Board.cs");
 
-        private int counterID;
+        static public int taskIDCounter;
         private string title;
-        private Dictionary<int, LinkedList<Task>> columns;
+        private LinkedList<Task>[] columns;
         private int [] columnLimit;
+        private Dictionary<int, TaskStates> taskStateTracker;
 
         //====================================
         //            getters/setters
@@ -46,15 +47,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public Board(string title)
         {
             this.title = title;
-            counterID = 0;
             columnLimit = new int[3];
-            columns = new();
+            columns = new LinkedList<Task>[3];
             columnLimit[(int)TaskStates.backlog] = -1;
             columnLimit[(int)TaskStates.inprogress] = -1;
             columnLimit[(int)TaskStates.done] = -1;
-            columns.Add((int)TaskStates.backlog, new LinkedList<Task>());
-            columns.Add((int)TaskStates.inprogress, new LinkedList<Task>());
-            columns.Add((int)TaskStates.done, new LinkedList<Task>());
+            columns[(int)TaskStates.backlog] = new LinkedList<Task>();
+            columns[(int)TaskStates.inprogress] = new LinkedList<Task>();
+            columns[(int)TaskStates.backlog] = new LinkedList<Task>();
+            taskStateTracker = new();
         }
         public string Title
         { 
@@ -68,6 +69,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //====================================
 
 
+        
+
         /// <summary>
         /// Add new <c>Task</c> to <c>Board</c> board <br/> <br/>
         /// <b>Throws</b> <c>Exception</c> if the backlog column reach the limit
@@ -78,18 +81,20 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         public void AddTask(string title, DateTime duedate, string description)
         {
-            log.Debug("AddTask() for taskId: " + title + ", " + description + ", " + duedate);
-            if (columnLimit[(int)TaskStates.backlog] !=-1 && columns[(int)TaskStates.backlog] !=null && columns[(int)TaskStates.backlog].Count() == columnLimit[(int)TaskStates.backlog])
+            log.Debug("AddTask() for: " + title + ", " + description + ", " + duedate);
+            if (columns[(int)TaskStates.backlog].Count != columnLimit[(int)TaskStates.backlog])
             {
-                log.Error("AddTask() failed: board '" + this.title + "' has a limit and can't contains more task");
+                columns[(int)TaskStates.backlog].AddLast(new Task(taskIDCounter, title, duedate, description));
+                taskStateTracker.Add(taskIDCounter, TaskStates.backlog);
+                taskIDCounter++;
+                log.Debug("AddTask() success");
+            }
+            else 
+            {
+                log.Error("AddTask() failed: board '" + this.title + "' has reached its limit and can't contain more tasks");
                 throw new ArgumentException("A board titled " +
                         this.title + " has a limit and can't contains more task");
             }
-            LinkedList<Task> list = columns[(int) TaskStates.backlog];
-            list.AddLast(new Task(counterID, title, duedate, description));
-            counterID++;
-            columns[(int)TaskStates.backlog] = list;
-            log.Debug("AddTask() success");
         }
 
 
@@ -97,34 +102,39 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// Remove <c>Task</c> from <c>Board</c> board <br/> <br/>
         /// <b>Throws</b> <c>Exception</c> if the task isn't exist
         /// </summary>
-        /// <param name="taskId"></param>
+        /// <param name="taskID"></param>
         /// <exception cref="ArgumentException"></exception>
         public void RemoveTask(int taskId)
         {
             log.Debug("RemoveTask() taskId: " + taskId);
-            bool found = false;
-            for (int i = 0; i < columns.Count; i++)
+            if (taskStateTracker.ContainsKey(taskId))
             {
-                LinkedList<Task> list = columns[i];
-                foreach (Task task in list)
+                LinkedList<Task> taskList = columns[(int)taskStateTracker[taskId]];
+                foreach (Task task in taskList)
                 {
-                    if (task.Id == taskId) { found = true; list.Remove(task); break; }
-                }
-                if (found) { break; }
+                    if (task.Id == taskId)
+                    {
+                        taskList.Remove(task);
+                        taskStateTracker.Remove(taskId);
+                        log.Debug("RemoveTask() success");
+                        break;
+                    }
+                }       
             }
-            if (!found)
+            else
             {
-                log.Error("RemoveTask() failed: '" + taskId + "' doesn't exist");
+                log.Error("RemoveTask() failed: task numbered '" + taskId + "' doesn't exist");
                 throw new NoSuchElementException("A Task with the taskId '" +
                     taskId + "' doesn't exist in the Board");
             }
-            else { log.Debug("RemoveTask() success"); }
         }
 
 
         /// <summary>
         /// Advance <c>Task</c> from <c>Board</c> board <br/> <br/>
-        /// <b>Throws</b> <c>Exception</c> if the task isn't exist int the column, or column is illegal, or next column is reach the limit
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the task doesn't exist at all or is not in the specified column<br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if the task can't be advanced<br/>
+        /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number
         /// </summary>
         /// <param name="taskId"></param>
         /// <param name="columnOrdinal"></param>
@@ -132,65 +142,70 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void AdvanceTask(int columnOrdinal, int taskId)
         {
             log.Debug("AdvanceTask() for column and taskId: " + (TaskStates)columnOrdinal + ", " + taskId);
-            if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done) 
+            ValidateColumnOrdinal(columnOrdinal);
+
+            if (taskStateTracker.ContainsKey(taskId))
             {
-                log.Error("AdvanceTask() failed: '" + columnOrdinal + "' doesn't exist");
-                throw new NoSuchElementException("A column '" +
-                    columnOrdinal + "' doesn't exist in the Board");
+                TaskStates state = taskStateTracker[taskId];
+                if ((int)state == columnOrdinal)
+                {
+                    if (state != TaskStates.done)
+                    {
+                        Task toAdvance = SearchTask(taskId);
+                        columns[(int)state].Remove(toAdvance);
+                        columns[(int)state+1].AddLast(toAdvance);
+                        taskStateTracker[taskId] = state+1;
+                        log.Debug("AdvanceTask() success");
+                    }
+                    else
+                    {
+                        log.Error("AdvanceTask() failed: task numbered '" + taskId + "' is done and can't be advanced");
+                        throw new ArgumentException("task numbered '" + taskId + "' is done and can't be advanced");
+                    }
+                }
+                else
+                {
+                    log.Error("AdvanceTask() failed: task numbered '" + taskId + "'isn't in the column " + (TaskStates)columnOrdinal);
+                    throw new NoSuchElementException("the task '" +
+                        taskId + "'doesn't found in the column " + (TaskStates)columnOrdinal);
+                }
             }
-            if ((TaskStates)columnOrdinal == TaskStates.done)
+            else
             {
-                log.Error("AdvanceTask() failed: '" + (TaskStates)columnOrdinal + "'value is done");
-                throw new ArgumentException("the task '" +
-                    taskId + "' is already done");
+                log.Error("AdvanceTask() failed: task numbered '" + taskId + "' doesn't exist");
+                throw new NoSuchElementException("task numbered '" + taskId + "' doesn't exist");
             }
-            bool found = false;
-            foreach(Task task in columns[columnOrdinal])
-            {
-                if (task.Id == taskId) { found=true; break; }
-            }
-            if (!found)
-            {
-                log.Error("AdvanceTask() failed: '" + taskId + "'doesn't found in the column " + (TaskStates)columnOrdinal);
-                throw new NoSuchElementException("the task '" +
-                    taskId + "'doesn't found in the column " + (TaskStates)columnOrdinal);
-            }
-            int nextcolumnordinal = columnOrdinal + 1;
-            if(columns[nextcolumnordinal].Count() == columnLimit[nextcolumnordinal])
-            {
-                log.Error("AdvanceTask() failed: '" + taskId + "'the next column " + (TaskStates)nextcolumnordinal + "'is over the limit");
-                throw new ArgumentException("'the next column " + (TaskStates)nextcolumnordinal + "'is over the limit");
-            }
-            Task toAdvance = SearchTask(taskId);
-            columns[columnOrdinal].Remove(toAdvance);
-            columns[nextcolumnordinal].AddLast(toAdvance);
-            log.Debug("AdvanceTask() success");
+            
         }
 
 
         /// <summary>
         /// Search <c>Task</c> from <c>Board</c> board <br/> <br/>
-        /// <b>Throws</b> <c>Exception</c> if the task isn't exist or column is illegal
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the task doesn't exist in the specified column <br/>
+        /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number
         /// </summary>
         /// <param name="taskId"></param>
         /// <param name="columnOrdinal"></param>
         /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
         public Task SearchTask(int taskId, int columnOrdinal)
         {
-            if ((columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done)){
-                log.Error("AdvanceTask() failed: '" + columnOrdinal + "' doesn't exist");
-                throw new NoSuchElementException("A column '" +
-                    columnOrdinal + "' doesn't exist in the Board");
-            }
-            log.Debug("SearchTask() taskId: " + taskId);
-            LinkedList<Task> list = columns[columnOrdinal];
-            foreach (Task task in list)
+            log.Debug("SearchTask() taskId, columnOrdinal: " + taskId + ", " + columnOrdinal);
+            ValidateColumnOrdinal(columnOrdinal);
+
+            LinkedList<Task> taskList = columns[columnOrdinal];
+            foreach (Task task in taskList)
             {
-                if (task.Id == taskId) { log.Debug("SearchTask() success"); return task; }
+                if (task.Id == taskId)
+                {
+                    log.Debug("SearchTask() success");
+                    return task;
+                }
             }
-            log.Error("SearchTask() failed: '" + taskId + "' doesn't exist");
+            log.Error("SearchTask() failed: A task numbered '" + taskId +
+                "' doesn't exist in column '" + columnOrdinal + "'");
             throw new NoSuchElementException("A Task with the taskId '" +
-                taskId + "' doesn't exist in the Board");
+                taskId + "' doesn't exist in column '" + columnOrdinal + "'");
         }
 
         /// <summary>
@@ -203,43 +218,65 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public Task SearchTask(int taskId) 
         {
             log.Debug("SearchTask() taskId: " + taskId);
-            for (int i = 0; i < columns.Count; i++)
+            if (taskStateTracker.ContainsKey(taskId))
             {
-                LinkedList<Task> list = columns[i];
-                foreach (Task task in list)
+                LinkedList<Task> taskList = columns[(int)taskStateTracker[taskId]];
+                foreach (Task task in taskList)
                 {
-                    if (task.Id == taskId) {log.Debug("SearchTask() success"); return task; }
+                    if (task.Id == taskId)
+                    {
+                        log.Debug("SearchTask() success");
+                        return task;
+                    }
                 }
-            }   
-                log.Error("SearchTask() failed: '" + taskId + "' doesn't exist");
+                //======================================================================================================
+                // this part of the code should generally never run. if it does, there is a serious problem somewhere.
+                //======================================================================================================
+                log.Fatal("FATAL ERROR: task numbered"+taskId +"exists in the taskStateTracker and not in the column '"+
+                    taskStateTracker[taskId] + "' where it's supposed to be");
+                throw new OperationCanceledException("FATAL ERROR: task numbered" + taskId +
+                    "exists in the taskStateTracker and not in the column '" +
+                    taskStateTracker[taskId] + "' where it's supposed to be");
+                //======================================================================================================
+            }
+            else
+            {
+                log.Error("SearchTask() failed: A task numbered '" + taskId + "' doesn't exist");
                 throw new NoSuchElementException("A Task with the taskId '" +
                     taskId + "' doesn't exist in the Board");
+            }           
         }
 
         /// <summary>
         /// Get<c>column limit</c> from <c>Board</c> board <br/> <br/>
-        /// <b>Throws</b> <c>Exception</c> if column isn't exist or column has no limit
+        /// <b>Throws</b> <c>ArgumentException</c> if the column doesn't have a limit <br/>
+        /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number
         /// </summary>
         /// <param name="columnOrdinal"></param>
         /// <returns>int column limit, unless an error occurs</returns>
         /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public int GetColumnLimit(int columnOrdinal)
         {
-            log.Debug("GetColumnLimit() columnOrdinal: " + (TaskStates)columnOrdinal);
-            if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done)
+            log.Debug("GetColumnLimit() columnOrdinal: " + columnOrdinal);
+            ValidateColumnOrdinal(columnOrdinal);
+
+            if (columnLimit[columnOrdinal] != -1)
             {
-                log.Error("GetColumnLimit() failed: '" + columnOrdinal + "' doesn't exist");
-                throw new NoSuchElementException("A column '" +
-                    columnOrdinal + "' doesn't exist in the Board");
+                log.Debug("GetColumnLimit() success");
+                return columnLimit[columnOrdinal];
             }
-            if (columnLimit[columnOrdinal] == -1)
+            else 
             {
                 log.Error("GetColumnLimit() failed: '" + (TaskStates)columnOrdinal + "' has no limit");
-                throw new ArgumentException("A column '" +
+                throw new ArgumentException("the column '" +
                     (TaskStates)columnOrdinal + "' has no limit");
             }
-            log.Debug("GetColumnLimit() success");
-            return columnLimit[columnOrdinal];
+            //else
+            //{
+            //    return -1;
+            //}
+            
         }
 
 
@@ -334,6 +371,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             log.Debug("LimitColumn() success");
             columnLimit[columnOrdinal] = -1;
+        }
+
+        private void ValidateColumnOrdinal(int columnOrdinal)
+        {
+            if (columnOrdinal < (int)TaskStates.backlog | columnOrdinal > (int)TaskStates.done)
+            {
+                log.Error("AdvanceTask() failed: '" + columnOrdinal + "' is not a valid column number");
+                throw new IndexOutOfRangeException("The column '" + columnOrdinal + "' is not a valid column number");
+            }
         }
 
         //====================================================
