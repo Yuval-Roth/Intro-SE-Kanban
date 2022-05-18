@@ -119,7 +119,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <param name="boardName">The name of the board</param>
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <param name="taskId">The task to be updated identified task ID</param>
-        /// <returns>The string "{}", unless an error occurs (see <see cref="BoardService"/>)</returns>
+        /// <returns>
+        /// Json formatted as so:
+        /// <code>
+        ///	{
+        ///		operationState: bool 
+        ///		returnValue: // (operationState == true) => empty string
+        /// }			// (operationState == false) => error message		
+        /// </code>
+        /// </returns>
         public string AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
         {
             try
@@ -201,7 +209,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// <code>
 		///	{
 		///		operationState: bool 
-		///		returnValue: // (operationState == true) => column limit
+		///		returnValue: // (operationState == true) => column limit (int)
 		/// }			// (operationState == false) => error message		
 		/// </code>
 		/// </returns>
@@ -242,7 +250,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// <code>
 		///	{
 		///		operationState: bool 
-		///		returnValue: // (operationState == true) => column name
+		///		returnValue: // (operationState == true) => column name (string)
 		/// }	             // (operationState == false) => error message		
 		/// </code>
 		/// </returns>
