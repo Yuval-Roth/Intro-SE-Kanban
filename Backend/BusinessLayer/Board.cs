@@ -34,7 +34,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\Board.cs");
 
-        static public int taskIDCounter;
+        /*static */public int taskIDCounter;
         private string title;
         private LinkedList<Task>[] columns;
         private int [] columnLimit;
@@ -54,8 +54,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             columnLimit[(int)TaskStates.done] = -1;
             columns[(int)TaskStates.backlog] = new LinkedList<Task>();
             columns[(int)TaskStates.inprogress] = new LinkedList<Task>();
-            columns[(int)TaskStates.backlog] = new LinkedList<Task>();
+            columns[(int)TaskStates.done] = new LinkedList<Task>();
             taskStateTracker = new();
+
+            //
+            taskIDCounter = 0;
+            //
         }
         public string Title
         { 
@@ -151,11 +155,20 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 {
                     if (state != TaskStates.done)
                     {
-                        Task toAdvance = SearchTask(taskId);
-                        columns[(int)state].Remove(toAdvance);
-                        columns[(int)state+1].AddLast(toAdvance);
-                        taskStateTracker[taskId] = state+1;
-                        log.Debug("AdvanceTask() success");
+                        if (columns[(int)state + 1].Count != columnLimit[(int)state + 1])
+                        {
+                            Task toAdvance = SearchTask(taskId);
+                            columns[(int)state].Remove(toAdvance);
+                            columns[(int)state + 1].AddLast(toAdvance);
+                            taskStateTracker[taskId] = state + 1;
+                            log.Debug("AdvanceTask() success");
+                        }
+                        else
+                        {
+                            log.Error("AdvanceTask() failed: task numbered '" + taskId + "' can't be advanced because the next column is full");
+                            throw new ArgumentException("task numbered '" + taskId + "' can't be advanced because the next column is full");
+                        }
+                        
                     }
                     else
                     {
@@ -165,9 +178,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 }
                 else
                 {
-                    log.Error("AdvanceTask() failed: task numbered '" + taskId + "'isn't in the column " + (TaskStates)columnOrdinal);
+                    log.Error("AdvanceTask() failed: task numbered '" + taskId + "' isn't in the column " + (TaskStates)columnOrdinal);
                     throw new NoSuchElementException("the task '" +
-                        taskId + "'doesn't found in the column " + (TaskStates)columnOrdinal);
+                        taskId + "' isn't in the column " + (TaskStates)columnOrdinal);
                 }
             }
             else
@@ -210,7 +223,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Search <c>Task</c> from <c>Board</c> board <br/> <br/>
-        /// <b>Throws</b> <c>Exception</c> if the task isn't exist
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the task doesn't exist
         /// </summary>
         /// <param name="taskId"></param>
         /// <returns>Task, unless an error occurs</returns>

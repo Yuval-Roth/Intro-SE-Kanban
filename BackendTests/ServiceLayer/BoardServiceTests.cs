@@ -74,7 +74,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AddTaskTestColumnCantOverLimit()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled new board has a limit and can't contains more task"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "Backlog in board 'new board' has reached its limit and can't contain more tasks"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -198,7 +198,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AdvanceTaskTestTaskIsDone()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "the task '0' is already done"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "task numbered '0' is done and can't be advanced"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -213,7 +213,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AdvanceTaskTestColumnCantOverTheLimit()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "'the next column inprogress'is over the limit"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "task numbered '1' can't be advanced because the next column is full"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -271,7 +271,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void LimitColumnTestColumnDoesntExist()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A column '5' doesn't exist in the Board"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "The column '5' is not a valid column number"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -340,7 +340,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnLimitTestColumnDoesntExist()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A column '7' doesn't exist in the Board"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "The column '7' is not a valid column number"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -353,7 +353,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnLimitTestColumnIsUnlimited()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A column 'backlog' has no limit"));
+            string expected = JsonController.ConvertToJson(new Response<int>(true, -1));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -407,7 +407,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnNameTestColumnDoesntExist()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A column '7' doesn't exist in the Board"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "The column '7' is not a valid column number"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -469,7 +469,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnTestColumnDoesntExist()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A column '5' doesn't exist in the Board"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "The column '5' is not a valid column number"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");

@@ -50,7 +50,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public BoardController(UserData userData, int taskIDCounter)
         {
             this.userData = userData;
-            Board.taskIDCounter = taskIDCounter;
+            //Board.taskIDCounter = taskIDCounter;
         }
         /// <summary>
         /// Add new <c>Board</c> to <c>UserData</c> userData <br/> <br/>
@@ -217,11 +217,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Returns <c>board</c> from <c>UserData</c> userData <br/> <br/>
-        /// <b>Throws</b> <c>Exception</c> if the user isn't exists or isn't login or board isn't exist
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the user isn't exists or isn't login or board isn't exist
         /// </summary>
         /// <param name="email"></param>
         /// <returns>Board, unless an error occurs</returns>
-        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="NoSuchElementException"></exception>
         public Board SearchBoard(string email, string name) {
             log.Debug("SearchBoard() for: " + email + " Board's name " + name);
             if (!userData.ContainsUser(email))
