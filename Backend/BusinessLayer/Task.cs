@@ -37,8 +37,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private string title;
         private string description;
         private DateTime dueDate;
+        TaskStates state;
 
-        private TaskStates state;
         private readonly int MAX_DESCRIPTION_CHAR_CAP = 300;
         private readonly int MAX_TITLE_CHAR_CAP = 50;
         private readonly int MIN_TITLE_CHAR_CAP = 1;
@@ -187,6 +187,29 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 dueDate = value;
                 log.Debug("UpdateDueDate() success");
             }
+        }
+
+        //====================================
+        //            Functionality
+        //====================================
+
+
+        /// <summary>
+        /// Advance <c>Task</c>
+        /// <b>Throws</b> <c>ArgumentException</c> if the task can't be advanced<br/>
+        /// </summary>
+        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        public void AdvanceTask()
+        {
+            log.Debug("UpdateDescription() for taskId: " + id);
+            if(state == TaskStates.done)
+            {
+                log.Error("AdvanceTask() failed: task numbered '" + id + "' is done and can't be advanced");
+                throw new ArgumentException("task numbered '" + id + "' is done and can't be advanced");
+            }
+            state++;
         }
 
 
