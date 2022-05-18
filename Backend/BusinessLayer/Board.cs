@@ -303,7 +303,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             ValidateColumnOrdinal(columnOrdinal);
             
             log.Debug("GetColumnName() success");
-            return ((TaskStates)columnOrdinal).ToString();
+            switch (columnOrdinal)
+            {
+                case 1: return "in progress";
+
+                default: return ((TaskStates)columnOrdinal).ToString();
+            }
+            
         }
 
         /// <summary>
