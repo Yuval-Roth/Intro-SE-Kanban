@@ -113,6 +113,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             get { return title; }
             set {
                 log.Debug("UpdateTitle() for taskId: " + id);
+                if (state == TaskStates.done)
+                {
+                    log.Error("UpdateTitle() failed: " + id + "is done");
+                    throw new ArgumentException("the task '" +
+                        Id + "' is already done");
+                }
                 if (value.Length < MIN_TITLE_CHAR_CAP)
                 {
                     log.Error("UpdateTitle() failed: title is empty");
@@ -146,6 +152,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             get { return dueDate; }
             set {
                 log.Debug("UpdateDueDate() for taskId: " + id);
+                if (state == TaskStates.done)
+                {
+                    log.Error("UpdateDueDate() failed: " + id + "is done");
+                    throw new ArgumentException("the task '" +
+                        Id + "' is already done");
+                }
                 if (value.CompareTo(DateTime.Now) < 1)
                 {
                     log.Error("UpdateDueDate() failed: due date was passed");
@@ -168,9 +180,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             get { return description; }
             set {
                 log.Debug("UpdateDescription() for taskId: " + id);
+                if (state == TaskStates.done)
+                {
+                    log.Error("UpdateDescription() failed: " + id + "is done");
+                    throw new ArgumentException("the task '" +
+                        Id + "' is already done");
+                }
                 if (value.Length > MAX_DESCRIPTION_CHAR_CAP)
                 {
-                    log.Error("Task() failed: description is over the limit");
+                    log.Error("UpdateDescription() failed: description is over the limit");
                     throw new ArgumentException("description is over the limit");
                 }
                 log.Debug("UpdateDescription() success");
