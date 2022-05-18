@@ -82,17 +82,17 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <param name="user"></param>
         /// <exception cref="NoSuchElementException"></exception>
-        public void DeleteUser(User user)
+        public void DeleteUser(string email)
         {
-            log.Debug("DeleteUser() for: " + user);
+            log.Debug("DeleteUser() for: " + email);
             try
             {
-                userData.RemoveUser(user.GetEmail());
+                userData.RemoveUser(email);
                 log.Debug("DeleteUser() success");
             }
             catch (NoSuchElementException)
             {
-                log.Error("DeleteUser() failed: " + user + " doesn't exist in the system");
+                log.Error("DeleteUser() failed: " + email + " doesn't exist in the system");
                 throw new NoSuchElementException("User doesn't exist in the system");
             }
         }
