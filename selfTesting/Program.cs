@@ -167,15 +167,16 @@ namespace IntroSE.Kanban.selfTesting
         public static void gradingTests()
         {
             Backend.ServiceLayer.GradingService gs = new();
-            gs.Register("blahblahgmail.com", "SismaTil123");
+            gs.Register("blahblah@gmail.com", "SismaTil123");
             gs.userServiceLayer.LogIn("blahblah@gmail.com", "SismaTil123");
             gs.AddBoard("blahblah@gmail.com", "test");
-            gs.AddTask("blahblah@gmail.com", "test", "toDo", "stam", new DateTime());
-            //gs.AdvanceTask("blahblah@gmail.com", "test", 0, 0);
-            //gs.AddTask("blahblah@gmail.com", "test", "toDo", "stam", new DateTime());
-            //gs.AdvanceTask("blahblah@gmail.com", "test", 0, 1);
-            Console.WriteLine(gs.GetColumn("blahblah@gmail.com", "test",0));
+            gs.AddTask("blahblah@gmail.com", "test", "toDo", "stam", new DateTime(2022, 5, 20));
+            gs.AdvanceTask("blahblah@gmail.com", "test", 0, 0);
+            gs.AddTask("blahblah@gmail.com", "test", "toDo", "stam", new DateTime(2022,5,20));
+            gs.AdvanceTask("blahblah@gmail.com", "test", 0, 1);
+            Console.WriteLine(gs.InProgressTasks("blahblah@gmail.com"));
         }
+
     }
 
 }
