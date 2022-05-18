@@ -46,7 +46,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Build <c>Task</c> <br/> <br/>
-        /// <b>Throws</b> <c>Exception</c> if the title or description over their char cap, or due date is passed
+        /// <b>Throws</b> <c>ArgumentException</c> if the title or description over their char cap, or due date is passed
         /// </summary>
         /// <param name="title"></param>
         /// <param name="duedate"></param>
@@ -103,7 +103,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Set <c>Task Title</c> to <c>Task</c> task <br/> <br/>
-        /// <b>Throws</b> <c>Exception</c> if the title over his char cap
+        /// <b>Throws</b> <c>ArgumentException</c> if the title over his char cap
         /// </summary>
         /// <param name="value"></param>
         /// <exception cref="ArgumentException"></exception>
@@ -135,7 +135,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Set <c>Task Description</c> to <c>Task</c> task <br/> <br/>
-        /// <b>Throws</b> <c>Exception</c> if the Description over his char cap
+        /// <b>Throws</b> <c>ArgumentException</c> if the Description over his char cap
         /// </summary>
         /// <param name="value"></param>
         /// <exception cref="ArgumentException"></exception>
@@ -164,7 +164,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Set <c>Task DueDate</c> to <c>Task</c> task <br/> <br/>
-        /// <b>Throws</b> <c>Exception</c> if the due date is passed
+        /// <b>Throws</b> <c>ArgumentException</c> if the due date has passed
         /// </summary>
         /// <param name="value"></param>
         /// <exception cref="ArgumentException"></exception>
@@ -199,9 +199,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// Advance <c>Task</c>
         /// <b>Throws</b> <c>ArgumentException</c> if the task can't be advanced<br/>
         /// </summary>
-        /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="IndexOutOfRangeException"></exception>
         public void AdvanceTask()
         {
             log.Debug("UpdateDescription() for taskId: " + id);
