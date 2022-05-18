@@ -53,7 +53,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AddTaskTestUserIsntLoggedIn()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "user 'kfirniss@post.bgu.ac.il' isn't logged in"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2022, 05, 20));
             Assert.AreEqual(expected, result);
@@ -110,7 +110,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RemoveTaskTestUserIsntLoggedIn()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "user 'kfirniss@post.bgu.ac.il' isn't logged in"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.RemoveTask("kfirniss@post.bgu.ac.il", "new board", 0);
             Assert.AreEqual(expected, result);
@@ -165,7 +165,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AdvanceTaskTestUserIsntLoggedIn()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "user 'kfirniss@post.bgu.ac.il' isn't logged in"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
             Assert.AreEqual(expected, result);
@@ -250,7 +250,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void LimitColumnTestUserIsntLoggedIn()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "user 'kfirniss@post.bgu.ac.il' isn't logged in"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.LimitColumn("kfirniss@post.bgu.ac.il", "new board", 0, 1);
             Assert.AreEqual(expected, result);
@@ -319,7 +319,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnLimitTestUserIsntLoggedIn()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "user 'kfirniss@post.bgu.ac.il' isn't logged in"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.GetColumnLimit("kfirniss@post.bgu.ac.il", "new board", 0);
             Assert.AreEqual(expected, result);
@@ -386,7 +386,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumNameTestUserIsntLoggedIn()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "user 'kfirniss@post.bgu.ac.il' isn't logged in"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.GetColumnName("kfirniss@post.bgu.ac.il", "new board", 0);
             Assert.AreEqual(expected, result);
@@ -448,7 +448,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetColumnTestUserIsntLoggedIn()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "user 'kfirniss@post.bgu.ac.il' isn't logged in"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardservice.GetColumn("kfirniss@post.bgu.ac.il", "new board", 0);
             Assert.AreEqual(expected, result);
