@@ -38,7 +38,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\Task.cs");
 
-        private int id;
+        private readonly int id;
         private readonly DateTime creationTime;
         private string title;
         private string description;
@@ -98,7 +98,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public int Id
         {
             get { return id; }
-            set { id = value; }
+            set { }
         }
 
 
