@@ -254,7 +254,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             string json = boardServiceLayer.GetColumn(email, boardName, columnOrdinal);
             if (GetOperationState(json) == true)
             {
-                return JsonController.ConvertToJson(new GradingResponse<LinkedList<BusinessLayer.Task>>(json));
+                return JsonController.ConvertToJson(new GradingResponse<LinkedList<BusinessLayer.Serializable.Task_Serializable>>(json));
             }
             else return JsonController.ConvertToJson(new GradingResponse<string>(json));
         }
@@ -298,7 +298,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             string json = boardControllerServiceLayer.GetAllTasksByState(email, 1);
             if (GetOperationState(json) == true)
             {
-                return JsonController.ConvertToJson(new GradingResponse<LinkedList<BusinessLayer.Task>>(json));
+                return JsonController.ConvertToJson(new GradingResponse<LinkedList<BusinessLayer.Serializable.Task_Serializable>>(json));
             }
             else return JsonController.ConvertToJson(new GradingResponse<string>(json));
         }

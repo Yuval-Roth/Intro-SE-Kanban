@@ -41,8 +41,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// <code>
 		///	{
 		///		operationState: bool 
-		///		returnValue: string // (operationState == true) => empty string
-		/// }				// (operationState == false) => error message		
+		///		returnValue:  // (operationState == true) => empty string
+		/// }		       // (operationState == false) => error message		
 		/// </code>
 		/// </returns>
         public string AddBoard(string email, string name)
@@ -103,8 +103,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// This method returns all the tasks of the user by specific state.
         /// </summary>
         /// <param name="email">Email of the user. Must be logged in</param>
-        /// /// <param name="columnOrdinal">column id . Must be between zero and numbers of columns</param>
-        /// /// <returns>
+        /// <param name="columnOrdinal">column id . Must be between zero and numbers of columns</param>
+        /// <returns>
 		/// Json formatted as so:
 		/// <code>
 		///	{
@@ -113,7 +113,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }		      //(operationState == false) => string with error message		
 		/// </code>
 		/// </returns>
-        /// <returns>Response with a list of tasks by specific state, unless an error occurs (see <see cref="BoardControllerService"/>)</returns>
         public string GetAllTasksByState(string email, int columnOrdinal)
         {
             try
