@@ -85,11 +85,24 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new ArgumentException("A board titled " +
                         this.title + " has a limit and can't contains more task");
             }
-            LinkedList<Task> list = columns[(int) TaskStates.backlog];
-            list.AddLast(new Task(counterID, title, duedate, description));
-            counterID++;
-            columns[(int)TaskStates.backlog] = list;
-            log.Debug("AddTask() success");
+            try
+            {
+                LinkedList<Task> list = columns[(int)TaskStates.backlog];
+                list.AddLast(new Task(counterID, title, duedate, description));
+                counterID++;
+                columns[(int)TaskStates.backlog] = list;
+                log.Debug("AddTask() success");
+            }
+            catch (NoSuchElementException e)
+            {
+                log.Error("AddTask() failed: '" + e.Message);
+                throw new NoSuchElementException(e.Message);
+            }
+            catch (ArgumentException e)
+            {
+                log.Error("AddTask() failed: '" + e.Message);
+                throw new ArgumentException(e.Message);
+            }
         }
 
 
