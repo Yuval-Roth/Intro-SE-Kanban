@@ -120,8 +120,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             LinkedList<BusinessLayer.Task> boards = new();
             boards.AddLast(new BusinessLayer.Task(0, "task 1", new DateTime(2022, 05, 20), "bla bla bla"));
             boards.AddLast(new BusinessLayer.Task(0, "task 2", new DateTime(2022, 05, 20), "ninini"));
-            boards.ElementAt(0).AdvanceTask();
-            boards.ElementAt(1).AdvanceTask();
             string expected = JsonController.ConvertToJson(new Response<LinkedList<BusinessLayer.Task>>(true, boards));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");

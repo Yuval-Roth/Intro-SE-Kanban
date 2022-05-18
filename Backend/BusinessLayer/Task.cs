@@ -27,12 +27,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// ===================
     /// </summary>
 
-    public enum TaskStates
-    {
-        backlog,
-        inprogress,
-        done
-    }
 
     public class Task
     {
@@ -85,7 +79,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             this.title = title;
             this.dueDate = duedate;
             this.description = description;
-            creationTime = DateTime.Now;
+            creationTime = DateTime.Today;
             state = TaskStates.backlog;
             log.Debug("Task() success");
         }
@@ -98,9 +92,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public int Id
         {
             get { return id; }
-            set { }
+            init { id = value; }
         }
 
+        public DateTime CreationTime
+        {
+            get { return creationTime; }
+            init { creationTime = value; }
+        }
 
         /// <summary>
         /// Set <c>Task Title</c> to <c>Task</c> task <br/> <br/>
@@ -133,11 +132,33 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 title = value;
                 }
         }
-    
-        public DateTime CreationTime 
+
+        /// <summary>
+        /// Set <c>Task Description</c> to <c>Task</c> task <br/> <br/>
+        /// <b>Throws</b> <c>Exception</c> if the Description over his char cap
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentException"></exception>
+        public string Description
         {
-            get { return creationTime; }
-            set { } 
+            get { return description; }
+            set
+            {
+                log.Debug("UpdateDescription() for taskId: " + id);
+                if (state == TaskStates.done)
+                {
+                    log.Error("UpdateDescription() failed: " + id + "is done");
+                    throw new ArgumentException("the task '" +
+                        Id + "' is already done");
+                }
+                if (value.Length > MAX_DESCRIPTION_CHAR_CAP)
+                {
+                    log.Error("UpdateDescription() failed: description is over the limit");
+                    throw new ArgumentException("description is over the limit");
+                }
+                log.Debug("UpdateDescription() success");
+                description = value;
+            }
         }
 
 
@@ -158,7 +179,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     throw new ArgumentException("the task '" +
                         Id + "' is already done");
                 }
-                if (value.CompareTo(DateTime.Now) < 1)
+                if (value.CompareTo(DateTime.Today) < 0)
                 {
                     log.Error("UpdateDueDate() failed: due date was passed");
                     throw new ArgumentException("due date was passed");
@@ -169,71 +190,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
 
-        /// <summary>
-        /// Set <c>Task Description</c> to <c>Task</c> task <br/> <br/>
-        /// <b>Throws</b> <c>Exception</c> if the Description over his char cap
-        /// </summary>
-        /// <param name="value"></param>
-        /// <exception cref="ArgumentException"></exception>
-        public string Description
-        {
-            get { return description; }
-            set {
-                log.Debug("UpdateDescription() for taskId: " + id);
-                if (state == TaskStates.done)
-                {
-                    log.Error("UpdateDescription() failed: " + id + "is done");
-                    throw new ArgumentException("the task '" +
-                        Id + "' is already done");
-                }
-                if (value.Length > MAX_DESCRIPTION_CHAR_CAP)
-                {
-                    log.Error("UpdateDescription() failed: description is over the limit");
-                    throw new ArgumentException("description is over the limit");
-                }
-                log.Debug("UpdateDescription() success");
-                description = value;
-                }
-        }
-
-        //====================================
-        //            Functionality
-        //====================================
-
-
-        /// <summary>
-        /// Advance <c>Task</c> <br/> <br/>
-        /// <b>Throws</b> <c>Exception</c> if task state is done
-        /// </summary>
-        /// <param name="value"></param>
-        /// <exception cref="ArgumentException"></exception>
-        public void AdvanceTask()
-        {
-            log.Debug("AdvanceTask() for taskId: " + id);
-            if(state == TaskStates.done)
-            {
-                log.Error("AdvanceTask() failed: '" + id + "' is done");
-                throw new ArgumentException("the task '" +
-                    id + "' is already done");
-            }
-            state++;
-            log.Debug("AdvanceTask() success");
-        }
-
         //====================================================
         //                  Json related
         //====================================================
-
-        //[JsonConstructor]
-        //public Task(string Title, string Description, Date CreationTime, Date DueDate, TaskStates State, bool DescriptionCharCap)
-        //{
-        //    title = Title;
-        //    description = Description;
-        //    creationTime = CreationTime;
-        //    dueDate = DueDate;
-        //    state = State;
-        //    descriptionCharCap = DescriptionCharCap;
-        //}
 
         public Serializable.Task_Serializable GetSerializableInstance() 
         {

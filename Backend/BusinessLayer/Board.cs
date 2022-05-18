@@ -7,6 +7,12 @@ using System.Text.Json.Serialization;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
+    public enum TaskStates
+    {
+        backlog,
+        inprogress,
+        done
+    }
 
     /// <summary>
     ///This class controls the actions users' board.<br/>
