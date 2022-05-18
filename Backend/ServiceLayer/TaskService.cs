@@ -53,6 +53,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string UpdateTaskDueDate(string email, string boardName, int columnOrdinal, int taskId, DateTime dueDate)
         {
+            if (ValidateArguments.Validate(new object[] { email, boardName, columnOrdinal, taskId, dueDate }) == false)
+            {
+                Response<string> res = new(false, "UpdateTaskDueDate() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
@@ -102,6 +107,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string UpdateTaskTitle(string email, string boardName, int columnOrdinal, int taskId, string title)
         {
+            if (ValidateArguments.Validate(new object[] { email, boardName, columnOrdinal, taskId, title }) == false)
+            {
+                Response<string> res = new(false, "UpdateTaskTitle() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
@@ -150,7 +160,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </code>
 		/// </returns>
         public string UpdateTaskDescription(string email, string boardName, int columnOrdinal, int taskId, string description)
-        { 
+        {
+            if (ValidateArguments.Validate(new object[] { email, boardName, columnOrdinal, taskId, description }) == false)
+            {
+                Response<string> res = new(false, "UpdateTaskDescription() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);

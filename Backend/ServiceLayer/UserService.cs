@@ -49,6 +49,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
 		public string Register(string email, string password)
 		{
+			if (ValidateArguments.Validate(new object[] { email,password }) == false)
+			{
+				Response<string> res = new(false, "Register() failed: ArgumentNullException");
+				return JsonController.ConvertToJson(res);
+			}
 			try
 			{
 				userController.Register(email, password);
@@ -76,7 +81,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
 		public string DeleteUser(string email)
 		{
-            try
+			if (ValidateArguments.Validate(new object[] { email }) == false)
+			{
+				Response<string> res = new(false, "DeleteUser() failed: ArgumentNullException");
+				return JsonController.ConvertToJson(res);
+			}
+			try
             {
 				userController.DeleteUser(email);
 				Response<string> res = new(true,"");
@@ -108,7 +118,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
 		public string LogIn(string email, string password)
 		{
-            try
+			if (ValidateArguments.Validate(new object[] { email, password }) == false)
+			{
+				Response<string> res = new(false, "LogIn() failed: ArgumentNullException");
+				return JsonController.ConvertToJson(res);
+			}
+			try
             {
 				userController.LogIn(email, password);
 				Response<string> res = new(true, "");
@@ -135,7 +150,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
 		public string LogOut(string email)
 		{
-            try
+			if (ValidateArguments.Validate(new object[] { email }) == false)
+			{
+				Response<string> res = new(false, "LogOut() failed: ArgumentNullException");
+				return JsonController.ConvertToJson(res);
+			}
+			try
             {
 				userController.LogOut(email);
 				Response<string> res = new(true, "");
@@ -167,7 +187,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
 		public string SetPassword(string email, string old, string newP)
 		{
-            try
+			if (ValidateArguments.Validate(new object[] { email, old,newP }) == false)
+			{
+				Response<string> res = new(false, "SetPassword() failed: ArgumentNullException");
+				return JsonController.ConvertToJson(res);
+			}
+			try
             {
 				BusinessLayer.User toSetPassword = userController.SearchUser(email);
 				userController.SetPassword(toSetPassword, old, newP);
@@ -200,7 +225,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
 		public string SetEmail(string email, string newEmail)
 		{
-            try
+			if (ValidateArguments.Validate(new object[] { email, newEmail}) == false)
+			{
+				Response<string> res = new(false, "SetEmail() failed: ArgumentNullException");
+				return JsonController.ConvertToJson(res);
+			}
+			try
             {
 				BusinessLayer.User toSetEmail = userController.SearchUser(email);
 				userController.SetEmail(toSetEmail, newEmail);

@@ -47,6 +47,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string AddBoard(string email, string name)
         {
+            if (ValidateArguments.Validate(new object[] { email, name }) == false)
+            {
+                Response<string> res = new(false, "AddBoard() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
             try
             {
                 boardController.AddBoard(email, name);
@@ -86,6 +91,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string RemoveBoard(string email, string name)
         {
+            if (ValidateArguments.Validate(new object[] { email, name }) == false)
+            {
+                Response<string> res = new(false, "RemoveBoard() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
             try
             {
                 boardController.RemoveBoard(email, name);
@@ -125,6 +135,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string GetAllTasksByState(string email, int columnOrdinal)
         {
+            if (ValidateArguments.Validate(new object[] { email, columnOrdinal }) == false)
+            {
+                Response<string> res = new(false, "GetAllTasksByState() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
             try
             {
                 LinkedList<BusinessLayer.Task> tasks = boardController.GetAllTasksByState(email, columnOrdinal);
