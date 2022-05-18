@@ -247,17 +247,23 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             if (taskStateTracker.ContainsKey(taskId))
             {
                 LinkedList<Task> taskList = columns[(int)taskStateTracker[taskId]];
-                Task output;
                 foreach (Task task in taskList)
                 {
                     if (task.Id == taskId)
                     {
                         log.Debug("SearchTask() success");
-                        output = task;
-                        break;
+                        return task;
                     }
                 }
-                return output;
+                //======================================================================================================
+                // this part of the code should generally never run. if it does, there is a serious problem somewhere.
+                //======================================================================================================
+                log.Fatal("FATAL ERROR: task numbered" + taskId + "exists in the taskStateTracker and not in the column '" +
+                    taskStateTracker[taskId] + "' where it's supposed to be");
+                throw new OperationCanceledException("FATAL ERROR: task numbered" + taskId +
+                    "exists in the taskStateTracker and not in the column '" +
+                    taskStateTracker[taskId] + "' where it's supposed to be");
+                //======================================================================================================
             }
             else
             {
