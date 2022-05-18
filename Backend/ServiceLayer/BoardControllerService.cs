@@ -41,8 +41,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// <code>
 		///	{
 		///		operationState: bool 
-		///		returnValue: string // (operationState == true) => empty string
-		/// }				// (operationState == false) => error message		
+		///		returnValue:  // (operationState == true) => empty string
+		/// }		       // (operationState == false) => error message		
 		/// </code>
 		/// </returns>
         public string AddBoard(string email, string name)
