@@ -73,11 +73,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //====================================
 
 
-        
+
 
         /// <summary>
         /// Add new <c>Task</c> to <c>Board</c> board <br/> <br/>
-        /// <b>Throws</b> <c>Exception</c> if the backlog column reach the limit
+        /// <b>Throws</b> <c>ArgumentException</c> if the backlog column reached the limit
         /// </summary>
         /// <param name="title"></param>
         /// <param name="duedate"></param>
@@ -379,17 +379,17 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             for (int column = (int)TaskStates.backlog ; column <= (int)TaskStates.done; column++)
             {
                 serializableColumns[column] = new LinkedList<Serializable.Task_Serializable>();
-                foreach (Task task in columns[(int)TaskStates.backlog])
+                foreach (Task task in columns[column])
                 {
                     serializableColumns[column].AddLast(task.GetSerializableInstance());
                 }
             }
-            
-
             return new Serializable.Board_Serializable()
             {
                 Title = title,
-                
+                Columns = columns,
+                ColumnLimit = columnLimit,
+                TaskStateTracker = taskStateTracker
             };
         }
     }
