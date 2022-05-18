@@ -215,7 +215,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <summary>
         /// Adds a <c>Board</c> to the <c>User</c>.
         ///<br/><br/>
-        ///<b>Throws</b> <c>ArgumentException</c> if a <c>Board</c> with that title already exists <br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if a <c>Board</c> with that title already exists <br/>
         /// for the <c>User</c><br/><br/>
         /// <b>Throws</b> <c>NoSuchElementException</c> if the <c>User</c> doesn't exist <br/>
         /// in the system
@@ -270,7 +270,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// in the system
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
-        /// /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="NoSuchElementException"></exception>
         public void RemoveBoard(string email, string title)
         {
             try

@@ -70,7 +70,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("Task() failed: description is over the limit");
                 throw new ArgumentException("description is over the limit");
             }
-            if(duedate.CompareTo(DateTime.Now) < 1)
+            if(duedate.CompareTo(DateTime.Today) < 0)
             {
                 log.Error("Task() failed: due date was passed");
                 throw new ArgumentException("due date was passed");
