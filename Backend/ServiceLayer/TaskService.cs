@@ -47,9 +47,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                if (columnOrdinal < 0 | columnOrdinal > 2)
-                    throw new ArgumentException("columnOrdinal '" + columnOrdinal + "' is illegal");
-
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
                 BusinessLayer.Task task = board.SearchTask(taskId,columnOrdinal);
                 task.DueDate = dueDate;
@@ -81,9 +78,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                if (columnOrdinal < 0 | columnOrdinal > 2)
-                    throw new ArgumentException("columnOrdinal '" + columnOrdinal + "' is illegal");
-
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
                 BusinessLayer.Task task = board.SearchTask(taskId, columnOrdinal);
                 task.Title = title;
@@ -115,9 +109,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         { 
             try
             {
-                if (columnOrdinal < 0 | columnOrdinal > 2)
-                    throw new ArgumentException("columnOrdinal '" + columnOrdinal + "' is illegal");
-
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
                 BusinessLayer.Task task = board.SearchTask(taskId, columnOrdinal);
                 task.Description = description;
@@ -135,14 +126,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
         }
-
-        /// <summary>
-        /// This method limit task description.
-        /// </summary>
-        /// <param name="email">Email of user. Must be logged in</param>
-        /// <param name="boardName">The name of the board</param>
-        /// <param name="taskId">The task to be updated identified task ID</param>
-        /// <returns>The string "{}", unless an error occurs (see <see cref="TaskService"/>)</returns>
 
     }
     
