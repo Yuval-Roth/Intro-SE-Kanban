@@ -62,18 +62,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void AddBoard(string email, string name)
         {
             log.Debug("AddBoard() for: " + email + "Board's name" + name);
-            if (!userData.ContainsUser(email))
-            {
-                log.Error("AddBoard() failed: '" + email + "' doesn't exist");
-                throw new NoSuchElementException("A user with the email '" +
-                    email + "' doesn't exist in the system");
-            }
-            if (!userData.UserLoggedInStatus(email))
-            {
-                log.Error("AddBoard() failed: '" + email + "' doesn't login");
-                throw new NoSuchElementException("A user with the email '" +
-                    email + "' doesn't login to the system");
-            }
+            ValidateUser(email);
+
             try
             {
                 userData.AddBoard(email, name);
@@ -104,18 +94,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void RemoveBoard(string email, string name)
         {
             log.Debug("RemoveBoard() for: " + email + "Board's name" + name);
-            if (!userData.ContainsUser(email))
-            {
-                log.Error("RemoveBoard() failed: '" + email + "' doesn't exist");
-                throw new NoSuchElementException("A user with the email '" +
-                    email + "' doesn't exist in the system");
-            }
-            if (!userData.UserLoggedInStatus(email))
-            {
-                log.Error("RemoveBoard() failed: '" + email + "' doesn't login");
-                throw new NoSuchElementException("A user with the email '" +
-                    email + "' doesn't login to the system");
-            }
+            ValidateUser(email);
+
             try
             {
                 userData.RemoveBoard(email, name);
@@ -146,34 +126,18 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public LinkedList<Task> GetAllTasksByState(string email, int columnOrdinal)
             {
             log.Debug("GetAllTasksByState() for: " + "Board's name" + columnOrdinal);
-            if (!userData.ContainsUser(email))
-            {
-                log.Error("GetAllTasksByState() failed: '" + email + "' doesn't exist");
-                throw new NoSuchElementException("A user with the email '" +
-                    email + "' doesn't exist in the system");
-            }
-            if (!userData.UserLoggedInStatus(email))
-            {
-                log.Error("GetAllTasksByState() failed: '" + email + "' doesn't login");
-                throw new NoSuchElementException("A user with the email '" +
-                    email + "' doesn't login to the system");
-            }
-            if (columnOrdinal < (int)TaskStates.backlog || columnOrdinal > (int)TaskStates.done)
-            {
-                log.Error("GetAllTasksByState() failed: '" + columnOrdinal + "' doesn't exist");
-                throw new NoSuchElementException("A column '" +
-                    columnOrdinal + "' doesn't exist in the Board");
-            }
+            ValidateUser(email);
+            ValidateColumnOrdinal(columnOrdinal);
             
-                LinkedList<Task> tasks = new LinkedList<Task>();
-                LinkedList<Board> boards = GetBoards(email);
-                foreach (Board board in boards)
+            LinkedList<Task> tasks = new LinkedList<Task>();
+            LinkedList<Board> boards = GetBoards(email);
+            foreach (Board board in boards)
+            {
+                foreach (Task task in board.GetColumn(columnOrdinal))
                 {
-                    foreach (Task task in board.GetColumn(columnOrdinal))
-                    {
-                        tasks.AddLast(task);
-                    }
+                    tasks.AddLast(task);
                 }
+            }
             log.Debug("GetAllTasksByState() success");
             return tasks;
         }
@@ -187,19 +151,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <returns>A list of Boards, unless an error occurs</returns>
         /// <exception cref="ArgumentException"></exception>
         public LinkedList<Board> GetBoards (string email) {
+
             log.Debug("GetBoards() for: " + email);
-            if (!userData.ContainsUser(email))
-            {
-                log.Error("GetBoards() failed: '" + email + "' doesn't exist");
-                throw new NoSuchElementException("A user with the email '" +
-                    email + "' doesn't exist in the system");
-            }
-            if (!userData.UserLoggedInStatus(email))
-            {
-                log.Error("GetBoards() failed: '" + email + "' doesn't login");
-                throw new NoSuchElementException("A user with the email '" +
-                    email + "' doesn't login to the system");
-            }
+            ValidateUser(email);
+
             try
             {
                 LinkedList<Board> output = userData.GetBoards(email);
@@ -222,20 +177,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="email"></param>
         /// <returns>Board, unless an error occurs</returns>
         /// <exception cref="NoSuchElementException"></exception>
-        public Board SearchBoard(string email, string name) {
+        public Board SearchBoard(string email, string name)
+        {
             log.Debug("SearchBoard() for: " + email + " Board's name " + name);
-            if (!userData.ContainsUser(email))
-            {
-                log.Error("SearchBoard() failed: '" + email + "' doesn't exist");
-                throw new NoSuchElementException("A user with the email '" +
-                    email + "' doesn't exist in the system");
-            }
-            if (!userData.UserLoggedInStatus(email))
-            {
-                log.Error("SearchBoard() failed: '" + email + "' doesn't login");
-                throw new NoSuchElementException("A user with the email '" +
-                    email + "' doesn't login to the system");
-            }
+            ValidateUser(email);
+
             LinkedList<Board> boardList = userData.GetBoards(email);
             foreach (Board board in boardList)
             {
@@ -248,6 +194,29 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             log.Error("SearchBoard() failed: '" + name + "' doesn't exist");
             throw new NoSuchElementException("A board titled '" +
                             name + "' doesn't exists for the user with the email " + email);
+        }
+        private void ValidateUser(string email)
+        {
+            if (!userData.ContainsUser(email))
+            {
+                log.Error("ValidateUser() failed: a user with the email '" +
+                    email + "' doesn't exist in the system");
+                throw new NoSuchElementException("A user with the email '" +
+                    email + "' doesn't exist in the system");
+            }
+            if (!userData.UserLoggedInStatus(email))
+            {
+                log.Error("ValidateUser() failed: user '" + email + "' isn't logged in");
+                throw new NoSuchElementException("user '" + email + "' isn't logged in");
+            }
+        }
+        private void ValidateColumnOrdinal(int columnOrdinal)
+        {
+            if (columnOrdinal < (int)TaskStates.backlog | columnOrdinal > (int)TaskStates.done)
+            {
+                log.Error("ValidateColumnOrdinal() failed: '" + columnOrdinal + "' is not a valid column number");
+                throw new IndexOutOfRangeException("The column '" + columnOrdinal + "' is not a valid column number");
+            }
         }
 
     }
