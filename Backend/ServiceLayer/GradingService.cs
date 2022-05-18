@@ -321,7 +321,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         public class GradingResponse<T>
         {
             [JsonInclude]
-            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+            //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
             public readonly string? ErrorMessage;
 
             [JsonInclude]
