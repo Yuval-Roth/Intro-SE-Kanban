@@ -47,7 +47,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void AddBoardTest_user_not_logged_in()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "user 'kfirniss@post.bgu.ac.il' isn't logged in"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result =boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             Assert.AreEqual(expected, result);
@@ -86,7 +86,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RemoveBoardTest_user_not_logged_in()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "user 'kfirniss@post.bgu.ac.il' isn't logged in"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardcontrollerservice.RemoveBoard("kfirniss@post.bgu.ac.il", "new board");
@@ -151,7 +151,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetAllTasksByStateTest_user_not_logged_in()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't login to the system"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "user 'kfirniss@post.bgu.ac.il' isn't logged in"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.GetAllTasksByState("kfirniss@post.bgu.ac.il", 1);
             Assert.AreEqual(expected, result);
