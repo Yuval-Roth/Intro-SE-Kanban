@@ -48,7 +48,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
-                BusinessLayer.Task task = board.SearchTask(taskId,columnOrdinal);
+                BusinessLayer.Task task = board.SearchTask(taskId, columnOrdinal);
                 task.DueDate = dueDate;
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
@@ -59,6 +59,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
             catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (IndexOutOfRangeException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -94,6 +99,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
+            catch (IndexOutOfRangeException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
 
         /// <summary>
@@ -121,6 +131,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
             catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (IndexOutOfRangeException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
