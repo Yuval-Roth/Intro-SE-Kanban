@@ -31,14 +31,27 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         UserData userData;
 
         /// <summary>
-        /// Creates an empty <c>BinaryTree</c> userList <br/>
-        /// Creates an empty <c>LinkList</c> Boards
+        /// Initialize a new BoardController <br/><br/>
+        /// <b>NOTICE:</b> this constructor does not initialize the global task ID counter.<br/>
+        /// to initialize the global task ID counter, use the constructor with the following signature<br/>
+        /// <c>BoardController(userData,int)</c>
         /// </summary>
+        /// <param name="userData"></param>
         public BoardController(UserData userData)
         {
             this.userData = userData;
         }
 
+        /// <summary>
+        /// Initialize a new BoardController <br/><br/>
+        /// <b>WARNING:</b> this constructor initializes the global task ID counter.<br/>
+        /// </summary>
+        /// <param name="userData"></param>
+        public BoardController(UserData userData, int taskIDCounter)
+        {
+            this.userData = userData;
+            //Board.taskIDCounter = taskIDCounter;
+        }
         /// <summary>
         /// Add new <c>Board</c> to <c>UserData</c> userData <br/> <br/>
         /// <b>Throws</b> <c>Exception</c> if the user isn't exists or isn't login or Board already exist
@@ -204,11 +217,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Returns <c>board</c> from <c>UserData</c> userData <br/> <br/>
-        /// <b>Throws</b> <c>Exception</c> if the user isn't exists or isn't login or board isn't exist
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the user isn't exists or isn't login or board isn't exist
         /// </summary>
         /// <param name="email"></param>
         /// <returns>Board, unless an error occurs</returns>
-        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="NoSuchElementException"></exception>
         public Board SearchBoard(string email, string name) {
             log.Debug("SearchBoard() for: " + email + " Board's name " + name);
             if (!userData.ContainsUser(email))
