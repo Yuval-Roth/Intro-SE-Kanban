@@ -103,8 +103,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// This method returns all the tasks of the user by specific state.
         /// </summary>
         /// <param name="email">Email of the user. Must be logged in</param>
-        /// /// <param name="columnOrdinal">column id . Must be between zero and numbers of columns</param>
-        /// /// <returns>
+        /// <param name="columnOrdinal">column id . Must be between zero and numbers of columns</param>
+        /// <returns>
 		/// Json formatted as so:
 		/// <code>
 		///	{
