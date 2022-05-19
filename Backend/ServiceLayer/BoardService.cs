@@ -35,7 +35,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         public BoardService(BusinessLayer.UserData userData)
         {
             boardController = new(userData);
-            InitTaskIDCounter();
+            BusinessLayer.Board.InitTaskIDCounter();
         }
 
         /// <summary>
@@ -391,10 +391,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
-        }
-        private void InitTaskIDCounter() 
-        {
-            BusinessLayer.Board.taskIDCounter = 0;
         }
     }
     

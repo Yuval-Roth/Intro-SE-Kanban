@@ -117,27 +117,22 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetAllTasksByStateTest_successful()
         {
-            LinkedList<BusinessLayer.Task> boards = new();
-            boards.AddLast(new BusinessLayer.Task(0, "task 1", new DateTime(2022, 05, 20), "bla bla bla"));
-            boards.AddLast(new BusinessLayer.Task(0, "task 2", new DateTime(2022, 05, 20), "ninini"));
-            string expected = JsonController.ConvertToJson(new Response<LinkedList<BusinessLayer.Task>>(true, boards));
-            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-            result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "another board");
-            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2022, 05, 20));
-            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "another board", "task 2", "ninini", new DateTime(2022, 05, 20));
-            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
-            result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "another board", 0, 0);
-            result = boardcontrollerservice.GetAllTasksByState("kfirniss@post.bgu.ac.il",1);
-            Response<LinkedList<BusinessLayer.Task>> exp = JsonController.BuildFromJson<Response<LinkedList<BusinessLayer.Task>>>(expected);
+            BusinessLayer.Task task1 = new(0, "task 1", new DateTime(2022, 05, 20), "bla bla bla");
+            BusinessLayer.Task task2 = new(1, "task 2", new DateTime(2022, 05, 20), "ninini");
+            userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "another board");
+            boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2022, 05, 20));
+            boardservice.AddTask("kfirniss@post.bgu.ac.il", "another board", "task 2", "ninini", new DateTime(2022, 05, 20));
+            boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
+            boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "another board", 0, 1);
+            string result = boardcontrollerservice.GetAllTasksByState("kfirniss@post.bgu.ac.il",1);
             Response<LinkedList<BusinessLayer.Task>> act = JsonController.BuildFromJson<Response<LinkedList<BusinessLayer.Task>>>(result);
-            BusinessLayer.Task tExp1 = exp.returnValue.ElementAt(0);
             BusinessLayer.Task tAct1 = act.returnValue.ElementAt(0);
-            BusinessLayer.Task tExp2 = exp.returnValue.ElementAt(1);
             BusinessLayer.Task tAct2 = act.returnValue.ElementAt(1);
-            Assert.IsFalse(tExp1.Id != tAct1.Id || tExp1.Title != tAct1.Title || tExp1.Description != tAct1.Description || tExp1.DueDate != tAct1.DueDate);
-            Assert.IsFalse(tExp2.Id != tAct2.Id || tExp2.Title != tAct2.Title || tExp2.Description != tAct2.Description || tExp2.DueDate != tAct2.DueDate);
+            Assert.IsFalse(task1.Id != tAct1.Id || task1.Title != tAct1.Title || task1.Description != tAct1.Description || task1.DueDate != tAct1.DueDate);
+            Assert.IsFalse(task2.Id != tAct2.Id || task2.Title != tAct2.Title || task2.Description != tAct2.Description || task2.DueDate != tAct2.DueDate);
         }
 
         [TestMethod()]
