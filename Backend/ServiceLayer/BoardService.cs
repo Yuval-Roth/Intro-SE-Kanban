@@ -56,6 +56,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string AddTask(string email, string boardName, string title, string description, DateTime dueDate)
         {
+            if (ValidateArguments.Validate(new object[] { email, boardName, title, description, dueDate }) == false)
+            {
+                Response<string> res = new(false, "AddTask() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email,boardName);
@@ -97,6 +102,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string RemoveTask(string email, string boardTitle, int taskId)
         {
+            if (ValidateArguments.Validate(new object[] { email, boardTitle, taskId }) == false)
+            {
+                Response<string> res = new(false, "RemoveTask() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardTitle);
@@ -140,6 +150,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// </returns>
         public string AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
         {
+            if (ValidateArguments.Validate(new object[] { email, boardName, columnOrdinal, taskId }) == false)
+            {
+                Response<string> res = new(false, "AdvanceTask() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
@@ -190,6 +205,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// </returns>
         public string LimitColumn(string email, string boardName, int columnOrdinal, int limit)
         {
+            if (ValidateArguments.Validate(new object[] { email, boardName, columnOrdinal, limit }) == false)
+            {
+                Response<string> res = new(false, "LimitColumn() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
@@ -236,6 +256,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string GetColumnLimit(string email, string boardName, int columnOrdinal)
         {
+            if (ValidateArguments.Validate(new object[] { email, boardName, columnOrdinal }) == false)
+            {
+                Response<string> res = new(false, "GetColumnLimit() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
@@ -282,6 +307,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string GetColumnName(string email, string boardName, int columnOrdinal)
         {
+            if (ValidateArguments.Validate(new object[] { email, boardName,columnOrdinal }) == false)
+            {
+                Response<string> res = new(false, "GetColumnName() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
@@ -328,6 +358,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string GetColumn(string email, string boardName, int columnOrdinal)
         {
+            if (ValidateArguments.Validate(new object[] { email, boardName,columnOrdinal }) == false)
+            {
+                Response<string> res = new(false, "GetColumn() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
