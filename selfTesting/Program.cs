@@ -26,7 +26,8 @@ namespace IntroSE.Kanban.selfTesting
             //registerTest();
             //validEmailTest();
             //enumsTests();
-            gradingTests();
+            //gradingTests();
+            tests();
 
         }
         //public static void BinaryTreeTesting()
@@ -175,6 +176,51 @@ namespace IntroSE.Kanban.selfTesting
             gs.AddTask("blahblah@gmail.com", "test", "toDo", "stam", new DateTime(2022,5,20));
             gs.AdvanceTask("blahblah@gmail.com", "test", 0, 1);
             Console.WriteLine(gs.InProgressTasks("blahblah@gmail.com"));
+        }
+
+        public static void tests()
+        {
+            Backend.ServiceLayer.GradingService gradingService = new ();
+            string email = "rrr@gmial.com";
+            string board = "one";
+            gradingService.Register(email, "Aka123k123");
+            gradingService.Login(email, "Aka123k123");
+            string invalid = "jgiosejiooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooojjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo";
+            gradingService.AddBoard(email, "one");
+            gradingService.AddTask(email, "one", "bRAND", "HELLOW WORLD", DateTime.Now);
+            gradingService.AddTask(email, "one", "new", "HELLOW WORLD", DateTime.Now);
+            gradingService.AdvanceTask(email, "one", 0, 0);
+            gradingService.AdvanceTask(email, "one", 0, 1);
+            gradingService.AdvanceTask(email, "one", 1, 0);
+            gradingService.AdvanceTask(email, "one", 1, 1);
+            gradingService.AddTask(email, "one", "new", "HELLOW WORLD", DateTime.Now);
+            gradingService.AdvanceTask(email, "one", 2, 0);
+            gradingService.AdvanceTask(email, "one", 0, 0); // no such task in column 0
+            gradingService.AdvanceTask(email, "one", 0, 2);
+            gradingService.InProgressTasks(email);
+            gradingService.LimitColumn(email, board, 1, 5);
+            gradingService.LimitColumn(email, board, 1, 4);
+            gradingService.LimitColumn(email, board, 1, 10);
+            gradingService.GetColumnLimit(email, board, 1);
+            gradingService.GetColumnName(email, board, 5); // INVALID NUMBER
+            gradingService.AddTask(email, "three", "new", "HELLOW WORLD", DateTime.Now); // no such board three
+            gradingService.UpdateTaskDueDate(email, "one", 1, 0, DateTime.Now);// not good , changes to task that not in true coloumn number
+            gradingService.UpdateTaskDueDate(email, "one", 9, 2, DateTime.Now);// not good , changes to invalid coloumn number
+            gradingService.RemoveBoard(email, "one");
+            gradingService.AddTask(email, "one", "new", "HELLOW WORLD", DateTime.Now);
+            gradingService.AddBoard(email, "two");
+            gradingService.AddTask(email, "two", "new", "HELLOW WORLD", DateTime.Now);
+            gradingService.UpdateTaskDueDate(email, "two", 0, 0, DateTime.Now);//
+            gradingService.UpdateTaskTitle(email, "two", 0, 0, "new title");//
+            gradingService.UpdateTaskTitle(email, "two", 0, 1, "new title");//no such task
+            gradingService.AdvanceTask(email, "two", 0, 0);
+            gradingService.UpdateTaskTitle(email, "two", 1, 0, "new title");//
+            gradingService.UpdateTaskTitle(email, "two", 1, 0, invalid);//invalid title
+            gradingService.UpdateTaskDescription(email, "two", 1, 0, "new descp");
+            gradingService.UpdateTaskDescription(email, "two", 1, 0, invalid);//
+            gradingService.LimitColumn(email, "two", 1, 1);
+            gradingService.AddTask(email, "two", "new task", "HELLOW WORLD", DateTime.Now);
+            Console.WriteLine(gradingService.AdvanceTask(email, "two", 0, 1)); // the column in full
         }
 
     }

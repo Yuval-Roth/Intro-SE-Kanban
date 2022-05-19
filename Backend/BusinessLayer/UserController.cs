@@ -268,21 +268,45 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <param name="pass"></param>
         /// <returns></returns>
+        //private static bool IsLegalPassword(string pass)
+        //{
+        //    Regex smallLetters = new Regex(@"[a-z]");
+        //    Regex capitalLetters = new Regex(@"[A-Z]");
+        //    Regex numbers = new Regex(@"[0-9]");
+
+        //    if (smallLetters.Matches(pass).Count > 0 &
+        //        capitalLetters.Matches(pass).Count > 0 &
+        //        numbers.Matches(pass).Count > 0 &
+        //        pass.Length >= MIN_PASS_LENGTH &
+        //        pass.Length <= MAX_PASS_LENGTH)
+        //    {
+        //        return true;
+        //    }
+
+        //    return false;
+        //}
+
         private static bool IsLegalPassword(string pass)
         {
-            Regex smallLetters = new Regex(@"[a-z]");
-            Regex capitalLetters = new Regex(@"[A-Z]");
-            Regex numbers = new Regex(@"[0-9]");
-
-            if (smallLetters.Matches(pass).Count > 0 &
-                capitalLetters.Matches(pass).Count > 0 &
-                numbers.Matches(pass).Count > 0 &
-                pass.Length >= MIN_PASS_LENGTH &
-                pass.Length <= MAX_PASS_LENGTH)
+            if (pass == null) { return false; }
+            if (pass.Length > MAX_PASS_LENGTH || pass.Length < MIN_PASS_LENGTH)
+            {
+                return false;
+            }
+            bool isApperChar = false;
+            bool isLowerChar = false;
+            bool isDigit = false;
+            for (int i = 0; i < pass.Length; i++)
+            {
+                Char c = pass[i];
+                if (char.IsUpper(c)) { isApperChar = true; }
+                if (char.IsLower(c)) { isLowerChar = true; }
+                if (char.IsDigit(c)) { isDigit = true; }
+            }
+            if (isApperChar == true && isLowerChar == true && isDigit == true)
             {
                 return true;
             }
-
             return false;
         }
 
