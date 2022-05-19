@@ -167,14 +167,28 @@ namespace IntroSE.Kanban.selfTesting
         public static void gradingTests()
         {
             Backend.ServiceLayer.GradingService gs = new();
-            //gs.Register("blahblah@gmail.com", "SismaTil123");
-            //gs.userServiceLayer.LogIn("blahblah@gmail.com", "SismaTil123");
-            //gs.AddBoard("blahblah@gmail.com", "test");
-            //gs.AddTask("blahblah@gmail.com", "test", "toDo", "stam", new DateTime(2022, 5, 20));
-            //gs.AdvanceTask("blahblah@gmail.com", "test", 0, 0);
-            //gs.AddTask("blahblah@gmail.com", "test", "toDo", "stam", new DateTime(2022,5,20));
-            //gs.AdvanceTask("blahblah@gmail.com", "test", 0, 1);
-            //Console.WriteLine(gs.InProgressTasks("blahblah@gmail.com"));
+            Console.WriteLine(gs.Register("blahblah@gmail.com", "SismaTil123"));
+            Console.WriteLine(gs.Login("blahblah@gmail.com", "SismaTil123"));
+            Console.WriteLine(gs.AddBoard("blahblah@gmail.com", "test"));
+            Console.WriteLine(gs.AddTask("blahblah@gmail.com", "test", "toDo", "stam", new DateTime(2022, 5, 20)));
+            Console.WriteLine(gs.AddTask("blahblah@gmail.com", "test", "toDo", "stam", new DateTime(2022, 5, 20)));
+            Console.WriteLine(gs.AddTask("blahblah@gmail.com", "test", "toDo", "stam", new DateTime(2022, 5, 20)));
+            Console.WriteLine(gs.AddTask("blahblah@gmail.com", "test", "toDo", "stam", new DateTime(2022, 5, 20)));
+            Console.WriteLine(gs.AddTask("blahblah@gmail.com", "test", "toDo", "stam", new DateTime(2022, 5, 20)));
+            Console.WriteLine(gs.AddTask("blahblah@gmail.com", "test", "toDo", "stam", new DateTime(2022, 5, 20)));
+            Console.WriteLine(gs.AddTask("blahblah@gmail.com", "test", "toDo", "stam", new DateTime(2022, 5, 20)));
+            Console.WriteLine(gs.AddTask("blahblah@gmail.com", "test", "toDo", "stam", new DateTime(2022, 5, 20)));
+            Console.WriteLine(gs.AdvanceTask("blahblah@gmail.com", "test", 0, 0));
+            Console.WriteLine(gs.AdvanceTask("blahblah@gmail.com", "test", 0, 1));
+            Console.WriteLine(gs.AdvanceTask("blahblah@gmail.com", "test", 0, 2));
+            Console.WriteLine(gs.AdvanceTask("blahblah@gmail.com", "test", 0, 3));
+            Console.WriteLine(gs.AdvanceTask("blahblah@gmail.com", "test", 0, 4));
+            Console.WriteLine(gs.AdvanceTask("blahblah@gmail.com", "test", 0, 5));
+            Console.WriteLine(gs.AdvanceTask("blahblah@gmail.com", "test", 0, 5));
+            Console.WriteLine(gs.AdvanceTask("blahblah@gmail.com", "test", 0, 5));
+            //Console.WriteLine(gs.AddTask("blahblah@gmail.com", "test", "toDo", "stam", new DateTime(2022, 5, 20)));
+            //Console.WriteLine(gs.AdvanceTask("blahblah@gmail.com", "test", 0, 1));
+            Console.WriteLine(gs.InProgressTasks("blahblah@gmail.com"));
 
             Console.WriteLine(gs.AddTask(null,null,null,null,new DateTime()));
         }

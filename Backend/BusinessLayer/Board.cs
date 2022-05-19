@@ -40,7 +40,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\Board.cs");
 
-        /*static */public int taskIDCounter;
+        public static int taskIDCounter;
         private string title;
         private LinkedList<Task>[] columns;
         private int [] columnLimit;
@@ -64,7 +64,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             taskStateTracker = new();
 
             //
-            taskIDCounter = 0;
+            //taskIDCounter = 0;
             //
         }
         public string Title

@@ -303,9 +303,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             else return JsonController.ConvertToJson(new GradingResponse<string>(json));
         }
 
-
-
-
         public static bool GetOperationState(string json)
         {
             Response<object> res = JsonController.BuildFromJson<Response<object>>(json);
