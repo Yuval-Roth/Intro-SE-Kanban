@@ -50,8 +50,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         ///<returns>A pointer to the new user's data</returns>
         public Data Add(Key key, Data data)
         {
-            //check if element already exists in the tree
-            //if (Contains(key)) throw new ArgumentException("Element already exists in the tree");
 
             // if tree is empty, add to the root
             if (root == null)
@@ -261,7 +259,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             ///<exception cref="ArgumentException"></exception>
             public AVLTreeNode Add(Key key, Data data, AVLTree<Key,Data> tree)
             {
-                if (Key.CompareTo(key) == 0) throw new ArgumentException("");
+                //check if element already exists in the tree
+                if (Key.CompareTo(key) == 0) throw new ArgumentException("Element already exists in the tree");
 
                 //find a place to add it
                 if (this.key.CompareTo(key) > 0)
@@ -273,7 +272,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         {
                             parent = this
                         };
-                        //height++;
                         FixHeights();
                         if (parent != null) Balance();
                         return left;
@@ -291,7 +289,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         {
                             parent = this
                         };
-                        //height++;
                         FixHeights();
                         if (parent != null) Balance();
                         return right;
