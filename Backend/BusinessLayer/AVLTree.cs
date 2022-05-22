@@ -260,9 +260,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         {
                             parent = this
                         };
-                        height++;
+                        //height++;
                         FixHeights();
-                        if (parent != null) parent.Balance(tree);
+                        if (parent != null) Balance(tree);
                         return left;
                     }
 
@@ -278,9 +278,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         {
                             parent = this
                         };
-                        height++;
+                        //height++;
                         FixHeights();
-                        if (parent != null) parent.Balance(tree);
+                        if (parent != null) Balance(tree);
                         return right;
                     }
 
@@ -413,15 +413,18 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 AVLTreeNode current = this;
                 while (current != null)
-                {      
-                    int leftHeight = 0;
-                    int rightHeight = 0;
-                    if (current.left != null) leftHeight = current.left.Height;
-                    if (current.right != null) rightHeight = current.right.Height;
+                {
+                    if (current.left == null & current.right == null) current.height = 0;
+                    else
+                    {
+                        int leftHeight = 0;
+                        int rightHeight = 0;
+                        if (current.left != null) leftHeight = current.left.Height;
+                        if (current.right != null) rightHeight = current.right.Height;
 
-                    if (leftHeight >= rightHeight) current.height = leftHeight+1;
-                    else current.height = rightHeight+1;
-
+                        if (leftHeight >= rightHeight) current.height = leftHeight + 1;
+                        else current.height = rightHeight + 1;
+                    }
                     current = current.parent;
                 }
             }
@@ -521,7 +524,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         if (left.right != null) leftRightHeight = left.right.Height;
                         if (leftLeftHeight > leftRightHeight) LeftLeftRotation(tree);
                         else LeftRightRotation(tree);
-                        if(parent != null ) parent.Balance(tree);
+                        FixHeights();
                     }
                     else
                     {
@@ -531,7 +534,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         if (right.right != null) rightRightHeight = right.right.Height;
                         if (rightRightHeight > rightLeftHeight) RightRightRotation(tree);
                         else RightLeftRotation(tree);
-                        if (parent != null) parent.Balance(tree);
+                        FixHeights();
                     }
                 }
                 else
@@ -559,7 +562,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             private void RightRotate(AVLTree<Key, Data> tree)
             {
-                AVLTreeNode leftRightChild = left.right;
+                AVLTreeNode leftRightChild = null;
+                if (left != null ) leftRightChild = left.right;
                 left.right = this;
                 left.parent = parent;
                 if (ThisNodeIsALeftSon()) parent.left = left;
@@ -571,7 +575,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             private void LeftRotate(AVLTree<Key, Data> tree)
             {
-                AVLTreeNode rightLeftChild = right.left;
+                AVLTreeNode rightLeftChild = null;
+                if(right != null )rightLeftChild = right.left;
+
                 right.left = this;
                 right.parent = parent;
                 if (ThisNodeIsALeftSon()) parent.left = right;
@@ -583,7 +589,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             public void PrintTree()
             {
-                PrintTree(" ");
+                PrintTree("  ");
             }
             private void PrintTree(string spaces)
             {

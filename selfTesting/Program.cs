@@ -33,45 +33,12 @@ namespace IntroSE.Kanban.selfTesting
         public static void AVLTreeTesting()
         {
             Backend.BusinessLayer.AVLTree<int, int> tree1 = new();
-            tree1.Add(7, 1);
-            tree1.PrintTree();
-            Console.WriteLine("===================================");
 
-            tree1.Add(9, 2);
-            tree1.PrintTree();
-            Console.WriteLine("===================================");
-
-            tree1.Add(2, 3);
-            tree1.PrintTree();
-            Console.WriteLine("===================================");
-
-            tree1.Add(3, 4);
-            tree1.PrintTree();
-            Console.WriteLine("===================================");
-
-            tree1.Add(1, 5);
-            tree1.PrintTree();
-            Console.WriteLine("===================================");
-
-            tree1.Add(-5, 6);
-
-            tree1.Add(-6, 6);
-
-            tree1.Add(-7, 6);
-
-            tree1.Add(-8, 6);
-
-            tree1.Add(-9, 6);
-
-            tree1.Add(-10, 6);
-            tree1.Add(-11, 6);
-            tree1.Add(-12, 6);
-            tree1.Add(-13, 6);
-            for (int i = 1; i < 50; i++)
+            for (int i = 0; i < 1000; i++)
             {
-                tree1.Add(-13 - i, 6);
-                tree1.PrintTree();
-                Console.WriteLine("===================================");
+                tree1.Add(i, 6);
+                //tree1.PrintTree();
+                //Console.WriteLine("===================================");
             }
                 
             tree1.PrintTree();
