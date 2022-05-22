@@ -8,14 +8,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 {
 
     //===========================================================================
-    //                                BinaryTree
+    //                                AVLTree
     //===========================================================================
 
 
 
     /// <summary>
     /// ======================================================<br/>
-    /// This class implements a generic binary tree that that is ordered with a key that is IComparable<br/>
+    /// This class implements a generic AVL Tree that that is ordered with a key that is IComparable<br/>
     /// <b>The class does not support duplicate keys</b>
     /// <code>Supported operations:</code>
     /// <list type="bullet">Add()</list>
@@ -30,31 +30,33 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <br/>
     /// ===================
     /// </summary>
-#pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
-    public class BinaryTree<Key,Data> where Key : IComparable
+    public class AVLTree<Key,Data> where Key : IComparable
     {
-        private BinaryTreeNode root;
+        private AVLTreeNode root;
 
         /// <summary>
-        /// Creates an empty <c>BinaryTree</c>
+        /// Creates an empty <c>AVLTree</c>
         /// </summary>
-        public BinaryTree()
+        public AVLTree()
         {
             root = null;
         }
 
         ///<summary>
-        /// Adds an element into the <c>BinaryTree</c>.<br/><br/>
+        /// Adds an element into the <c>AVLTree</c>.<br/><br/>
         ///<b>throws</b> <c>ArgumentException</c> if an element with the same key already exists in the tree
         ///</summary>
         ///<exception cref="ArgumentException"></exception>
         ///<returns>A pointer to the new user's data</returns>
         public Data Add(Key key, Data data)
         {
+            //check if element already exists in the tree
+            if (Contains(key)) throw new ArgumentException("Element already exists in the tree");
+
             // if tree is empty, add to the root
             if (root == null)
             {
-                root = new BinaryTreeNode(key,data);
+                root = new AVLTreeNode(key,data);
                 return root.Data;
             }
             //otherwise pass it down
@@ -62,7 +64,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 try
                 {
-                    return root.Add(key,data).Data;
+                    return root.Add(key,data,this).Data;
                 }
                 catch(ArgumentException)
                 {
@@ -73,8 +75,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
         ///<summary>
-        ///Removes the element with this key from the <c>BinaryTree</c><br/><br/>
-        ///<b>Throws</b> <c>NoSuchElementException</c> if the element is not in the <c>BinaryTree</c>
+        ///Removes the element with this key from the <c>AVLTree</c><br/><br/>
+        ///<b>Throws</b> <c>NoSuchElementException</c> if the element is not in the <c>AVLTree</c>
         ///</summary>
         ///<exception cref="NoSuchElementException"></exception>
         public void Remove(Key key)
@@ -107,8 +109,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 //case 4: root has 2 children
                 else
                 {
-                    BinaryTreeNode successor = root.Successor();
-                    successor.Remove();
+                    AVLTreeNode successor = root.Successor().Remove(this);
 
                     // copy children of old root
                     if (root.Left != successor) successor.Left = root.Left;
@@ -128,7 +129,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 try
                 {
-                    root.Search(key).Remove();
+                    root.Search(key).Remove(this);
                 }
                 catch (NoSuchElementException)
                 {
@@ -139,22 +140,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                
         }
 
-        ///<summary>Check if the <c>BinaryTree</c> contains an element with this key<br/><br/>
+        ///<summary>Check if the <c>AVLTree</c> contains an element with this key<br/><br/>
         /// </summary>
         ///<returns><c>true</c> if an element with this key exists in the tree and <c>false</c> otherwise</returns>
         public bool Contains(Key key)
         {
-            try
-            {
-                return root.Contains(key);
-            }
-            catch (NullReferenceException)
-            {
-                return false;
-            }
+            if (root != null) return root.Contains(key);
+            else return false;
         }
 
-        ///<summary>Check if the <c>BinaryTree</c> is empty</summary>
+        ///<summary>Check if the <c>AVLTree</c> is empty</summary>
         ///<returns><c>true</c> if the tree is empty and <c>false</c> otherwise</returns>
         public bool IsEmpty()
         {
@@ -165,7 +160,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// search for an element with the specified key and get its <c>Data</c><br/><br/>
         /// <br/><br/>
         /// <b>Throws</b> <c>NoSuchElementException</c> if there is no element<br/>
-        /// with this key in the <c>BinaryTree</c>
+        /// with this key in the <c>AVLTree</c>
         /// </summary>
         /// <returns><c>The element's <c>Data</c></c></returns>
         /// <exception cref="NoSuchElementException"></exception>
@@ -173,44 +168,46 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         {
             try
             {
-                return root.Search(key).Data;
+                if(root != null) return root.Search(key).Data;
+                else throw new NoSuchElementException("No such element in the tree");
             }
             catch (NoSuchElementException)
             {
                 throw;
             }
-            catch (NullReferenceException)
-            {
-                throw new NoSuchElementException("No such element in the tree");
-            }
+        }
+        public void PrintTree()
+        {
+            root.PrintTree();
         }
 
         //===========================================================================
-        //                                BinaryTreeNode
+        //                                AVLTreeNode
         //===========================================================================
 
-        private class BinaryTreeNode
+        private class AVLTreeNode
         {
-
             private readonly Key key;
             private readonly Data data;
-            private BinaryTreeNode left;
-            private BinaryTreeNode right;
-            private BinaryTreeNode parent;
+            private AVLTreeNode left;
+            private AVLTreeNode right;
+            private AVLTreeNode parent;
+            private int height;
 
-            public BinaryTreeNode(Key key,Data data)
+            public AVLTreeNode(Key key,Data data)
             {
                 left = null;
                 right = null;
                 parent = null;
                 this.key = key;
                 this.data = data;
+                height = 0;
             }
             //======================================
             //            Getters / Setters
             //======================================
 
-
+           
             public Key Key
             {
                 get { return key; }
@@ -219,22 +216,26 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 get { return data; }
             }
-            public BinaryTreeNode Left
+            public AVLTreeNode Left
             {
                 get { return left; }
                 set { left = value; }
             }
-            public BinaryTreeNode Right
+            public AVLTreeNode Right
             {
                 get { return left; }
                 set { left = value; }
             }
-            public BinaryTreeNode Parent
+            public AVLTreeNode Parent
             {
                 get { return parent; }
                 set { parent = value; }
             }
-
+            public int Height
+            {
+                get { return height; }
+                set { height = value; }
+            }
 
             //======================================
             //            Functionality
@@ -243,52 +244,52 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
 
             ///<summary>
-            /// Adds an element into the <c>BinaryTree</c>.<br/><br/>
+            /// Adds an element into the <c>AVLTree</c>.<br/><br/>
             ///<b>throws</b> <c>ArgumentException</c> if an element with the same key already exists in the tree
             ///</summary>
             ///<exception cref="ArgumentException"></exception>
-            public BinaryTreeNode Add(Key key, Data data)
+            public AVLTreeNode Add(Key key, Data data, AVLTree<Key,Data> tree)
             {
-                //check if element already exists in the tree
-                if (this.key.CompareTo(key) == 0)
-                {
-                    throw new ArgumentException("Element already exists in the tree");
-                }
-
                 //find a place to add it
-                else if (this.key.CompareTo(key) > 0)
+                if (this.key.CompareTo(key) > 0)
                 {
                     //empty spot
-                    if (left == null) 
-                    { 
-                        left = new BinaryTreeNode(key,data) 
+                    if (left == null)
+                    {
+                        left = new AVLTreeNode(key, data)
                         {
                             parent = this
                         };
+                        height++;
+                        FixHeights();
+                        if (parent != null) parent.Balance(tree);
                         return left;
                     }
 
                     //pass it down
-                    else return left.Add(key,data);
+                    else return left.Add(key, data,tree);
                 }
                 else
                 {
                     //empty spot
                     if (right == null)
                     {
-                        right = new BinaryTreeNode(key,data)
+                        right = new AVLTreeNode(key, data)
                         {
                             parent = this
                         };
+                        height++;
+                        FixHeights();
+                        if (parent != null) parent.Balance(tree);
                         return right;
                     }
 
                     //pass it down
-                    else return right.Add(key,data);
+                    else return right.Add(key, data,tree);
                 }
             }
 
-            ///<summary>Check if the <c>BinaryTree</c> contains a node with this key</summary>
+            ///<summary>Check if the <c>AVLTree</c> contains a node with this key</summary>
             ///<returns><c>true</c> if the node with this key exists in the tree and <c>false</c> otherwise</returns>
             public bool Contains(Key key)
             {
@@ -305,18 +306,17 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             /// <summary>
             /// search for a node with the specified key<br/><br/>
-            /// <b>Throws</b> <c>NoSuchElementException</c> if a node with this key does not exist in the <c>BinaryTree</c>
+            /// <b>Throws</b> <c>NoSuchElementException</c> if a node with this key does not exist in the <c>AVLTree</c>
             /// </summary>
-            /// <returns>BinaryTreeNode</returns>
+            /// <returns>AVLTreeNode</returns>
             /// <exception cref="NoSuchElementException"></exception>
-            public BinaryTreeNode Search(Key key)
+            public AVLTreeNode Search(Key key)
             {
                 //check if the current node is the target
                 if (this.key.CompareTo(key) == 0)
                 {
                     return this;
                 }
-
                 //binary search for it
                 else if (left != null && this.key.CompareTo(key) > 0)
                 {
@@ -326,19 +326,18 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 {
                     return right.Search(key);
                 }
-
                 //can't find it
                 else throw new NoSuchElementException("No such element in the tree");
             }
 
             ///<summary>
-            ///Removes a node from the <c>BinaryTree</c><br/><br/>
+            ///Removes a node from the <c>AVLTree</c><br/><br/>
             ///
             ///<b>Warning:</b> Only works on a node that is in a tree.<br/>
             ///can throw unexpected exceptions if misused
-            ///
             ///</summary>
-            public void Remove()
+            ///<returns>The removed AVLTreeNode</returns>
+            public AVLTreeNode Remove(AVLTree<Key,Data> tree)
             {
                 // case 1: node has no children
                 if (left == null & right == null)
@@ -347,34 +346,44 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     {
                         parent.left = null;
                     }
-                    else parent.right = null;
+                    else if (ThisNodeIsARightSon())
+                    {
+                        parent.right = null;
+                    } 
                 }
 
                 // case 2: node only has a right child
-                else if (left == null)
+                else if (right != null)
                 {
                     if (ThisNodeIsALeftSon())
                     {
                         parent.left = right;
                     }
-                    else parent.right = right;
+                    else if (ThisNodeIsARightSon())
+                    {
+                        parent.right = right;
+                    }
+                    right.parent = parent;
                 }
 
                 // case 3: node only has a left child
-                else if (right == null)
+                else if (left != null)
                 {
                     if (ThisNodeIsALeftSon())
                     {
                         parent.left = left;
                     }
-                    else parent.right = left;
+                    else if (ThisNodeIsARightSon())
+                    {
+                        parent.right = left;
+                    }
+                    left.parent = parent;
                 }
 
                 // case 4: node has 2 children
                 else
                 {
-                    BinaryTreeNode successor = Successor();
-                    successor.Remove();
+                    AVLTreeNode successor = Successor().Remove(tree);
 
                     // make the successor the child of the old node's parent
                     if (ThisNodeIsALeftSon()) parent.left = successor;
@@ -391,15 +400,37 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     //copy parent of old node
                     successor.parent = parent;  
                 }
-
+                FixHeights();
+                //AVLTreeNode current = this;
+                //while (current.Balance(tree)) 
+                //{
+                //    while (current != null && current.IsBalanced() == true) current = current.parent;
+                //    if (current == null) break;
+                //} 
+                return this;
             }
+            private void FixHeights() 
+            {
+                AVLTreeNode current = this;
+                while (current != null)
+                {      
+                    int leftHeight = 0;
+                    int rightHeight = 0;
+                    if (current.left != null) leftHeight = current.left.Height;
+                    if (current.right != null) rightHeight = current.right.Height;
 
+                    if (leftHeight >= rightHeight) current.height = leftHeight+1;
+                    else current.height = rightHeight+1;
+
+                    current = current.parent;
+                }
+            }
             /// <summary>
             /// Find the successor of a node <br/><br/>
             /// <b>Throws</b> <c>NoSuchElementException</c> if there is no successor
             /// </summary>
-            /// <returns>BinaryTreeNode</returns>
-            public BinaryTreeNode Successor()
+            /// <returns>AVLTreeNode</returns>
+            public AVLTreeNode Successor()
             {
                 // if there is a right child
                 // the minimum of the right subtree is the successor
@@ -418,7 +449,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 // if there is no bigger ancestor, return null
                 else
                 {
-                    BinaryTreeNode current = parent;
+                    AVLTreeNode current = parent;
                     while (current != null && key.CompareTo(current.key) > 0)
                     {
                         current = current.parent;
@@ -429,14 +460,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
 
             /// <summary>
-            /// Find the minimum in the <c>BinaryTree</c>
+            /// Find the minimum in the <c>AVLTree</c>
             /// </summary>
-            /// <returns>BinaryTreeNode</returns>
-            private BinaryTreeNode Minimum()
+            /// <returns>AVLTreeNode</returns>
+            private AVLTreeNode Minimum()
             {
 
                 // go left until there is more left to go
-                BinaryTreeNode current = this;
+                AVLTreeNode current = this;
                 while (current.left != null) 
                 { 
                     current = current.left;
@@ -455,6 +486,112 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
                 return false;
             }
+
+            private bool IsBalanced()
+            {
+                int leftHeight = 0;
+                int rightHeight = 0;
+                if (left != null) leftHeight = left.Height;
+                if (right != null) rightHeight = right.Height;
+
+                if (Math.Abs(leftHeight - rightHeight) > 1)
+                {
+                    return false;
+                }
+                else return true;
+            }
+            /// <summary>
+            /// Balances the current node or the first unbalanced ancestor it finds
+            /// </summary>
+            /// <returns>true if any balancing was done, false otherwise</returns>
+            private void Balance(AVLTree<Key,Data> tree)
+            {
+                int leftHeight = 0;
+                int rightHeight = 0;
+                if (left != null) leftHeight = left.Height;
+                if (right != null) rightHeight = right.Height;
+
+                if (Math.Abs(leftHeight - rightHeight) > 1)
+                {
+                    if (leftHeight > rightHeight)
+                    {
+                        int leftLeftHeight = 0;
+                        int leftRightHeight = 0;
+                        if (left.left != null) leftLeftHeight = left.left.Height;
+                        if (left.right != null) leftRightHeight = left.right.Height;
+                        if (leftLeftHeight > leftRightHeight) LeftLeftRotation(tree);
+                        else LeftRightRotation(tree);
+                        if(parent != null ) parent.Balance(tree);
+                    }
+                    else
+                    {
+                        int rightLeftHeight = 0;
+                        int rightRightHeight = 0;
+                        if (right.left != null) rightLeftHeight = right.left.Height;
+                        if (right.right != null) rightRightHeight = right.right.Height;
+                        if (rightRightHeight > rightLeftHeight) RightRightRotation(tree);
+                        else RightLeftRotation(tree);
+                        if (parent != null) parent.Balance(tree);
+                    }
+                }
+                else
+                {
+                    if (parent != null) parent.Balance(tree);
+                } 
+            }
+            private void LeftLeftRotation(AVLTree<Key, Data> tree)
+            {
+                RightRotate(tree);
+            }
+            private void LeftRightRotation(AVLTree<Key, Data> tree)
+            {
+                left.LeftRotate(tree);
+                RightRotate(tree);
+            }
+            private void RightRightRotation(AVLTree<Key, Data> tree)
+            {
+                LeftRotate(tree);
+            }
+            private void RightLeftRotation(AVLTree<Key, Data> tree)
+            {
+                right.RightRotate(tree);
+                LeftRotate(tree);
+            }
+            private void RightRotate(AVLTree<Key, Data> tree)
+            {
+                AVLTreeNode leftRightChild = left.right;
+                left.right = this;
+                left.parent = parent;
+                if (ThisNodeIsALeftSon()) parent.left = left;
+                else if (ThisNodeIsARightSon()) parent.right = left;
+                else tree.root = left;
+                parent = left;
+                left = leftRightChild;
+                if (leftRightChild != null) leftRightChild.parent = this;
+            }
+            private void LeftRotate(AVLTree<Key, Data> tree)
+            {
+                AVLTreeNode rightLeftChild = right.left;
+                right.left = this;
+                right.parent = parent;
+                if (ThisNodeIsALeftSon()) parent.left = right;
+                else if (ThisNodeIsARightSon()) parent.right = right;
+                else tree.root = right;
+                parent = right;
+                right = rightLeftChild;
+                if(rightLeftChild != null) rightLeftChild.parent = this;
+            }
+            public void PrintTree()
+            {
+                PrintTree(" ");
+            }
+            private void PrintTree(string spaces)
+            {
+                if(right != null) right.PrintTree(spaces + "     ");
+                Console.WriteLine(spaces + Key.ToString());
+                if(left != null) left.PrintTree(spaces + "     ");
+            }
         }
+        
     }
 }
