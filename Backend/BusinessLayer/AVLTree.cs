@@ -51,7 +51,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public Data Add(Key key, Data data)
         {
             //check if element already exists in the tree
-            if (Contains(key)) throw new ArgumentException("Element already exists in the tree");
+            //if (Contains(key)) throw new ArgumentException("Element already exists in the tree");
 
             // if tree is empty, add to the root
             if (root == null)
@@ -82,68 +82,76 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void Remove(Key key)
         {
             if(root == null) throw new NoSuchElementException("No such element in the tree");
-
-            //if the root is the target for removal
-            if (root.Key.CompareTo(key) == 0)
+            try
             {
-                //case 1: root has no children
-                if (root.Left == null & root.Right == null)
-                {
-                    root = null;
-                }
-
-                //case 2: root has only a right child
-                else if (root.Left == null)
-                {
-                    root = root.Right;
-                    root.Parent = null;
-                }
-
-                //case 3: root has only a left child
-                else if (root.Right == null)
-                {
-                    root = root.Left;
-                    root.Parent = null;
-                }
-
-                //case 4: root has 2 children
-                else
-                {
-                    AVLTreeNode successor = root.Successor().Remove();
-
-                    // copy children of old root
-                    if (root.Left != successor) successor.Left = root.Left;
-                    if (root.Right != successor) successor.Right = root.Right;
-
-                    // set children's parent to successor
-                    if (root.Left != null) root.Left.Parent = successor;
-                    if (root.Right != null) root.Right.Parent = successor;
-
-                    // make the swap
-                    root = successor;
-                    root.Parent = null;
-                }
+                root.Search(key).Remove();
             }
-            // root isn't the target for removal -> pass it down
-            else
+            catch (NoSuchElementException)
             {
-                try
-                {
-                    root.Search(key).Remove();
-                }
-                catch (NoSuchElementException)
-                {
-                    throw;
-                }
+                throw;
             }
-            
-               
+
+            ////if the root is the target for removal
+            //if (root.Key.CompareTo(key) == 0)
+            //{
+            //    //case 1: root has no children
+            //    if (root.Left == null & root.Right == null)
+            //    {
+            //        root = null;
+            //    }
+
+            //    //case 2: root has only a right child
+            //    else if (root.Left == null)
+            //    {
+            //        root = root.Right;
+            //        root.Parent = null;
+            //    }
+
+            //    //case 3: root has only a left child
+            //    else if (root.Right == null)
+            //    {
+            //        root = root.Left;
+            //        root.Parent = null;
+            //    }
+
+            //    //case 4: root has 2 children
+            //    else
+            //    {
+            //        AVLTreeNode successor = root.Successor().Remove();
+
+            //        // copy children of old root
+            //        if (root.Left != successor) successor.Left = root.Left;
+            //        if (root.Right != successor) successor.Right = root.Right;
+
+            //        // set children's parent to successor
+            //        if (root.Left != null) root.Left.Parent = successor;
+            //        if (root.Right != null) root.Right.Parent = successor;
+
+            //        // make the swap
+            //        root = successor;
+            //        root.Parent = null;
+            //    }
+            //}
+            //// root isn't the target for removal -> pass it down
+            //else
+            //{
+            //    try
+            //    {
+            //        root.Search(key).Remove();
+            //    }
+            //    catch (NoSuchElementException)
+            //    {
+            //        throw;
+            //    }
+            //}
+
+
         }
 
         ///<summary>Check if the <c>AVLTree</c> contains an element with this key<br/><br/>
         /// </summary>
         ///<returns><c>true</c> if an element with this key exists in the tree and <c>false</c> otherwise</returns>
-        public bool Contains(Key key)
+            public bool Contains(Key key)
         {
             if (root != null) return root.Contains(key);
             else return false;
@@ -178,7 +186,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
         public void PrintTree()
         {
-            root.PrintTree();
+            if (root != null) root.PrintTree();
+            else Console.WriteLine("EmptyTree");
         }
 
         //===========================================================================
@@ -252,6 +261,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             ///<exception cref="ArgumentException"></exception>
             public AVLTreeNode Add(Key key, Data data, AVLTree<Key,Data> tree)
             {
+                if (Key.CompareTo(key) == 0) throw new ArgumentException("");
+
                 //find a place to add it
                 if (this.key.CompareTo(key) > 0)
                 {
@@ -351,7 +362,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     else if (ThisNodeIsARightSon())
                     {
                         parent.right = null;
-                    } 
+                    }
+                    else tree.root = null;
                 }
 
                 // case 2: node only has a right child
@@ -365,6 +377,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     {
                         parent.right = right;
                     }
+                    else tree.root = right;
                     right.parent = parent;
                 }
 
@@ -379,6 +392,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     {
                         parent.right = left;
                     }
+                    else tree.root = left;
                     left.parent = parent;
                 }
 
@@ -386,6 +400,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 else
                 {
                     AVLTreeNode successor = Successor().Remove();
+                    if (this == tree.root) tree.root = successor;
 
                     // make the successor the child of the old node's parent
                     if (ThisNodeIsALeftSon()) parent.left = successor;
@@ -400,7 +415,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     if (right != null) right.parent = successor;
 
                     //copy parent of old node
-                    successor.parent = parent;  
+                    successor.parent = parent;
+                    
                 }
                 FixHeights();
                 AVLTreeNode current = this;
@@ -423,7 +439,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         int rightHeight = 0;
                         if (current.left != null) leftHeight = current.left.Height;
                         if (current.right != null) rightHeight = current.right.Height;
-
                         if (leftHeight >= rightHeight) current.height = leftHeight + 1;
                         else current.height = rightHeight + 1;
                     }
@@ -565,8 +580,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             private void RightRotate()
             {
-                AVLTreeNode leftRightChild = null;
-                if (left != null ) leftRightChild = left.right;
+                AVLTreeNode leftRightChild = left.right;
                 left.right = this;
                 left.parent = parent;
                 if (ThisNodeIsALeftSon()) parent.left = left;
@@ -578,8 +592,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             private void LeftRotate()
             {
-                AVLTreeNode rightLeftChild = null;
-                if(right != null )rightLeftChild = right.left;
+                AVLTreeNode rightLeftChild = right.left;
                 right.left = this;
                 right.parent = parent;
                 if (ThisNodeIsALeftSon()) parent.left = right;
