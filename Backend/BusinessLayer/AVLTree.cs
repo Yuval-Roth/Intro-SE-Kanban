@@ -270,10 +270,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     {
                         left = new AVLTreeNode(key, data, tree)
                         {
-                            parent = this
+                            parent = this,
                         };
                         FixHeights();
-                        if (parent != null) Balance();
+                        if (parent != null) parent.Balance();
+                        tree.PrintTree();
+                        Console.WriteLine("==========================================================");
                         return left;
                     }
 
@@ -290,7 +292,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                             parent = this
                         };
                         FixHeights();
-                        if (parent != null) Balance();
+                        if (parent != null) parent.Balance();
+                        tree.PrintTree();
+                        Console.WriteLine("==========================================================");
                         return right;
                     }
 
@@ -523,8 +527,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             /// <returns>true if any balancing was done, false otherwise</returns>
             private bool Balance()
             {
-                int leftHeight = 0;
-                int rightHeight = 0;
+                int leftHeight = -1;
+                int rightHeight = -1;
                 if (left != null) leftHeight = left.Height;
                 if (right != null) rightHeight = right.Height;
 
@@ -532,8 +536,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 {
                     if (leftHeight > rightHeight)
                     {
-                        int leftLeftHeight = 0;
-                        int leftRightHeight = 0;
+                        int leftLeftHeight = -1;
+                        int leftRightHeight = -1;
                         if (left.left != null) leftLeftHeight = left.left.Height;
                         if (left.right != null) leftRightHeight = left.right.Height;
                         if (leftLeftHeight > leftRightHeight) LeftLeftRotation();
@@ -541,14 +545,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     }
                     else
                     {
-                        int rightLeftHeight = 0;
-                        int rightRightHeight = 0;
+                        int rightLeftHeight = -1;
+                        int rightRightHeight = -1;
                         if (right.left != null) rightLeftHeight = right.left.Height;
                         if (right.right != null) rightRightHeight = right.right.Height;
                         if (rightRightHeight > rightLeftHeight) RightRightRotation();
                         else RightLeftRotation();
                     }
                     FixHeights();
+                    tree.PrintTree();
+                    Console.WriteLine("==========================================================");
                     return true;
                 }
                 else
@@ -573,7 +579,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             private void RightLeftRotation()
             {
                 right.RightRotate();
+                tree.PrintTree();
+                Console.WriteLine("==========================================================");
                 LeftRotate();
+                tree.PrintTree();
+                Console.WriteLine("==========================================================");
             }
             private void RightRotate()
             {
