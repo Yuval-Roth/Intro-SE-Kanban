@@ -34,14 +34,18 @@ namespace IntroSE.Kanban.selfTesting
         {
             Backend.BusinessLayer.AVLTree<int, int> tree1 = new();
 
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 50; i++)
             {
                 tree1.Add(i, 6);
-                //tree1.PrintTree();
-                //Console.WriteLine("===================================");
-            }
-                
+            }    
             tree1.PrintTree();
+            Console.WriteLine("==========================================================");
+            for (int i = 0; i < 50; i++)
+            {
+                tree1.Remove(i);
+                tree1.PrintTree();
+                Console.WriteLine("==========================================================");
+            }
 
         }
         //public static void BoardTreeTesting() 
