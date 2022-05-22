@@ -33,45 +33,32 @@ namespace IntroSE.Kanban.selfTesting
         public static void AVLTreeTesting()
         {
             Backend.BusinessLayer.AVLTree<int, int> tree1 = new();
-            //Random random = new Random();
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    try
-            //    {
-            //        tree1.Add(random.Next(0, 500), 6);
-            //        tree1.PrintTree();
-            //        Console.WriteLine("==========================================================");
-            //    }
-            //    catch (ArgumentException) { }
-            //}
-            tree1.Add(163, 6);
-            //tree1.PrintTree();
+            Random random = new Random();
+            int[] nums = new int[100];
+            for (int i = 0; i < 100; i++)
+            {
+                int num = random.Next(-500, 500);
+                nums[i] = num;
+                try
+                { 
+                    tree1.Add(num, 6);
+                    
+                }
+                catch (ArgumentException) { }    
+            }
             Console.WriteLine("==========================================================");
-            tree1.Add(428, 6);
-            //tree1.PrintTree();
-            Console.WriteLine("==========================================================");
-            tree1.Add(158, 6);
-            //tree1.PrintTree();
-            Console.WriteLine("==========================================================");
-            tree1.Add(137, 6);
-            //tree1.PrintTree();
-            Console.WriteLine("==========================================================");
-            tree1.Add(205, 6);
-            //tree1.PrintTree();
-            Console.WriteLine("==========================================================");
-            tree1.Add(311, 6);
-            //tree1.PrintTree();
-            Console.WriteLine("==========================================================");
-            //tree1.PrintTree();
-
-            //for (int i = 0; i < 20 ; i++)
-            //{
-            //    tree1.Remove(i*5);
-            //    //tree1.PrintTree();
-
-            //    //Console.WriteLine("==========================================================");
-            //}
             tree1.PrintTree();
+
+            for (int i = 0; i < 100; i++)
+            {
+                try
+                {
+                    tree1.Remove(nums[i]);
+                }
+                catch (Backend.BusinessLayer.NoSuchElementException) { }
+                Console.WriteLine("==========================================================");
+                tree1.PrintTree();
+            }
         }
         //public static void BoardTreeTesting() 
         //{

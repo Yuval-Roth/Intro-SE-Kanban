@@ -260,7 +260,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             public AVLTreeNode Add(Key key, Data data, AVLTree<Key,Data> tree)
             {
                 //check if element already exists in the tree
-                if (Key.CompareTo(key) == 0) throw new ArgumentException("Element already exists in the tree");
+                if (this.key.CompareTo(key) == 0) throw new ArgumentException("Element already exists in the tree");
 
                 //find a place to add it
                 if (this.key.CompareTo(key) > 0)
@@ -270,13 +270,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     {
                         left = new AVLTreeNode(key, data, tree)
                         {
-                            parent = this,
+                            Parent = this,
                         };
+                        AVLTreeNode output = left;
                         FixHeights();
                         if (parent != null) parent.Balance();
-                        tree.PrintTree();
-                        Console.WriteLine("==========================================================");
-                        return left;
+                        return output;
                     }
 
                     //pass it down
@@ -291,11 +290,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         {
                             parent = this
                         };
+                        AVLTreeNode output = right;
                         FixHeights();
                         if (parent != null) parent.Balance();
-                        tree.PrintTree();
-                        Console.WriteLine("==========================================================");
-                        return right;
+                        return output;
                     }
 
                     //pass it down
@@ -553,8 +551,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         else RightLeftRotation();
                     }
                     FixHeights();
-                    tree.PrintTree();
-                    Console.WriteLine("==========================================================");
                     return true;
                 }
                 else
@@ -579,11 +575,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             private void RightLeftRotation()
             {
                 right.RightRotate();
-                tree.PrintTree();
-                Console.WriteLine("==========================================================");
                 LeftRotate();
-                tree.PrintTree();
-                Console.WriteLine("==========================================================");
             }
             private void RightRotate()
             {
