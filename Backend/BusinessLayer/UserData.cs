@@ -44,12 +44,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             public User User { get; set; }
             public LinkedList<Board> Boards { get; set; }
         }
-        private BinaryTree<string, DataUnit> tree;
+        private AVLTree<string, DataUnit> tree;
         private HashSet<string> loggedIn;
 
         public UserData()
         {
-            tree = new BinaryTree<string, DataUnit>();
+            tree = new AVLTree<string, DataUnit>();
             loggedIn = new HashSet<string>();
         }
 

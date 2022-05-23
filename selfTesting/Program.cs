@@ -16,7 +16,10 @@ namespace IntroSE.Kanban.selfTesting
 
         public static void Main(string[] args)
         {
-            //BinaryTreeTesting();
+            //DebugAVLTree(new int[]{ 358, -327, -451, 46, 170, 274, -372, 151 });
+            AVLTreeTesting();
+
+
             //BoardTreeTesting();
             //datetesting();
             //UserControllerTesting();
@@ -26,23 +29,106 @@ namespace IntroSE.Kanban.selfTesting
             //registerTest();
             //validEmailTest();
             //enumsTests();
-            gradingTests();
+            //gradingTests();
             //tests();
 
         }
-        //public static void BinaryTreeTesting()
-        //{
-        //    //Backend.BusinessLayer.BinaryTree<int,int> tree1 = new();
-        //    //tree1.Add(7,1);
-        //    //tree1.Add(9,2);
-        //    //tree1.Add(2,3);
-        //    //tree1.Add(3,4);
-        //    //tree1.Add(1,5);
-        //    //tree1.Add(-5,6);
+        public static void DebugAVLTree(int[] nums)
+        {
+                int count = nums.Length;
+                Backend.BusinessLayer.AVLTree<int, int> tree1 = new();
+                for (int i = 0; i < count;)
+                {
+                    try
+                    {
+                        tree1.Add(nums[i], 6);
+                        i++;
+                    }
+                    catch (ArgumentException) { }
+                }
+                Console.Write("{ ");
+                foreach (int o in nums)
+                {
+                    Console.Write(o + ", ");
+                }
+                Console.WriteLine("};");
+                Console.WriteLine("==========================================================");
+                for (int i = 0; i < 0; i++)
+                    tree1.Remove(nums[i]);
 
-        //    //Console.WriteLine(tree1.GetData(7));
+                tree1.PrintTree();
+                Console.WriteLine("==========================================================");
+                for (int i = 0; i < count; i++)
+                {
+                    try
+                    {
+                        Console.WriteLine("Remove for: " + nums[i]);
+                        Console.WriteLine();
+                        tree1.PrintTree();
+                        Console.WriteLine();
+                        tree1.Remove(nums[i]);
+                    }
+                    catch (Backend.BusinessLayer.NoSuchElementException) {  }
 
-        //}
+
+                    Console.WriteLine("==========================================================");
+                }
+                tree1.PrintTree();
+        }
+
+        public static void AVLTreeTesting()
+        {
+            while (true)
+            {
+                int count = 250;
+                Backend.BusinessLayer.AVLTree<int, int> tree1 = new();
+                Random random = new Random();
+                int[] nums = new int[count];
+                for (int i = 0; i < count; )
+                {
+                    int num = random.Next(-500, 500);
+                    try
+                    {
+                        tree1.Add(num, 6);
+                        nums[i] = num;
+                        i++;
+                    }
+                    catch (ArgumentException) { }
+                }
+                Console.Write("{ ");
+                foreach (int o in nums)
+                {
+                    Console.Write(o + ", ");
+                }
+                Console.WriteLine("};");
+                Console.WriteLine("==========================================================");
+                for (int i = 0; i < 0; i++)
+                    tree1.Remove(nums[i]);
+
+                tree1.PrintTree();
+                Console.WriteLine("==========================================================");
+                try
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        try
+                        {
+                            Console.WriteLine("Remove for: " + nums[i]);
+                            Console.WriteLine();
+                            tree1.PrintTree();
+                            Console.WriteLine();
+                            tree1.Remove(nums[i]);
+                        }
+                        catch (Backend.BusinessLayer.NoSuchElementException) { throw; }
+
+
+                        Console.WriteLine("==========================================================");
+                    }
+                    tree1.PrintTree();
+                }
+                catch (Backend.BusinessLayer.NoSuchElementException) { break; }  
+            }
+        }
         //public static void BoardTreeTesting() 
         //{
         //    //Backend.BusinessLayer.User user1 = new Backend.BusinessLayer.User("yuval", "12345");
@@ -69,7 +155,7 @@ namespace IntroSE.Kanban.selfTesting
         //    //Console.WriteLine(ans);
 
 
-            
+
         //}
         //public static void JsonTesting()
         //{
@@ -98,26 +184,26 @@ namespace IntroSE.Kanban.selfTesting
         //}
         //public static void PasswordHashingTesting()
         //{
-            //int sum = 0;
-            //int max = 0;
-            //int min = 100000;
-            //for (int i = 0; i < 500; i++) 
-            //{
-            //    Backend.BusinessLayer.PasswordHash passwordHash = new Backend.BusinessLayer.PasswordHash();
-            //    string temp = passwordHash.Hash("t%3Ka6gaw2^1sJ5AF");
-            //    sum += temp.Length;
-            //    if (min > temp.Length) min = temp.Length;
-            //    if (max < temp.Length) max = temp.Length;
-            //}
-            //Console.WriteLine("min: "+min);
-            //Console.WriteLine("max: "+max);
-            //Console.WriteLine("avg: "+(sum / 500));
-            //for (int i = 0; i < 50; i++) 
-            //{
-            //Backend.BusinessLayer.PasswordHash passwordHash = new Backend.BusinessLayer.PasswordHash();
+        //int sum = 0;
+        //int max = 0;
+        //int min = 100000;
+        //for (int i = 0; i < 500; i++) 
+        //{
+        //    Backend.BusinessLayer.PasswordHash passwordHash = new Backend.BusinessLayer.PasswordHash();
+        //    string temp = passwordHash.Hash("t%3Ka6gaw2^1sJ5AF");
+        //    sum += temp.Length;
+        //    if (min > temp.Length) min = temp.Length;
+        //    if (max < temp.Length) max = temp.Length;
+        //}
+        //Console.WriteLine("min: "+min);
+        //Console.WriteLine("max: "+max);
+        //Console.WriteLine("avg: "+(sum / 500));
+        //for (int i = 0; i < 50; i++) 
+        //{
+        //Backend.BusinessLayer.PasswordHash passwordHash = new Backend.BusinessLayer.PasswordHash();
 
-            //Backend.BusinessLayer.User user = new("test","TestPassword12");
-            //Console.WriteLine(user.CheckPasswordMatch("TestPassword12"));
+        //Backend.BusinessLayer.User user = new("test","TestPassword12");
+        //Console.WriteLine(user.CheckPasswordMatch("TestPassword12"));
         //}
         //public static void logTesting()
         //{
