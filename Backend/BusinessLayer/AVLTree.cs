@@ -82,7 +82,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             if(root == null) throw new NoSuchElementException("No such element in the tree");
             try
             {
-                root.Search(key).Remove();
+                root.Search(key).Remove(true);
             }
             catch (NoSuchElementException)
             {
@@ -349,8 +349,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             ///can throw unexpected exceptions if misused
             ///</summary>
             ///<returns>The removed AVLTreeNode</returns>
-            public AVLTreeNode Remove()
+            public AVLTreeNode Remove(bool balance)
             {
+                bool wasRoot = this == tree.root;
+                AVLTreeNode successor = null;
                 // case 1: node has no children
                 if (left == null & right == null)
                 {
@@ -377,7 +379,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         parent.right = right;
                     }
                     else tree.root = right;
-                    right.parent = parent;
+                    right.parent = parent;     
                 }
 
                 // case 3: node only has a left child
@@ -392,14 +394,17 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         parent.right = left;
                     }
                     else tree.root = left;
-                    left.parent = parent;
+                    left.parent = parent;   
                 }
 
                 // case 4: node has 2 children
                 else
                 {
-                    AVLTreeNode successor = Successor().Remove();
-                    if (this == tree.root) tree.root = successor;
+                    
+                    successor = Successor().Remove(false);
+                    if (wasRoot) tree.root = successor;
+                    //tree.PrintTree();
+                    //Console.WriteLine("==============================");
 
                     // make the successor the child of the old node's parent
                     if (ThisNodeIsALeftSon()) parent.left = successor;
@@ -408,24 +413,41 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     // copy children of old node
                     if (successor != left) successor.left = left;
                     if (successor != right) successor.right = right;
+                    //tree.PrintTree();
+                    //Console.WriteLine("==============================");
 
                     // set children's parent to successor
                     if (left != null) left.parent = successor;
                     if (right != null) right.parent = successor;
+                    //tree.PrintTree();
+                    //Console.WriteLine("==============================");
 
                     //copy parent of old node
-                    successor.parent = parent;
-                    
+                    successor.parent = parent;  
                 }
-                FixHeights();
-                AVLTreeNode current = this;
-                while (current.Balance())
+                if (tree.root != null)
                 {
-                    while (current != null && current.IsBalanced() == true) current = current.parent;
-                    if (current == null) break;
+                    if (wasRoot) tree.root.FixHeights();
+                    else FixHeights();
+
+                    if (balance)
+                    {
+                        AVLTreeNode current;
+                        if (successor != null)
+                            current = successor;
+                        else current = this;
+                        while (current.Balance())
+                        {
+                            //tree.PrintTree();
+                            //Console.WriteLine("==============================");
+                            while (current != null && current.IsBalanced() == true) current = current.parent;
+                            if (current == null) break;
+                        }
+                    }
                 }
                 return this;
             }
+
             private void FixHeights() 
             {
                 AVLTreeNode current = this;
@@ -434,8 +456,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     if (current.left == null & current.right == null) current.height = 0;
                     else
                     {
-                        int leftHeight = 0;
-                        int rightHeight = 0;
+                        int leftHeight = -1;
+                        int rightHeight = -1;
                         if (current.left != null) leftHeight = current.left.Height;
                         if (current.right != null) rightHeight = current.right.Height;
                         if (leftHeight >= rightHeight) current.height = leftHeight + 1;
@@ -530,7 +552,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 if (left != null) leftHeight = left.Height;
                 if (right != null) rightHeight = right.Height;
 
-                if (Math.Abs(leftHeight - rightHeight) > 1)
+                if (Math.Abs(leftHeight - rightHeight) > 1 & height != 1)
                 {
                     if (leftHeight > rightHeight)
                     {
@@ -588,6 +610,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 parent = left;
                 left = leftRightChild;
                 if (leftRightChild != null) leftRightChild.parent = this;
+                if(parent.left != null) parent.left.FixHeights();
+                //tree.PrintTree();
+                //Console.WriteLine("=========================");
             }
             private void LeftRotate()
             {
@@ -600,6 +625,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 parent = right;
                 right = rightLeftChild;
                 if(rightLeftChild != null) rightLeftChild.parent = this;
+                if (parent.right != null) parent.right.FixHeights();
+                //tree.PrintTree();
+                //Console.WriteLine("=========================");
             }
             public void PrintTree()
             {
