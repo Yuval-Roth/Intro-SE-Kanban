@@ -370,6 +370,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         parent.right = null;
                     }
                     else tree.root = null;
+                    if (parent != null) parent.FixHeights();
                 }
 
                 // case 2: node only has a right child
@@ -408,47 +409,36 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 else
                 {
                     
-                    successor = Successor().Remove(false);
-                    if (wasRoot) tree.root = successor;
-                    //tree.PrintTree();
-                    //Console.WriteLine("==============================");
+                    successor = Successor().Remove(true);
 
-                    // make the successor the child of the old node's parent
+                    //parent
+                    successor.parent = parent;
                     if (ThisNodeIsALeftSon()) parent.left = successor;
                     else if (ThisNodeIsARightSon()) parent.right = successor;
 
-                    // copy children of old node
-                    if (successor != left) successor.left = left;
-                    if (successor != right) successor.right = right;
-                    //tree.PrintTree();
-                    //Console.WriteLine("==============================");
-
-                    // set children's parent to successor
+                    //left child
+                    successor.left = left;
                     if (left != null) left.parent = successor;
-                    if (right != null) right.parent = successor;
-                    //tree.PrintTree();
-                    //Console.WriteLine("==============================");
 
-                    //copy parent of old node
-                    successor.parent = parent;  
+                    //right child
+                    successor.right = right;
+                    if (right != null) right.parent = successor;
+
+                    if (this == tree.root) tree.root = successor;
+                    successor.FixHeights();
+                    
+                    tree.root.FixAllTree();
                 }
                 if (tree.root != null)
                 {
-                    if (wasRoot) tree.root.FixHeights();
-                    //else FixHeights();
-
                     if (balance)
                     {
-                        //tree.PrintTree();
-                        //Console.WriteLine("==============================");
-                        AVLTreeNode current;
+                        AVLTreeNode current = this;
                         if (successor != null)
                             current = successor;
-                        else current = this;
+                        if (current.parent != null) current = current.parent;
                         while (current.Balance())
                         {
-                            //tree.PrintTree();
-                            //Console.WriteLine("==============================");
                             while (current != null && current.IsBalanced() == true) current = current.parent;
                             if (current == null) break;
                         }
@@ -474,6 +464,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     }
                     current = current.parent;
                 }
+            }
+            private void FixAllTree()
+            {
+                if (IsBalanced() == false) Balance();
+
+                if (left != null) left.FixAllTree();
+                if (right != null) right.FixAllTree();      
             }
             /// <summary>
             /// Find the successor of a node <br/><br/>
@@ -582,6 +579,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         else RightLeftRotation();
                     }
                     FixHeights();
+                    Balance();
                     return true;
                 }
                 else
@@ -620,8 +618,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 left = leftRightChild;
                 if (leftRightChild != null) leftRightChild.parent = this;
                 if(parent.left != null) parent.left.FixHeights();
-                //tree.PrintTree();
-                //Console.WriteLine("=========================");
             }
             private void LeftRotate()
             {
@@ -635,8 +631,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 right = rightLeftChild;
                 if(rightLeftChild != null) rightLeftChild.parent = this;
                 if (parent.right != null) parent.right.FixHeights();
-                //tree.PrintTree();
-                //Console.WriteLine("=========================");
             }
             public override string ToString()
             {
