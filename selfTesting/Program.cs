@@ -33,26 +33,21 @@ namespace IntroSE.Kanban.selfTesting
         public static void AVLTreeTesting()
         {
             Backend.BusinessLayer.AVLTree<int, int> tree1 = new();
-            Random random = new Random();
-            int[] nums = new int[100];
-            for (int i = 0; i < 100; i++)
-            {
-                int num = random.Next(-500, 500);
-                nums[i] = num;
-                try
-                { 
-                    tree1.Add(num, 6);
-                    
-                }
-                catch (ArgumentException) { }    
+            //Random random = new Random();
+            int[] nums = {1,2,952,183,617,184,1862,61,-5,-9,126 };
+            for (int i = 0; i < 11; i++)
+            { 
+                    tree1.Add(nums[i], 6);   
             }
             Console.WriteLine("==========================================================");
             tree1.PrintTree();
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 11; i++)
             {
                 try
                 {
+                    Console.WriteLine("Remove for " + nums[i]);
+                    Console.WriteLine();
                     tree1.Remove(nums[i]);
                 }
                 catch (Backend.BusinessLayer.NoSuchElementException) { }
