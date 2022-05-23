@@ -82,7 +82,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             if(root == null) throw new NoSuchElementException("No such element in the tree");
             try
             {
-                root.Search(key).Remove(true);
+                root.Search(key).Remove();
             }
             catch (NoSuchElementException)
             {
@@ -354,9 +354,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             ///can throw unexpected exceptions if misused
             ///</summary>
             ///<returns>The removed AVLTreeNode</returns>
-            public AVLTreeNode Remove(bool balance)
+            public AVLTreeNode Remove()
             {
-                bool wasRoot = this == tree.root;
+                AVLTreeNode currentRoot = tree.root;
                 AVLTreeNode successor = null;
                 // case 1: node has no children
                 if (left == null & right == null)
@@ -409,7 +409,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 else
                 {
                     
-                    successor = Successor().Remove(true);
+                    successor = Successor().Remove();
 
                     //parent
                     successor.parent = parent;
@@ -427,21 +427,18 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     if (this == tree.root) tree.root = successor;
                     successor.FixHeights();
                     
-                    tree.root.FixAllTree();
+                    //if(currentRoot != tree.root) tree.root.FixAllTree();
                 }
                 if (tree.root != null)
                 {
-                    if (balance)
+                    AVLTreeNode current = this;
+                    if (successor != null)
+                        current = successor;
+                    if (current.parent != null) current = current.parent;
+                    while (current.Balance())
                     {
-                        AVLTreeNode current = this;
-                        if (successor != null)
-                            current = successor;
-                        if (current.parent != null) current = current.parent;
-                        while (current.Balance())
-                        {
-                            while (current != null && current.IsBalanced() == true) current = current.parent;
-                            if (current == null) break;
-                        }
+                        while (current != null && current.IsBalanced() == true) current = current.parent;
+                        if (current == null) break;
                     }
                 }
                 return this;

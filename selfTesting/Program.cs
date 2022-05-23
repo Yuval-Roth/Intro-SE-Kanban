@@ -18,7 +18,7 @@ namespace IntroSE.Kanban.selfTesting
         {
             //DebugAVLTree(new int[]{ 358, -327, -451, 46, 170, 274, -372, 151 });
             AVLTreeTesting();
-
+            //test01();
 
             //BoardTreeTesting();
             //datetesting();
@@ -128,6 +128,16 @@ namespace IntroSE.Kanban.selfTesting
                 }
                 catch (Backend.BusinessLayer.NoSuchElementException) { break; }  
             }
+        }
+        public static void test01()
+        {
+            Backend.BusinessLayer.AVLTree<int, int> tree1 = new();
+            for (int i = 0; i < 8000000; i++)
+            {
+                tree1.Add(i, 0);
+            }
+            tree1.PrintTree();
+            Console.WriteLine("==========================================================");
         }
         //public static void BoardTreeTesting() 
         //{
