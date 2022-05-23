@@ -48,33 +48,34 @@ namespace IntroSE.Kanban.selfTesting
                 }
                 catch (ArgumentException) { }
             }
-            Console.Write("{ ");
-            foreach (int o in nums)
-            {
-                Console.Write(o + ", ");
-            }
-            Console.WriteLine("}");
-            tree1.Remove(nums[0]);
-            tree1.Remove(nums[1]);
-            tree1.Remove(nums[2]);
-            tree1.Remove(nums[3]);
-            tree1.Remove(nums[4]);
-            //tree1.Remove(nums[5]);
-            Console.WriteLine("==========================================================");
             tree1.PrintTree();
+            //Console.Write("{ ");
+            //foreach (int o in nums)
+            //{
+            //    Console.Write(o + ", ");
+            //}
+            //Console.WriteLine("}");
+            //tree1.Remove(nums[0]);
+            //tree1.Remove(nums[1]);
+            //tree1.Remove(nums[2]);
+            //tree1.Remove(nums[3]);
+            //tree1.Remove(nums[4]);
+            ////tree1.Remove(nums[5]);
+            //Console.WriteLine("==========================================================");
+            //Console.WriteLine(tree1.ToString());
 
-            for (int i = 5; i < count; i++)
-            {
-                try
-                {
-                    Console.WriteLine("Remove for " + nums[i]);
-                    Console.WriteLine();
-                    tree1.Remove(nums[i]);
-                }
-                catch (Backend.BusinessLayer.NoSuchElementException) { }
-                Console.WriteLine("==========================================================");
-                tree1.PrintTree();
-            }
+            //for (int i = 5; i < count; i++)
+            //{
+            //    try
+            //    {
+            //        Console.WriteLine("Remove for " + nums[i]);
+            //        Console.WriteLine();
+            //        tree1.Remove(nums[i]);
+            //    }
+            //    catch (Backend.BusinessLayer.NoSuchElementException) { }
+                //Console.WriteLine("==========================================================");
+                //tree1.PrintTree();
+            //}
         }
         //public static void BoardTreeTesting() 
         //{

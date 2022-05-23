@@ -182,6 +182,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw;
             }
         }
+        public override string ToString()
+        {
+            if (root != null) return root.ToString();
+            else return "EmptyTree";
+        }
         public void PrintTree()
         {
             if (root != null) root.PrintTree();
@@ -379,7 +384,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         parent.right = right;
                     }
                     else tree.root = right;
-                    right.parent = parent;     
+                    right.parent = parent;
+                    right.FixHeights();
                 }
 
                 // case 3: node only has a left child
@@ -394,7 +400,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         parent.right = left;
                     }
                     else tree.root = left;
-                    left.parent = parent;   
+                    left.parent = parent;
+                    left.FixHeights();
                 }
 
                 // case 4: node has 2 children
@@ -428,10 +435,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 if (tree.root != null)
                 {
                     if (wasRoot) tree.root.FixHeights();
-                    else FixHeights();
+                    //else FixHeights();
 
                     if (balance)
                     {
+                        //tree.PrintTree();
+                        //Console.WriteLine("==============================");
                         AVLTreeNode current;
                         if (successor != null)
                             current = successor;
@@ -629,15 +638,32 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 //tree.PrintTree();
                 //Console.WriteLine("=========================");
             }
+            public override string ToString()
+            {
+                return ToString("  ","");
+            }
+            private string ToString(string spaces,string output)
+            {
+                if(right != null) output = right.ToString(spaces + "        ",output);
+
+                if (parent != null) output += spaces + Key.ToString()+"("+parent.key.ToString()+")"+"\r";
+                else output += spaces + Key.ToString()+"(root)"+"\r";
+
+                if (left != null) output = left.ToString(spaces + "        ",output);
+                return output;
+            }
             public void PrintTree()
             {
                 PrintTree("  ");
             }
             private void PrintTree(string spaces)
             {
-                if(right != null) right.PrintTree(spaces + "     ");
-                Console.WriteLine(spaces + Key.ToString());
-                if(left != null) left.PrintTree(spaces + "     ");
+                if (right != null) right.PrintTree(spaces + "        ");
+
+                if (parent != null) Console.WriteLine(spaces + Key.ToString() + "(" + parent.key.ToString() + ")");
+                else Console.WriteLine(spaces + Key.ToString() + "(root)");
+
+                if (left != null) left.PrintTree(spaces + "        ");
             }
         }
         
