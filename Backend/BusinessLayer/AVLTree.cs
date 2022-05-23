@@ -366,7 +366,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 }
 
                 // case 2: node only has a right child
-                else if (right != null)
+                else if (left == null)
                 {
                     if (ThisNodeIsALeftSon())
                     {
@@ -381,7 +381,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 }
 
                 // case 3: node only has a left child
-                else if (left != null)
+                else if (right == null)
                 {
                     if (ThisNodeIsALeftSon())
                     {
