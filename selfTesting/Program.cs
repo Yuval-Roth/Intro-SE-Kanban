@@ -78,15 +78,16 @@ namespace IntroSE.Kanban.selfTesting
 
         public static void AVLTreeTesting()
         {
+            int successCounter = 0;
             while (true)
             {
-                int count = 250;
+                int count = 300;
                 Backend.BusinessLayer.AVLTree<int, int> tree1 = new();
                 Random random = new Random();
                 int[] nums = new int[count];
                 for (int i = 0; i < count; )
                 {
-                    int num = random.Next(-500, 500);
+                    int num = random.Next(-1000, 1000);
                     try
                     {
                         tree1.Add(num, 6);
@@ -95,38 +96,45 @@ namespace IntroSE.Kanban.selfTesting
                     }
                     catch (ArgumentException) { }
                 }
-                Console.Write("{ ");
-                foreach (int o in nums)
-                {
-                    Console.Write(o + ", ");
-                }
-                Console.WriteLine("};");
-                Console.WriteLine("==========================================================");
-                for (int i = 0; i < 0; i++)
-                    tree1.Remove(nums[i]);
+                //Console.Write("{ ");
+                //foreach (int o in nums)
+                //{
+                //    Console.Write(o + ", ");
+                //}
+                //Console.WriteLine("};");
+                //Console.WriteLine("==========================================================");
+                //for (int i = 0; i < 0; i++)
+                //    tree1.Remove(nums[i]);
 
-                tree1.PrintTree();
-                Console.WriteLine("==========================================================");
+                //tree1.PrintTree();
+                //Console.WriteLine("==========================================================");
                 try
                 {
                     for (int i = 0; i < count; i++)
                     {
                         try
                         {
-                            Console.WriteLine("Remove for: " + nums[i]);
-                            Console.WriteLine();
-                            tree1.PrintTree();
-                            Console.WriteLine();
+                            //Console.WriteLine("Remove for: " + nums[i]);
+                            //Console.WriteLine();
+                            //tree1.PrintTree();
+                            //Console.WriteLine();
                             tree1.Remove(nums[i]);
                         }
-                        catch (Backend.BusinessLayer.NoSuchElementException) { throw; }
+                        catch (Exception) { throw; }
 
 
-                        Console.WriteLine("==========================================================");
+                        //Console.WriteLine("==========================================================");
                     }
-                    tree1.PrintTree();
+                    Console.WriteLine("Instace " + successCounter + ": success.");
+                    successCounter++;
                 }
-                catch (Backend.BusinessLayer.NoSuchElementException) { break; }  
+                catch (Exception)
+                {
+                    Console.WriteLine("==========================================================");
+                    Console.WriteLine("Instace " + successCounter + ": FAIL.");
+                    DebugAVLTree(nums);    
+                    break;
+                }  
             }
         }
         public static void test01()

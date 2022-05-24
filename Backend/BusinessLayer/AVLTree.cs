@@ -424,7 +424,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
                     if (this == tree.root) tree.root = successor;
                     successor.FixHeights();
-                    
+
                 }
                 if (tree.root != null)
                 {
