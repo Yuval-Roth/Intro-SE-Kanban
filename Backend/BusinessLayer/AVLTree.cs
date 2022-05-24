@@ -50,7 +50,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         ///<returns>A pointer to the new user's data</returns>
         public Data Add(Key key, Data data)
         {
-
             // if tree is empty, add to the root
             if (root == null)
             {
@@ -356,7 +355,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             ///<returns>The removed AVLTreeNode</returns>
             public AVLTreeNode Remove()
             {
-                AVLTreeNode currentRoot = tree.root;
                 AVLTreeNode successor = null;
                 // case 1: node has no children
                 if (left == null & right == null)
@@ -427,7 +425,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     if (this == tree.root) tree.root = successor;
                     successor.FixHeights();
                     
-                    //if(currentRoot != tree.root) tree.root.FixAllTree();
                 }
                 if (tree.root != null)
                 {
@@ -461,13 +458,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     }
                     current = current.parent;
                 }
-            }
-            private void FixAllTree()
-            {
-                if (IsBalanced() == false) Balance();
-
-                if (left != null) left.FixAllTree();
-                if (right != null) right.FixAllTree();      
             }
             /// <summary>
             /// Find the successor of a node <br/><br/>
@@ -533,8 +523,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             private bool IsBalanced()
             {
-                int leftHeight = 0;
-                int rightHeight = 0;
+                int leftHeight = -1;
+                int rightHeight = -1;
                 if (left != null) leftHeight = left.Height;
                 if (right != null) rightHeight = right.Height;
 
@@ -576,7 +566,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         else RightLeftRotation();
                     }
                     FixHeights();
-                    Balance();
                     return true;
                 }
                 else
@@ -614,7 +603,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 parent = left;
                 left = leftRightChild;
                 if (leftRightChild != null) leftRightChild.parent = this;
-                if(parent.left != null) parent.left.FixHeights();
+                if (parent.left != null) parent.left.FixHeights();
             }
             private void LeftRotate()
             {
