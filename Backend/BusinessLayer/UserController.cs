@@ -78,10 +78,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         ///Delate <c>User</c> from the <c>UserData</c> userData <br/> <br/>
-        ///<b>Throws</b> <c>NoSuchElementException</c> if the user doesn't exist in the userData
+        ///<b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the userData
         /// </summary>
         /// <param name="user"></param>
-        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
         public void DeleteUser(string email)
         {
             log.Debug("DeleteUser() for: " + email);
@@ -93,7 +93,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             catch (NoSuchElementException)
             {
                 log.Error("DeleteUser() failed: " + email + " doesn't exist in the system");
-                throw new NoSuchElementException("User doesn't exist in the system");
+                throw new UserDoesNotExistException("User doesn't exist in the system");
             }
         }
 
@@ -242,7 +242,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary> 
         /// <param name="email"></param>
         /// <returns></returns>
-        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
 
 
         public User SearchUser(string email)
@@ -254,10 +254,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Debug("SearchUser() success");
                 return user;
             }
-            catch (NoSuchElementException)
+            catch (UserDoesNotExistException)
             {
                 log.Error("SearchUser() failed: user with '" + email + "' doesn't exist in the system");
-                throw new NoSuchElementException("User with '" + email + "' doesn't exist in the system");
+                throw;
             }
         }
 

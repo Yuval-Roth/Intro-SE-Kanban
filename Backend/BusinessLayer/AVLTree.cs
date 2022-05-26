@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <summary>
     /// ======================================================<br/>
     /// This class implements a generic AVL Tree that that is ordered with a key that is IComparable<br/>
-    /// <b>The class does not support duplicate keys</b>
+    /// <b>This implementation does not support duplicate keys</b>
     /// <code>Supported operations:</code>
     /// <list type="bullet">Add()</list>
     /// <list type="bullet">Remove()</list>
@@ -30,9 +31,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <br/>
     /// ===================
     /// </summary>
-    public class AVLTree<Key,Data> where Key : IComparable
+    public class AVLTree<Key,Data> : ICollection where Key : IComparable
     {
         private AVLTreeNode root;
+        private int count;
+
+        public int Count => count;
+
+        public bool IsSynchronized => false;
+
+        public object SyncRoot => null;
 
         /// <summary>
         /// Creates an empty <c>AVLTree</c>
@@ -40,6 +48,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public AVLTree()
         {
             root = null;
+            count = 0;
         }
 
         ///<summary>
@@ -61,7 +70,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 try
                 {
-                    return root.Add(key,data,this).Data;
+                    Data output = root.Add(key, data, this).Data;
+                    count++;
+                    return output;
                 }
                 catch(ArgumentException)
                 {
@@ -82,67 +93,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             try
             {
                 root.Search(key).Remove();
+                count--;
             }
             catch (NoSuchElementException)
             {
                 throw;
             }
-
-            ////if the root is the target for removal
-            //if (root.Key.CompareTo(key) == 0)
-            //{
-            //    //case 1: root has no children
-            //    if (root.Left == null & root.Right == null)
-            //    {
-            //        root = null;
-            //    }
-
-            //    //case 2: root has only a right child
-            //    else if (root.Left == null)
-            //    {
-            //        root = root.Right;
-            //        root.Parent = null;
-            //    }
-
-            //    //case 3: root has only a left child
-            //    else if (root.Right == null)
-            //    {
-            //        root = root.Left;
-            //        root.Parent = null;
-            //    }
-
-            //    //case 4: root has 2 children
-            //    else
-            //    {
-            //        AVLTreeNode successor = root.Successor().Remove();
-
-            //        // copy children of old root
-            //        if (root.Left != successor) successor.Left = root.Left;
-            //        if (root.Right != successor) successor.Right = root.Right;
-
-            //        // set children's parent to successor
-            //        if (root.Left != null) root.Left.Parent = successor;
-            //        if (root.Right != null) root.Right.Parent = successor;
-
-            //        // make the swap
-            //        root = successor;
-            //        root.Parent = null;
-            //    }
-            //}
-            //// root isn't the target for removal -> pass it down
-            //else
-            //{
-            //    try
-            //    {
-            //        root.Search(key).Remove();
-            //    }
-            //    catch (NoSuchElementException)
-            //    {
-            //        throw;
-            //    }
-            //}
-
-
         }
 
         ///<summary>Check if the <c>AVLTree</c> contains an element with this key<br/><br/>
@@ -191,6 +147,17 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             if (root != null) root.PrintTree();
             else Console.WriteLine("EmptyTree");
         }
+
+        public void CopyTo(Array array, int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
 
         //===========================================================================
         //                                AVLTreeNode
@@ -278,7 +245,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         };
                         AVLTreeNode output = left;
                         FixHeights();
-                        if (parent != null) parent.Balance();
+                        if (parent != null) parent.Balance(true);
                         return output;
                     }
 
@@ -296,7 +263,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         };
                         AVLTreeNode output = right;
                         FixHeights();
-                        if (parent != null) parent.Balance();
+                        if (parent != null) parent.Balance(true);
                         return output;
                     }
 
@@ -338,7 +305,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 {
                     return left.Search(key);
                 }
-                else if (right != null)
+                else if (right != null && this.key.CompareTo(key) < 0)
                 {
                     return right.Search(key);
                 }
@@ -431,12 +398,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     AVLTreeNode current = this;
                     if (successor != null)
                         current = successor;
-                    if (current.parent != null) current = current.parent;
-                    while (current.Balance())
+                    else current = current.parent;
+                    while (current != null)
                     {
-                        while (current != null && current.IsBalanced() == true) current = current.parent;
-                        if (current == null) break;
-                    }
+                        current.Balance(false);
+                        current = current.parent;
+                    } 
                 }
                 return this;
             }
@@ -464,7 +431,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             /// <b>Throws</b> <c>NoSuchElementException</c> if there is no successor
             /// </summary>
             /// <returns>AVLTreeNode</returns>
-            public AVLTreeNode Successor()
+            private AVLTreeNode Successor()
             {
                 // if there is a right child
                 // the minimum of the right subtree is the successor
@@ -521,24 +488,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 return false;
             }
 
-            private bool IsBalanced()
-            {
-                int leftHeight = -1;
-                int rightHeight = -1;
-                if (left != null) leftHeight = left.Height;
-                if (right != null) rightHeight = right.Height;
-
-                if (Math.Abs(leftHeight - rightHeight) > 1)
-                {
-                    return false;
-                }
-                else return true;
-            }
             /// <summary>
-            /// Balances the current node or the first unbalanced ancestor it finds
+            /// Balances the node.<br/><br/>
+            /// <paramref name="Find_First_Unbalanced_Node"/>:<br/>
+            /// <b>true:</b> Balances the current node or the first unbalanced ancestor it finds.<br/>
+            /// <b>false:</b> if the current node doesn't need balancing,<br/> it won't search for the first unbalanced ancestor.<br/>
             /// </summary>
             /// <returns>true if any balancing was done, false otherwise</returns>
-            private bool Balance()
+            private bool Balance(bool Find_First_Unbalanced_Node)
             {
                 int leftHeight = -1;
                 int rightHeight = -1;
@@ -570,7 +527,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 }
                 else
                 {
-                    if (parent != null) return parent.Balance();
+                    if (parent != null & Find_First_Unbalanced_Node) return parent.Balance(true);
                     else return false;
                 } 
             }

@@ -132,6 +132,18 @@ namespace IntroSE.Kanban.selfTesting
                 {
                     Console.WriteLine("==========================================================");
                     Console.WriteLine("Instace " + successCounter + ": FAIL.");
+                    Console.WriteLine();
+                    Console.Write("input: {");
+                    for (int i = 0 ;i < nums.Length; i++)
+                    {
+                        if(i !=  nums.Length-1)
+                            Console.Write(nums[i] + ", ");
+                        else Console.Write(nums[i]);
+                    }
+                    Console.WriteLine("}");
+                    Console.WriteLine();
+                    Console.WriteLine("Click enter to show the failed instance");
+                    Console.ReadLine();
                     DebugAVLTree(nums);    
                     break;
                 }  

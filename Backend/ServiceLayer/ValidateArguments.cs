@@ -8,7 +8,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 {
     internal class ValidateArguments
     {
-        public static bool Validate(object[] args)
+        public static bool ValidateNotNull(object[] args)
         {
             foreach (object arg in args)
             {

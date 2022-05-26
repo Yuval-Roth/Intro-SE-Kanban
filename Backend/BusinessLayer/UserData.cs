@@ -39,10 +39,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\UserData.cs");
 
-        private class DataUnit
+        private struct DataUnit
         {
-            public User User { get; set; }
-            public LinkedList<Board> Boards { get; set; }
+            public User User { get; init; }
+            public LinkedList<Board> Boards { get; init; }
+            public LinkedList<Board> BoardsSharedWithMe { get; init; }
+        }
+        public struct BoardsData
+        {
+            public LinkedList<Board> Boards { get; init; }
+            public LinkedList<Board> BoardsSharedWithMe { get; init; }
         }
         private AVLTree<string, DataUnit> tree;
         private HashSet<string> loggedIn;
@@ -55,11 +61,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Searches for a user with the specified email<br/><br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if the user doesn't exist
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist
         /// </summary>
         /// <param name="email"></param>
         /// <returns>User</returns>
-        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
         public User SearchUser(string email)
         {
             try
@@ -72,9 +78,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             catch (NoSuchElementException)
             {
                 log.Error("SearchUser() failed: '" + email + "' doesn't exist in the system");
-                throw new NoSuchElementException("A user with the email '" +
+                throw new UserDoesNotExistException("A user with the email '" +
                     email + "' doesn't exist in the system");
-            }   
+            }
         }
         /// <summary>
         /// Adds a user to the system
@@ -90,28 +96,31 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             try
             {
                 log.Debug("AddUser() for: " + email);
-                DataUnit data = tree.Add(email, new DataUnit());
-                data.User = new User(email, password);
-                data.Boards = new LinkedList<Board>();
+                DataUnit data = tree.Add(email, new DataUnit()
+                {
+                    User = new User(email, password),
+                    Boards = new LinkedList<Board>(),
+                    BoardsSharedWithMe = new LinkedList<Board>()
+                });
                 log.Debug("AddUser() success");
                 return data.User;
             }
-            catch (ArgumentException) 
+            catch (ArgumentException)
             {
                 log.Error("AddUser() failed: '" + email + "' already exists");
                 throw new ArgumentException("A user with the email '" +
                     email + "' already exists in the system");
-            }        
+            }
         }
 
         /// <summary>
         /// Removes the user with the specified email from the system
         /// <br/><br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if the user doesn't exist in the system
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system
         /// </summary>
         /// <param name="email"></param>
-        /// <exception cref="NoSuchElementException"></exception>
-        public void RemoveUser(string email) 
+        /// <exception cref="UserDoesNotExistException"></exception>
+        public void RemoveUser(string email)
         {
             try
             {
@@ -119,10 +128,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 tree.Remove(email);
                 log.Debug("RemoveUser() success");
             }
-            catch (NoSuchElementException) 
+            catch (NoSuchElementException)
             {
                 log.Error("RemoveUser() failed: '" + email + "' doesn't exist");
-                throw new NoSuchElementException("A user with the email '" +
+                throw new UserDoesNotExistException("A user with the email '" +
                     email + "' doesn't exist in the system");
             }
         }
@@ -145,17 +154,17 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <param name="email"></param>
         /// <exception cref="ArgumentException"></exception>
-        public void SetLoggedIn(string email) 
+        public void SetLoggedIn(string email)
         {
             if (UserLoggedInStatus(email) == false)
             {
-                log.Info(email+ " is now logged in");
+                log.Info(email + " is now logged in");
                 loggedIn.Add(email);
             }
-                
-            else 
+
+            else
             {
-                log.Error("SetLoggedIn() failed: '"+ email + "' is already logged in");
+                log.Error("SetLoggedIn() failed: '" + email + "' is already logged in");
                 throw new ArgumentException("The user with the email '" + email + "' is already logged in");
             }
         }
@@ -178,13 +187,42 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 log.Error("SetLoggedOut() failed: '" + email + "' is not logged in");
                 throw new ArgumentException("The user with the email '" + email + "' is not logged in");
-            }          
+            }
         }
 
         public bool ContainsUser(string email)
         {
             log.Debug("ContainsUser() for: " + email);
             return tree.Contains(email);
+        }
+
+        /// <summary>
+        /// Gets all the <c>User</c>'s boards data
+        /// <br/><br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the <c>User</c> does not exist<br/>
+        /// in the system
+        /// </summary>
+        /// <returns>UserData.BoardsData</returns>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        public BoardsData GetBoardsData(string email)
+        {
+            try
+            {
+                log.Debug("GetBoardsData() for: " + email);
+                DataUnit data = tree.GetData(email);
+                log.Debug("GetBoardsData() success");
+                return new BoardsData()
+                {
+                    Boards = data.Boards,
+                    BoardsSharedWithMe = data.BoardsSharedWithMe
+                };
+            }
+            catch (NoSuchElementException)
+            {
+                log.Error("AddBoard() failed: '" + email + "' doesn't exist");
+                throw new UserDoesNotExistException("A user with the email '" +
+                    email + "' doesn't exist in the system");
+            }
         }
 
         /// <summary>
@@ -202,7 +240,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Debug("GetBoards() for: " + email);
                 LinkedList<Board> output = tree.GetData(email).Boards;
                 log.Debug("GetBoards() success");
-                return output; 
+                return output;
             }
             catch (NoSuchElementException)
             {
@@ -223,7 +261,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <returns>The <c>Board</c> that was added</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="NoSuchElementException"></exception>
-        public Board AddBoard(string email,string title) 
+        public Board AddBoard(string email, string title)
         {
             try
             {
@@ -233,7 +271,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 LinkedList<Board> boardList = tree.GetData(email).Boards;
 
                 // Check if there's a board with that title already
-                foreach (Board board in boardList) 
+                foreach (Board board in boardList)
                 {
                     if (board.Title == title)
                     {
@@ -284,7 +322,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 // Search for the specific board
                 foreach (Board board in boardList)
                 {
-                    if (board.Title == title) 
+                    if (board.Title == title)
                     {
                         boardList.Remove(board);
                         found = true;
@@ -294,18 +332,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 }
 
                 // didn't find a board by that name
-                if (! found)
+                if (!found)
                 {
                     log.Error("RemoveBoard() failed: board '" + title + "' doesn't exist for " + email);
                     throw new ArgumentException("A board titled '" +
                                     title + "' doesn't exists for the user with the email " + email);
-                }  
+                }
             }
             catch (NoSuchElementException)
             {
                 log.Error("AddBoard() failed: '" + email + "' doesn't exist");
                 throw new NoSuchElementException("A user with the email '" +
                     email + "' doesn't exist in the system");
+
             }
         }
     }

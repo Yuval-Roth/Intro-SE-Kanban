@@ -54,12 +54,49 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="AccessViolationException"></exception>
         public void AddBoard(string email, string name)
         {
+
+
+            /*          |  old implementation from UserData  |
+            try
+            {
+                log.Debug("AddBoard() for: " + email + ", " + title);
+                if (tree.IsEmpty()) throw new NoSuchElementException();
+
+                // Fetch the user's boards
+                LinkedList<Board> boardList = tree.GetData(email).Boards;
+
+                // Check if there's a board with that title already
+                foreach (Board board in boardList)
+                {
+                    if (board.Title == title)
+                    {
+                        log.Error("AddBoard() failed: board '" + title + "' already exists for " + email);
+                        throw new ArgumentException("A board titled " +
+                                title + " already exists for the user with the email " + email);
+                    }
+                }
+
+                // Add a new board and return it
+                Board toReturn = new(title);
+                boardList.AddLast(toReturn);
+                log.Debug("AddBoard() success");
+                return toReturn;
+            }
+            catch (NoSuchElementException)
+            {
+                log.Error("AddBoard() failed: '" + email + "' doesn't exist");
+                throw new UserDoesNotExistException("A user with the email '" +
+                    email + "' doesn't exist in the system");
+            }
+            */
+
+
             log.Debug("AddBoard() for: " + email + "Board's name" + name);
             ValidateUser(email);
 
             try
             {
-                userData.AddBoard(email, name);
+                //userData.AddBoard(email, name);
                 log.Debug("AddBoard() success");
             }
             catch (NoSuchElementException)
@@ -90,6 +127,45 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="AccessViolationException"></exception>
         public void RemoveBoard(string email, string name)
         {
+
+            /*          |  old implementation from UserData  |
+            try
+            {
+                log.Debug("RemoveBoard() for: " + email + ", " + title);
+                bool found = false;
+
+                // Fetch the user's boards
+                LinkedList<Board> boardList = tree.GetData(email).Boards;
+
+                // Search for the specific board
+                foreach (Board board in boardList)
+                {
+                    if (board.Title == title) 
+                    {
+                        boardList.Remove(board);
+                        found = true;
+                        log.Debug("RemoveBoard() success");
+                        break;
+                    }
+                }
+
+                // didn't find a board by that name
+                if (! found)
+                {
+                    log.Error("RemoveBoard() failed: board '" + title + "' doesn't exist for " + email);
+                    throw new ArgumentException("A board titled '" +
+                                    title + "' doesn't exists for the user with the email " + email);
+                }  
+            }
+            catch (NoSuchElementException)
+            {
+                log.Error("AddBoard() failed: '" + email + "' doesn't exist");
+                throw new UserDoesNotExistException("A user with the email '" +
+                    email + "' doesn't exist in the system");
+            }
+            */
+
+
             log.Debug("RemoveBoard() for: " + email + "Board's name" + name);
             ValidateUser(email);
 
@@ -160,7 +236,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 LinkedList<Board> output = userData.GetBoards(email);
                 log.Debug("GetBoards() success");
-                return output;
+                //return output;
+                return null;
             }
             catch (NoSuchElementException)
             {
@@ -198,11 +275,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
         /// <summary>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if the user doesn't exist<br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/>
         /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't logged in
         /// </summary>
         /// <param name="email"></param>
-        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
         /// <exception cref="AccessViolationException"></exception>
         private void ValidateUser(string email)
         {
@@ -210,7 +287,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 log.Error("ValidateUser() failed: a user with the email '" +
                     email + "' doesn't exist in the system");
-                throw new NoSuchElementException("A user with the email '" +
+                throw new UserDoesNotExistException("A user with the email '" +
                     email + "' doesn't exist in the system");
             }
             if (!userData.UserLoggedInStatus(email))

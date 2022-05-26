@@ -40,7 +40,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\Board.cs");
 
-        private static int taskIDCounter;
+        private int taskIDCounter;
         private string title;
         private LinkedList<Task>[] columns;
         private int [] columnLimit;
@@ -62,10 +62,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             columns[(int)TaskStates.inprogress] = new LinkedList<Task>();
             columns[(int)TaskStates.done] = new LinkedList<Task>();
             taskStateTracker = new();
+            taskIDCounter = 0;
 
-            //
-            //taskIDCounter = 0;
-            //
         }
         public string Title
         { 
@@ -78,10 +76,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //            Functionality
         //====================================
 
-        public static void InitTaskIDCounter()
-        {
-            taskIDCounter = 0;
-        }
 
         /// <summary>
         /// Add new <c>Task</c> to <c>Board</c> board <br/> <br/>
@@ -244,11 +238,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Search <c>Task</c> from <c>Board</c> board <br/> <br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if the task doesn't exist
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the task doesn't exist
         /// </summary>
         /// <param name="taskId"></param>
         /// <returns>Task, unless an error occurs</returns>
-        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
         public Task SearchTask(int taskId) 
         {
             log.Debug("SearchTask() taskId: " + taskId);
@@ -276,7 +270,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             else
             {
                 log.Error("SearchTask() failed: A task numbered '" + taskId + "' doesn't exist");
-                throw new NoSuchElementException("A Task with the taskId '" +
+                throw new UserDoesNotExistException("A Task with the taskId '" +
                     taskId + "' doesn't exist in the Board");
             }           
         }
