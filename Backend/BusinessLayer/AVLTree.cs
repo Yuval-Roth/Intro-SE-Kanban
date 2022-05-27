@@ -31,16 +31,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <br/>
     /// ===================
     /// </summary>
-    public class AVLTree<Key,Data> : ICollection where Key : IComparable
+    public class AVLTree<Key,Data> : IEnumerable<Data> where Key : IComparable
     {
         private AVLTreeNode root;
-        private int count;
-
-        public int Count => count;
-
-        public bool IsSynchronized => false;
-
-        public object SyncRoot => null;
 
         /// <summary>
         /// Creates an empty <c>AVLTree</c>
@@ -48,7 +41,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public AVLTree()
         {
             root = null;
-            count = 0;
         }
 
         ///<summary>
@@ -70,9 +62,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 try
                 {
-                    Data output = root.Add(key, data, this).Data;
-                    count++;
-                    return output;
+                    return root.Add(key, data, this).Data;
                 }
                 catch(ArgumentException)
                 {
@@ -93,7 +83,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             try
             {
                 root.Search(key).Remove();
-                count--;
             }
             catch (NoSuchElementException)
             {
@@ -155,7 +144,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public IEnumerator GetEnumerator()
         {
-            throw new NotImplementedException();
+            return new AVLTree_InOrder_Data_Enumerator(this);
+        }
+
+        IEnumerator<Data> IEnumerable<Data>.GetEnumerator()
+        {
+            return new AVLTree_InOrder_Data_Enumerator(this);
         }
 
 
@@ -187,15 +181,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             //            Getters / Setters
             //======================================
 
-           
-            public Key Key
-            {
-                get { return key; }
-            }
-            public Data Data
-            {
-                get { return data; }
-            }
+
+            public Key Key => key;
+            public Data Data => data;
+
             public AVLTreeNode Left
             {
                 get { return left; }
@@ -431,7 +420,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             /// <b>Throws</b> <c>NoSuchElementException</c> if there is no successor
             /// </summary>
             /// <returns>AVLTreeNode</returns>
-            private AVLTreeNode Successor()
+            public AVLTreeNode Successor()
             {
                 // if there is a right child
                 // the minimum of the right subtree is the successor
@@ -464,7 +453,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             /// Find the minimum in the <c>AVLTree</c>
             /// </summary>
             /// <returns>AVLTreeNode</returns>
-            private AVLTreeNode Minimum()
+            public AVLTreeNode Minimum()
             {
 
                 // go left until there is more left to go
@@ -603,6 +592,54 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 if (left != null) left.PrintTree(spaces + "        ");
             }
         }
-        
+        public class AVLTree_InOrder_Data_Enumerator : IEnumerator<Data>
+        {
+            AVLTreeNode initialPosition;
+            AVLTreeNode current;
+            AVLTreeNode next;
+            public AVLTree_InOrder_Data_Enumerator(AVLTree<Key,Data> tree)
+            {
+                if (tree.IsEmpty() == false)
+                {
+                    initialPosition = tree.root.Minimum();
+                    PrepareNext();
+                }
+            }
+
+            Data IEnumerator<Data>.Current => current.Data;
+
+            public object Current => current.Data;
+
+            public bool MoveNext()
+            {
+                if (next == null) return false;
+
+                current = next;
+                PrepareNext();
+                return true;
+            }
+            private void PrepareNext()
+            {
+                if(current == null)
+                {
+                    next = initialPosition;
+                }
+                else
+                {
+                    try
+                    {
+                        next = current.Successor();
+                    }
+                    catch (NoSuchElementException){ next = null; }     
+                }
+            }
+            public void Reset()
+            {
+                current = null;
+            }
+
+            public void Dispose(){ }
+        }
+
     }
 }

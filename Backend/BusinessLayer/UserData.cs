@@ -45,17 +45,18 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             public LinkedList<Board> Boards { get; init; }
             public LinkedList<Board> BoardsSharedWithMe { get; init; }
         }
-        public struct BoardsData
+        public struct BoardsDataUnit
         {
             public LinkedList<Board> Boards { get; init; }
             public LinkedList<Board> BoardsSharedWithMe { get; init; }
         }
-        private AVLTree<string, DataUnit> tree;
+        private AVLTree<string, DataUnit> UsersAndPointers;
+        private AVLTree<int, Board> Boards;
         private HashSet<string> loggedIn;
 
         public UserData()
         {
-            tree = new AVLTree<string, DataUnit>();
+            UsersAndPointers = new AVLTree<string, DataUnit>();
             loggedIn = new HashSet<string>();
         }
 
@@ -71,7 +72,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             try
             {
                 log.Debug("SearchUser() for: " + email);
-                User output = tree.GetData(email).User;
+                User output = UsersAndPointers.GetData(email).User;
                 log.Debug("SearchUser() success");
                 return output;
             }
@@ -96,7 +97,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             try
             {
                 log.Debug("AddUser() for: " + email);
-                DataUnit data = tree.Add(email, new DataUnit()
+                DataUnit data = UsersAndPointers.Add(email, new DataUnit()
                 {
                     User = new User(email, password),
                     Boards = new LinkedList<Board>(),
@@ -125,7 +126,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             try
             {
                 log.Debug("RemoveUser() for: " + email);
-                tree.Remove(email);
+                UsersAndPointers.Remove(email);
                 log.Debug("RemoveUser() success");
             }
             catch (NoSuchElementException)
@@ -193,7 +194,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public bool ContainsUser(string email)
         {
             log.Debug("ContainsUser() for: " + email);
-            return tree.Contains(email);
+            return UsersAndPointers.Contains(email);
         }
 
         /// <summary>
@@ -204,14 +205,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <returns>UserData.BoardsData</returns>
         /// <exception cref="UserDoesNotExistException"></exception>
-        public BoardsData GetBoardsData(string email)
+        public BoardsDataUnit GetBoardsData(string email)
         {
             try
             {
                 log.Debug("GetBoardsData() for: " + email);
-                DataUnit data = tree.GetData(email);
+                DataUnit data = UsersAndPointers.GetData(email);
                 log.Debug("GetBoardsData() success");
-                return new BoardsData()
+                return new BoardsDataUnit()
                 {
                     Boards = data.Boards,
                     BoardsSharedWithMe = data.BoardsSharedWithMe
@@ -238,7 +239,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             try
             {
                 log.Debug("GetBoards() for: " + email);
-                LinkedList<Board> output = tree.GetData(email).Boards;
+                LinkedList<Board> output = UsersAndPointers.GetData(email).Boards;
                 log.Debug("GetBoards() success");
                 return output;
             }
@@ -268,7 +269,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Debug("AddBoard() for: " + email + ", " + title);
 
                 // Fetch the user's boards
-                LinkedList<Board> boardList = tree.GetData(email).Boards;
+                LinkedList<Board> boardList = UsersAndPointers.GetData(email).Boards;
 
                 // Check if there's a board with that title already
                 foreach (Board board in boardList)
@@ -317,7 +318,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 bool found = false;
 
                 // Fetch the user's boards
-                LinkedList<Board> boardList = tree.GetData(email).Boards;
+                LinkedList<Board> boardList = UsersAndPointers.GetData(email).Boards;
 
                 // Search for the specific board
                 foreach (Board board in boardList)

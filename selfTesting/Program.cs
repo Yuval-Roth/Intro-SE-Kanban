@@ -17,7 +17,7 @@ namespace IntroSE.Kanban.selfTesting
         public static void Main(string[] args)
         {
             //DebugAVLTree(new int[]{ 358, -327, -451, 46, 170, 274, -372, 151 });
-            AVLTreeTesting();
+            //AVLTreeTesting();
             //test01();
 
             //BoardTreeTesting();
@@ -31,6 +31,7 @@ namespace IntroSE.Kanban.selfTesting
             //enumsTests();
             //gradingTests();
             //tests();
+            enumeratorTests();
 
         }
         public static void DebugAVLTree(int[] nums)
@@ -345,6 +346,20 @@ namespace IntroSE.Kanban.selfTesting
             gradingService.LimitColumn(email, "two", 1, 1);
             gradingService.AddTask(email, "two", "new task", "HELLOW WORLD", DateTime.Now);
             Console.WriteLine(gradingService.AdvanceTask(email, "two", 0, 1)); // the column in full
+        }
+        public static void enumeratorTests()
+        {
+            Backend.BusinessLayer.AVLTree<int,Backend.BusinessLayer.User> tree = new();
+            tree.Add(5, new Backend.BusinessLayer.User("test5",""));
+            tree.Add(16, new Backend.BusinessLayer.User("test16", ""));
+            tree.Add(3, new Backend.BusinessLayer.User("test3", ""));
+            tree.Add(6, new Backend.BusinessLayer.User("test6", ""));
+            tree.Add(0, new Backend.BusinessLayer.User("test0", ""));
+
+            foreach (Backend.BusinessLayer.User i in tree)
+            {
+                Console.WriteLine(i.GetEmail());
+            }
         }
 
     }
