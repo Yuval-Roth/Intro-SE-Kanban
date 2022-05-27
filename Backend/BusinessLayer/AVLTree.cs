@@ -17,7 +17,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <summary>
     /// ======================================================<br/>
     /// This class implements a generic AVL Tree that that is ordered with a <typeparamref name="Key"/> that is <see cref="IComparable"/><br/>
-    /// This class is <see cref="IEnumerable{T}"/> and supports in-order enumeration over the tree.<br/><br/>
+    /// This implementation is <see cref="IEnumerable{T}"/> and supports in-order enumeration over the tree.<br/><br/>
     /// <b>This implementation does not support duplicate keys</b>
     /// <code>Supported operations:</code>
     /// <list type="bullet">Add()</list>
