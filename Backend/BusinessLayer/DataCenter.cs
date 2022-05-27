@@ -15,6 +15,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <summary>
     /// The class manages a data structure of of <c>User</c>s and <c>Board</c>s. <br/><br/>
     /// <code>Supported operations:</code>
+    /// <b>-------------User Related--------------</b>
     /// <list type="bullet">
     /// <item>SearchUser(email)</item>
     /// <item>AddUser(email,password)</item>
@@ -23,14 +24,18 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <item>UserLoggedInStatus(email)</item>
     /// <item>SetLoggedIn(email)</item>
     /// <item>SetLoggedOut(email)</item>
+    /// </list>
+    /// <b>-------------Boards Related--------------</b>
+    /// <list type="bullet">
     /// <item>GetBoardsDataUnit(email)</item>
+    /// <item>SearchBoardById(board_id)</item>
     /// <item>AddNewBoard(email,board_title)</item>
-    /// <item>JoinExistingBoard(email,board_id )</item>
-    /// <item>LeaveJoinedBoard(email,board_id</item>
     /// <item>RemoveBoard(email,board_title)</item>
     /// <item>RemoveBoard(board_id)</item>
+    /// <item>JoinExistingBoard(email,board_id)</item>
+    /// <item>LeaveJoinedBoard(email,board_id)</item>
     /// </list>
-    /// <br/><br/>
+    /// <br/>
     /// ===================
     /// <br/>
     /// <c>Ⓒ Yuval Roth</c>
