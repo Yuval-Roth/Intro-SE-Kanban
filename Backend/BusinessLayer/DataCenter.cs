@@ -42,13 +42,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private struct DataUnit
         {
             public User User { get; init; }
-            public LinkedList<Board> Boards { get; init; }
-            public LinkedList<Board> BoardsSharedWithMe { get; init; }
+            public LinkedList<Board> MyBoards { get; init; }
+            public LinkedList<Board> JoinedBoards { get; init; }
         }
         public struct BoardsDataUnit
         {
-            public LinkedList<Board> Boards { get; init; }
-            public LinkedList<Board> BoardsSharedWithMe { get; init; }
+            public LinkedList<Board> MyBoards { get; init; }
+            public LinkedList<Board> JoinedBoards { get; init; }
         }
         private readonly AVLTree<string, DataUnit> UsersAndBoardPointers;
         private readonly AVLTree<int, Board> Boards;
@@ -94,11 +94,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <summary>
         /// Adds a user to the system
         /// <br/><br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if a user with this email<br/>
+        /// <b>Throws</b> <c>ElementAlreadyExists</c> if a user with this email<br/>
         /// already exists in the system
         /// </summary>
         /// <param name="email"></param>
-        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ElementAlreadyExistsException"></exception>
         /// <returns>The added <c>User</c></returns>
         public User AddUser(string email, string password)
         {
@@ -108,8 +108,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 DataUnit data = UsersAndBoardPointers.Add(email, new DataUnit()
                 {
                     User = new User(email, password),
-                    Boards = new LinkedList<Board>(),
-                    BoardsSharedWithMe = new LinkedList<Board>()
+                    MyBoards = new LinkedList<Board>(),
+                    JoinedBoards = new LinkedList<Board>()
                 });
                 log.Debug("AddUser() success");
                 return data.User;
@@ -117,7 +117,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             catch (DuplicateKeysNotSupported)
             {
                 log.Error("AddUser() failed: '" + email + "' already exists");
-                throw new ArgumentException("A user with the email '" +
+                throw new ElementAlreadyExistsException("A user with the email '" +
                     email + "' already exists in the system");
             }
         }
@@ -225,8 +225,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Debug("GetBoardsData() success");
                 return new BoardsDataUnit()
                 {
-                    Boards = data.Boards,
-                    BoardsSharedWithMe = data.BoardsSharedWithMe
+                    MyBoards = data.MyBoards,
+                    JoinedBoards = data.JoinedBoards
                 };
             }
             catch (KeyNotFoundException)
@@ -250,7 +250,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             try
             {
                 log.Debug("GetBoards() for: " + email);
-                LinkedList<Board> output = UsersAndBoardPointers.GetData(email).Boards;
+                LinkedList<Board> output = UsersAndBoardPointers.GetData(email).MyBoards;
                 log.Debug("GetBoards() success");
                 return output;
             }
@@ -262,25 +262,75 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
+
+        /// <summary>
+        /// Joins a user to an existing board.<br/><br/>
+        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if the user is already joined on the board<br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system<br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if a board with that id doesn't exist<br/>
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="id"></param>
+        /// <exception cref="ElementAlreadyExistsException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="NoSuchElementException"></exception>
+        public void JoinExistingBoard(string email, int id)
+        {
+            try
+            {
+                log.Debug("JoinExistingBoard() for: " + email + ", " + id);
+
+                LinkedList<Board> joinedBoardList = UsersAndBoardPointers.GetData(email).JoinedBoards;
+                Board boardToJoin = Boards.GetData(id);
+
+                // Check if the user is joined on the board already
+                foreach (Board board in joinedBoardList)
+                {
+                    if (board.Id == id)
+                    {
+                        log.Error("JoinExistingBoard() failed: " + email + " is already joined on board nubmer " + id);
+                        throw new ElementAlreadyExistsException(email + " is already joined on board nubmer " + id);
+                    }
+                }
+                joinedBoardList.AddLast(boardToJoin);
+                log.Debug("JoinExistingBoard() success");
+            }
+            catch (KeyNotFoundException)
+            {
+                if (UsersAndBoardPointers.Contains(email) == false)
+                {
+                    log.Error("JoinExistingBoard() failed: '" + email + "' doesn't exist");
+                    throw new UserDoesNotExistException("A user with the email '" +
+                        email + "' doesn't exist in the system");
+                }
+                if (Boards.Contains(id) == false)
+                {
+                    log.Error("JoinExistingBoard() failed: board number " + id + "doesn't exist");
+                    throw new NoSuchElementException("Board number " + id + "doesn't exist");
+                }
+            }
+            
+        }
+
         /// <summary>
         /// Adds a <c>Board</c> to the <c>User</c>.
         ///<br/><br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if a <c>Board</c> with that title already exists <br/>
+        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if a <c>Board</c> with that title already exists <br/>
         /// for the <c>User</c><br/><br/>
         /// <b>Throws</b> <c>UserDoesNotExistException</c> if the <c>User</c> doesn't exist <br/>
         /// in the system
         /// </summary>
         /// <returns>The <c>Board</c> that was added</returns>
-        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ElementAlreadyExistsException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
-        public Board AddBoard(string email, string title)
+        public Board AddNewBoard(string email, string title)
         {
             try
             {
                 log.Debug("AddBoard() for: " + email + ", " + title);
 
                 // Fetch the user's boards
-                LinkedList<Board> boardList = UsersAndBoardPointers.GetData(email).Boards;
+                LinkedList<Board> boardList = UsersAndBoardPointers.GetData(email).MyBoards;
 
                 // Check if there's a board with that title already
                 foreach (Board board in boardList)
@@ -288,7 +338,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     if (board.Title == title)
                     {
                         log.Error("AddBoard() failed: board '" + title + "' already exists for " + email);
-                        throw new ArgumentException("A board titled " +
+                        throw new ElementAlreadyExistsException("A board titled " +
                                 title + " already exists for the user with the email " + email);
                     }
                 }
@@ -316,12 +366,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <summary>
         /// Removes a <c>User</c>'s <c>Board</c>
         /// <br/><br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if a <c>Board</c> with that title <br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if a <c>Board</c> with that title <br/>
         /// doesn't exist for the user<br/><br/>
         /// <b>Throws</b> <c>UserDoesNotExistException</c> if the <c>User</c> doesn't exist <br/>
         /// in the system
         /// </summary>
-        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
         public void RemoveBoard(string email, string title)
         {
@@ -340,7 +390,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 bool found = false;
 
                 // Fetch the user's boards
-                LinkedList<Board> boardList = UsersAndBoardPointers.GetData(email).Boards;
+                LinkedList<Board> boardList = UsersAndBoardPointers.GetData(email).MyBoards;
 
                 // Search for the specific board
                 foreach (Board board in boardList)
@@ -358,11 +408,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 if (!found)
                 {
                     log.Error("RemoveBoard() failed: board '" + title + "' doesn't exist for " + email);
-                    throw new ArgumentException("A board titled '" +
+                    throw new NoSuchElementException("A board titled '" +
                                     title + "' doesn't exists for the user with the email " + email);
                 }
             }
-            catch (NoSuchElementException)
+            catch (KeyNotFoundException)
             {
                 log.Error("AddBoard() failed: '" + email + "' doesn't exist");
                 throw new UserDoesNotExistException("A user with the email '" +

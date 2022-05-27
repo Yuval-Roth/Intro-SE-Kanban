@@ -59,7 +59,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             try
             {
-                //userData.AddBoard(email, name);
+                userData.AddNewBoard(email, name);
                 log.Debug("AddBoard() success");
             }
             catch (NoSuchElementException)
