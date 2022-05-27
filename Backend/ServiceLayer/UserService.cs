@@ -30,7 +30,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </summary>
 		/// <param name="userData"></param>
 
-		public UserService(BusinessLayer.UserData userData)
+		public UserService(BusinessLayer.DataCenter userData)
 		{
 			userController = new BusinessLayer.UserController(userData);
 		}

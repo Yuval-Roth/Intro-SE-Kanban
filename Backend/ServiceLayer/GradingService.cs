@@ -50,7 +50,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     /// </summary>
     public class GradingService
     {
-        public BusinessLayer.UserData userData;
+        public BusinessLayer.DataCenter userData;
         public UserService userServiceLayer;
         public BoardControllerService boardControllerServiceLayer;
         public BoardService boardServiceLayer;

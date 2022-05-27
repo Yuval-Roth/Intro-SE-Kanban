@@ -12,7 +12,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
     public class TaskServiceTests
     {
 
-        BusinessLayer.UserData userData;
+        BusinessLayer.DataCenter userData;
         UserService userservice;
         BoardControllerService boardcontrollerservice;
         BoardService boardservice;

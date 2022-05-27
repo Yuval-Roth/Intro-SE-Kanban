@@ -27,7 +27,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <list type="bullet">GetColumnName()</list>
     /// <list type="bullet">GetColumn()</list>
     /// <list type="bullet">LimitColumn()</list>
-    /// <list type="bullet">UnlimitColumn()</list>
     /// <br/><br/>
     /// ===================
     /// <br/>
@@ -45,13 +44,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private LinkedList<Task>[] columns;
         private int [] columnLimit;
         private Dictionary<int, TaskStates> taskStateTracker;
+        private int id;
 
         //====================================
         //            getters/setters
         //====================================
 
-        public Board(string title)
+        public Board(string title,int id)
         {
+            this.id = id;
             this.title = title;
             columnLimit = new int[3];
             columns = new LinkedList<Task>[3];
@@ -62,15 +63,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             columns[(int)TaskStates.inprogress] = new LinkedList<Task>();
             columns[(int)TaskStates.done] = new LinkedList<Task>();
             taskStateTracker = new();
-            taskIDCounter = 0;
-
         }
         public string Title
         { 
             get { return title; }
             set { title = value; }
         }
-
+        public int Id => id;
 
         //====================================
         //            Functionality

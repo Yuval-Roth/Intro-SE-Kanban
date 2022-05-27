@@ -16,7 +16,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
     /// <summary>
     /// ======================================================<br/>
-    /// This class implements a generic AVL Tree that that is ordered with a key that is IComparable<br/>
+    /// This class implements a generic AVL Tree that that is ordered with a <typeparamref name="Key"/> that is <see cref="IComparable"/><br/>
+    /// This class is <see cref="IEnumerable{T}"/> and supports in-order enumeration over the tree.<br/><br/>
     /// <b>This implementation does not support duplicate keys</b>
     /// <code>Supported operations:</code>
     /// <list type="bullet">Add()</list>
@@ -45,9 +46,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         ///<summary>
         /// Adds an element into the <c>AVLTree</c>.<br/><br/>
-        ///<b>throws</b> <c>ArgumentException</c> if an element with the same key already exists in the tree
+        ///<b>throws</b> <c>DuplicateKeysNotSupported</c> if an element with the same key already exists in the tree
         ///</summary>
-        ///<exception cref="ArgumentException"></exception>
+        ///<exception cref="DuplicateKeysNotSupported"></exception>
         ///<returns>A pointer to the new user's data</returns>
         public Data Add(Key key, Data data)
         {
@@ -64,7 +65,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 {
                     return root.Add(key, data, this).Data;
                 }
-                catch(ArgumentException)
+                catch(DuplicateKeysNotSupported)
                 {
                     throw;
                 }
@@ -74,17 +75,17 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         ///<summary>
         ///Removes the element with this key from the <c>AVLTree</c><br/><br/>
-        ///<b>Throws</b> <c>NoSuchElementException</c> if the element is not in the <c>AVLTree</c>
+        ///<b>Throws</b> <c>KeyNotFoundException</c> if the element is not in the <c>AVLTree</c>
         ///</summary>
-        ///<exception cref="NoSuchElementException"></exception>
+        ///<exception cref="KeyNotFoundException"></exception>
         public void Remove(Key key)
         {
-            if(root == null) throw new NoSuchElementException("No such element in the tree");
+            if(root == null) throw new KeyNotFoundException("Key not found in the tree");
             try
             {
                 root.Search(key).Remove();
             }
-            catch (NoSuchElementException)
+            catch (KeyNotFoundException)
             {
                 throw;
             }
@@ -109,19 +110,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <summary>
         /// search for an element with the specified key and get its <c>Data</c><br/><br/>
         /// <br/><br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if there is no element<br/>
+        /// <b>Throws</b> <c>KeyNotFoundException</c> if there is no element<br/>
         /// with this key in the <c>AVLTree</c>
         /// </summary>
         /// <returns><c>The element's <c>Data</c></c></returns>
-        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="KeyNotFoundException"></exception>
         public Data GetData(Key key)
         {
             try
             {
                 if(root != null) return root.Search(key).Data;
-                else throw new NoSuchElementException("No such element in the tree");
+                else throw new KeyNotFoundException("Key not found in the tree");
             }
-            catch (NoSuchElementException)
+            catch (KeyNotFoundException)
             {
                 throw;
             }
@@ -214,13 +215,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             ///<summary>
             /// Adds an element into the <c>AVLTree</c>.<br/><br/>
-            ///<b>throws</b> <c>ArgumentException</c> if an element with the same key already exists in the tree
+            ///<b>throws</b> <c>DuplicateKeysNotSupported</c> if an element with the same key already exists in the tree
             ///</summary>
-            ///<exception cref="ArgumentException"></exception>
+            ///<exception cref="DuplicateKeysNotSupported"></exception>
             public AVLTreeNode Add(Key key, Data data, AVLTree<Key,Data> tree)
             {
                 //check if element already exists in the tree
-                if (this.key.CompareTo(key) == 0) throw new ArgumentException("Element already exists in the tree");
+                if (this.key.CompareTo(key) == 0) throw new DuplicateKeysNotSupported("Element already exists in the tree");
 
                 //find a place to add it
                 if (this.key.CompareTo(key) > 0)
@@ -269,7 +270,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 {
                     return Search(key) != null;
                 }
-                catch (NoSuchElementException)
+                catch (KeyNotFoundException)
                 {
                     return false;
                 }
@@ -278,10 +279,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             /// <summary>
             /// search for a node with the specified key<br/><br/>
-            /// <b>Throws</b> <c>NoSuchElementException</c> if a node with this key does not exist in the <c>AVLTree</c>
+            /// <b>Throws</b> <c>KeyNotFoundException</c> if a node with this key does not exist in the <c>AVLTree</c>
             /// </summary>
             /// <returns>AVLTreeNode</returns>
-            /// <exception cref="NoSuchElementException"></exception>
+            /// <exception cref="KeyNotFoundException"></exception>
             public AVLTreeNode Search(Key key)
             {
                 //check if the current node is the target
@@ -299,7 +300,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     return right.Search(key);
                 }
                 //can't find it
-                else throw new NoSuchElementException("No such element in the tree");
+                else throw new KeyNotFoundException("Key not found in the tree");
             }
 
             ///<summary>
@@ -417,9 +418,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             /// <summary>
             /// Find the successor of a node <br/><br/>
-            /// <b>Throws</b> <c>NoSuchElementException</c> if there is no successor
             /// </summary>
-            /// <returns>AVLTreeNode</returns>
+            /// <returns>AVLTreeNode if there is a successor or <b>null</b> otherwise</returns>
             public AVLTreeNode Successor()
             {
                 // if there is a right child
@@ -444,7 +444,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     {
                         current = current.parent;
                     }
-                    if (current == null) throw new NoSuchElementException("No such element in the tree");
+                    //if (current == null) throw new KeyNotFoundException("Successor doesn't exist");
                     return current;
                 }
             }
@@ -620,18 +620,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             private void PrepareNext()
             {
-                if(current == null)
-                {
-                    next = initialPosition;
-                }
-                else
-                {
-                    try
-                    {
-                        next = current.Successor();
-                    }
-                    catch (NoSuchElementException){ next = null; }     
-                }
+                if(current == null) next = initialPosition;
+                else next = current.Successor();
             }
             public void Reset()
             {
@@ -641,5 +631,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             public void Dispose(){ }
         }
 
+    }
+    public class DuplicateKeysNotSupported : SystemException
+    {
+        public DuplicateKeysNotSupported() : base() { }
+        public DuplicateKeysNotSupported(string message) : base(message) { }
+        public DuplicateKeysNotSupported(string message, Exception innerException) : base(message, innerException) { }
     }
 }

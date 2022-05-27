@@ -28,13 +28,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     public class BoardController
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\BoardController.cs");
-        UserData userData;
-
+        DataCenter userData;
         /// <summary>
         /// Initialize a new BoardController <br/><br/>
         /// </summary>
         /// <param name="userData"></param>
-        public BoardController(UserData userData)
+        public BoardController(DataCenter userData)
         {
             this.userData = userData;
         }
@@ -54,42 +53,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="AccessViolationException"></exception>
         public void AddBoard(string email, string name)
         {
-
-
-            /*          |  old implementation from UserData  |
-            try
-            {
-                log.Debug("AddBoard() for: " + email + ", " + title);
-                if (tree.IsEmpty()) throw new NoSuchElementException();
-
-                // Fetch the user's boards
-                LinkedList<Board> boardList = tree.GetData(email).Boards;
-
-                // Check if there's a board with that title already
-                foreach (Board board in boardList)
-                {
-                    if (board.Title == title)
-                    {
-                        log.Error("AddBoard() failed: board '" + title + "' already exists for " + email);
-                        throw new ArgumentException("A board titled " +
-                                title + " already exists for the user with the email " + email);
-                    }
-                }
-
-                // Add a new board and return it
-                Board toReturn = new(title);
-                boardList.AddLast(toReturn);
-                log.Debug("AddBoard() success");
-                return toReturn;
-            }
-            catch (NoSuchElementException)
-            {
-                log.Error("AddBoard() failed: '" + email + "' doesn't exist");
-                throw new UserDoesNotExistException("A user with the email '" +
-                    email + "' doesn't exist in the system");
-            }
-            */
-
 
             log.Debug("AddBoard() for: " + email + "Board's name" + name);
             ValidateUser(email);
@@ -127,44 +90,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="AccessViolationException"></exception>
         public void RemoveBoard(string email, string name)
         {
-
-            /*          |  old implementation from UserData  |
-            try
-            {
-                log.Debug("RemoveBoard() for: " + email + ", " + title);
-                bool found = false;
-
-                // Fetch the user's boards
-                LinkedList<Board> boardList = tree.GetData(email).Boards;
-
-                // Search for the specific board
-                foreach (Board board in boardList)
-                {
-                    if (board.Title == title) 
-                    {
-                        boardList.Remove(board);
-                        found = true;
-                        log.Debug("RemoveBoard() success");
-                        break;
-                    }
-                }
-
-                // didn't find a board by that name
-                if (! found)
-                {
-                    log.Error("RemoveBoard() failed: board '" + title + "' doesn't exist for " + email);
-                    throw new ArgumentException("A board titled '" +
-                                    title + "' doesn't exists for the user with the email " + email);
-                }  
-            }
-            catch (NoSuchElementException)
-            {
-                log.Error("AddBoard() failed: '" + email + "' doesn't exist");
-                throw new UserDoesNotExistException("A user with the email '" +
-                    email + "' doesn't exist in the system");
-            }
-            */
-
 
             log.Debug("RemoveBoard() for: " + email + "Board's name" + name);
             ValidateUser(email);

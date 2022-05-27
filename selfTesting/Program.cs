@@ -31,7 +31,8 @@ namespace IntroSE.Kanban.selfTesting
             //enumsTests();
             //gradingTests();
             //tests();
-            enumeratorTests();
+            //enumeratorTests();
+            counterTest();
 
         }
         public static void DebugAVLTree(int[] nums)
@@ -360,6 +361,14 @@ namespace IntroSE.Kanban.selfTesting
             {
                 Console.WriteLine(i.GetEmail());
             }
+        }
+        public static void counterTest()
+        {
+            Backend.BusinessLayer.BusinessLayerFactory factory = new();
+            Backend.BusinessLayer.DataCenter dataCenter = factory.DataCenter;
+            Console.WriteLine(dataCenter.GetBoards);
+            
+
         }
 
     }

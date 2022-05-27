@@ -11,7 +11,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     {
         private BusinessLayer.BoardController boardController;
 
-        public BoardsService(BusinessLayer.UserData userData)
+        public BoardsService(BusinessLayer.DataCenter userData)
         {
             boardController = new BusinessLayer.BoardController(userData);
         }

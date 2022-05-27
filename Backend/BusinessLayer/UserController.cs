@@ -31,7 +31,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\UserController.cs");
 
-        private UserData userData;
+        private DataCenter userData;
         private static readonly int MIN_PASS_LENGTH = 6;
         private static readonly int MAX_PASS_LENGTH = 20;
 
@@ -39,7 +39,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// Creates an empty <c>BinaryTree</c> userList <br/>
         /// Creates an empty <c>Dictionary</c> loggedIn
         /// </summary>
-        public UserController(UserData userData)
+        public UserController(DataCenter userData)
         {
             this.userData = userData; 
         }

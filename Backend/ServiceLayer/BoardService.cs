@@ -32,7 +32,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     {
         private readonly BusinessLayer.BoardController boardController;
 
-        public BoardService(BusinessLayer.UserData userData)
+        public BoardService(BusinessLayer.DataCenter userData)
         {
             boardController = new(userData);
         }

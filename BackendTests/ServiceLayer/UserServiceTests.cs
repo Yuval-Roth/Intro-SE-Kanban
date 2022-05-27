@@ -14,7 +14,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
     public class UserServiceTests
     {
         UserService service;
-        BusinessLayer.UserData userData;
+        BusinessLayer.DataCenter userData;
 
         public UserServiceTests() 
         {

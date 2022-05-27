@@ -11,7 +11,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
     [TestClass()]
     public class BoardControllerServiceTests
     {
-        BusinessLayer.UserData userData;
+        BusinessLayer.DataCenter userData;
         UserService userservice;
         BoardControllerService boardcontrollerservice;
         BoardService boardservice;
