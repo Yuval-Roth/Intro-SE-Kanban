@@ -16,17 +16,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// The class manages a data structure of of <c>User</c>s and <c>Board</c>s. <br/><br/>
     /// <code>Supported operations:</code>
     /// <list type="bullet">
-    /// <item>SearchUser()</item>
-    /// <item>AddUser()</item>
-    /// <item>RemoveUser()</item>
-    /// <item>ContainsUser()</item>
-    /// <item>UserLoggedInStatus()</item>
-    /// <item>SetLoggedIn()</item>
-    /// <item>SetLoggedOut()</item>
-    /// <item>GetAllBoards()</item>
-    /// <item>AddNewBoard()</item>
-    /// <item>JoinExistingBoard()</item>
-    /// <item>RemoveBoard()</item>
+    /// <item>SearchUser(email)</item>
+    /// <item>AddUser(email,password)</item>
+    /// <item>RemoveUser(email)</item>
+    /// <item>ContainsUser(email)</item>
+    /// <item>UserLoggedInStatus(email)</item>
+    /// <item>SetLoggedIn(email)</item>
+    /// <item>SetLoggedOut(email)</item>
+    /// <item>GetBoardsDataUnit(email)</item>
+    /// <item>AddNewBoard(email,board_title)</item>
+    /// <item>JoinExistingBoard(email,board_id )</item>
+    /// <item>LeaveJoinedBoard(email,board_id</item>
+    /// <item>RemoveBoard(email,board_title)</item>
+    /// <item>RemoveBoard(board_id)</item>
     /// </list>
     /// <br/><br/>
     /// ===================
@@ -37,6 +39,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// </summary>
     public class DataCenter
     {
+
+
+        /*
+         
+            Reminder: add to the design RemoveBoard(id) and LeaveJoinedBoard(email,id)
+         
+         */
+
+
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\DataCenter.cs");
 
         private struct DataUnit
@@ -216,7 +227,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <b>Throws</b> <c>UserDoesNotExistException</c> if the <c>User</c> does not exist<br/>
         /// in the system
         /// </summary>
-        /// <returns>UserData.BoardsDataUnit</returns>
+        /// <returns><see cref="BoardsDataUnit"/></returns>
         /// <exception cref="UserDoesNotExistException"></exception>
         public BoardsDataUnit GetBoardsDataUnit(string email)
         {
@@ -241,7 +252,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <b>Throws</b> <c>NoSuchElementException</c> if the <c>User</c> does not exist<br/>
         /// in the system
         /// </summary>
-        /// <returns>LinkedList&lt;Board&gt;</returns>
+        /// <returns><see cref="Board"/></returns>
         /// <exception cref="NoSuchElementException"></exception>
         public Board SearchBoardById(int id)
         {
@@ -255,7 +266,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             catch (KeyNotFoundException)
             {
                 log.Error("SearchBoardById() failed: board number '" + id + "' doesn't exist");
-                throw new NoSuchElementException("board number '" + id + "' doesn't exist");
+                throw new NoSuchElementException("Board number '" + id + "' doesn't exist");
             }
         }
 
@@ -305,8 +316,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     log.Error("JoinExistingBoard() failed: board number " + id + "doesn't exist");
                     throw new NoSuchElementException("Board number " + id + "doesn't exist");
                 }
-            }
-            
+            }  
+        }
+
+        public void LeaveJoinedBoard(string email, int id) 
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -358,6 +373,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new UserDoesNotExistException("A user with the email '" +
                     email + "' doesn't exist in the system");
             }
+        }
+
+        public void RemoveBoard(int id)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
