@@ -43,8 +43,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         {
             public User User { get; init; }
             public BoardsDataUnit BoardsDataUnit { get; init; }
-            //public LinkedList<Board> MyBoards { get; init; }
-            //public LinkedList<Board> JoinedBoards { get; init; }
         }
         public struct BoardsDataUnit
         {
