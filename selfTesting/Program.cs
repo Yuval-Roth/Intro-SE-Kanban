@@ -32,7 +32,7 @@ namespace IntroSE.Kanban.selfTesting
             //gradingTests();
             //tests();
             //enumeratorTests();
-            counterTest();
+            //counterTest();
 
         }
         public static void DebugAVLTree(int[] nums)
@@ -362,14 +362,14 @@ namespace IntroSE.Kanban.selfTesting
                 Console.WriteLine(i.GetEmail());
             }
         }
-        public static void counterTest()
-        {
-            Backend.BusinessLayer.BusinessLayerFactory factory = new();
-            Backend.BusinessLayer.DataCenter dataCenter = factory.DataCenter;
-            Console.WriteLine(dataCenter.GetBoards);
+        //public static void counterTest()
+        //{
+        //    Backend.BusinessLayer.BusinessLayerFactory factory = new();
+        //    Backend.BusinessLayer.DataCenter dataCenter = factory.DataCenter;
+        //    Console.WriteLine(dataCenter.GetBoards);
             
 
-        }
+        //}
 
     }
 

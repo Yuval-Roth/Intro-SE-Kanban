@@ -185,7 +185,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             log.Debug("SearchBoard() for: " + email + " Board's name " + name);
             ValidateUser(email);
 
-            LinkedList<Board> boardList = userData.GetBoards(email);
+            LinkedList<Board> boardList = userData.GetBoardsDataUnit(email).MyBoards;
             foreach (Board board in boardList)
             {
                 if (board.Title == name)
