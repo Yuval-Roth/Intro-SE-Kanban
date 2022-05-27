@@ -43,7 +43,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /*
          
-            Reminder: add to the design RemoveBoard(id) and LeaveJoinedBoard(email,id)
+            Reminder: add to the design RemoveBoard(id), LeaveJoinedBoard(email,id), LoadData()
          
          */
 
@@ -437,5 +437,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             }
         }
+
+        private void LoadData()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
