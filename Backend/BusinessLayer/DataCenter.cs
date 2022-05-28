@@ -27,8 +27,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <item>GetBoardsDataUnit(email)</item>
     /// <item>SearchBoardById(board_id)</item>
     /// <item>AddNewBoard(email,board_title)</item>
-    /// <item>RemoveBoard(email,board_title)</item>
-    /// <item>RemoveBoard(board_id)</item>
+    /// <item>NukeBoard(email,board_title)</item>
+    /// <item>NukeBoard(board_id)</item>
     /// <item>JoinExistingBoard(email,board_id)</item>
     /// <item>LeaveJoinedBoard(email,board_id)</item>
     /// </list>
@@ -279,99 +279,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-
-        /// <summary>
-        /// Joins a user to an existing board.<br/><br/>
-        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if the user is already joined on the board<br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system<br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if a board with that id doesn't exist<br/>
-        /// </summary>
-        /// <param name="email"></param>
-        /// <param name="id"></param>
-        /// <exception cref="ElementAlreadyExistsException"></exception>
-        /// <exception cref="UserDoesNotExistException"></exception>
-        /// <exception cref="NoSuchElementException"></exception>
-        public void JoinExistingBoard(string email, int id)
-        {
-            try
-            {
-                log.Debug("JoinExistingBoard() for: " + email + ", " + id);
-
-                LinkedList<Board> joinedBoardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.JoinedBoards;
-                Board boardToJoin = OnlyBoardsTree.GetData(id);
-
-                // Check if the user is joined on the board already
-                foreach (Board board in joinedBoardList)
-                {
-                    if (board.Id == id)
-                    {
-                        log.Error("JoinExistingBoard() failed: " + email + " is already joined on board nubmer " + id);
-                        throw new ElementAlreadyExistsException(email + " is already joined on board nubmer " + id);
-                    }
-                }
-                joinedBoardList.AddLast(boardToJoin);
-                log.Debug("JoinExistingBoard() success");
-            }
-            catch (KeyNotFoundException)
-            {
-                if (UsersAndBoardsTree.Contains(email) == false)
-                {
-                    log.Error("JoinExistingBoard() failed: '" + email + "' doesn't exist");
-                    throw new UserDoesNotExistException("A user with the email '" +
-                        email + "' doesn't exist in the system");
-                }
-                if (OnlyBoardsTree.Contains(id) == false)
-                {
-                    log.Error("JoinExistingBoard() failed: board number " + id + "doesn't exist");
-                    throw new NoSuchElementException("Board number " + id + "doesn't exist");
-                }
-            }  
-        }
-
-        /// <summary>
-        /// Leaves a board for the user.<br/><br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system<br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the user is not joined on a board with that id<br/>
-        /// </summary>
-        /// <param name="email"></param>
-        /// <param name="id"></param>
-        /// <returns>The unjoined board</returns>
-        /// <exception cref="UserDoesNotExistException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        public Board LeaveJoinedBoard(string email, int id) 
-        {
-            try
-            {
-                log.Debug("LeaveJoinedBoard() for: " + email + ", " + id);
-
-                // Fetch the user's boards
-                LinkedList<Board> joinedBoardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.JoinedBoards;
-            
-                // Search for the specific board
-                for (LinkedListNode<Board> node = joinedBoardList.First; node != null; node = node.Next)
-                {
-                    if (node.Value.Id == id)
-                    {
-                        Board output = node.Value;
-                        joinedBoardList.Remove(node);
-                        log.Debug("LeaveJoinedBoard() success");
-                        return output;
-                    }
-                }
-
-                // didn't find a board by that id
-                log.Error("LeaveJoinedBoard() failed: " + email + " is not joined to board nubmer " + id);
-                throw new ArgumentException(email + " is not joined to board nubmer " + id);
-            }
-            catch (KeyNotFoundException)
-            {
-                log.Error("LeaveJoinedBoard() failed: '" + email + "' doesn't exist");
-                throw new UserDoesNotExistException("A user with the email '" +
-                    email + "' doesn't exist in the system");
-
-            }
-        }
-
         /// <summary>
         /// Adds a <c>Board</c> to the <c>User</c>.
         ///<br/><br/>
@@ -423,9 +330,100 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
+        /// <summary>
+        /// Adds a pointer to an existing board in JoinedBoards.<br/><br/>
+        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if the user is already joined on the board<br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system<br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if a board with that id doesn't exist<br/>
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="id"></param>
+        /// <exception cref="ElementAlreadyExistsException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="NoSuchElementException"></exception>
+        public void JoinExistingBoard(string email, int id)
+        {
+            try
+            {
+                log.Debug("JoinExistingBoard() for: " + email + ", " + id);
+
+                LinkedList<Board> joinedBoardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.JoinedBoards;
+                Board boardToJoin = OnlyBoardsTree.GetData(id);
+
+                // Check if the user is joined on the board already
+                foreach (Board board in joinedBoardList)
+                {
+                    if (board.Id == id)
+                    {
+                        log.Error("JoinExistingBoard() failed: " + email + " is already joined on board nubmer " + id);
+                        throw new ElementAlreadyExistsException(email + " is already joined on board nubmer " + id);
+                    }
+                }
+                joinedBoardList.AddLast(boardToJoin);
+                log.Debug("JoinExistingBoard() success");
+            }
+            catch (KeyNotFoundException)
+            {
+                if (UsersAndBoardsTree.Contains(email) == false)
+                {
+                    log.Error("JoinExistingBoard() failed: '" + email + "' doesn't exist");
+                    throw new UserDoesNotExistException("A user with the email '" +
+                        email + "' doesn't exist in the system");
+                }
+                if (OnlyBoardsTree.Contains(id) == false)
+                {
+                    log.Error("JoinExistingBoard() failed: board number " + id + "doesn't exist");
+                    throw new NoSuchElementException("Board number " + id + "doesn't exist");
+                }
+            }  
+        }
 
         /// <summary>
-        /// Removes a <c>Board</c> from the entire system
+        /// Removes the pointer to the joined board from JoinedBoards<br/><br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system<br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if the user is not joined on a board with that id<br/>
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="id"></param>
+        /// <returns>The unjoined board</returns>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        public Board LeaveJoinedBoard(string email, int id) 
+        {
+            try
+            {
+                log.Debug("LeaveJoinedBoard() for: " + email + ", " + id);
+
+                // Fetch the user's boards
+                LinkedList<Board> joinedBoardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.JoinedBoards;
+            
+                // Search for the specific board
+                for (LinkedListNode<Board> node = joinedBoardList.First; node != null; node = node.Next)
+                {
+                    if (node.Value.Id == id)
+                    {
+                        Board output = node.Value;
+                        joinedBoardList.Remove(node);
+                        log.Debug("LeaveJoinedBoard() success");
+                        return output;
+                    }
+                }
+
+                // didn't find a board by that id
+                log.Error("LeaveJoinedBoard() failed: " + email + " is not joined to board nubmer " + id);
+                throw new ArgumentException(email + " is not joined to board nubmer " + id);
+            }
+            catch (KeyNotFoundException)
+            {
+                log.Error("LeaveJoinedBoard() failed: '" + email + "' doesn't exist");
+                throw new UserDoesNotExistException("A user with the email '" +
+                    email + "' doesn't exist in the system");
+
+            }
+        }
+
+        /// <summary>
+        /// Removes a <c>Board</c> from the <b>entire system</b><br/>
         /// <br/><br/>
         /// <b>Throws</b> <c>NoSuchElementException</c> if,  for some reason, a board with that id <br/>
         /// doesn't exist in the system in general or specifically for its owner<br/><br/>
@@ -437,12 +435,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
-        public void RemoveBoard(int id)
+        public void NukeBoard(int id)
         {
             try
             {
                 Board removed = RemoveBoardById(id);
-                RemoveBoardByEmailAndTitle(removed.Owner, removed.Title);
+                RemoveBoardFromOwner(removed.Owner, removed.Title);
                 foreach (string joinedEmail in removed.Joined)
                 {
                     LeaveJoinedBoard(joinedEmail, removed.Id);
@@ -454,7 +452,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
         /// <summary>
-        /// Removes a <c>Board</c> from the entire system
+        ///  Completly removes a <c>Board</c> from the <b>entire system</b><br/>
         /// <br/><br/>
         /// <b>Throws</b> <c>NoSuchElementException</c> if,  for some reason, a board with that id <br/>
         /// doesn't exist in the system in general or specifically for its owner<br/><br/>
@@ -466,11 +464,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
-        public void RemoveBoard(string email, string title)
+        public void NukeBoard(string email, string title)
         {
             try
             {
-                Board removed = RemoveBoardByEmailAndTitle(email, title);
+                Board removed = RemoveBoardFromOwner(email, title);
                 RemoveBoardById(removed.Id);
                 foreach (string joinedEmail in removed.Joined)
                 {
@@ -482,9 +480,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             catch (ArgumentException) { throw; }
         }
 
-
         /// <summary>
-        /// Removes a <c>User</c>'s <c>Board</c>
+        /// Removes a board from BoardTree
         /// <br/><br/>
         /// <b>Throws</b> <c>NoSuchElementException</c> if a <c>Board</c> with that id <br/>
         /// doesn't exist in the system<br/><br/>
@@ -508,7 +505,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
         /// <summary>
-        /// Removes a <c>User</c>'s <c>Board</c>
+        /// Removes a board from the owner inside UsersAndBoardsTree
         /// <br/><br/>
         /// <b>Throws</b> <c>NoSuchElementException</c> if a <c>Board</c> with that title <br/>
         /// doesn't exist for the user<br/><br/>
@@ -518,7 +515,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
         /// <returns>The removed Board</returns>
-        private Board RemoveBoardByEmailAndTitle(string email, string title)
+        private Board RemoveBoardFromOwner(string email, string title)
         {
             /*
             TO DO:                
