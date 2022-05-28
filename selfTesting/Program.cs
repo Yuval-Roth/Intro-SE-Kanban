@@ -23,7 +23,7 @@ namespace IntroSE.Kanban.selfTesting
             //BoardTreeTesting();
             //datetesting();
             //UserControllerTesting();
-            //JsonTesting();
+            JsonTesting();
             //PasswordHashingTesting();
             //logTesting();
             //registerTest();
@@ -185,94 +185,79 @@ namespace IntroSE.Kanban.selfTesting
         //    //String pass2 = "asHddggdgdgd33!@";
         //    //bool ans = Backend.BusinessLayer.UserController.IsLegalPassword(pass2);
         //    //Console.WriteLine(ans);
+        //}
+        public static void JsonTesting()
+        {
+            Backend.BusinessLayer.Board board = new("TestBoard", 0);
+            board.AddTask("TestTask0", new DateTime(2023, 1, 1), "Hello0");
+            board.AddTask("TestTask1", new DateTime(2023, 1, 1), "Hello1");
+            board.AddTask("TestTask2", new DateTime(2023, 1, 1), "Hello2");
+            board.AdvanceTask(0, 0);
+            board.AdvanceTask(1, 0);
+            board.AdvanceTask(0, 1);
+            //JsonSerializerOptions options = new() { WriteIndented = true };
+            //Console.WriteLine(JsonSerializer.Serialize(board, options));
+            Console.WriteLine(Backend.ServiceLayer.JsonController.ConvertToJson(board));
+        }
+    //public static void PasswordHashingTesting()
+    //{
+    //int sum = 0;
+    //int max = 0;
+    //int min = 100000;
+    //for (int i = 0; i < 500; i++) 
+    //{
+    //    Backend.BusinessLayer.PasswordHash passwordHash = new Backend.BusinessLayer.PasswordHash();
+    //    string temp = passwordHash.Hash("t%3Ka6gaw2^1sJ5AF");
+    //    sum += temp.Length;
+    //    if (min > temp.Length) min = temp.Length;
+    //    if (max < temp.Length) max = temp.Length;
+    //}
+    //Console.WriteLine("min: "+min);
+    //Console.WriteLine("max: "+max);
+    //Console.WriteLine("avg: "+(sum / 500));
+    //for (int i = 0; i < 50; i++) 
+    //{
+    //Backend.BusinessLayer.PasswordHash passwordHash = new Backend.BusinessLayer.PasswordHash();
 
+    //Backend.BusinessLayer.User user = new("test","TestPassword12");
+    //Console.WriteLine(user.CheckPasswordMatch("TestPassword12"));
+    //}
+    //public static void logTesting()
+    //{
+    //    log.Debug("Hello m8");
+    //}
+    //public static void registerTest()
+    //{
+    //    Backend.ServiceLayer.GradingService gs = new();
+    //    gs.Register("test", "sismaSababa23");
+    //    Console.WriteLine(gs.Login("test", "sismaSababa23"));
+    //    Console.WriteLine(gs.Logout("test"));
+    //}
 
-
-        //}
-        //public static void JsonTesting()
-        //{
-        //    Backend.ServiceLayer.Response<string> res = new(true,"hello");
-        //    string json = Backend.ServiceLayer.JsonController.ConvertToJson(res);
-        //    Console.WriteLine(json);
-        //    Backend.ServiceLayer.Response<string> des = Backend.ServiceLayer.JsonController.BuildFromJson<Backend.ServiceLayer.Response<string>>(json);
-        //    Console.WriteLine(des.returnValue);
-        //    Console.WriteLine(des.operationState);
-        //    Console.WriteLine("========================");
-        //    Backend.BusinessLayer.Task task = new()
-        //    {
-        //        Id= 1,
-        //        Title= "sup",
-        //        CreationTime= DateTime.Now,
-        //        DueDate= DateTime.Now,
-        //        Description = "bro"
-        //    };
-        //    Backend.ServiceLayer.Response<Backend.BusinessLayer.Task> res1 = new(true, task);
-        //    json = Backend.ServiceLayer.JsonController.ConvertToJson(res1);
-        //    Backend.ServiceLayer.Response<Backend.BusinessLayer.Task> des1 = Backend.ServiceLayer.JsonController.BuildFromJson<Backend.ServiceLayer.Response<Backend.BusinessLayer.Task>>(json);
-        //    Console.WriteLine(des1.returnValue.Id);
-        //    Console.WriteLine(des1.returnValue.Description);
-        //    Console.WriteLine(des1.operationState);
-
-        //}
-        //public static void PasswordHashingTesting()
-        //{
-        //int sum = 0;
-        //int max = 0;
-        //int min = 100000;
-        //for (int i = 0; i < 500; i++) 
-        //{
-        //    Backend.BusinessLayer.PasswordHash passwordHash = new Backend.BusinessLayer.PasswordHash();
-        //    string temp = passwordHash.Hash("t%3Ka6gaw2^1sJ5AF");
-        //    sum += temp.Length;
-        //    if (min > temp.Length) min = temp.Length;
-        //    if (max < temp.Length) max = temp.Length;
-        //}
-        //Console.WriteLine("min: "+min);
-        //Console.WriteLine("max: "+max);
-        //Console.WriteLine("avg: "+(sum / 500));
-        //for (int i = 0; i < 50; i++) 
-        //{
-        //Backend.BusinessLayer.PasswordHash passwordHash = new Backend.BusinessLayer.PasswordHash();
-
-        //Backend.BusinessLayer.User user = new("test","TestPassword12");
-        //Console.WriteLine(user.CheckPasswordMatch("TestPassword12"));
-        //}
-        //public static void logTesting()
-        //{
-        //    log.Debug("Hello m8");
-        //}
-        //public static void registerTest()
-        //{
-        //    Backend.ServiceLayer.GradingService gs = new();
-        //    gs.Register("test", "sismaSababa23");
-        //    Console.WriteLine(gs.Login("test", "sismaSababa23"));
-        //    Console.WriteLine(gs.Logout("test"));
-        //}
-
-        //public static void validEmailTest()
-        //{
-        //    Backend.ServiceLayer.GradingService gs = new();
-        //    //gs.Register("test", "sismaSababa23");
-        //    //Console.WriteLine(gs.Login("test", "sismaSababa23"));
-        //    //Console.WriteLine(gs.Logout("test"));
-        //    string email = "prinrz@post.bgu.ac.il";
-        //    string email1 = "Prein@pdij";
-        //    string email2 = "12344.@gmail.com"; //false/ true?
-        //    string email3 = "hadaspr100gmail.com";
-        //    string email4 = "hadas@gmailcom";
-        //    string email5 = null;
-        //    string email6 = "fdsa";
-        //    string email7 = "fdsa@";
-        //    string email8 = "fdsa@fdsa";
-        //    string email9 = "fdsa@fdsa.";
-        //    string email10 = "someone@somewhere.com";
-        //    string email11 = "someone@somewhere.co.uk";
-        //    string email12 = "someone+tag@somewhere.net"; // false/true?
-        //    string email13 = "futureTLD@somewhere.fooo";
-        //    bool ans = Backend.BusinessLayer.UserController.IsEmailValid(email13);
-        //    Console.WriteLine(ans);
-        //}
-        public enum State
+    //public static void validEmailTest()
+    //{
+    //    Backend.ServiceLayer.GradingService gs = new();
+    //    //gs.Register("test", "sismaSababa23");
+    //    //Console.WriteLine(gs.Login("test", "sismaSababa23"));
+    //    //Console.WriteLine(gs.Logout("test"));
+    //    string email = "prinrz@post.bgu.ac.il";
+    //    string email1 = "Prein@pdij";
+    //    string email2 = "12344.@gmail.com"; //false/ true?
+    //    string email3 = "hadaspr100gmail.com";
+    //    string email4 = "hadas@gmailcom";
+    //    string email5 = null;
+    //    string email6 = "fdsa";
+    //    string email7 = "fdsa@";
+    //    string email8 = "fdsa@fdsa";
+    //    string email9 = "fdsa@fdsa.";
+    //    string email10 = "someone@somewhere.com";
+    //    string email11 = "someone@somewhere.co.uk";
+    //    string email12 = "someone+tag@somewhere.net"; // false/true?
+    //    string email13 = "futureTLD@somewhere.fooo";
+    //    bool ans = Backend.BusinessLayer.UserController.IsEmailValid(email13);
+    //    Console.WriteLine(ans);
+    //}
+    public enum State
         {
             backlog,
             inprogress,
@@ -362,14 +347,10 @@ namespace IntroSE.Kanban.selfTesting
                 Console.WriteLine(i.GetEmail());
             }
         }
-        //public static void counterTest()
-        //{
-        //    Backend.BusinessLayer.BusinessLayerFactory factory = new();
-        //    Backend.BusinessLayer.DataCenter dataCenter = factory.DataCenter;
-        //    Console.WriteLine(dataCenter.GetBoards);
-            
+        public static void counterTest()
+        {
 
-        //}
+        }
 
     }
 

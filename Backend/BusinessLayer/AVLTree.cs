@@ -77,13 +77,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         ///Removes the element with this key from the <c>AVLTree</c><br/><br/>
         ///<b>Throws</b> <c>KeyNotFoundException</c> if the element is not in the <c>AVLTree</c>
         ///</summary>
+        ///<returns>The removed node's element data</returns>
         ///<exception cref="KeyNotFoundException"></exception>
-        public void Remove(Key key)
+        public Data Remove(Key key)
         {
             if(root == null) throw new KeyNotFoundException("Key not found in the tree");
             try
             {
-                root.Search(key).Remove();
+                return root.Search(key).Remove().Data;
             }
             catch (KeyNotFoundException)
             {

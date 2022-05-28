@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.Json.Serialization;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
@@ -34,23 +30,21 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <br/>
     /// ===================
     /// </summary>
-
     public class Board
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\Board.cs");
 
+        private readonly int id;
+        private readonly string title;
+        private string owner;
+        private readonly LinkedList<string> joined;
+        private readonly LinkedList<Task>[] columns;
+        private readonly int[] columnLimit;
+        private readonly Dictionary<int, TaskStates> taskStateTracker;
         private int taskIDCounter;
-        private string title;
-        private LinkedList<Task>[] columns;
-        private int [] columnLimit;
-        private Dictionary<int, TaskStates> taskStateTracker;
-        private int id;
 
-        //====================================
-        //            getters/setters
-        //====================================
 
-        public Board(string title,int id)
+        public Board(string title, int id)
         {
             this.id = id;
             this.title = title;
@@ -64,12 +58,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             columns[(int)TaskStates.done] = new LinkedList<Task>();
             taskStateTracker = new();
         }
-        public string Title
-        { 
-            get { return title; }
-            set { title = value; }
-        }
-        public int Id => id;
+
+        //====================================
+        //         getters/initializers
+        //====================================
+
+        public int Id { get { return id; } init { id = value; } }
+        public string Title { get { return title; } init { title = value; } }
+        public string Owner { get { return owner; } init { owner = value; } }
+        public LinkedList<string> Joined { get { return joined; } init { joined = value; } }
+        public LinkedList<Task>[] Columns { /*get { return columns; }*/ init { columns = value; } }
+        public int[] ColumnLimit { /*get { return columnLimit; }*/ init { columnLimit = value; } }
+        public Dictionary<int, TaskStates> TaskStateTracker { /*get { return taskStateTracker; }*/ init { taskStateTracker = value; } }
+        public int TaskIDCounter { /*get { return taskIDCounter; }*/ init { taskIDCounter = value; } }
 
         //====================================
         //            Functionality

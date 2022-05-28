@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
@@ -150,13 +147,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="UserDoesNotExistException"></exception>
         public void RemoveUser(string email)
         {
+            throw new NotImplementedException("Not updated to support current implementation");
             try
             {
                 log.Debug("RemoveUser() for: " + email);
                 UsersAndBoardsTree.Remove(email);
                 /*
                     TO DO:
-                    Take care of boards of deleted users
+                    Take care of boards of deleted users, including joined
                  */
                 log.Debug("RemoveUser() success");
             }
@@ -221,6 +219,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
+        /// <summary>
+        /// Check if a user exists in the system
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns>true or false</returns>
         public bool ContainsUser(string email)
         {
             log.Debug("ContainsUser() for: " + email);
@@ -325,9 +328,48 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }  
         }
 
-        public void LeaveJoinedBoard(string email, int id) 
+        /// <summary>
+        /// Leaves a board for the user.<br/><br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system<br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if the user is not joined on a board with that id<br/>
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="id"></param>
+        /// <returns>The unjoined board</returns>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        public Board LeaveJoinedBoard(string email, int id) 
         {
-            throw new NotImplementedException();
+            try
+            {
+                log.Debug("LeaveJoinedBoard() for: " + email + ", " + id);
+
+                // Fetch the user's boards
+                LinkedList<Board> joinedBoardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.JoinedBoards;
+            
+                // Search for the specific board
+                for (LinkedListNode<Board> node = joinedBoardList.First; node != null; node = node.Next)
+                {
+                    if (node.Value.Id == id)
+                    {
+                        Board output = node.Value;
+                        joinedBoardList.Remove(node);
+                        log.Debug("LeaveJoinedBoard() success");
+                        return output;
+                    }
+                }
+
+                // didn't find a board by that id
+                log.Error("LeaveJoinedBoard() failed: " + email + " is not joined to board nubmer " + id);
+                throw new ArgumentException(email + " is not joined to board nubmer " + id);
+            }
+            catch (KeyNotFoundException)
+            {
+                log.Error("LeaveJoinedBoard() failed: '" + email + "' doesn't exist");
+                throw new UserDoesNotExistException("A user with the email '" +
+                    email + "' doesn't exist in the system");
+
+            }
         }
 
         /// <summary>
@@ -345,7 +387,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         {
             try
             {
-                log.Debug("AddBoard() for: " + email + ", " + title);
+                log.Debug("AddNewBoard() for: " + email + ", " + title);
 
                 // Fetch the user's boards
                 LinkedList<Board> myBoardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.MyBoards;
@@ -355,7 +397,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 {
                     if (board.Title == title)
                     {
-                        log.Error("AddBoard() failed: board '" + title + "' already exists for " + email);
+                        log.Error("AddNewBoard() failed: board '" + title + "' already exists for " + email);
                         throw new ElementAlreadyExistsException("A board titled " +
                                 title + " already exists for the user with the email " + email);
                     }
@@ -365,25 +407,104 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 Board newBoard = new(title, GetNextBoardID);
                 OnlyBoardsTree.Add(newBoard.Id, newBoard);
                 myBoardList.AddLast(newBoard);
-                log.Debug("AddBoard() success");
+                log.Debug("AddNewBoard() success");
                 return newBoard;
             }
             catch (DuplicateKeysNotSupported)
             {
-                log.Fatal("BoardIDCounter is out of sync");
+                log.Fatal("AddNewBoard() failed: BoardIDCounter is out of sync");
                 throw new DataMisalignedException("BoardIDCounter is out of sync");
             }
             catch (KeyNotFoundException)
             {
-                log.Error("AddBoard() failed: '" + email + "' doesn't exist");
+                log.Error("AddNewBoard() failed: '" + email + "' doesn't exist");
                 throw new UserDoesNotExistException("A user with the email '" +
                     email + "' doesn't exist in the system");
             }
         }
 
+
+        /// <summary>
+        /// Removes a <c>Board</c> from the entire system
+        /// <br/><br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if,  for some reason, a board with that id <br/>
+        /// doesn't exist in the system in general or specifically for its owner<br/><br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if, for some reason, a board with that id doesn't for<br/>
+        /// exist for any of the joined users<br/><br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if, for some reason, one of the board's joined users doesn't exist <br/>
+        /// in the system
+        /// </summary>
+        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
         public void RemoveBoard(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Board removed = RemoveBoardById(id);
+                RemoveBoardByEmailAndTitle(removed.Owner, removed.Title);
+                foreach (string joinedEmail in removed.Joined)
+                {
+                    LeaveJoinedBoard(joinedEmail, removed.Id);
+                }
+            }
+            catch (NoSuchElementException) { throw; }
+            catch (UserDoesNotExistException) { throw; }
+            catch (ArgumentException) { throw; }
+        }
+
+        /// <summary>
+        /// Removes a <c>Board</c> from the entire system
+        /// <br/><br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if,  for some reason, a board with that id <br/>
+        /// doesn't exist in the system in general or specifically for its owner<br/><br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if, for some reason, a board with that id doesn't for<br/>
+        /// exist for any of the joined users<br/><br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if, for some reason, one of the board's joined users doesn't exist <br/>
+        /// in the system
+        /// </summary>
+        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        public void RemoveBoard(string email, string title)
+        {
+            try
+            {
+                Board removed = RemoveBoardByEmailAndTitle(email, title);
+                RemoveBoardById(removed.Id);
+                foreach (string joinedEmail in removed.Joined)
+                {
+                    LeaveJoinedBoard(joinedEmail, removed.Id);
+                }
+            }
+            catch (NoSuchElementException) { throw; }
+            catch (UserDoesNotExistException) { throw; }
+            catch (ArgumentException) { throw; }
+        }
+
+
+        /// <summary>
+        /// Removes a <c>User</c>'s <c>Board</c>
+        /// <br/><br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if a <c>Board</c> with that id <br/>
+        /// doesn't exist in the system<br/><br/>
+        /// </summary>
+        /// <exception cref="NoSuchElementException"></exception>
+        /// <returns>The removed Board</returns>
+        private Board RemoveBoardById(int id)
+        {
+            try
+            {
+                log.Debug("RemoveBoardById() for: "+ id);
+                Board output = OnlyBoardsTree.Remove(id);
+                log.Debug("RemoveBoardById() success");
+                return output;
+            }
+            catch (KeyNotFoundException)
+            {
+                log.Error("RemoveBoard() failed: board numbered '" + id + "' doesn't exist in the system");
+                throw new UserDoesNotExistException("board numbered '" + id + "' doesn't exist in the system");
+            }
         }
 
         /// <summary>
@@ -396,7 +517,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
-        public void RemoveBoard(string email, string title)
+        /// <returns>The removed Board</returns>
+        private Board RemoveBoardByEmailAndTitle(string email, string title)
         {
             /*
             TO DO:                
@@ -409,35 +531,32 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             try
             {
-                log.Debug("RemoveBoard() for: " + email + ", " + title);
-                bool found = false;
+                log.Debug("RemoveBoardByEmailAndTitle() for: " + email + ", " + title);
 
                 // Fetch the user's boards
-                LinkedList<Board> boardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.MyBoards;
+                LinkedList<Board> myBoardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.MyBoards;
 
                 // Search for the specific board
-                foreach (Board board in boardList)
+                for (LinkedListNode<Board> node = myBoardList.First; node != null; node = node.Next)
                 {
-                    if (board.Title == title)
+                    if (node.Value.Title == title)
                     {
-                        boardList.Remove(board);
-                        found = true;
-                        log.Debug("RemoveBoard() success");
-                        break;
+                        Board output = node.Value;
+                        myBoardList.Remove(node);
+                        log.Debug("RemoveBoardByEmailAndTitle() success");
+                        return output;
                     }
                 }
 
                 // didn't find a board by that name
-                if (!found)
-                {
-                    log.Error("RemoveBoard() failed: board '" + title + "' doesn't exist for " + email);
-                    throw new NoSuchElementException("A board titled '" +
-                                    title + "' doesn't exists for the user with the email " + email);
-                }
+ 
+                log.Error("RemoveBoardByEmailAndTitle() failed: board '" + title + "' doesn't exist for " + email);
+                throw new NoSuchElementException("A board titled '" +
+                                title + "' doesn't exists for the user with the email " + email);
             }
             catch (KeyNotFoundException)
             {
-                log.Error("AddBoard() failed: '" + email + "' doesn't exist");
+                log.Error("RemoveBoardByEmailAndTitle() failed: '" + email + "' doesn't exist in the system");
                 throw new UserDoesNotExistException("A user with the email '" +
                     email + "' doesn't exist in the system");
 
