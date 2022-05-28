@@ -28,9 +28,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     {
         private readonly BusinessLayer.BoardController boardController;
 
-        public TaskService(BusinessLayer.DataCenter userData)
+        public TaskService(BusinessLayer.BoardController BC)
         {
-            boardController = new(userData);
+            boardController = BC;
         }
 
 

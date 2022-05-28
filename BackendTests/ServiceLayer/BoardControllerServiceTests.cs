@@ -11,7 +11,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
     [TestClass()]
     public class BoardControllerServiceTests
     {
-        BusinessLayer.DataCenter userData;
         UserService userservice;
         BoardControllerService boardcontrollerservice;
         BoardService boardservice;
@@ -19,11 +18,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         public BoardControllerServiceTests()
         {
-            userData = new();
-            userservice = new(userData);
-            boardcontrollerservice = new(userData);
-            boardservice = new(userData);
-            taskservice = new(userData);
+            BusinessLayer.BusinessLayerFactory factory = BusinessLayer.BusinessLayerFactory.GetInstance();
+            userservice = new UserService(factory.UserController);
+            boardcontrollerservice = new BoardControllerService(factory.BoardController);
+            boardservice = new BoardService(factory.BoardController);
+            taskservice = new TaskService(factory.BoardController);
         }
 
         [TestMethod()]

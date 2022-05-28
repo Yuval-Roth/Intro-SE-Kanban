@@ -50,7 +50,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     /// </summary>
     public class GradingService
     {
-        public BusinessLayer.DataCenter userData;
         public UserService userServiceLayer;
         public BoardControllerService boardControllerServiceLayer;
         public BoardService boardServiceLayer;
@@ -58,11 +57,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 
         public GradingService()
         {
-            userData = new();
-            userServiceLayer = new UserService(userData);
-            boardControllerServiceLayer = new BoardControllerService(userData);
-            boardServiceLayer = new BoardService(userData);
-            taskServiceLayer = new TaskService(userData);
+            BusinessLayer.BusinessLayerFactory factory = BusinessLayer.BusinessLayerFactory.GetInstance();
+            userServiceLayer = new UserService(factory.UserController);
+            boardControllerServiceLayer = new BoardControllerService(factory.BoardController);
+            boardServiceLayer = new BoardService(factory.BoardController);
+            taskServiceLayer = new TaskService(factory.BoardController);
         }
 
 
