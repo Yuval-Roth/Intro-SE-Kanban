@@ -159,7 +159,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             try
             {
-                LinkedList<Board> output = userData.GetBoards(email);
+                //LinkedList<Board> output = userData.GetBoards(email);
                 log.Debug("GetBoards() success");
                 //return output;
                 return null;

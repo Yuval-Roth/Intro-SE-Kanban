@@ -138,11 +138,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             else Console.WriteLine("EmptyTree");
         }
 
-        public void CopyTo(Array array, int index)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerator GetEnumerator()
         {
             return new AVLTree_InOrder_Data_Enumerator(this);

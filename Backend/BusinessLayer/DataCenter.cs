@@ -75,6 +75,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             UsersAndBoardsTree = new();
             OnlyBoardsTree = new();
             loggedIn = new();
+            //LoadData();
         }
 
         /// <summary>
