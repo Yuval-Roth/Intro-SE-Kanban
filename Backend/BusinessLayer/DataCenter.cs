@@ -27,10 +27,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <item>GetBoardsDataUnit(email)</item>
     /// <item>SearchBoardById(board_id)</item>
     /// <item>AddNewBoard(email,board_title)</item>
-    /// <item>NukeBoard(email,board_title)</item>
-    /// <item>NukeBoard(board_id)</item>
     /// <item>JoinExistingBoard(email,board_id)</item>
     /// <item>LeaveJoinedBoard(email,board_id)</item>
+    /// <item>NukeBoard(email,board_title)</item>
+    /// <item>NukeBoard(board_id)</item>
     /// </list>
     /// <br/>
     /// ===================
@@ -331,7 +331,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
         /// <summary>
-        /// Adds a pointer to an existing board in JoinedBoards.<br/><br/>
+        /// Adds a pointer to of an existing board to the user's JoinedBoards.<br/><br/>
         /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if the user is already joined on the board<br/>
         /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system<br/>
         /// <b>Throws</b> <c>NoSuchElementException</c> if a board with that id doesn't exist<br/>
@@ -379,7 +379,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
         /// <summary>
-        /// Removes the pointer to the joined board from JoinedBoards<br/><br/>
+        /// Removes the pointer of the joined board from the user's JoinedBoards<br/><br/>
         /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system<br/>
         /// <b>Throws</b> <c>ArgumentException</c> if the user is not joined on a board with that id<br/>
         /// </summary>
