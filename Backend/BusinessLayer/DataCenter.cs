@@ -96,6 +96,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     email + "' doesn't exist in the system");
             }
         }
+
         /// <summary>
         /// Adds a user to the system
         /// <br/><br/>
@@ -419,7 +420,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <br/><br/>
         /// <b>Throws</b> <c>NoSuchElementException</c> if,  for some reason, a board with that id <br/>
         /// doesn't exist in the system in general or specifically for its owner<br/><br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if, for some reason, a board with that id doesn't for<br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if, for some reason, a board with that id doesn't<br/>
         /// exist for any of the joined users<br/><br/>
         /// <b>Throws</b> <c>UserDoesNotExistException</c> if, for some reason, one of the board's joined users doesn't exist <br/>
         /// in the system
@@ -448,7 +449,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <br/><br/>
         /// <b>Throws</b> <c>NoSuchElementException</c> if,  for some reason, a board with that id <br/>
         /// doesn't exist in the system in general or specifically for its owner<br/><br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if, for some reason, a board with that id doesn't for<br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if, for some reason, a board with that id doesn't<br/>
         /// exist for any of the joined users<br/><br/>
         /// <b>Throws</b> <c>UserDoesNotExistException</c> if, for some reason, one of the board's joined users doesn't exist <br/>
         /// in the system
@@ -542,10 +543,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             }
         }
+
         public void ChangeOwnerPointer(string oldUser,string newUser)
         {
             throw new NotImplementedException();        
         }
+
         private void LoadData()
         {
             throw new NotImplementedException();
