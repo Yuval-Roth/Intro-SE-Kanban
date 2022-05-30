@@ -31,7 +31,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <item>RemovePointerToJoinedBoard(email,board_id)</item>
     /// <item>NukeBoard(email,board_title)</item>
     /// <item>NukeBoard(board_id)</item>
-    /// <item>ChangeOwner(old_owner,new_owner)</item>
+    /// <item>ChangeOwnerPointer(old_owner,new_owner)</item>
     /// </list>
     /// <br/>
     /// ===================
@@ -551,7 +551,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             }
         }
-        public void ChangeOwner(string oldUser,string newUser)
+        public void ChangeOwnerPointer(string oldUser,string newUser)
         {
             throw new NotImplementedException();        
         }
