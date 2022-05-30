@@ -27,8 +27,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <item>GetBoardsDataUnit(email)</item>
     /// <item>SearchBoardById(board_id)</item>
     /// <item>AddNewBoard(email,board_title)</item>
-    /// <item>JoinExistingBoard(email,board_id)</item>
-    /// <item>LeaveJoinedBoard(email,board_id)</item>
+    /// <item>AddPointerToJoinedBoard(email,board_id)</item>
+    /// <item>RemovePointerToJoinedBoard(email,board_id)</item>
     /// <item>NukeBoard(email,board_title)</item>
     /// <item>NukeBoard(board_id)</item>
     /// <item>ChangeOwner(old_owner,new_owner)</item>
