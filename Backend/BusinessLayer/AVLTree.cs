@@ -568,8 +568,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 if(right != null) output = right.ToString(spaces + "        ",output);
 
-                if (parent != null) output += spaces + Key.ToString()+"("+parent.key.ToString()+")"+"\r";
-                else output += spaces + Key.ToString()+"(root)"+"\r";
+                if (parent != null) output += spaces + Key.ToString()+"("+parent.key.ToString()+")"+"\n";
+                else output += spaces + Key.ToString()+"(root)"+"\n";
 
                 if (left != null) output = left.ToString(spaces + "        ",output);
                 return output;
