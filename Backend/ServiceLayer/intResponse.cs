@@ -2,24 +2,22 @@
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
-    public partial class GradingService
+    public class intResponse
     {
-        public class intResponse
+
+        [JsonInclude]
+        public readonly int ReturnValue;
+
+        public intResponse(int ReturnValue)
         {
+            this.ReturnValue = ReturnValue;
+        }
 
-            [JsonInclude]
-            public readonly int ReturnValue;
-
-            public intResponse(int ReturnValue)
-            {
-                this.ReturnValue = ReturnValue;
-            }
-
-            public intResponse(string json)
-            {
-                Response<int> response = JsonController.BuildFromJson<Response<int>>(json);
-                ReturnValue = response.returnValue;
-            }
+        public intResponse(string json)
+        {
+            Response<int> response = JsonController.BuildFromJson<Response<int>>(json);
+            ReturnValue = response.returnValue;
         }
     }
+    
 }

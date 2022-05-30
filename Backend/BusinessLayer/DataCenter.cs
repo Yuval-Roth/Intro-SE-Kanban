@@ -42,15 +42,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// </summary>
     public class DataCenter
     {
-
-
-        /*
-         
-            Reminder: add to the design RemoveBoard(id), LeaveJoinedBoard(email,id), LoadData()
-         
-         */
-
-
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\DataCenter.cs");
 
         private struct DataUnit
@@ -559,6 +550,5 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         {
             throw new NotImplementedException();
         }
-
     }
 }

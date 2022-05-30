@@ -96,7 +96,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             try
             {
-                userData.RemoveBoard(email, name);
+                //userData.RemoveBoard(email, name);
                 log.Debug("RemoveBoard() success");
             }
             catch (NoSuchElementException)
