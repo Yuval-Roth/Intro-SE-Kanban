@@ -31,6 +31,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <item>LeaveJoinedBoard(email,board_id)</item>
     /// <item>NukeBoard(email,board_title)</item>
     /// <item>NukeBoard(board_id)</item>
+    /// <item>ChangeOwner(old_owner,new_owner)</item>
     /// </list>
     /// <br/>
     /// ===================
@@ -331,7 +332,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
         /// <summary>
-        /// Adds a pointer to of an existing board to the user's JoinedBoards.<br/><br/>
+        /// Adds a pointer of an existing board to the user's JoinedBoards.<br/><br/>
         /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if the user is already joined on the board<br/>
         /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system<br/>
         /// <b>Throws</b> <c>NoSuchElementException</c> if a board with that id doesn't exist<br/>
@@ -341,11 +342,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ElementAlreadyExistsException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
         /// <exception cref="NoSuchElementException"></exception>
-        public void JoinExistingBoard(string email, int id)
+        public void AddPointerToJoinedBoard(string email, int id)
         {
             try
             {
-                log.Debug("JoinExistingBoard() for: " + email + ", " + id);
+                log.Debug("AddPointerToJoinedBoard() for: " + email + ", " + id);
 
                 LinkedList<Board> joinedBoardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.JoinedBoards;
                 Board boardToJoin = OnlyBoardsTree.GetData(id);
@@ -355,24 +356,24 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 {
                     if (board.Id == id)
                     {
-                        log.Error("JoinExistingBoard() failed: " + email + " is already joined on board nubmer " + id);
+                        log.Error("AddPointerToJoinedBoard() failed: " + email + " is already joined on board nubmer " + id);
                         throw new ElementAlreadyExistsException(email + " is already joined on board nubmer " + id);
                     }
                 }
                 joinedBoardList.AddLast(boardToJoin);
-                log.Debug("JoinExistingBoard() success");
+                log.Debug("AddPointerToJoinedBoard() success");
             }
             catch (KeyNotFoundException)
             {
                 if (UsersAndBoardsTree.Contains(email) == false)
                 {
-                    log.Error("JoinExistingBoard() failed: '" + email + "' doesn't exist");
+                    log.Error("AddPointerToJoinedBoard() failed: '" + email + "' doesn't exist");
                     throw new UserDoesNotExistException("A user with the email '" +
                         email + "' doesn't exist in the system");
                 }
                 if (OnlyBoardsTree.Contains(id) == false)
                 {
-                    log.Error("JoinExistingBoard() failed: board number " + id + "doesn't exist");
+                    log.Error("AddPointerToJoinedBoard() failed: board number " + id + "doesn't exist");
                     throw new NoSuchElementException("Board number " + id + "doesn't exist");
                 }
             }  
@@ -388,11 +389,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <returns>The unjoined board</returns>
         /// <exception cref="UserDoesNotExistException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        public Board LeaveJoinedBoard(string email, int id) 
+        public Board RemovePointerToJoinedBoard(string email, int id) 
         {
             try
             {
-                log.Debug("LeaveJoinedBoard() for: " + email + ", " + id);
+                log.Debug("RemovePointerToJoinedBoard() for: " + email + ", " + id);
 
                 // Fetch the user's boards
                 LinkedList<Board> joinedBoardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.JoinedBoards;
@@ -404,18 +405,18 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     {
                         Board output = node.Value;
                         joinedBoardList.Remove(node);
-                        log.Debug("LeaveJoinedBoard() success");
+                        log.Debug("RemovePointerToJoinedBoard() success");
                         return output;
                     }
                 }
 
                 // didn't find a board by that id
-                log.Error("LeaveJoinedBoard() failed: " + email + " is not joined to board nubmer " + id);
+                log.Error("RemovePointerToJoinedBoard() failed: " + email + " is not joined to board nubmer " + id);
                 throw new ArgumentException(email + " is not joined to board nubmer " + id);
             }
             catch (KeyNotFoundException)
             {
-                log.Error("LeaveJoinedBoard() failed: '" + email + "' doesn't exist");
+                log.Error("RemovePointerToJoinedBoard() failed: '" + email + "' doesn't exist");
                 throw new UserDoesNotExistException("A user with the email '" +
                     email + "' doesn't exist in the system");
 
@@ -443,7 +444,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 RemoveBoardFromOwner(removed.Owner, removed.Title);
                 foreach (string joinedEmail in removed.Joined)
                 {
-                    LeaveJoinedBoard(joinedEmail, removed.Id);
+                    RemovePointerToJoinedBoard(joinedEmail, removed.Id);
                 }
             }
             catch (NoSuchElementException) { throw; }
@@ -472,7 +473,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 RemoveBoardById(removed.Id);
                 foreach (string joinedEmail in removed.Joined)
                 {
-                    LeaveJoinedBoard(joinedEmail, removed.Id);
+                    RemovePointerToJoinedBoard(joinedEmail, removed.Id);
                 }
             }
             catch (NoSuchElementException) { throw; }
@@ -517,15 +518,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <returns>The removed Board</returns>
         private Board RemoveBoardFromOwner(string email, string title)
         {
-            /*
-            TO DO:                
-            update to current requirements:
-
-            1) add deletion by id number
-            2) remove pointers from everywhere after deletion
-            3) remove from OnlyBoardsTree as well
-             */
-
             try
             {
                 log.Debug("RemoveBoardByEmailAndTitle() for: " + email + ", " + title);
@@ -559,7 +551,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             }
         }
-
+        public void ChangeOwner(string oldUser,string newUser)
+        {
+            throw new NotImplementedException();        
+        }
         private void LoadData()
         {
             throw new NotImplementedException();
