@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 using System.Text.Json;
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]
 
@@ -48,7 +47,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     /// </code>
     /// </para>
     /// </summary>
-    public class GradingService
+    public partial class GradingService
     {
         public UserService userServiceLayer;
         public BoardControllerService boardControllerServiceLayer;
@@ -310,70 +309,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return true;
             }
             else return false;
-        }
-
-        #nullable enable
-        [Serializable]
-        public class GradingResponse<T>
-        {
-            [JsonInclude]
-            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-            public readonly string? ErrorMessage;
-
-            [JsonInclude]
-            [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-            public readonly T? ReturnValue;
-
-
-            [JsonConstructor]
-            public GradingResponse(string? ErrorMessage, T? ReturnValue)
-            {
-                this.ErrorMessage = ErrorMessage;
-                this.ReturnValue = ReturnValue;
-            }
-
-            public GradingResponse(string json)
-            {
-                Response<T> response = JsonController.BuildFromJson<Response<T>>(json);
-                if (response.operationState == true)
-                {
-                    if (response.returnValue is string)
-                    {
-                        if (response.returnValue as string != "")
-                            ReturnValue = response.returnValue;
-                    }
-                    else
-                    {
-                        ReturnValue = response.returnValue;
-                    }
-                }
-                else if (response.returnValue is string)
-                {
-                    ErrorMessage = response.returnValue as string;
-                }
-                else
-                {
-                    throw new NotSupportedException("Response.operationState is false and returnValue is not string");
-                }
-            }
-        
-        }
-        public class intResponse
-        {
-
-            [JsonInclude]
-            public readonly int ReturnValue;
-
-            public intResponse(int ReturnValue)
-            {
-                this.ReturnValue = ReturnValue;
-            }
-
-            public intResponse(string json)
-            {
-                Response<int> response = JsonController.BuildFromJson<Response<int>>(json);
-                ReturnValue = response.returnValue;
-            }
         }
     }
 }
