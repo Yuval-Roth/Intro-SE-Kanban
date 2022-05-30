@@ -11,6 +11,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
     /// <summary>
     /// The class manages a data structure of of <c>User</c>s and <c>Board</c>s. <br/><br/>
+    /// The class provides an interface for the inner data structures and performs most of the<br/>
+    /// basic operations needed.<br/><br/>
+    /// 
+    /// <b>No checks are being done to ensure whether or not those operations are legal or sensible.</b><br/>
+    /// for example: the class does not check whether or not a user is logged in before performing operations.<br/>
+    /// this class is simply a tool for using the inner data structures
+    /// 
     /// <code>Supported operations:</code>
     /// <b>-------------User Related--------------</b>
     /// <list type="bullet">
@@ -31,7 +38,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <item>RemovePointerToJoinedBoard(email,board_id)</item>
     /// <item>NukeBoard(email,board_title)</item>
     /// <item>NukeBoard(board_id)</item>
-    /// <item>ChangeOwnerPointer(old_owner,new_owner)</item>
+    /// <item>ChangeOwnerPointer(old_owner,board_title,new_owner)</item>
     /// </list>
     /// <br/>
     /// ===================
@@ -40,7 +47,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <br/>
     /// ===================
     /// </summary>
-    public class DataCenter
+    public class DataCenter : UserDataOperations, BoardDataOperations
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\DataCenter.cs");
 
@@ -67,11 +74,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             //LoadData();
         }
 
-        /// <summary>
-        /// Auto incrementing counter for boards ID.<br/>
-        /// Everytime this method is called, the counter in incremented.
-        /// </summary>
-        private int GetNextBoardID => nextBoardID++;
 
         /// <summary>
         /// Searches for a user with the specified email<br/><br/>
@@ -334,7 +336,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ElementAlreadyExistsException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
         /// <exception cref="NoSuchElementException"></exception>
-        public void AddPointerToJoinedBoard(string email, int id)
+        public Board AddPointerToJoinedBoard(string email, int id)
         {
             try
             {
@@ -354,6 +356,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 }
                 joinedBoardList.AddLast(boardToJoin);
                 log.Debug("AddPointerToJoinedBoard() success");
+                return boardToJoin;
             }
             catch (KeyNotFoundException)
             {
@@ -363,11 +366,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     throw new UserDoesNotExistException("A user with the email '" +
                         email + "' doesn't exist in the system");
                 }
-                if (OnlyBoardsTree.Contains(id) == false)
+                else if (OnlyBoardsTree.Contains(id) == false)
                 {
                     log.Error("AddPointerToJoinedBoard() failed: board number " + id + "doesn't exist");
                     throw new NoSuchElementException("Board number " + id + "doesn't exist");
                 }
+                else {
+                    log.Fatal("AddPointerToJoinedBoard(): Unexpected error");
+                    throw new OperationCanceledException("Unexpected error");
+                } 
             }  
         }
 
@@ -474,6 +481,67 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
         /// <summary>
+        /// Remove pointer from old owner and add pointer to new owner<br/><br/>
+        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if a board with that title already exists for the newOwner<br/><br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if a user with that email doesn't exist<br/><br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if a <c>Board</c> with that title <br/>
+        /// doesn't exist for the oldOwner<br/><br/>
+        /// </summary>
+        /// <param name="oldOwner"></param>
+        /// <param name="boardName"></param>
+        /// <param name="newOwner"></param>
+        public void ChangeOwnerPointer(string oldOwner,string boardName, string newOwner)
+        {
+            try
+            {
+                AddExistingBoard(newOwner, RemoveBoardFromOwner(oldOwner, boardName));
+            }
+            catch (NoSuchElementException) { throw; }
+            catch (UserDoesNotExistException) { throw; }
+            catch (ElementAlreadyExistsException) { throw; }
+        }
+
+        /// <summary>
+        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if a board with that title already exists for the user<br/><br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if a user with that email doesn't exist
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="newBoard"></param>
+        /// <exception cref="ElementAlreadyExistsException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        private void AddExistingBoard(string email, Board newBoard)
+        {
+            try
+            {
+                log.Debug("AddExistingBoard() for: " + email + ", " + newBoard.Title);
+
+                // Fetch the user's boards
+                LinkedList<Board> myBoardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.MyBoards;
+
+                // Check if there's a board with that title already
+                foreach (Board board in myBoardList)
+                {
+                    if (board.Title == newBoard.Title)
+                    {
+                        log.Error("AddExistingBoard() failed: board '" + newBoard.Title + "' already exists for " + email);
+                        throw new ElementAlreadyExistsException("A board titled " +
+                                newBoard.Title + " already exists for the user with the email " + email);
+                    }
+                }
+
+                // Add the board
+                myBoardList.AddLast(newBoard);
+                log.Debug("AddExistingBoard() success");
+            }
+            catch (KeyNotFoundException)
+            {
+                log.Error("AddExistingBoard() failed: '" + email + "' doesn't exist");
+                throw new UserDoesNotExistException("A user with the email '" +
+                    email + "' doesn't exist in the system");
+            }
+        }
+
+        /// <summary>
         /// Removes a board from BoardTree
         /// <br/><br/>
         /// <b>Throws</b> <c>NoSuchElementException</c> if a <c>Board</c> with that id <br/>
@@ -502,7 +570,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <br/><br/>
         /// <b>Throws</b> <c>NoSuchElementException</c> if a <c>Board</c> with that title <br/>
         /// doesn't exist for the user<br/><br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the <c>User</c> doesn't exist <br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the <c>User</c> doesn't exist <br/><br/>
         /// in the system
         /// </summary>
         /// <exception cref="NoSuchElementException"></exception>
@@ -544,14 +612,188 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        public void ChangeOwnerPointer(string oldUser,string newUser)
-        {
-            throw new NotImplementedException();        
-        }
-
+        /// <summary>
+        /// Auto incrementing counter for boards ID.<br/>
+        /// Everytime this method is called, the counter in incremented.
+        /// </summary>
+        private int GetNextBoardID => nextBoardID++;
+        
         private void LoadData()
         {
             throw new NotImplementedException();
         }
+
+    }
+    public interface UserDataOperations
+    {
+        /// <summary>
+        /// Searches for a user with the specified email<br/><br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns>User</returns>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        public User SearchUser(string email);
+
+        /// <summary>
+        /// Adds a user to the system
+        /// <br/><br/>
+        /// <b>Throws</b> <c>ElementAlreadyExists</c> if a user with this email<br/>
+        /// already exists in the system
+        /// </summary>
+        /// <param name="email"></param>
+        /// <exception cref="ElementAlreadyExistsException"></exception>
+        /// <returns>The added <c>User</c></returns>
+        public User AddUser(string email, string password);
+
+        /// <summary>
+        /// Removes the user with the specified email from the system
+        /// <br/><br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system
+        /// </summary>
+        /// <param name="email"></param>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        public void RemoveUser(string email);
+
+        /// <summary>
+        /// Check if a user exists in the system
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns>true or false</returns>
+        public bool ContainsUser(string email);
+
+        /// <summary>
+        /// Gets the user's logged in status
+        /// </summary>
+        /// <returns><c>true</c> if the user is logged in, <c>false</c>  otherwise</returns>
+        /// <param name="email"></param>
+        public bool UserLoggedInStatus(string email);
+
+        /// <summary>
+        /// Sets a user's logged in status to true
+        /// <br/><br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if the user's logged in status is already true
+        /// </summary>
+        /// <param name="email"></param>
+        /// <exception cref="ArgumentException"></exception>
+        public void SetLoggedIn(string email);
+
+        /// <summary>
+        /// Sets a user's logged in status to false
+        /// <br/><br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if the user's logged in status is already false
+        /// </summary>
+        /// <param name="email"></param>
+        /// <exception cref="ArgumentException"></exception>
+        public void SetLoggedOut(string email);
+    }
+    public interface BoardDataOperations 
+    {
+        /// <summary>
+        /// Gets the user's logged in status
+        /// </summary>
+        /// <returns><c>true</c> if the user is logged in, <c>false</c>  otherwise</returns>
+        /// <param name="email"></param>
+        public bool UserLoggedInStatus(string email);
+
+        /// <summary>
+        /// Gets all the <c>User</c>'s boards data
+        /// <br/><br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the <c>User</c> does not exist<br/>
+        /// in the system
+        /// </summary>
+        /// <returns><see cref="BoardsDataUnit"/></returns>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        public DataCenter.BoardsDataUnit GetBoardsDataUnit(string email);
+
+        /// <summary>
+        /// Gets all the <c>User</c>'s <c>Board</c>s
+        /// <br/><br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the <c>User</c> does not exist<br/>
+        /// in the system
+        /// </summary>
+        /// <returns><see cref="Board"/></returns>
+        /// <exception cref="NoSuchElementException"></exception>
+        public Board SearchBoardById(int board_id);
+
+        /// <summary>
+        /// Adds a <c>Board</c> to the <c>User</c>.
+        ///<br/><br/>
+        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if a <c>Board</c> with that title already exists <br/>
+        /// for the <c>User</c><br/><br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the <c>User</c> doesn't exist <br/>
+        /// in the system
+        /// </summary>
+        /// <returns>The <c>Board</c> that was added</returns>
+        /// <exception cref="ElementAlreadyExistsException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        public Board AddNewBoard(string email,string board_title);
+
+        /// <summary>
+        /// Adds a pointer of an existing board to the user's JoinedBoards.<br/><br/>
+        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if the user is already joined on the board<br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system<br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if a board with that id doesn't exist<br/>
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="id"></param>
+        /// <exception cref="ElementAlreadyExistsException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="NoSuchElementException"></exception>
+        public Board AddPointerToJoinedBoard(string email,int board_id);
+
+        /// <summary>
+        /// Removes the pointer of the joined board from the user's JoinedBoards<br/><br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system<br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if the user is not joined on a board with that id<br/>
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="id"></param>
+        /// <returns>The unjoined board</returns>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        public Board RemovePointerToJoinedBoard(string email,int board_id);
+
+        /// <summary>
+        /// Removes a <c>Board</c> from the <b>entire system</b><br/>
+        /// <br/><br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if,  for some reason, a board with that id <br/>
+        /// doesn't exist in the system in general or specifically for its owner<br/><br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if, for some reason, a board with that id doesn't<br/>
+        /// exist for any of the joined users<br/><br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if, for some reason, one of the board's joined users doesn't exist <br/>
+        /// in the system
+        /// </summary>
+        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        public void NukeBoard(string email,string board_title);
+
+        /// <summary>
+        ///  Completly removes a <c>Board</c> from the <b>entire system</b><br/>
+        /// <br/><br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if,  for some reason, a board with that id <br/>
+        /// doesn't exist in the system in general or specifically for its owner<br/><br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if, for some reason, a board with that id doesn't<br/>
+        /// exist for any of the joined users<br/><br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if, for some reason, one of the board's joined users doesn't exist <br/>
+        /// in the system
+        /// </summary>
+        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        public void NukeBoard(int board_id);
+
+        /// <summary>
+        /// Remove pointer from old owner and add pointer to new owner<br/><br/>
+        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if a board with that title already exists for the newOwner<br/><br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if a user with that email doesn't exist<br/><br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if a <c>Board</c> with that title <br/>
+        /// doesn't exist for the oldOwner<br/><br/>
+        /// </summary>
+        /// <param name="oldOwner"></param>
+        /// <param name="boardName"></param>
+        /// <param name="newOwner"></param>
+        public void ChangeOwnerPointer(string old_owner,string board_title,string new_owner);
     }
 }

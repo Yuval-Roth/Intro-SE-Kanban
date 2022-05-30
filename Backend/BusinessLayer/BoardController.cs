@@ -28,14 +28,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     public class BoardController
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\BoardController.cs");
-        DataCenter userData;
+        BoardDataOperations boardData;
         /// <summary>
         /// Initialize a new BoardController <br/><br/>
         /// </summary>
         /// <param name="userData"></param>
-        public BoardController(DataCenter userData)
+        public BoardController(BoardDataOperations boardData)
         {
-            this.userData = userData;
+            this.boardData = boardData;
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             try
             {
-                userData.AddNewBoard(email, name);
+                boardData.AddNewBoard(email, name);
                 log.Debug("AddBoard() success");
             }
             catch (NoSuchElementException)
@@ -96,7 +96,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             try
             {
-                //userData.RemoveBoard(email, name);
+                //boardData.RemoveBoard(email, name);
                 log.Debug("RemoveBoard() success");
             }
             catch (NoSuchElementException)
@@ -159,7 +159,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             try
             {
-                //LinkedList<Board> output = userData.GetBoards(email);
+                //LinkedList<Board> output = boardData.GetBoards(email);
                 log.Debug("GetBoards() success");
                 //return output;
                 return null;
@@ -185,7 +185,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             log.Debug("SearchBoard() for: " + email + " Board's name " + name);
             ValidateUser(email);
 
-            LinkedList<Board> boardList = userData.GetBoardsDataUnit(email).MyBoards;
+            LinkedList<Board> boardList = boardData.GetBoardsDataUnit(email).MyBoards;
             foreach (Board board in boardList)
             {
                 if (board.Title == name)
@@ -208,14 +208,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="AccessViolationException"></exception>
         private void ValidateUser(string email)
         {
-            if (!userData.ContainsUser(email))
+            if (!boardData.ContainsUser(email))
             {
                 log.Error("ValidateUser() failed: a user with the email '" +
                     email + "' doesn't exist in the system");
                 throw new UserDoesNotExistException("A user with the email '" +
                     email + "' doesn't exist in the system");
             }
-            if (!userData.UserLoggedInStatus(email))
+            if (!boardData.UserLoggedInStatus(email))
             {
                 log.Error("ValidateUser() failed: user '" + email + "' isn't logged in");
                 throw new AccessViolationException("user '" + email + "' isn't logged in");
