@@ -43,6 +43,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <item>ChangeOwnerPointer(old_owner,board_title,new_owner)</item>
     /// <item>UserOwnsABoardWithThisTitle(email, board_title)</item>
     /// </list>
+    /// <b>-------------Management--------------</b>
+    /// <list type="bullet">
+    /// <item>LoadData()</item>
+    /// <item>DeleteData()</item>
+    /// </list>
     /// <br/>
     /// ===================
     /// <br/>
