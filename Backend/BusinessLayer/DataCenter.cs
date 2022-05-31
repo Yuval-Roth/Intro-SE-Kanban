@@ -14,7 +14,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// The class provides an interface for the underlying data structures and performs most of the<br/>
     /// basic operations needed.<br/><br/>
     /// 
-    /// <b>No checks are being done to ensure whether or not those operations are legal or sensible.</b><br/>
+    /// <b>No checks are being done to ensure whether or not those operations are legal or sensible in a given context.</b><br/>
     /// for example: the class does not check whether or not a user is logged in before performing operations.<br/>
     /// this class is simply a tool for using the underlying data structures
     /// 
@@ -33,6 +33,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <list type="bullet">
     /// <item>GetBoardsDataUnit(email)</item>
     /// <item>SearchBoardById(board_id)</item>
+    /// <item>SearchBoardByEmailAndTitle(email,board_title)</item>
     /// <item>AddNewBoard(email,board_title)</item>
     /// <item>AddPointerToJoinedBoard(email,board_id)</item>
     /// <item>RemovePointerToJoinedBoard(email,board_id)</item>
@@ -939,6 +940,18 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <returns><see cref="Board"/></returns>
         /// <exception cref="NoSuchElementException"></exception>
         public Board SearchBoardById(int board_id);
+
+        /// <summary>
+        /// Searches for a board by email and title<br/><br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the board doesn't exist for the user<br/><br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        public Board SearchBoardByEmailAndTitle(string email,string board_title);
 
         /// <summary>
         /// Adds a <c>Board</c> to the <c>User</c>.
