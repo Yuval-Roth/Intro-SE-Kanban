@@ -50,7 +50,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <br/>
     /// ===================
     /// </summary>
-    public class DataCenter : UserDataOperations, BoardDataOperations
+    public class DataCenter : UserDataOperations, BoardDataOperations, DataCenterManagement
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\DataCenter.cs");
 
@@ -64,9 +64,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             public LinkedList<Board> MyBoards { get; init; }
             public LinkedList<Board> JoinedBoards { get; init; }
         }
-        private readonly AVLTree<string, DataUnit> UsersAndBoardsTree;
-        private readonly AVLTree<int, Board> OnlyBoardsTree;
-        private readonly HashSet<string> loggedIn;
+        private AVLTree<string, DataUnit> UsersAndBoardsTree;
+        private AVLTree<int, Board> OnlyBoardsTree;
+        private HashSet<string> loggedIn;
         private int nextBoardID;
 
         public DataCenter()
@@ -837,7 +837,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         private int GetNextBoardID => nextBoardID++;
         
-        private void LoadData()
+        public void LoadData()
+        {
+            throw new NotImplementedException();
+        }
+        public void DeleteData()
         {
             throw new NotImplementedException();
         }
@@ -1043,5 +1047,17 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="UserDoesNotExistException"></exception>
         public bool UserOwnsABoardWithThisTitle(string email, string title);
    
+    }
+    public interface DataCenterManagement
+    {
+        /// <summary>
+        /// This method loads all persisted data into memory
+        /// </summary>
+        public void LoadData();
+
+        /// <summary>
+        /// <b>WARNING: this method deletes all persisted data</b>
+        /// </summary>
+        public void DeleteData();
     }
 }

@@ -59,6 +59,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public UserController UserController => userController;
         //public BoardMembersPermissions BoardMembersPermissions => BMP;
 
+        /// <summary>
+        /// retrieve the BoardController instance
+        /// </summary>
+        public DataCenterManagement DataCenterManagement => dataCenter;
 
         /// <returns>The instance of the singleton BusinessLayerFatory</returns>
         public static BusinessLayerFactory GetInstance()
