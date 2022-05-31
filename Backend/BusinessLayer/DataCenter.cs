@@ -41,6 +41,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <item>NukeBoard(email,board_title)</item>
     /// <item>NukeBoard(board_id)</item>
     /// <item>ChangeOwnerPointer(old_owner,board_title,new_owner)</item>
+    /// <item>UserOwnsABoardWithThisTitle(email, board_title)</item>
     /// </list>
     /// <br/>
     /// ===================
@@ -520,7 +521,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }        
         }
         
-
         /// <summary>
         ///  Completly removes a <c>Board</c> from the <b>entire system</b><br/>
         /// <br/><br/>
@@ -617,6 +617,34 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("ChangeOwnerPointers() failed: " + e.Message);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Checks whether or not a user owns a board with the specified title
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="title"></param>
+        /// <returns>true is yes, false if no</returns>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        public bool UserOwnsABoardWithThisTitle(string email, string title)
+        {
+            try
+            {
+                log.Debug("UserOwnsABoardWithThisTitle() for: " + email + ", " + title);
+
+                ValidateUser(email);
+
+                LinkedList<Board> myBoardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.MyBoards;
+
+                bool answer = FindBoardInList(myBoardList, title) != null;
+                log.Debug("UserOwnsABoardWithThisTitle() success");
+                return answer;
+            }
+            catch (UserDoesNotExistException e)
+            {
+                log.Error("UserOwnsABoardWithThisTitle() failed: "+e.Message);
+                throw;
+            }     
         }
 
         /// <summary>
@@ -726,34 +754,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("RemoveBoardByEmailAndTitle() failed: "+e.Message);
                 throw;
             }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="email"></param>
-        /// <param name="title"></param>
-        /// <returns></returns>
-        /// <exception cref="UserDoesNotExistException"></exception>
-        private bool UserOwnsABoardWithThisTitle(string email, string title)
-        {
-            try
-            {
-                log.Debug("UserOwnsABoardWithThisTitle() for: " + email + ", " + title);
-
-                ValidateUser(email);
-
-                LinkedList<Board> myBoardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.MyBoards;
-
-                bool answer = FindBoardInList(myBoardList, title) != null;
-                log.Debug("UserOwnsABoardWithThisTitle() success");
-                return answer;
-            }
-            catch (UserDoesNotExistException e)
-            {
-                log.Error("UserOwnsABoardWithThisTitle() failed: "+e.Message);
-                throw;
-            }     
         }
 
         /// <summary>
@@ -1033,5 +1033,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="boardName"></param>
         /// <param name="newOwner"></param>
         public void ChangeOwnerPointer(string old_owner,string board_title,string new_owner);
+
+        /// <summary>
+        /// Checks whether or not a user owns a board with the specified title
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="title"></param>
+        /// <returns>true is yes, false if no</returns>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        public bool UserOwnsABoardWithThisTitle(string email, string title);
+   
     }
 }
