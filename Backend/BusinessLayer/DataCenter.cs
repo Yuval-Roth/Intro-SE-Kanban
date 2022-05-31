@@ -10,7 +10,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
 
     /// <summary>
-    /// The class manages a data structure of of <c>User</c>s and <c>Board</c>s. <br/><br/>
+    /// The class uses the facade design pattern.<br/>
+    /// it manages a data structure of of <c>User</c>s and <c>Board</c>s. <br/><br/>
     /// The class provides an interface for the underlying data structures and performs most of the<br/>
     /// basic operations needed.<br/><br/>
     /// 
