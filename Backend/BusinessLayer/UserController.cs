@@ -112,7 +112,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("LogIn() failed: " + email + " illegal");
                 throw new ArgumentException("Illegal email");
             }
-            if (userData.ContainsUser(email))
+            if (userData.UserExists(email))
             {
                 if (userData.SearchUser(email).CheckPasswordMatch(password))
                 {
@@ -155,7 +155,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("LogOut() failed: " + email + " illegal");
                 throw new ArgumentException("Illegal email");
             }
-            if (userData.ContainsUser(email) == false)
+            if (userData.UserExists(email) == false)
             {
                 log.Error("LogOut() failed: there is no user with " + email + " in the system");
                 throw new ArgumentException("There is no such user in the system");
@@ -184,7 +184,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void SetPassword(User user, string old, string newP)
         {
             log.Debug("SetPassword() for : '" + user.GetEmail() + "' from '" + old + "' to '" + newP);
-            if (userData.ContainsUser(user.GetEmail()) == false)
+            if (userData.UserExists(user.GetEmail()) == false)
             {
                 log.Error("SetPassword() failed: '" + user.GetEmail() + "' is not in the system");
                 throw new ArgumentException("User is not in the system");
@@ -217,7 +217,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void SetEmail(User user, string newE)
         {
             log.Debug("SetEmail() for '" + user + "' to '" + newE);
-            if (userData.ContainsUser(user.GetEmail()) == false)
+            if (userData.UserExists(user.GetEmail()) == false)
             {
                 log.Error("SetEmail() failed: '" + user + "' doesn't exist");
                 throw new ArgumentException("User dosen't exist");
@@ -227,7 +227,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("SetEmail() failed: " + newE + " is illegal");
                 throw new ArgumentException("New email illegal");
             }
-            if (userData.ContainsUser(newE) == true)
+            if (userData.UserExists(newE) == true)
             {
                 log.Error("SetEmail() failed: user with " + newE + " allready exist in the system");
                 throw new ArgumentException("A user with that email already exists in the system");

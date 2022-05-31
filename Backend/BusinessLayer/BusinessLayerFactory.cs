@@ -14,7 +14,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <b>Note:</b> this factory instantiates each class excactly once and does not produce duplicates
     /// <code>Inventory:</code>
     /// <list type="bullet">
-    /// <item>DataCenter</item>
+    /// <item>UserDataOperations</item>
+    /// <item>BoardDataOperations</item>
     /// <item>BoardController</item>
     /// <item>UserController</item>
     /// <item>BoardMembersPermissions</item>
@@ -40,7 +41,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <summary>
         /// retrieve the DataCenter instance
         /// </summary>
-        public DataCenter DataCenter => dataCenter;
+        public BoardDataOperations BoardDataOperations => dataCenter;
+
+        /// <summary>
+        /// retrieve the DataCenter instance
+        /// </summary>
+        public UserDataOperations UserDataOperations => dataCenter;
 
         /// <summary>
         /// retrieve the BoardController instance
