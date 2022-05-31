@@ -208,7 +208,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="AccessViolationException"></exception>
         private void ValidateUser(string email)
         {
-            if (!boardData.ContainsUser(email))
+            if (!boardData.UserExists(email))
             {
                 log.Error("ValidateUser() failed: a user with the email '" +
                     email + "' doesn't exist in the system");
