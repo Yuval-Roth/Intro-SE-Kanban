@@ -8,15 +8,15 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
     public class BoardDTO
     {
-        public int id;
-        public string Title;
-        public string owner;
-        public string[] Joined;
-        public TaskDTO[] backlog;
-        public TaskDTO[] inprogress;
-        public TaskDTO[] done;
-        public int backlogLimit;
-        public int inprogressLimit;
-        public int doneLimit;
+        public int Id { set; get; }
+        public string Title { set; get; }
+        public string Owner { set; get; }
+        public string[] Joined { set; get; }
+        public TaskDTO[] BackLog { set; get; }
+        public TaskDTO[] InProgress { set; get; }
+        public TaskDTO[] Done { set; get; }
+        public int BackLogLimit { set; get; }
+        public int InProgressLimit { set; get; }
+        public int DoneLimit { set; get; }
     }
 }

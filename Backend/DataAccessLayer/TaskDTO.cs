@@ -8,13 +8,13 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
     public class TaskDTO
     {
-        public int BoardId;
-        public int TaskId;
-        public string Title;
-        public string Description;
-        public DateTime CreationTime;
-        public DateTime DueDate;
-        public BusinessLayer.TaskStates state;
-        public string assignee;
+        public int BoardId { set; get; }
+        public int TaskId { set; get; }
+        public string Title { set; get; }
+        public string Description { set; get; }
+        public DateTime CreationTime { set; get; }
+        public DateTime DueDate { set; get; }
+        public BusinessLayer.TaskStates State { set; get; }
+        public string Assignee { set; get; }
     }
 }
