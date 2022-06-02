@@ -37,6 +37,21 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             boardController = BC;
         }
 
+        public string JoinBoard(string email, int BoardId)
+        {
+            return "";
+        }
+
+        public string LeaveBoard(string email, int BoardId)
+        {
+            return "";
+        }
+
+        public string ChangeOwner(string oldemail, int BoardId, string newemail)
+        {
+            return "";
+        }
+
         /// <summary>
         /// This method adds a new task.
         /// </summary>
