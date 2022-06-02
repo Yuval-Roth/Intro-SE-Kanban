@@ -8,5 +8,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
     public class SQLExecuter
     {
+
+        private Queue<string> queue;
+        SQLExecuter
     }
 }
