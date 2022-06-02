@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
-    internal class BoardControllerDTO
+    public class BoardControllerDTO
     {
     }
 }
