@@ -38,6 +38,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private string description;
         private DateTime dueDate;
         TaskStates state;
+        private string assignee;
 
         private readonly int MAX_DESCRIPTION_CHAR_CAP = 300;
         private readonly int MAX_TITLE_CHAR_CAP = 50;
@@ -52,7 +53,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="duedate"></param>
         /// <param name="description"></param>
         /// <exception cref="ArgumentException"></exception>
-        public Task(int id, string title, DateTime duedate,string description)
+        public Task(int id, string title, DateTime duedate,string description, string assignee)
         {
             log.Debug("Task() for id: " + id);
             if (title.Length < MIN_TITLE_CHAR_CAP)
@@ -70,7 +71,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("Task() failed: description is over the limit");
                 throw new ArgumentException("description is over the limit");
             }
-            if(duedate.CompareTo(DateTime.Today) < 0)
+            if (duedate.CompareTo(DateTime.Today) < 0)
             {
                 log.Error("Task() failed: due date was passed");
                 throw new ArgumentException("due date was passed");
@@ -82,6 +83,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             creationTime = DateTime.Today;
             state = TaskStates.backlog;
             log.Debug("Task() success");
+            this.assignee = assignee;
         }
 
 

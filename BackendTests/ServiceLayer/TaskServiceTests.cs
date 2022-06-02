@@ -95,6 +95,19 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
         }
 
+        //user isnt the assignee
+        //[TestMethod()]
+        //public void UpdateTaskDueDateNotAssignee()
+        //{
+        //    string expected = JsonController.ConvertToJson(new Response<string>(false, "This is not the assignee"));
+        //    string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+        //    result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+        //    result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+        //    result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2022, 05, 20), "printz@post.bgu.ac.il");
+        //    result = taskservice.UpdateTaskDueDate("kfirniss@post.bgu.ac.il", "new board", 0, 0, new DateTime(2022, 05, 20));
+        //    Assert.AreEqual(expected, result);
+        //}
+
         //successful
         [TestMethod()]
         public void UpdateTaskTitleTestSuccess()
@@ -163,6 +176,37 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
         }
 
+        //invalid title length- empty title
+        [TestMethod()]
+        public void UpdateTaskTitleEmptyNewTitle()
+        {
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "The title is empty"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2022, 05, 20));
+            result = taskservice.UpdateTaskTitle("kfirniss@post.bgu.ac.il", "new board", 0, 1, "");
+            Assert.AreEqual(expected, result);
+        }
+
+        //invalid title length- more than 50
+        [TestMethod()]
+        public void UpdateTaskTitleTitleTooLong()
+        {
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "Title's length is over 50"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2022, 05, 20));
+            string title = "";
+            for(int i = 0; i < 60; i++)
+            {
+                title = title + 'a';
+            }
+            result = taskservice.UpdateTaskTitle("kfirniss@post.bgu.ac.il", "new board", 0, 1, title);
+            Assert.AreEqual(expected, result);
+        }
+
         //successful
         [TestMethod()]
         public void UpdateTaskDescriptionSuccess()
@@ -228,6 +272,24 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = taskservice.UpdateTaskDescription("kfirniss@post.bgu.ac.il", "new board", 0, 0, "new task description");
+            Assert.AreEqual(expected, result);
+        }
+
+        //description too long
+        [TestMethod()]
+        public void UpdateTaskDescriptionTooLong()
+        {
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "Description length is over 300"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2022, 05, 20));
+            string description = "";
+            for(int i= 0; i < 310; i++)
+            {
+                description = description + 'a';
+            }
+            result = taskservice.UpdateTaskDescription("kfirniss@post.bgu.ac.il", "new board", 0, 0, description);
             Assert.AreEqual(expected, result);
         }
     }
