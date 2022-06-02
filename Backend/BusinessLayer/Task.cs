@@ -53,7 +53,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="duedate"></param>
         /// <param name="description"></param>
         /// <exception cref="ArgumentException"></exception>
-        public Task(int id, string title, DateTime duedate,string description, string assignee)
+        public Task(int id, string title, DateTime duedate,string description)
         {
             log.Debug("Task() for id: " + id);
             if (title.Length < MIN_TITLE_CHAR_CAP)
@@ -80,6 +80,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             this.title = title;
             this.dueDate = duedate;
             this.description = description;
+            this.assignee = null;
             creationTime = DateTime.Today;
             state = TaskStates.backlog;
             log.Debug("Task() success");
