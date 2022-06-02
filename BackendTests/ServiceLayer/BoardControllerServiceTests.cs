@@ -114,6 +114,20 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         }
 
         [TestMethod()]
+        public void RemoveBoardTest_user_isnt_owner()
+        {
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled 'new board' can't be removed by the user with the email Printzpost.bgu.ac.il"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = userservice.Register("Printzpost.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("Printzpost.bgu.ac.il", "Ha12345");
+            result = boardservice.JoinBoard("Printzpost.bgu.ac.il", 0);
+            result = boardcontrollerservice.RemoveBoard("Printzpost.bgu.ac.il", "new Board");
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod()]
         public void GetAllTasksByStateTest_successful()
         {
             BusinessLayer.Task task1 = new(0, "task 1", new DateTime(2022, 05, 20), "bla bla bla");
