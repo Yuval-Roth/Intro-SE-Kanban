@@ -10,26 +10,20 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
     {
         private static DataAccessLayerFactory instance = null;
         private BoardControllerDTO BCDTO;
-        private BoardDTO boardDTO;
-        private TaskDTO taskDTO;
-        private UserDTO userDTO;
+        private TaskControllerDTO taskContollerDTO;
         private UserControllerDTO userControllerDTO;
         private SQLExecuter executer;
 
         private DataAccessLayerFactory()
         {
             BCDTO = new();
-            boardDTO = new();
-            taskDTO = new();
-            userDTO = new();
+            taskControllerDTO = new();
             userControllerDTO = new();
             executer = new();
         }
 
         public BoardControllerDTO boardControllerDTO => BCDTO;
-        public BoardDTO BoardDTO => boardDTO;
-        public TaskDTO TaskDTO => taskDTO;
-        public UserDTO UserDTO => userDTO;
+        public TaskControllerDTO TaskControllerDTO => taskControllerDTO;
         public UserControllerDTO UserControllerDTO => userControllerDTO;
         public SQLExecuter SQLExecuter => executer;
 
