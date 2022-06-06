@@ -17,11 +17,12 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         }
         public bool RemoveBoard(int id)
         {
-            throw new NotImplementedException("No implement yet");
+            return executer.Execute($"DELETE FROM Boards WHERE Boards.BoardId={id} DELETE FROM UserJoinedBoards WHERE UserJoinedBoards.BoardId={id}");
         }
         public bool JoinBoard(string email, int id)
         {
-            throw new NotImplementedException("No implement yet");
+            return executer.Execute("INSERT into UserJoinedBoards (BoardId, Email)" +
+                $"VALUES({id}, {email})");
         }
         public bool LeaveBoard(string email, int id)
         {
