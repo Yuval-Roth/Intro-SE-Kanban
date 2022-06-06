@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
+using System;
 
 namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
@@ -9,28 +10,64 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\DataAccessLayer\\SQLExecuter.cs");
 
-        private Queue<string> queue;
-
         public SQLExecuter() { }
-        public bool Execute(string command) 
-        {
-            queue.Enqueue(command);
-            if (queue.Count == 5) 
+
+        public bool ExecuteWrite(string query) {
+            throw new NotImplementedException();
+
+            string path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "kanban.db"));
+            SQLiteConnectionStringBuilder connectionBuilder = new()
             {
-                log.Fatal("SQL queries are not executing");
-                foreach (string query in queue) 
+                DataSource = path
+            };
+
+            using (SQLiteConnection connection = new(connectionBuilder.ConnectionString))
+            {
+                SQLiteCommand command = new(query,connection);
+                connection.Open();
+
+                try
                 {
-                    log.Fatal("SQL query not executed: "+ query);
+                    int affectedRows = command.ExecuteNonQuery();
+                    if (affectedRows > 0)
+                    {
+                        return true;
+                    }
+                    else return false;
+                }
+                finally
+                {
+                    connection.Close();
                 }
             }
-            return Execute();
+                
         }
-        public bool Execute() {
+        public object ExecuteRead(string query)
+        {
+            throw new NotImplementedException();
+
             string path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "kanban.db"));
+            SQLiteConnectionStringBuilder connectionBuilder = new()
+            {
+                DataSource = path
+            };
 
-            using (SQLiteConnection connection = new("C:\\Users\\Yuval\\source\repos\\BGU-SE-Intro\\2021-2022-kanban-team-25\\Backend\\DataAccessLayer\\Kanban.db"))
 
-                SQLiteCommand command = new()
+            using (SQLiteConnection connection = new(connectionBuilder.ConnectionString))
+            {
+                SQLiteCommand command = new(query, connection);
+                connection.Open();
+
+                try
+                {
+                    return command.ExecuteReader();
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+
         }
     }
 }

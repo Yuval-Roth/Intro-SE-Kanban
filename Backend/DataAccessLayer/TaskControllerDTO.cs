@@ -27,7 +27,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             string command = "UPDATE Tasks" +
                             $"SET State = {(int)state}" +
-                            $"WHERE BoardId = '{boardId}', TaskId = '{taskId}'";
+                            $"WHERE BoardId = '{boardId}' and TaskId = '{taskId}'";
 
             return executer.Execute(command);
         }
@@ -35,7 +35,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             string command = "UPDATE Tasks" +
                             $"SET TaskTitle = '{title}' " +
-                            $"WHERE BoardId = {boardId}, TaskId = {taskId}";
+                            $"WHERE BoardId = {boardId} and TaskId = {taskId}";
 
             return executer.Execute(command);
         }
@@ -43,7 +43,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             string command = "UPDATE Tasks" +
                             $"SET Description = '{description}'" +
-                            $"WHERE BoardId = {boardId}, TaskId = {taskId}";
+                            $"WHERE BoardId = {boardId} and TaskId = {taskId}";
 
             return executer.Execute(command);
         }
@@ -51,7 +51,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             string command = "UPDATE Tasks" +
                             $"SET Assignee = '{email}'" +
-                            $"WHERE BoardId = {boardId}, TaskId = {taskId}";
+                            $"WHERE BoardId = {boardId} and TaskId = {taskId}";
 
             return executer.Execute(command);
         }
@@ -59,7 +59,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             string command = "UPDATE Tasks" +
                             $"SET DueDate = '{dueDate.Year}/{dueDate.Month}/{dueDate.Day}'" +
-                            $"WHERE BoardId = {boardId}, TaskId = {taskId}";
+                            $"WHERE BoardId = {boardId} and TaskId = {taskId}";
 
             return executer.Execute(command);
         }
