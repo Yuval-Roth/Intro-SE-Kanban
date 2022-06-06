@@ -12,7 +12,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
         public bool AddBoard(BoardDTO board)
         {
-            throw new NotImplementedException("No implement yet");
+            return executer.Execute ("INSERT into Boards (BoardId, BoardTitle, Owner, BacklogLimit, InprogressLimit, DoneLimit) " +
+                $"VALUES({board.Id}, {board.Title}, {board.Owner}, {board.BackLogLimit}, {board.InProgressLimit}, {board.DoneLimit})");
         }
         public bool RemoveBoard(int id)
         {
