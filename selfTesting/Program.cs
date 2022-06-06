@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.IO;
 
 [assembly: log4net.Config.XmlConfigurator(ConfigFile ="log4net.config" ,Watch = true)]
 namespace IntroSE.Kanban.selfTesting
@@ -23,7 +24,7 @@ namespace IntroSE.Kanban.selfTesting
             //BoardTreeTesting();
             //datetesting();
             //UserControllerTesting();
-            JsonTesting();
+            //JsonTesting();
             //PasswordHashingTesting();
             //logTesting();
             //registerTest();
@@ -33,6 +34,7 @@ namespace IntroSE.Kanban.selfTesting
             //tests();
             //enumeratorTests();
             //counterTest();
+            PathTest();
 
         }
         public static void DebugAVLTree(int[] nums)
@@ -351,7 +353,11 @@ namespace IntroSE.Kanban.selfTesting
         {
 
         }
-
+        public static void PathTest()
+        {
+            string path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "kanban.db"));
+            Console.WriteLine(path);
+        }
     }
 
 }
