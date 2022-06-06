@@ -60,7 +60,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName.ToLower();
+                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName.ToLower());
                 BusinessLayer.Task task = board.SearchTask(taskId, columnOrdinal);
                 task.DueDate = dueDate;
                 Response<string> res = new(true, "");

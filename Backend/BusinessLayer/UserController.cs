@@ -68,13 +68,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 userData.SetLoggedIn(email);
                 log.Debug("Register() success");
             }
-            catch (ArgumentException)
+            catch (ElementAlreadyExistsException)
             {
                 log.Error("Register() failed: '" + email + "' already exist in the system");
                 throw new ArgumentException("A user whith that " + email +
                     " already exist in the system");
             }
-            
+            catch (ArgumentException)
+            {
+                log.Error("Register() failed: '" + email + "' already loggedIn");
+                throw new ArgumentException("A user whith that " + email +
+                    " already loggedIn");
+            }
+
         }
 
         /// <summary>
@@ -91,7 +97,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 userData.RemoveUser(email);
                 log.Debug("DeleteUser() success");
             }
-            catch (NoSuchElementException)
+            catch (UserDoesNotExistException)
             {
                 log.Error("DeleteUser() failed: " + email + " doesn't exist in the system");
                 throw new UserDoesNotExistException("User doesn't exist in the system");
