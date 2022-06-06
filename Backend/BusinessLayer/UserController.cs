@@ -65,6 +65,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             try
             {
                 userData.AddUser(email,password);
+                userData.SetLoggedIn(email);
                 log.Debug("Register() success");
             }
             catch (ArgumentException)
