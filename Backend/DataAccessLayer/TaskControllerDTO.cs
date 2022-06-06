@@ -20,7 +20,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         }
         public bool RemoveTask(int boardId, int TaskId)
         {
-            throw new NotImplementedException("No implement yet");
+            return executer.Execute("DELETE FROM Tasks" +
+            $"WHERE BoardId = {boardId} and TaskId = {TaskId}");
         }
         public bool ChangeTaskState(int boardId, int taskId, TaskStates state)
         {

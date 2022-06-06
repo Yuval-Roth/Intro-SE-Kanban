@@ -56,7 +56,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 			}
 			try
 			{
-				userController.Register(email, password);
+				userController.Register(email.ToLower(), password);
 				Response<string> res = new(true,"");
 				return JsonController.ConvertToJson(res);
 			}
@@ -88,7 +88,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 			}
 			try
             {
-				userController.DeleteUser(email);
+				userController.DeleteUser(email.ToLower());
 				Response<string> res = new(true,"");
 				return JsonController.ConvertToJson(res);
 			}
@@ -125,7 +125,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 			}
 			try
             {
-				userController.LogIn(email, password);
+				userController.LogIn(email.ToLower(), password);
 				Response<string> res = new(true, "");
 				return JsonController.ConvertToJson(res);
 			}
@@ -157,7 +157,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 			}
 			try
             {
-				userController.LogOut(email);
+				userController.LogOut(email.ToLower());
 				Response<string> res = new(true, "");
 				return JsonController.ConvertToJson(res);
 			}
@@ -194,7 +194,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 			}
 			try
             {
-				BusinessLayer.User toSetPassword = userController.SearchUser(email);
+				BusinessLayer.User toSetPassword = userController.SearchUser(email.ToLower());
 				userController.SetPassword(toSetPassword, old, newP);
 				Response<string> res = new(true, "");
 				return JsonController.ConvertToJson(res);
@@ -232,8 +232,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 			}
 			try
             {
-				BusinessLayer.User toSetEmail = userController.SearchUser(email);
-				userController.SetEmail(toSetEmail, newEmail);
+				BusinessLayer.User toSetEmail = userController.SearchUser(email.ToLower());
+				userController.SetEmail(toSetEmail, newEmail.ToLower());
 				Response<string> res = new(true, "");
 				return JsonController.ConvertToJson(res);
 			}
