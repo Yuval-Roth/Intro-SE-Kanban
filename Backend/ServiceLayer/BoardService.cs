@@ -78,8 +78,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email,boardName);
-                board.AddTask(title, dueDate, description);
+                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(),boardName.ToLower());
+                board.AddTask(title.ToLower(), dueDate, description);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
@@ -124,7 +124,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email, boardTitle);
+                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardTitle.ToLower());
                 board.RemoveTask(taskId);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
@@ -172,7 +172,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
+                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName.ToLower());
                 BusinessLayer.Task task = board.SearchTask(taskId);
                 board.AdvanceTask(columnOrdinal, taskId);
                 task.AdvanceTask();
@@ -227,7 +227,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
+                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName.ToLower());
                 board.LimitColumn(columnOrdinal,limit);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
@@ -278,7 +278,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
+                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName.ToLower());
                 int columnlimit = board.GetColumnLimit(columnOrdinal);
                 Response<int> res = new(true, columnlimit);
                 return JsonController.ConvertToJson(res);
@@ -329,9 +329,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
+                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName.ToLower());
                 string columnname = board.GetColumnName(columnOrdinal);
-                Response<string> res = new(true, columnname);
+                Response<string> res = new(true, columnname.ToLower());
                 return JsonController.ConvertToJson(res);
             }
             catch (BusinessLayer.NoSuchElementException ex)
@@ -380,7 +380,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email, boardName);
+                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName.ToLower());
                 LinkedList<BusinessLayer.Task> column = board.GetColumn(columnOrdinal);
                 Response<LinkedList<BusinessLayer.Task>> res = new(true, column);
                 return JsonController.ConvertToJson(res);
