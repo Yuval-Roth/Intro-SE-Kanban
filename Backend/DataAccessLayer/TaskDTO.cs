@@ -20,7 +20,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         // TaskDTO will be held inside BoardDTO when loading the data
 
 
-        public int TaskId { set; get; }
+        public int Id { set; get; }
         public string Title { set; get; }
         public string Description { set; get; }
         public DateTime CreationTime { set; get; }
