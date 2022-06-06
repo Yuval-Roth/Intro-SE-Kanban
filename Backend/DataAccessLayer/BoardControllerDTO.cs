@@ -40,8 +40,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             throw new NotImplementedException("No implement yet");
         }
-        public bool LimitColumn(int Id, BusinessLayer.TaskStates state, int limit)
+        public bool LimitColumn(int id, BusinessLayer.TaskStates state, int limit)
         {
+            executer.Execute("UPDATE Boards" +
+            $"SET InprogressLimit = {limit}" +
+            $"WHERE BoardId = {id}");
             throw new NotImplementedException("No implement yet");
         }
 
