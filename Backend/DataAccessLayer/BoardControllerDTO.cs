@@ -13,15 +13,16 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         public bool AddBoard(BoardDTO board)
         {
             return executer.Execute ("INSERT into Boards (BoardId, BoardTitle, Owner, BacklogLimit, InprogressLimit, DoneLimit) " +
-                $"VALUES({board.Id}, {board.Title}, {board.Owner}, {board.BackLogLimit}, {board.InProgressLimit}, {board.DoneLimit})");
+                $"VALUES({board.Id},{board.Title},{board.Owner},{board.BackLogLimit},{board.InProgressLimit},{board.DoneLimit})");
         }
         public bool RemoveBoard(int id)
         {
-            throw new NotImplementedException("No implement yet");
+            return executer.Execute($"DELETE FROM Boards WHERE Boards.BoardId={id} DELETE FROM UserJoinedBoards WHERE UserJoinedBoards.BoardId={id}");
         }
         public bool JoinBoard(string email, int id)
         {
-            throw new NotImplementedException("No implement yet");
+            return executer.Execute("INSERT into UserJoinedBoards (BoardId, Email)" +
+                $"VALUES({id},{email})");
         }
         public bool LeaveBoard(string email, int id)
         {
