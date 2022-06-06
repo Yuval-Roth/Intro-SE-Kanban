@@ -14,6 +14,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         public SQLExecuter() { }
         public bool Execute(string command) 
         {
+            queue.Enqueue(command);
+            return Execute();
+        }
+        public bool Execute() {
             throw new NotImplementedException();
         }
     }
