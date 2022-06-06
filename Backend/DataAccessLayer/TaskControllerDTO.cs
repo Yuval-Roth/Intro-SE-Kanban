@@ -22,7 +22,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             throw new NotImplementedException("No implement yet");
         }
-        public bool AdvanceTask(int boardId, int taskId, TaskStates state)
+        public bool ChangeTaskState(int boardId, int taskId, TaskStates state)
         {
             string command = "UPDATE Tasks" +
                             $"SET State = {(int)state}" +
