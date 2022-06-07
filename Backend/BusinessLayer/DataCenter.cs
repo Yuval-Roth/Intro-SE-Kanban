@@ -502,7 +502,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 }
                 foreach (string email in toRemove.Joined)
                 {
-                    if (UserJoinedToBoardCheck(email, id) == false)
+                    if (UserJoinedToBoardCheck(email, toRemove.Title) == false)
                     {
                         log.Fatal("Board numbered " + id + " says that '" + email +
                         "' is joined to it but the user isn't joined to that board");
@@ -554,7 +554,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 }
                 foreach (string joinedEmail in toRemove.Joined)
                 {
-                    if (UserJoinedToBoardCheck(joinedEmail, toRemove.Id) == false)
+                    if (UserJoinedToBoardCheck(joinedEmail, title) == false)
                     {
                         log.Fatal("Board numbered " + toRemove.Id + " says that '" + joinedEmail +
                         "' is joined to it but the user isn't joined to that board");
