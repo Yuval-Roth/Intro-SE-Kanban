@@ -163,10 +163,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             try
             {
-                //LinkedList<Board> output = boardData.GetBoards(email);
+                LinkedList<Board> output = boardData.GetBoardsDataUnit(email).MyBoards;
                 log.Debug("GetBoards() success");
-                //return output;
-                return null;
+                return output;
+                //return null;
             }
             catch (NoSuchElementException)
             {

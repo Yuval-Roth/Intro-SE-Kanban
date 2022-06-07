@@ -35,9 +35,9 @@ namespace IntroSE.Kanban.selfTesting
             //enumeratorTests();
             //counterTest();
             //PathTest();
-            login();
+            //login();
             //testResponse();
-
+            getInProgress();
         }
         public static void DebugAVLTree(int[] nums)
         {
@@ -375,6 +375,18 @@ namespace IntroSE.Kanban.selfTesting
         {
             Backend.ServiceLayer.GradingService.GradingResponse2 res = new();
             Console.WriteLine(Backend.ServiceLayer.JsonController.ConvertToJson(res));
+        }
+
+        public static void getInProgress()
+        {
+            Backend.ServiceLayer.GradingService gs = new();
+            gs.Register("TestEmail@post.bgu.ac.il", "Coolpass1234");
+            gs.AddBoard("TestEmail@post.bgu.ac.il", "test");
+            gs.AddTask("TestEmail@post.bgu.ac.il", "test", "1", "bla", new DateTime(2200, 10, 20));
+            gs.AddTask("TestEmail@post.bgu.ac.il", "test", "2", "blabla", new DateTime(2200,10,20));
+            gs.AdvanceTask("TestEmail@post.bgu.ac.il", "test", 0, 0);
+            gs.AdvanceTask("TestEmail@post.bgu.ac.il", "test", 0, 1);
+            Console.WriteLine(gs.InProgressTasks("TestEmail@post.bgu.ac.il"));
         }
     }
 
