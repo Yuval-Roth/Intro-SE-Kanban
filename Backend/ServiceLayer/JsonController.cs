@@ -64,7 +64,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             return Serialize(response);
         }
-        public static T BuildFromJson<T>(string json)
+		public static string ConvertToJson(GradingService.GradingResponse2 response)
+		{
+			return Serialize(response);
+		}
+		public static T BuildFromJson<T>(string json)
 		{
 			return Deserialize<T>(json);
 		}
