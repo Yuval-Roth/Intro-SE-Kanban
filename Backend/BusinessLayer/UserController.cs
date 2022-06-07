@@ -45,8 +45,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
         /// <summary>
-        /// Add new <c>User</c> to <c>UserData</c> userData <br/> <br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the user allready exists or if the password entered is illegal or the email entered is illegal
+        /// Add new <c>User</c> to <c>UserData</c> userData <br/>
+        /// logIn <c>User</c> <br/>
+        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if the user allready exists and <c>ArgumentException</c> if the password entered is illegal or the email entered is illegal and if the user is loggedIn
         /// </summary>
         /// <param name="email"></param>
         /// <param name="password"></param>
@@ -245,7 +246,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         ///Return user with the email entered <br/><br/>
-        ///<b>Throws</b> <c>NoSuchElementException</c> if no user with that email exist in the system <br/>
+        ///<b>Throws</b> <c>UserDoesNotExistException</c> if no user with that email exist in the system <br/>
         /// </summary> 
         /// <param name="email"></param>
         /// <returns></returns>
