@@ -47,7 +47,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string AddBoard(string email, string name)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), name.ToLower() }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), name }) == false)
             {
                 Response<string> res = new(false, "AddBoard() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);

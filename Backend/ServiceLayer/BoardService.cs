@@ -71,14 +71,14 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string AddTask(string email, string boardName, string title, string description, DateTime dueDate)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName.ToLower(), title.ToLower(), description, dueDate }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName, title.ToLower(), description, dueDate }) == false)
             {
                 Response<string> res = new(false, "AddTask() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(),boardName.ToLower());
+                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(),boardName);
                 board.AddTask(title.ToLower(), dueDate, description);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
@@ -122,14 +122,14 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string RemoveTask(string email, string boardTitle, int taskId)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardTitle.ToLower(), taskId }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardTitle, taskId }) == false)
             {
                 Response<string> res = new(false, "RemoveTask() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardTitle.ToLower());
+                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardTitle);
                 board.RemoveTask(taskId);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
@@ -175,14 +175,14 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// </returns>
         public string AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName.ToLower(), columnOrdinal, taskId }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName, columnOrdinal, taskId }) == false)
             {
                 Response<string> res = new(false, "AdvanceTask() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName.ToLower());
+                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName);
                 BusinessLayer.Task task = board.SearchTask(taskId);
                 board.AdvanceTask(columnOrdinal, taskId);
                 task.AdvanceTask();
@@ -235,14 +235,14 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// </returns>
         public string LimitColumn(string email, string boardName, int columnOrdinal, int limit)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName.ToLower(), columnOrdinal, limit }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName, columnOrdinal, limit }) == false)
             {
                 Response<string> res = new(false, "LimitColumn() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName.ToLower());
+                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName);
                 board.LimitColumn(columnOrdinal,limit);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
@@ -291,14 +291,14 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string GetColumnLimit(string email, string boardName, int columnOrdinal)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName.ToLower(), columnOrdinal }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName, columnOrdinal }) == false)
             {
                 Response<string> res = new(false, "GetColumnLimit() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName.ToLower());
+                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName);
                 int columnlimit = board.GetColumnLimit(columnOrdinal);
                 Response<int> res = new(true, columnlimit);
                 return JsonController.ConvertToJson(res);
@@ -347,14 +347,14 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string GetColumnName(string email, string boardName, int columnOrdinal)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName.ToLower(), columnOrdinal }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName, columnOrdinal }) == false)
             {
                 Response<string> res = new(false, "GetColumnName() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName.ToLower());
+                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName);
                 string columnname = board.GetColumnName(columnOrdinal);
                 Response<string> res = new(true, columnname.ToLower());
                 return JsonController.ConvertToJson(res);
@@ -403,7 +403,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string GetColumn(string email, string boardName, int columnOrdinal)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName.ToLower(), columnOrdinal }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName, columnOrdinal }) == false)
             {
                 Response<string> res = new(false, "GetColumn() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
