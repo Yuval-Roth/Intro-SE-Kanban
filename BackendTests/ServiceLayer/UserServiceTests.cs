@@ -18,8 +18,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         public UserServiceTests() 
         {
+            BusinessLayer.BusinessLayerFactory factory = BusinessLayer.BusinessLayerFactory.GetInstance();
             userData = new();
-            service = new UserService(userData);
+            service = new UserService(factory.UserController);
         }
 
         [TestMethod()]
