@@ -71,7 +71,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string AddTask(string email, string boardName, string title, string description, DateTime dueDate)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName, title, description, dueDate }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName.ToLower(), title.ToLower(), description, dueDate }) == false)
             {
                 Response<string> res = new(false, "AddTask() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
@@ -122,7 +122,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string RemoveTask(string email, string boardTitle, int taskId)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, boardTitle, taskId }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardTitle.ToLower(), taskId }) == false)
             {
                 Response<string> res = new(false, "RemoveTask() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
@@ -175,7 +175,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// </returns>
         public string AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName, columnOrdinal, taskId }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName.ToLower(), columnOrdinal, taskId }) == false)
             {
                 Response<string> res = new(false, "AdvanceTask() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
@@ -235,7 +235,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// </returns>
         public string LimitColumn(string email, string boardName, int columnOrdinal, int limit)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName, columnOrdinal, limit }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName.ToLower(), columnOrdinal, limit }) == false)
             {
                 Response<string> res = new(false, "LimitColumn() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
@@ -291,7 +291,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string GetColumnLimit(string email, string boardName, int columnOrdinal)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName, columnOrdinal }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName.ToLower(), columnOrdinal }) == false)
             {
                 Response<string> res = new(false, "GetColumnLimit() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
@@ -347,7 +347,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string GetColumnName(string email, string boardName, int columnOrdinal)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName,columnOrdinal }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName.ToLower(), columnOrdinal }) == false)
             {
                 Response<string> res = new(false, "GetColumnName() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
@@ -403,7 +403,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string GetColumn(string email, string boardName, int columnOrdinal)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName,columnOrdinal }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName.ToLower(), columnOrdinal }) == false)
             {
                 Response<string> res = new(false, "GetColumn() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
