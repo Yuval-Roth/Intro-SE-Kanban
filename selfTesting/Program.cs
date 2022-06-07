@@ -35,8 +35,8 @@ namespace IntroSE.Kanban.selfTesting
             //enumeratorTests();
             //counterTest();
             //PathTest();
-            //login();
-            login2();
+            login();
+            //testResponse();
 
         }
         public static void DebugAVLTree(int[] nums)
@@ -371,14 +371,10 @@ namespace IntroSE.Kanban.selfTesting
             Console.WriteLine(Backend.ServiceLayer.JsonController.ConvertToJson(response));
 
         }
-
-        public static void login2()
+        public static void testResponse()
         {
-            Backend.ServiceLayer.GradingService gs = new();
-            Console.WriteLine(gs.Register("TestEmail@post.bgu.ac.il", "Coolpass1234"));
-            gs.Logout("TestEmail@post.bgu.ac.il");
-            Console.WriteLine(gs.Login("TestEmail@post.bgu.ac.il", "Coolpass1234"));
-
+            Backend.ServiceLayer.GradingService.GradingResponse2 res = new();
+            Console.WriteLine(Backend.ServiceLayer.JsonController.ConvertToJson(res));
         }
     }
 
