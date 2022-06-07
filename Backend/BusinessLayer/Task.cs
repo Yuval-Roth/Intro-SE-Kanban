@@ -84,7 +84,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             creationTime = DateTime.Today;
             state = TaskStates.backlog;
             log.Debug("Task() success");
-            this.assignee = assignee;
         }
 
 
