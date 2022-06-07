@@ -54,7 +54,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                boardController.AddBoard(email.ToLower(), name.ToLower());
+                boardController.AddBoard(email.ToLower(), name);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
@@ -108,7 +108,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                boardController.RemoveBoard(email.ToLower(), name.ToLower());
+                boardController.RemoveBoard(email.ToLower(), name);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }

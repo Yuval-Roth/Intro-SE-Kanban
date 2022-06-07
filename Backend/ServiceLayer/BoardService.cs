@@ -410,7 +410,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName.ToLower());
+                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName);
                 LinkedList<BusinessLayer.Task> column = board.GetColumn(columnOrdinal);
                 Response<LinkedList<BusinessLayer.Task>> res = new(true, column);
                 return JsonController.ConvertToJson(res);
