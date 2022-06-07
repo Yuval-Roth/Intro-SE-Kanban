@@ -14,6 +14,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             throw new NotImplementedException();
         }
+        private BoardDTO BuildBoard(int Id)
+        {
+            throw new NotImplementedException();
+        }
         public BoardDTO[] GetBoards()
         {
             throw new NotImplementedException();
