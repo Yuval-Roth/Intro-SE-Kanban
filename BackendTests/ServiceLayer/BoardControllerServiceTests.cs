@@ -95,7 +95,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RemoveBoardTest_user_has_no_boards_to_delete()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled 'new board' doesn't exists for the user with the email kfirniss@post.bgu.ac.il"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "Board title 'new board' doesn't exist for kfirniss@post.bgu.ac.il"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.RemoveBoard("kfirniss@post.bgu.ac.il", "new board");
             Assert.AreEqual(expected, result);
@@ -104,7 +104,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RemoveBoardTest_board_doesnt_exist()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled 'other board' doesn't exists for the user with the email kfirniss@post.bgu.ac.il"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "Board title 'other board' doesn't exist for kfirniss@post.bgu.ac.il"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardcontrollerservice.RemoveBoard("kfirniss@post.bgu.ac.il", "other board");
@@ -114,7 +114,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RemoveBoardTest_user_isnt_owner()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled 'new board' can't be removed by the user with the email Printzpost.bgu.ac.il"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'printzpost.bgu.ac.il' doesn't exist in the system"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = userservice.Register("Printzpost.bgu.ac.il", "Ha12345");
@@ -126,15 +126,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetAllTasksByStateTest_successful()
         {
-            BusinessLayer.Task task1 = new(0, "task 1", new DateTime(2222, 05, 20), "bla bla bla");
-            BusinessLayer.Task task2 = new(1, "task 2", new DateTime(2222, 05, 20), "ninini");
+            BusinessLayer.Task task1 = new(0, "task 1", new DateTime(2023, 05, 20), "bla bla bla");
+            BusinessLayer.Task task2 = new(0, "task 2", new DateTime(2023, 05, 20), "ninini");
             userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "another board");
-            boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2222, 05, 20));
-            boardservice.AddTask("kfirniss@post.bgu.ac.il", "another board", "task 2", "ninini", new DateTime(2222, 05, 20));
+            boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
+            boardservice.AddTask("kfirniss@post.bgu.ac.il", "another board", "task 2", "ninini", new DateTime(2023, 05, 20));
             boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
-            boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "another board", 0, 1);
+            boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "another board", 0, 0);
             string result = boardcontrollerservice.GetAllTasksByState("kfirniss@post.bgu.ac.il",1);
             Response<LinkedList<BusinessLayer.Task>> act = JsonController.BuildFromJson<Response<LinkedList<BusinessLayer.Task>>>(result);
             BusinessLayer.Task tAct1 = act.returnValue.ElementAt(0);
