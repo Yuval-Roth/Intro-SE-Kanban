@@ -44,10 +44,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private int taskIDCounter;
 
 
-        public Board(string title, int id)
+        public Board(string title, int id, string owner)
         {
             this.id = id;
             this.title = title;
+            this.owner = owner;
+            joined = new LinkedList<string>();
             columnLimit = new int[3];
             columns = new LinkedList<Task>[3];
             columnLimit[(int)TaskStates.backlog] = -1;

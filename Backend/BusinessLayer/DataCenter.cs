@@ -372,7 +372,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 LinkedList<Board> myBoardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.MyBoards;
 
                 // Add a new board and return it
-                Board newBoard = new(title, GetNextBoardID);
+                Board newBoard = new(title, GetNextBoardID,email);
                 OnlyBoardsTree.Add(newBoard.Id, newBoard);
                 myBoardList.AddLast(newBoard);
                 log.Debug("AddNewBoard() success");
@@ -545,13 +545,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
                 //validate that the board can be cleanly removed
                 Board toRemove = SearchBoardByEmailAndTitle(email,title);
-                if (UserOwnsABoardWithThisTitle(toRemove.Owner, toRemove.Title))
-                {
-                    log.Fatal("Board numbered " + toRemove.Id + " says that '" + toRemove.Owner +
-                        "' owns it but the user '"+email+"' owns it as well");
-                    throw new OperationCanceledException("NukeBoard() failed: Board numbered " + toRemove.Id + " says that '" + toRemove.Owner +
-                        "' owns it but the user '" + email + "' owns it as well");
-                }
+                //if (UserOwnsABoardWithThisTitle(toRemove.Owner, toRemove.Title) == false)
+                //{
+                //    log.Fatal("Board numbered " + toRemove.Id + " says that '" + toRemove.Owner +
+                //        "' owns it but the user '"+email+"' owns it as well");
+                //    throw new OperationCanceledException("NukeBoard() failed: Board numbered " + toRemove.Id + " says that '" + toRemove.Owner +
+                //        "' owns it but the user '" + email + "' owns it as well");
+                //}
                 foreach (string joinedEmail in toRemove.Joined)
                 {
                     if (UserJoinedToBoardCheck(joinedEmail, title) == false)
