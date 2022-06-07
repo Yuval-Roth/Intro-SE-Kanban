@@ -53,7 +53,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string UpdateTaskDueDate(string email, string boardName, int columnOrdinal, int taskId, DateTime dueDate)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName.ToLower(), columnOrdinal, taskId, dueDate }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName, columnOrdinal, taskId, dueDate }) == false)
             {
                 Response<string> res = new(false, "UpdateTaskDueDate() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
@@ -112,7 +112,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string UpdateTaskTitle(string email, string boardName, int columnOrdinal, int taskId, string title)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName.ToLower(), columnOrdinal, taskId, title.ToLower() }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName, columnOrdinal, taskId, title}) == false)
             {
                 Response<string> res = new(false, "UpdateTaskTitle() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
@@ -171,7 +171,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string UpdateTaskDescription(string email, string boardName, int columnOrdinal, int taskId, string description)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName.ToLower(), columnOrdinal, taskId, description }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName, columnOrdinal, taskId, description }) == false)
             {
                 Response<string> res = new(false, "UpdateTaskDescription() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
