@@ -253,7 +253,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <returns>true or false</returns>
         public bool UserExists(string email)
         {
-            log.Debug("UserExists for: " + email);
+            log.Debug("UserExists() for: " + email);
             return UsersAndBoardsTree.Contains(email);
         }
 
