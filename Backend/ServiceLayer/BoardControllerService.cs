@@ -47,7 +47,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string AddBoard(string email, string name)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), name }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email, name }) == false)
             {
                 Response<string> res = new(false, "AddBoard() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
@@ -101,7 +101,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string RemoveBoard(string email, string name)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), name.ToLower() }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email, name }) == false)
             {
                 Response<string> res = new(false, "RemoveBoard() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
@@ -155,7 +155,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string GetAllTasksByState(string email, int columnOrdinal)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), columnOrdinal }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email, columnOrdinal }) == false)
             {
                 Response<string> res = new(false, "GetAllTasksByState() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
