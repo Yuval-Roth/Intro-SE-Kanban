@@ -6,12 +6,6 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
-    public enum TaskStates 
-    {
-        backlog,
-        inprogress,
-        done
-    }
     public class TaskDTO
     {
         //public int BoardId { set; get; } 
@@ -25,7 +19,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         public string Description { set; get; }
         public DateTime CreationTime { set; get; }
         public DateTime DueDate { set; get; }
-        public TaskStates State { set; get; }
+        public BoardColumnNames State { set; get; }
         public string Assignee { set; get; }
     }
 }

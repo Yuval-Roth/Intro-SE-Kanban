@@ -1,8 +1,5 @@
-﻿
-using System.Collections.Generic;
-using System.Data.SQLite;
+﻿using System.Data.SQLite;
 using System.IO;
-using System;
 
 namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
@@ -13,7 +10,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         public SQLExecuter() { }
 
         public bool ExecuteWrite(string query) {
-            throw new NotImplementedException();
+
+            log.Debug("ExecuteWrite() for: "+query);
 
             string path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "kanban.db"));
             SQLiteConnectionStringBuilder connectionBuilder = new()
@@ -31,25 +29,31 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     int affectedRows = command.ExecuteNonQuery();
                     if (affectedRows > 0)
                     {
+                        log.Debug("ExecuteWrite() success");
                         return true;
                     }
-                    else return false;
+                    else
+                    {
+                        log.Error("ExecuteWrite() failed");
+                        return false;
+                    } 
                 }
                 finally
                 {
                     connection.Close();
                 }
-            }
-                
+            }   
         }
-        public object ExecuteRead(string query)
+        public SQLiteDataReader ExecuteRead(string query)
         {
-            throw new NotImplementedException();
+
+            log.Debug("ExecuteRead() for: " + query);
 
             string path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "kanban.db"));
             SQLiteConnectionStringBuilder connectionBuilder = new()
             {
-                DataSource = path
+                DataSource = path,
+                ReadOnly = true
             };
 
 
@@ -60,7 +64,14 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
                 try
                 {
-                    return command.ExecuteReader();
+                    SQLiteDataReader reader = command.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        log.Debug("ExecuteRead() success");
+                        return reader;
+                    }
+                    log.Error("ExecuteRead() failed - fetched 0 rows");
+                    return null;
                 }
                 finally
                 {

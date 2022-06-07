@@ -10,44 +10,40 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
     {
         private SQLExecuter executer;
 
+        public BoardControllerDTO(SQLExecuter executer)
+        {
+            this.executer = executer;
+        }
+
         public bool AddBoard(BoardDTO board)
         {
-            return executer.Execute ("INSERT into Boards (BoardId, BoardTitle, Owner, BacklogLimit, InprogressLimit, DoneLimit) " +
+            return executer.ExecuteWrite ("INSERT into Boards (BoardId, BoardTitle, Owner, BacklogLimit, InprogressLimit, DoneLimit) " +
                 $"VALUES({board.Id},'{board.Title}','{board.Owner}',{board.BackLogLimit},{board.InProgressLimit},{board.DoneLimit})");
         }
         public bool RemoveBoard(int id)
         {
-            return executer.Execute($"DELETE FROM Boards WHERE Boards.BoardId={id} DELETE FROM UserJoinedBoards WHERE UserJoinedBoards.BoardId={id}");
+            return executer.ExecuteWrite($"DELETE FROM Boards WHERE Boards.BoardId={id} DELETE FROM UserJoinedBoards WHERE UserJoinedBoards.BoardId={id}");
         }
         public bool JoinBoard(string email, int id)
         {
-            return executer.Execute("INSERT into UserJoinedBoards (BoardId, Email)" +
+            return executer.ExecuteWrite("INSERT into UserJoinedBoards (BoardId, Email)" +
                 $"VALUES({id},'{email}')");
         }
         public bool LeaveBoard(string email, int id)
         {
-            return executer.Execute("DELETE FROM UserJoinedBoards" +
+            return executer.ExecuteWrite("DELETE FROM UserJoinedBoards" +
                 $"WHERE BoardId= '{id}' and Email= '{email}'");
         }
         public bool ChangeOwner(string email, int id)
         {
-            return executer.Execute("UPDATE Boards"+
+            return executer.ExecuteWrite("UPDATE Boards"+
             $"SET Owner = '{email}'"+
             $"WHERE TaskId = {id}");
         }
-        public bool AddTask(int id, TaskDTO task)
+        public bool LimitColumn(int id, BoardColumnNames column, int limit)
         {
-            throw new NotImplementedException("No implement yet");
-        }
-        public bool RemoveTask(int BoardId, int TaskId)
-        {
-            return executer.Execute("DELETE FROM Tasks" +
-            $"WHERE BoardId = {BoardId} and TaskId = {TaskId}");
-        }
-        public bool LimitColumn(int id, BusinessLayer.TaskStates state, int limit)
-        {
-            return executer.Execute("UPDATE Boards" +
-            $"SET InprogressLimit = {limit}" +
+            return executer.ExecuteWrite("UPDATE Boards" +
+            $"SET {column}Limit = {limit}" +
             $"WHERE BoardId = {id}");
         }
 
