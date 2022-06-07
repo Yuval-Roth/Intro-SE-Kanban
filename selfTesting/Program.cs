@@ -36,6 +36,7 @@ namespace IntroSE.Kanban.selfTesting
             //counterTest();
             //PathTest();
             login();
+            //testResponse();
 
         }
         public static void DebugAVLTree(int[] nums)
@@ -369,6 +370,11 @@ namespace IntroSE.Kanban.selfTesting
             Backend.ServiceLayer.GradingResponse<string> response = new(json);
             Console.WriteLine(Backend.ServiceLayer.JsonController.ConvertToJson(response));
 
+        }
+        public static void testResponse()
+        {
+            Backend.ServiceLayer.GradingService.GradingResponse2 res = new();
+            Console.WriteLine(Backend.ServiceLayer.JsonController.ConvertToJson(res));
         }
     }
 

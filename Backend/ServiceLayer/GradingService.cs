@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]
 
 
@@ -93,10 +94,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         public string Login(string email, string password)
         {
             string json = userServiceLayer.LogIn(email, password);
-            GradingResponse<string> res = new(json);
-            if (res.ErrorMessage == null)
-                return email;
-            return JsonController.ConvertToJson(res);
+            if (GetOperationState(json) == true)
+            {
+                return JsonController.ConvertToJson(new GradingResponse<string>(null,email));
+            }
+            else return JsonController.ConvertToJson(new GradingResponse<string>(json));
         }
 
 
@@ -174,8 +176,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = boardServiceLayer.AddTask(email, boardName, title, description, dueDate);
             GradingResponse<string> res = new(json);
-            if (res.ErrorMessage == null)
-                return email;
             return JsonController.ConvertToJson(res);
         }
 
@@ -398,6 +398,27 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return true;
             }
             else return false;
+        }
+        public class GradingResponse2 
+        {
+            [JsonInclude]
+            public string ErrorMessage;
+
+            [JsonInclude]
+            public object ReturnValue;
+
+            public GradingResponse2() { }
+
+            public GradingResponse2(string ErrorMessage, object ReturnValue)
+            {
+                this.ErrorMessage = ErrorMessage;
+                this.ReturnValue = ReturnValue;
+            }
+            public GradingResponse2(object ReturnValue)
+            {
+                this.ReturnValue = ReturnValue;
+            }
+
         }
     }
 }

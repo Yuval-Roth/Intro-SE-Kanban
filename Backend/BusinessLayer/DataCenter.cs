@@ -409,15 +409,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
                 ValidateUser(email);
 
+                Board boardToJoin = SearchBoardById(id);
+
                 // Check if the user is joined on the board already
-                if (UserJoinedToBoardCheck(email, id))
+                if (UserJoinedToBoardCheck(email, boardToJoin.Title))
                 {
                     log.Error("AddPointerToJoinedBoard() failed: " + email + " is already joined on board nubmer " + id);
                     throw new ElementAlreadyExistsException(email + " is already joined on board nubmer " + id);
                 }
 
                 LinkedList<Board> joinedBoardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.JoinedBoards;
-                Board boardToJoin = SearchBoardById(id);     
                 joinedBoardList.AddLast(boardToJoin);
                 log.Debug("AddPointerToJoinedBoard() success");
                 return boardToJoin;
@@ -768,17 +769,17 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="id"></param>
         /// <returns></returns>
         /// <exception cref="UserDoesNotExistException"></exception>
-        private bool UserJoinedToBoardCheck(string email, int id)
+        private bool UserJoinedToBoardCheck(string email, string title)
         {
             try
             {
-                log.Debug("UserJoinedToBoardCheck() for: " + email + ", " + id);
+                log.Debug("UserJoinedToBoardCheck() for: " + email + ", " + title);
 
                 ValidateUser(email);
 
                 LinkedList<Board> myBoardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.MyBoards;
 
-                bool answer = FindBoardInList(myBoardList, id) != null;
+                bool answer = FindBoardInList(myBoardList, title) != null;
                 log.Debug("UserJoinedToBoardCheck() success");
                 return answer;
             }
