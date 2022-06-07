@@ -192,7 +192,7 @@ namespace IntroSE.Kanban.selfTesting
         //}
         public static void JsonTesting()
         {
-            Backend.BusinessLayer.Board board = new("TestBoard", 0);
+            Backend.BusinessLayer.Board board = new("TestBoard", 0,"cc");
             board.AddTask("TestTask0", new DateTime(2023, 1, 1), "Hello0");
             board.AddTask("TestTask1", new DateTime(2023, 1, 1), "Hello1");
             board.AddTask("TestTask2", new DateTime(2023, 1, 1), "Hello2");
