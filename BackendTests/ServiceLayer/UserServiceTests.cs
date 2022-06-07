@@ -110,6 +110,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void LogInTestSuccess()
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
+            service.LogOut("printz@post.bgu.il");
             string expected = JsonController.ConvertToJson(new Response<string>(true,""));
             string result = service.LogIn("printz@post.bgu.il", "Hadas12345");
             Assert.AreEqual(expected, result);
@@ -119,6 +120,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void LogInTestIncorrectPassword()
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
+            service.LogOut("printz@post.bgu.il");
             string expected = JsonController.ConvertToJson(new Response<string>(false,"Incorrect Password"));
             string result = service.LogIn("printz@post.bgu.il", "Hadas6789");
             Assert.AreEqual(expected, result);
@@ -128,6 +130,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void LogInTestIllegalEmail()
         {
             service.Register("@post.bgu.il", "Hadas12345");
+            service.LogOut("@post.bgu.il");
             string expected = JsonController.ConvertToJson(new Response<string>(false, "Illegal email"));
             string result = service.LogIn("@post.bgu.il", "Hadas12345");
             Assert.AreEqual(expected, result);
@@ -146,7 +149,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void LogInTestUserLoggedIn()
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
-            service.LogIn("printz@post.bgu.il", "Hadas12345");
             string expected = JsonController.ConvertToJson(new Response<string>(false,"The user with the email printz@post.bgu.il is already logged in"));
             string result = service.LogIn("printz@post.bgu.il", "Hadas12345");
             Assert.AreEqual(expected, result);
@@ -157,7 +159,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void logOutTestSuccess()
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
-            service.LogIn("printz@post.bgu.il", "Hadas12345");
             string expected = JsonController.ConvertToJson(new Response<string>(true,""));
             string result = service.LogOut("printz@post.bgu.il");
             Assert.AreEqual(expected, result);
@@ -168,6 +169,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void LogOutTestUserIsntLoggedIn()
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
+            service.LogOut("printz@post.bgu.il");
             string expected = JsonController.ConvertToJson(new Response<string>(false,"User isn't loggedIn"));
             string result = service.LogOut("printz@post.bgu.il");
             Assert.AreEqual(expected, result);
