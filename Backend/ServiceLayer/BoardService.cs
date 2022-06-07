@@ -71,7 +71,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string AddTask(string email, string boardName, string title, string description, DateTime dueDate)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName.ToLower(), title.ToLower(), description, dueDate }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email.ToLower(), boardName.ToLower(), title, description, dueDate }) == false)
             {
                 Response<string> res = new(false, "AddTask() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
