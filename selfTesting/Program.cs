@@ -386,8 +386,18 @@ namespace IntroSE.Kanban.selfTesting
             gs.AddTask("TestEmail@post.bgu.ac.il", "test", "2", "blabla", new DateTime(2200,10,20));
             gs.AdvanceTask("TestEmail@post.bgu.ac.il", "test", 0, 0);
             gs.AdvanceTask("TestEmail@post.bgu.ac.il", "test", 0, 1);
-            Console.WriteLine(gs.GetColumn("TestEmail@post.bgu.ac.il","test",1));
+ //           Console.WriteLine(gs.GetColumn("TestEmail@post.bgu.ac.il","test",1));
+            string json = gs.GetColumn("TestEmail@post.bgu.ac.il", "test", 1);
+            Backend.ServiceLayer.GradingResponse<LinkedList<Backend.BusinessLayer.Task>> res =
+                Backend.ServiceLayer.JsonController.BuildFromJson<Backend.ServiceLayer.GradingResponse<LinkedList<Backend.BusinessLayer.Task>>>(json);
+            LinkedList<Backend.BusinessLayer.Task> list = res.ReturnValue;
+            foreach (Backend.BusinessLayer.Task task in list)
+            {
+                Console.WriteLine(task.CreationTime);
+            }
         }
+
+
     }
 
 }
