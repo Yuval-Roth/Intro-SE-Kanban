@@ -200,7 +200,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void SetPasswordTestUserIsntInTheSystem()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "User with 'printz@post.bgu.il' doesn't exist in the system"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "User is not in the system"));
             string result = service.SetPassword("printz@post.bgu.il", "Hadas12345", "Printz12345");
             Assert.AreEqual(expected, result);
         }
@@ -236,7 +236,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void SetEmailTestUserDoesntExist()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "User with 'printz@post.bgu.il' doesn't exist in the system"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "User dosen't exist"));
             string result = service.SetEmail("printz@post.bgu.il", "hadas@post.bgu.il");
             Assert.AreEqual(expected, result);
         }
