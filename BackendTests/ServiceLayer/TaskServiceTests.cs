@@ -20,11 +20,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         public TaskServiceTests()
         {
+            BusinessLayer.BusinessLayerFactory factory = BusinessLayer.BusinessLayerFactory.GetInstance();
             userData = new();
-            userservice = new(userData);
-            boardcontrollerservice = new(userData);
-            boardservice = new(userData);
-            taskservice = new(userData);
+            userservice = new UserService(factory.UserController);
+            boardcontrollerservice = new BoardControllerService(factory.BoardController);
+            boardservice = new BoardService(factory.BoardController);
+            taskservice = new TaskService(factory.BoardController);
         }
 
         //successful
