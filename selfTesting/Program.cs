@@ -192,7 +192,7 @@ namespace IntroSE.Kanban.selfTesting
         //}
         public static void JsonTesting()
         {
-            Backend.BusinessLayer.Board board = new("TestBoard", 0);
+            Backend.BusinessLayer.Board board = new("TestBoard", 0,"cc");
             board.AddTask("TestTask0", new DateTime(2023, 1, 1), "Hello0");
             board.AddTask("TestTask1", new DateTime(2023, 1, 1), "Hello1");
             board.AddTask("TestTask2", new DateTime(2023, 1, 1), "Hello2");
@@ -386,7 +386,7 @@ namespace IntroSE.Kanban.selfTesting
             gs.AddTask("TestEmail@post.bgu.ac.il", "test", "2", "blabla", new DateTime(2200,10,20));
             gs.AdvanceTask("TestEmail@post.bgu.ac.il", "test", 0, 0);
             gs.AdvanceTask("TestEmail@post.bgu.ac.il", "test", 0, 1);
-            Console.WriteLine(gs.InProgressTasks("TestEmail@post.bgu.ac.il"));
+            Console.WriteLine(gs.GetColumn("TestEmail@post.bgu.ac.il","test",1));
         }
     }
 
