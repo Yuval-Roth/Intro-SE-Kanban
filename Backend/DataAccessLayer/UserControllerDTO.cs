@@ -10,6 +10,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
     {
         private SQLExecuter executer;
 
+        public UserControllerDTO(SQLExecuter executer)
+        {
+            this.executer = executer;
+        }
+
         public bool AddUser(UserDTO user)
         {
             return executer.ExecuteWrite("INSERT INTO Users (Email,Password)" +

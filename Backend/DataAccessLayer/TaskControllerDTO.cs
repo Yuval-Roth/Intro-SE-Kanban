@@ -10,6 +10,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
     {
         private SQLExecuter executer;
 
+        public TaskControllerDTO(SQLExecuter executer)
+        {
+            this.executer = executer;
+        }
+
         public bool AddTask(int boardId, TaskDTO task)
         {
             string command = "INSERT INTO Tasks(BoardId, TaskId, TaskTitle, Assignee, Description, CreationTime, DueDate, State)"+

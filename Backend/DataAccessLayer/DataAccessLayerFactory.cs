@@ -16,10 +16,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
         private DataAccessLayerFactory()
         {
-            BCDTO = new();
-            taskControllerDTO = new();
-            userControllerDTO = new();
             executer = new();
+            BCDTO = new(executer);
+            taskControllerDTO = new(executer);
+            userControllerDTO = new(executer);
+            
         }
 
         public BoardControllerDTO boardControllerDTO => BCDTO;
