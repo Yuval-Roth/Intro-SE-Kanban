@@ -126,13 +126,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetAllTasksByStateTest_successful()
         {
-            BusinessLayer.Task task1 = new(0, "task 1", new DateTime(2022, 05, 20), "bla bla bla");
-            BusinessLayer.Task task2 = new(1, "task 2", new DateTime(2022, 05, 20), "ninini");
+            BusinessLayer.Task task1 = new(0, "task 1", new DateTime(2222, 05, 20), "bla bla bla");
+            BusinessLayer.Task task2 = new(1, "task 2", new DateTime(2222, 05, 20), "ninini");
             userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "another board");
-            boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2022, 05, 20));
-            boardservice.AddTask("kfirniss@post.bgu.ac.il", "another board", "task 2", "ninini", new DateTime(2022, 05, 20));
+            boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2222, 05, 20));
+            boardservice.AddTask("kfirniss@post.bgu.ac.il", "another board", "task 2", "ninini", new DateTime(2222, 05, 20));
             boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
             boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "another board", 0, 1);
             string result = boardcontrollerservice.GetAllTasksByState("kfirniss@post.bgu.ac.il",1);
