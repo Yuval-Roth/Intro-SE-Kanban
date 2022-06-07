@@ -56,6 +56,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             log.Debug("AddBoard() for: " + email + "Board's name" + name);
             ValidateUser(email);
+            if (name.Length == 0)
+            {
+                log.Error("AddBoard() failed: board name is empty");
+                throw new ArgumentException("board name is empty");
+            }
 
             try
             {
