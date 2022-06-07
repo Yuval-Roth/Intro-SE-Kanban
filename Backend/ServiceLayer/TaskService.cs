@@ -60,7 +60,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName.ToLower());
+                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName);
                 BusinessLayer.Task task = board.SearchTask(taskId, columnOrdinal);
                 task.DueDate = dueDate;
                 Response<string> res = new(true, "");
@@ -119,7 +119,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName.ToLower());
+                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName);
                 BusinessLayer.Task task = board.SearchTask(taskId, columnOrdinal);
                 task.Title = title;
                 Response<string> res = new(true, "");
@@ -178,7 +178,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName.ToLower());
+                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName);
                 BusinessLayer.Task task = board.SearchTask(taskId, columnOrdinal);
                 task.Description = description;
                 Response<string> res = new(true, "");
