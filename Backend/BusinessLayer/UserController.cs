@@ -132,7 +132,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     catch(ArgumentException)
                     {
                         log.Error("LogIn() failed: user with '" + email + "' already loggedIn");
-                        throw new ArgumentException("The user with the email " + email + " is already logged in");
+                        throw; /*new ArgumentException("The user with the email " + email + " is already logged in");*/
                     }      
                 }
                 else

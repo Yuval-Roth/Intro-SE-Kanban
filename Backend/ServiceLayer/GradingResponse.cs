@@ -8,12 +8,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 public class GradingResponse<T>
 {
     [JsonInclude]
-    //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public readonly string? ErrorMessage;
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public readonly string? ErrorMessage;
 
     [JsonInclude]
-    //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public readonly T? ReturnValue;
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public readonly T? ReturnValue;
 
 
     [JsonConstructor]
@@ -22,7 +22,7 @@ public class GradingResponse<T>
         this.ErrorMessage = ErrorMessage;
         this.ReturnValue = ReturnValue;
     }
-
+ 
     public GradingResponse(string json)
     {
         Response<T> response = JsonController.BuildFromJson<Response<T>>(json);

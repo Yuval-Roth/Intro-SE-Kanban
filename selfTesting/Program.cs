@@ -34,7 +34,8 @@ namespace IntroSE.Kanban.selfTesting
             //tests();
             //enumeratorTests();
             //counterTest();
-            PathTest();
+            //PathTest();
+            login();
 
         }
         public static void DebugAVLTree(int[] nums)
@@ -357,6 +358,17 @@ namespace IntroSE.Kanban.selfTesting
         {
             string path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "kanban.db"));
             Console.WriteLine(path);
+        }
+        public static void login()
+        {
+            Backend.BusinessLayer.BusinessLayerFactory factory = Backend.BusinessLayer.BusinessLayerFactory.GetInstance();
+            Backend.ServiceLayer.UserService us = new(factory.UserController);
+            us.Register("TestEmail@post.bgu.ac.il","Coolpass1234");
+            us.LogOut("TestEmail@post.bgu.ac.il");
+            string json = us.LogIn("TestEmail@post.bgu.ac.il","Coolpass1234");
+            Backend.ServiceLayer.GradingResponse<string> response = new(json);
+            Console.WriteLine(Backend.ServiceLayer.JsonController.ConvertToJson(response));
+
         }
     }
 

@@ -14,12 +14,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
     public class UserServiceTests
     {
         UserService service;
-        BusinessLayer.DataCenter userData;
 
         public UserServiceTests() 
         {
+            BusinessLayer.BusinessLayerFactory.DeleteEverything();
             BusinessLayer.BusinessLayerFactory factory = BusinessLayer.BusinessLayerFactory.GetInstance();
-            userData = new();
             service = new UserService(factory.UserController);
         }
 
