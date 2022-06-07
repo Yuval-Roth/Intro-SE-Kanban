@@ -19,7 +19,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         public BoardServiceTests()
         {
-            userData = new();
+            BusinessLayer.BusinessLayerFactory.DeleteEverything();
             BusinessLayer.BusinessLayerFactory factory = BusinessLayer.BusinessLayerFactory.GetInstance();
             userservice = new UserService(factory.UserController);
             boardcontrollerservice = new BoardControllerService(factory.BoardController);
