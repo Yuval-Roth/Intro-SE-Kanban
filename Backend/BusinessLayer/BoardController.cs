@@ -62,15 +62,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 boardData.AddNewBoard(email, name);
                 log.Debug("AddBoard() success");
             }
-            catch (NoSuchElementException)
-            {
-                log.Error("AddBoard() failed: '" + email + "' doesn't exist");
-                throw;
-            }
-            catch (ArgumentException)
+            catch (ElementAlreadyExistsException)
             {
                 log.Error("AddBoard() failed: board '" + name + "' already exists for " + email);
                 throw;
+            }
+            catch (DataMisalignedException)
+            {
+                log.Fatal("AddBoard() failed: BoardIDCounter is out of sync");
+                throw;
+            }
+            catch (UserDoesNotExistException e)
+            {
+                log.Error("AddNewBoard() failed: " + e.Message);
             }
         }
 
@@ -96,7 +100,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             try
             {
-                //boardData.RemoveBoard(email, name);
+                boardData.NukeBoard(email, name);
                 log.Debug("RemoveBoard() success");
             }
             catch (NoSuchElementException)
@@ -104,7 +108,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("RemoveBoard() failed: '" + email + "' doesn't exist");
                 throw;
             }
-            catch (ArgumentException)
+            catch (OperationCanceledException)
             {
                 log.Error("RemoveBoard() failed: board '" + name + "' doesn't exist for " + email);
                 throw;

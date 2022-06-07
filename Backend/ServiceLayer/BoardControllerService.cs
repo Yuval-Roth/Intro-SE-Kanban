@@ -58,12 +58,17 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
-            catch (BusinessLayer.NoSuchElementException ex)
+            catch (BusinessLayer.ElementAlreadyExistsException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
-            catch (ArgumentException ex)
+            catch (DataMisalignedException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (BusinessLayer.UserDoesNotExistException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -112,7 +117,17 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
+            catch (OperationCanceledException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
             catch (AccessViolationException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (BusinessLayer.UserDoesNotExistException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -157,6 +172,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
             catch (AccessViolationException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (BusinessLayer.UserDoesNotExistException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
