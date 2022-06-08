@@ -9,7 +9,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     public class BoardMembersPermissions
     {
 
-        public static bool AddTask(string email, Board board)
+        public static bool EditBoard(string email, Board board)
         {
             if (board.Owner == email) { return true; }
             foreach(string joined in board.Joined)
@@ -28,6 +28,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             return false;
         }
 
-        public 
+        public static bool RemoveBoard(string email, Board board)
+        {
+            return board.Owner == email;
+        }
+
+        public static bool LeaveBoard(string email, Board board)
+        {
+
+        }
     }
 }
