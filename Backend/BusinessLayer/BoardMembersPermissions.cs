@@ -37,5 +37,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         {
 
         }
+
+        public static bool SetOwner(string email, Board board)
+        {
+            if(board.Owner==email && board.Joined.Contains(email))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
