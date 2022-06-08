@@ -11,21 +11,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public static bool EditBoard(string email, Board board)
         {
-            if (board.Owner == email) { return true; }
-            foreach(string joined in board.Joined)
-            {
-                if (joined == email) { return true; }
-            }
-            return false;
+            return board.Owner == email || board.Joined.Contains(email);
         }
 
         public static bool EditTask(string email, Task task)
         {
-            if(task.Assignee == email)
-            {
-                return true;
-            }
-            return false;
+            return task.Assignee == email;
         }
 
         public static bool BoardOwnerPermission(string email, Board board)
@@ -35,13 +26,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public static bool LeaveBoard(string email, Board board)
         {
-            if (board.Owner == email) { return false; }
-            foreach (string joined in board.Joined)
-            {
-                if (joined == email) { return true; }
-            }
-            return false;
-
+            return board.Owner != email && board.Joined.Contains(email);
         }
 
         public static bool SetOwner(string email, Board board)
@@ -51,6 +36,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 return true;
             }
             return false;
+        }
+
+        public static bool SetAssignee(string email, Task task)
+        {
+            return task.Assignee == email || task.Assignee == "unAssigned";
         }
     }
 }
