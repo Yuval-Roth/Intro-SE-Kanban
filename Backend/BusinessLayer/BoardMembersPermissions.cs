@@ -14,5 +14,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         }
 
+        public static bool EditTask(string email, Task task)
+        {
+            if(task.Assignee == email)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public 
     }
 }

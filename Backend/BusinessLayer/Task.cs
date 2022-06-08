@@ -80,7 +80,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             this.title = title;
             this.dueDate = duedate;
             this.description = description;
-            this.assignee = null;
+            this.assignee = "unAssigned";
             creationTime = DateTime.Today;
             state = TaskStates.backlog;
             log.Debug("Task() success");
@@ -101,6 +101,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         {
             get { return creationTime; }
             init { creationTime = value; }
+        }
+
+        public string Assignee
+        {
+            get { return assignee; }
+            init { assignee = value; }
         }
 
         /// <summary>
