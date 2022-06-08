@@ -1,26 +1,96 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SQLite;
 
 namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
     public class DataLoader
     {
         private SQLExecuter executer;
+        private LinkedList<UserDTO> usersList;
+        private LinkedList<BoardDTO> boardsList;
+        private bool dataLoaded = false;
+        public void LoadData()
+        {
+            usersList = new();
+            LoadUsers();            
+            boardsList = new();
+            LoadBoards();
 
-        public UserDTO[] GetUsers()
-        {
-            throw new NotImplementedException();
+            dataLoaded = true;
         }
-        private BoardDTO BuildBoard(int Id)
+
+        private void LoadUsers()
         {
-            throw new NotImplementedException();
+            string query = "SELECT * FROM Users";
+            SQLiteDataReader userReader = executer.ExecuteRead(query);
+
+            while(userReader.Read())
+            {
+                UserDTO user = new UserDTO()
+                {
+                    Email = userReader.GetString(0),
+                    Password = userReader.GetString(1)
+                });
+                string query = "SELECT * FROM UserJoinedBoards" +
+                    $"WHERE Email = '{user.Email}'";
+
+                SQLiteDataReader joinedBoardsReader = executer.ExecuteRead(query);
+            }         
         }
-        public BoardDTO[] GetBoards()
+        
+        private void LoadBoards()
         {
-            throw new NotImplementedException();
+            string boardQuery = "SELECT * FROM Boards";
+            SQLiteDataReader boardsReader = executer.ExecuteRead(boardQuery);
+
+            while (boardsReader.Read())
+            {
+                LinkedList<TaskDTO> Backlog = new();
+                LinkedList<TaskDTO> Inprogress = new();
+                LinkedList<TaskDTO> Done = new();
+                string taskQuery = "SELECT * FROM Tasks" +
+                $"WHERE BoardId = {boardsReader.GetInt32(0)}";
+                SQLiteDataReader taskReader = executer.ExecuteRead(taskQuery);
+                while (taskReader.Read())
+                {
+                    TaskDTO task = new()
+                    {
+                        Id = taskReader.GetInt32(1),
+                        Title = taskReader.GetString(2),
+                        Assignee = taskReader.GetString(3),
+                        Description = taskReader.GetString(4),
+                        CreationTime = taskReader.GetDateTime(5),
+                        DueDate = taskReader.GetDateTime(6),
+                        State = (BoardColumnNames)taskReader.GetValue(7)
+                    };
+                    switch (task.State)
+                    {
+                        case BoardColumnNames.Backlog:
+                            Backlog.AddLast(task);
+                            break;
+
+                        case BoardColumnNames.Inprogress: 
+                            Inprogress.AddLast(task);
+                            break;
+
+                        case BoardColumnNames.Done:
+                            Done.AddLast(task);
+                            break;
+                    }
+                }
+                boardsList.AddLast(new BoardDTO()
+                {
+
+                });    
+            
+            
+            }
+
+
+
+            
+
         }
     }
 }

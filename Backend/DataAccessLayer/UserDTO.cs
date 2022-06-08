@@ -10,7 +10,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
     {
         public string Email { get; set; }
         public string Password { get; set; }
-        public BoardDTO[] MyBoards { get; set; }
-        public BoardDTO[] JoinedBoards { get; set; }
+        public LinkedList<int> MyBoards { get; set; }
+        public LinkedList<int> JoinedBoards { get; set; }
     }
 }

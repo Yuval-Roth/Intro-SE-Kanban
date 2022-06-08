@@ -27,7 +27,5 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             return false;
         }
-
-        public 
     }
 }
