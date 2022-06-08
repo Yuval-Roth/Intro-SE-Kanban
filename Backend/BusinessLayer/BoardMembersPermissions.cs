@@ -28,7 +28,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             return false;
         }
 
-        public static bool RemoveBoard(string email, Board board)
+        public static bool BoardOwnerPermission(string email, Board board)
         {
             return board.Owner == email;
         }
