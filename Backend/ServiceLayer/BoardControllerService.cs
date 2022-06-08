@@ -109,7 +109,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), name);
-                if (!BusinessLayer.BoardMembersPermissions.RemoveBoard(email.ToLower(), board))
+                if (!BusinessLayer.BoardMembersPermissions.BoardOwnerPermission(email.ToLower(), board))
                 {
                     Response<string> res1 = new(false, "RemoveBoard() failed: user has not permission to do RemoveBoard");
                     return JsonController.ConvertToJson(res1);
