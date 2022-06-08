@@ -451,6 +451,20 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
         }
+
+        public string ChangeOwner(string currentOwnerEmail, string newOwnerEmail, string boardName)
+        {
+            if (ValidateArguments.ValidateNotNull(new object[] { currentOwnerEmail, newOwnerEmail, boardName}) == false)
+            {
+                Response<string> res = new(false, "ChangeOwner() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                BusinessLayer.Board board = boardController.SearchBoard(currentOwnerEmail.ToLower(), boardName);
+                if(!Backend.BusinessLayer.BoardMembersPermissions.)
+            }
+        }
     }
     
 }

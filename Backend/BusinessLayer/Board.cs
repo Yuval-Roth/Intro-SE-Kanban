@@ -365,6 +365,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             } 
         }
 
+        public void ChangeOwner(string currentOwnerEmail, string newOwnerEmail, string boardName)
+        {
+            log.Debug("ChangeOwner() for board: "+ boardName + "from: "+ currentOwnerEmail + "to: " + newOwnerEmail);
+            try
+            {
+                
+            }
+        }
+
         /// <summary>
         /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number
         /// </summary>
@@ -378,6 +387,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new IndexOutOfRangeException("The column '" + columnOrdinal + "' is not a valid column number");
             }
         }
+
 
         //====================================================
         //                  Json related
