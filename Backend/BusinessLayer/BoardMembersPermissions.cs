@@ -35,6 +35,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public static bool LeaveBoard(string email, Board board)
         {
+            if (board.Owner == email) { return false; }
+            foreach (string joined in board.Joined)
+            {
+                if (joined == email) { return true; }
+            }
+            return false;
 
         }
     }
