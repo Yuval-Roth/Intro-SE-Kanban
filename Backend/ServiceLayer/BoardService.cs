@@ -189,6 +189,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName);
                 BusinessLayer.Task task = board.SearchTask(taskId);
+                if (!Backend.BusinessLayer.BoardMembersPermissions.EditTask(email.ToLower(), task))
+                {
+                    Response<string> res1 = new(false, "AdvanceTask() failed: User is not the task's assignee");
+                    return JsonController.ConvertToJson(res1);
+                }
                 board.AdvanceTask(columnOrdinal, taskId);
                 task.AdvanceTask();
                 Response<string> res = new(true, "");

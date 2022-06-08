@@ -62,6 +62,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName);
                 BusinessLayer.Task task = board.SearchTask(taskId, columnOrdinal);
+                if(!Backend.BusinessLayer.BoardMembersPermissions.EditTask(email.ToLower(), task))
+                {
+                    Response<string> res1 = new(false, "UpdateTaskDueDate() failed: User is not the task's assignee");
+                    return JsonController.ConvertToJson(res1);
+                }
                 task.DueDate = dueDate;
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
@@ -121,6 +126,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName);
                 BusinessLayer.Task task = board.SearchTask(taskId, columnOrdinal);
+                if (!Backend.BusinessLayer.BoardMembersPermissions.EditTask(email.ToLower(), task))
+                {
+                    Response<string> res1 = new(false, "UpdateTaskTitle() failed: User is not the task's assignee");
+                    return JsonController.ConvertToJson(res1);
+                }
                 task.Title = title;
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
@@ -180,6 +190,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName);
                 BusinessLayer.Task task = board.SearchTask(taskId, columnOrdinal);
+                if (!Backend.BusinessLayer.BoardMembersPermissions.EditTask(email.ToLower(), task))
+                {
+                    Response<string> res1 = new(false, "UpdateTaskDescription() failed: User is not the task's assignee");
+                    return JsonController.ConvertToJson(res1);
+                }
                 task.Description = description;
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
