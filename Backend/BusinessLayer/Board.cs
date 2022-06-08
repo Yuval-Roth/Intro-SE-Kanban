@@ -365,6 +365,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             } 
         }
 
+        public void ChangeOwner(string currentOwnerEmail, string newOwnerEmail, string boardName)
+        {
+            log.Debug("ChangeOwner() for board: " + boardName + "from: " + currentOwnerEmail + "to: " + newOwnerEmail);
+            if (!this.joined.Contains(newOwnerEmail))
+            {
+                log.Error("ChangeOwner() failed: '" + newOwnerEmail + "' isn't joined to the board");
+                throw new ArgumentException("the user " + newOwnerEmail + " isn't joined to the board");
+            }
+            this.owner = newOwnerEmail;
+            this.joined.AddLast(currentOwnerEmail);
+            this.joined.Remove(newOwnerEmail);
+        }
+
         /// <summary>
         /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number
         /// </summary>
@@ -378,6 +391,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new IndexOutOfRangeException("The column '" + columnOrdinal + "' is not a valid column number");
             }
         }
+
 
         //====================================================
         //                  Json related

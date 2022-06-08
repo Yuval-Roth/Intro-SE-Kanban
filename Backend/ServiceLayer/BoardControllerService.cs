@@ -108,6 +108,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
+                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), name);
+                if (!BusinessLayer.BoardMembersPermissions.BoardOwnerPermission(email.ToLower(), board))
+                {
+                    Response<string> res1 = new(false, "RemoveBoard() failed: user has not permission to do RemoveBoard");
+                    return JsonController.ConvertToJson(res1);
+                }
                 boardController.RemoveBoard(email.ToLower(), name);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
@@ -185,6 +191,26 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
+            }
+        }
+
+        public string ChangeOwner(string currentOwnerEmail, string newOwnerEmail, string boardName)
+        {
+            if (ValidateArguments.ValidateNotNull(new object[] { currentOwnerEmail, newOwnerEmail, boardName }) == false)
+            {
+                Response<string> res = new(false, "ChangeOwner() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                BusinessLayer.Board board = boardController.SearchBoard(currentOwnerEmail.ToLower(), boardName);
+                if (!Backend.BusinessLayer.BoardMembersPermissions.BoardOwnerPermission(currentOwnerEmail, board){
+                    Response<string> res1 = new(false, "ChangeOwner() failed: user isn't the board's owner");
+                    return JsonController.ConvertToJson(res1);
+                }
+                board.ChangeOwner(currentOwnerEmail, newOwnerEmail, boardName);
+                
+
             }
         }
     }
