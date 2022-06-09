@@ -19,14 +19,14 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             executer = new();
             BCDTO = new(executer);
             taskControllerDTO = new(executer);
-            userControllerDTO = new(executer);
-            
+            userControllerDTO = new(executer);      
         }
 
         public BoardControllerDTO boardControllerDTO => BCDTO;
         public TaskControllerDTO TaskControllerDTO => taskControllerDTO;
         public UserControllerDTO UserControllerDTO => userControllerDTO;
         public SQLExecuter SQLExecuter => executer;
+        public DataLoader DataLoader => new DataLoader(executer);
 
         public static DataAccessLayerFactory GetInstance()
         {

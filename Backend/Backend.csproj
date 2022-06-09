@@ -7,6 +7,17 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="ServiceLayer\**" />
+    <EmbeddedResource Remove="ServiceLayer\**" />
+    <None Remove="ServiceLayer\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="BusinessLayer\BoardController.cs" />
+    <Compile Remove="BusinessLayer\BusinessLayerFactory.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.14" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using IntroSE.Kanban.Backend.DataAccessLayer;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
@@ -845,7 +846,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         
         public void LoadData()
         {
-            throw new NotImplementedException();
+            DataAccessLayerFactory factory = DataAccessLayerFactory.GetInstance();
+            DataLoader dataLoader = factory.DataLoader;
+            dataLoader.LoadData();
+
+            LinkedList<BoardDTO> boardDTOs = dataLoader.BoardsList;
+            LinkedList<UserDTO> userDTOs = dataLoader.UsersList;
         }
         public void DeleteData()
         {
