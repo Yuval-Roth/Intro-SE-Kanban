@@ -62,7 +62,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         // 3) Private Methods
         // 4) Implemented Interfaces
 
-        // NOTICE: the documentation for all public methods is inherted from the Interfaces
+        // NOTICE: the documentation for all public methods is inherited from the Interfaces
 
         //----------------------------------------------------------------------------------
 
