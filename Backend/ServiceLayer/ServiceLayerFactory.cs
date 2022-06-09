@@ -63,5 +63,17 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             if (instance == null) instance = new();
             return instance;
         }
+
+        /// <summary>
+        /// Resets the factory instance to null <br/><br/>
+        /// <b>WARNING: USED FOR UNIT TESTING PURPOSES ONLY</b>
+        /// 
+        /// </summary>
+        public static void DeleteEverything()
+        {
+            instance = null;
+        }
+
+
     }
 }

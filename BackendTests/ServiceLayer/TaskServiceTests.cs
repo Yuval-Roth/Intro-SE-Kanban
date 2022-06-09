@@ -1,10 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using IntroSE.Kanban.Backend.ServiceLayer;
+using IntroSE.Kanban.Backend.BusinessLayer;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 {
@@ -12,7 +9,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
     public class TaskServiceTests
     {
 
-        BusinessLayer.DataCenter userData;
         UserService userservice;
         BoardControllerService boardcontrollerservice;
         BoardService boardservice;
@@ -20,8 +16,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         public TaskServiceTests()
         {
-            BusinessLayer.BusinessLayerFactory.DeleteEverything();
-            BusinessLayer.BusinessLayerFactory factory = BusinessLayer.BusinessLayerFactory.GetInstance();
+            BusinessLayerFactory.DeleteEverything();
+            BusinessLayerFactory factory = BusinessLayerFactory.GetInstance();
             userservice = new UserService(factory.UserController);
             boardcontrollerservice = new BoardControllerService(factory.BoardController);
             boardservice = new BoardService(factory.BoardController);

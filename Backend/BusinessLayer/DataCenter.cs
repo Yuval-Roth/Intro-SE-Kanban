@@ -151,6 +151,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void RemoveUser(string email)
         {
             throw new NotImplementedException("Not updated to support current implementation");
+#pragma warning disable CS0162 // Unreachable code detected
             try
             {
                 log.Debug("RemoveUser() for: " + email);
@@ -167,6 +168,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new UserDoesNotExistException("A user with the email '" +
                     email + "' doesn't exist in the system");
             }
+#pragma warning restore CS0162 // Unreachable code detected
         }
 
         /// <summary>

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
 
@@ -28,14 +23,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private DataCenter dataCenter;
         private BoardController boardController;
         private UserController userController;
-        //private BoardMembersPermissions BMP;
+        private BoardMembersPermissions boardMembersPermissions;
 
         private BusinessLayerFactory()
         {
             dataCenter = new();
             boardController = new(dataCenter);
             userController = new(dataCenter);
-            //BMP = new(dataCenter,boardController);
+            boardMembersPermissions = new();
         }
 
         /// <summary>
@@ -63,6 +58,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// retrieve the BoardController instance
         /// </summary>
         public DataCenterManagement DataCenterManagement => dataCenter;
+
+        /// <summary>
+        /// retrieve the BoardMemebersPermissions instance
+        /// </summary>
+        public BoardMembersPermissions BoardMembersPermissions => boardMembersPermissions;
 
         /// <returns>The instance of the singleton BusinessLayerFatory</returns>
         public static BusinessLayerFactory GetInstance()

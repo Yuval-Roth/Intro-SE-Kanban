@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
+using System.Data.SQLite;
 
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]
 
@@ -362,7 +362,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string LoadData()
         {
-            throw new NotImplementedException();
+            try
+            {
+                BusinessLayer.BusinessLayerFactory.GetInstance().DataCenterManagement.LoadData();
+                return JsonController.ConvertToJson(new GradingResponse<string>());
+            }
+            catch (SQLiteException e)
+            {
+                return JsonController.ConvertToJson(new GradingResponse<string>(e.Message,null)); 
+            }
         }
 
         ///<summary>This method deletes all persisted data.
@@ -374,9 +382,17 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         ///<returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string DeleteData()
         {
-            throw new NotImplementedException();
+            try
+            {
+                BusinessLayer.BusinessLayerFactory.GetInstance().DataCenterManagement.DeleteData();
+                return JsonController.ConvertToJson(new GradingResponse<string>());
+            }
+            catch (SQLiteException e)
+            {
+                return JsonController.ConvertToJson(new GradingResponse<string>(e.Message, null));
+            }
+    
         }
-
         /// <summary>
         /// This method transfers a board ownership.
         /// </summary>
@@ -389,7 +405,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             throw new NotImplementedException();
         }
 
-        public static bool GetOperationState(string json)
+        private static bool GetOperationState(string json)
         {
             Response<object> res = JsonController.BuildFromJson<Response<object>>(json);
             if (res.operationState == true)
@@ -400,5 +416,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         }
     }
 }
+
+
 
 

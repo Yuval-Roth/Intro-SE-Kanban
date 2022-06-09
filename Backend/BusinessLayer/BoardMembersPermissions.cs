@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
     public class BoardMembersPermissions
     {
-
+        
         public static bool EditBoard(string email, Board board)
         {
             return board.Owner == email || board.Joined.Contains(email);
