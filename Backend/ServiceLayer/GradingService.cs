@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Text.Json;
 using System.Text.Json.Serialization;
+
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]
 
 
@@ -63,11 +62,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 
         public GradingService()
         {
-            BusinessLayer.BusinessLayerFactory factory = BusinessLayer.BusinessLayerFactory.GetInstance();
-            userServiceLayer = new UserService(factory.UserController);
-            boardControllerServiceLayer = new BoardControllerService(factory.BoardController);
-            boardServiceLayer = new BoardService(factory.BoardController);
-            taskServiceLayer = new TaskService(factory.BoardController);
+            ServiceLayerFactory factory = ServiceLayerFactory.GetInstance();
+            userServiceLayer = factory.UserService;
+            boardControllerServiceLayer = factory.BoardControllerService;
+            boardServiceLayer = factory.BoardService;
+            taskServiceLayer = factory.TaskService;
         }
 
 
@@ -398,27 +397,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return true;
             }
             else return false;
-        }
-        public class GradingResponse2 
-        {
-            [JsonInclude]
-            public string ErrorMessage;
-
-            [JsonInclude]
-            public object ReturnValue;
-
-            public GradingResponse2() { }
-
-            public GradingResponse2(string ErrorMessage, object ReturnValue)
-            {
-                this.ErrorMessage = ErrorMessage;
-                this.ReturnValue = ReturnValue;
-            }
-            public GradingResponse2(object ReturnValue)
-            {
-                this.ReturnValue = ReturnValue;
-            }
-
         }
     }
 }

@@ -194,25 +194,25 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
-        public string ChangeOwner(string currentOwnerEmail, string newOwnerEmail, string boardName)
-        {
-            if (ValidateArguments.ValidateNotNull(new object[] { currentOwnerEmail, newOwnerEmail, boardName }) == false)
-            {
-                Response<string> res = new(false, "ChangeOwner() failed: ArgumentNullException");
-                return JsonController.ConvertToJson(res);
-            }
-            try
-            {
-                BusinessLayer.Board board = boardController.SearchBoard(currentOwnerEmail.ToLower(), boardName);
-                if (!Backend.BusinessLayer.BoardMembersPermissions.BoardOwnerPermission(currentOwnerEmail, board){
-                    Response<string> res1 = new(false, "ChangeOwner() failed: user isn't the board's owner");
-                    return JsonController.ConvertToJson(res1);
-                }
-                board.ChangeOwner(currentOwnerEmail, newOwnerEmail, boardName);
+        //public string ChangeOwner(string currentOwnerEmail, string newOwnerEmail, string boardName)
+        //{
+        //    if (ValidateArguments.ValidateNotNull(new object[] { currentOwnerEmail, newOwnerEmail, boardName }) == false)
+        //    {
+        //        Response<string> res = new(false, "ChangeOwner() failed: ArgumentNullException");
+        //        return JsonController.ConvertToJson(res);
+        //    }
+        //    try
+        //    {
+        //        BusinessLayer.Board board = boardController.SearchBoard(currentOwnerEmail.ToLower(), boardName);
+        //        if (!Backend.BusinessLayer.BoardMembersPermissions.BoardOwnerPermission(currentOwnerEmail, board){
+        //            Response<string> res1 = new(false, "ChangeOwner() failed: user isn't the board's owner");
+        //            return JsonController.ConvertToJson(res1);
+        //        }
+        //        board.ChangeOwner(currentOwnerEmail, newOwnerEmail, boardName);
                 
 
-            }
-        }
+        //    }
+        //}
     }
 
     

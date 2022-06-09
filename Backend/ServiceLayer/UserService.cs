@@ -1,4 +1,6 @@
 ﻿using System;
+using IntroSE.Kanban.Backend.BusinessLayer;
+
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
 
@@ -92,7 +94,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 				Response<string> res = new(true,"");
 				return JsonController.ConvertToJson(res);
 			}
-			catch (BusinessLayer.UserDoesNotExistException ex)
+			catch (UserDoesNotExistException ex)
 			{
 				Response<string> res = new(false,ex.Message);
 				return JsonController.ConvertToJson(res);
@@ -161,7 +163,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 				Response<string> res = new(true, "");
 				return JsonController.ConvertToJson(res);
 			}
-			catch (BusinessLayer.NoSuchElementException ex)
+			catch (NoSuchElementException ex)
             {
 				Response<string> res = new(false,ex.Message);
 				return JsonController.ConvertToJson(res);
@@ -194,12 +196,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 			}
 			try
             {
-				BusinessLayer.User toSetPassword = userController.SearchUser(email.ToLower());
+				User toSetPassword = userController.SearchUser(email.ToLower());
 				userController.SetPassword(toSetPassword, old, newP);
 				Response<string> res = new(true, "");
 				return JsonController.ConvertToJson(res);
 			}
-			catch (BusinessLayer.UserDoesNotExistException ex)
+			catch (UserDoesNotExistException ex)
 			{
 				Response<string> res = new(false,ex.Message);
 				return JsonController.ConvertToJson(res);
@@ -232,12 +234,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 			}
 			try
             {
-				BusinessLayer.User toSetEmail = userController.SearchUser(email.ToLower());
+				User toSetEmail = userController.SearchUser(email.ToLower());
 				userController.SetEmail(toSetEmail, newEmail.ToLower());
 				Response<string> res = new(true, "");
 				return JsonController.ConvertToJson(res);
 			}
-			catch (BusinessLayer.UserDoesNotExistException ex)
+			catch (UserDoesNotExistException ex)
 			{
 				Response<string> res = new(false,ex.Message);
 				return JsonController.ConvertToJson(res);

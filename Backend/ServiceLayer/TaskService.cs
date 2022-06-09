@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using IntroSE.Kanban.Backend.BusinessLayer;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
@@ -26,9 +23,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 
     public class TaskService
     {
-        private readonly BusinessLayer.BoardController boardController;
+        private readonly BoardController boardController;
 
-        public TaskService(BusinessLayer.BoardController BC)
+        public TaskService(BoardController BC)
         {
             boardController = BC;
         }
@@ -60,9 +57,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName);
-                BusinessLayer.Task task = board.SearchTask(taskId, columnOrdinal);
-                if(!Backend.BusinessLayer.BoardMembersPermissions.EditTask(email.ToLower(), task))
+                Board board = boardController.SearchBoard(email.ToLower(), boardName);
+                Task task = board.SearchTask(taskId, columnOrdinal);
+                if(!BoardMembersPermissions.EditTask(email.ToLower(), task))
                 {
                     Response<string> res1 = new(false, "UpdateTaskDueDate() failed: User is not the task's assignee");
                     return JsonController.ConvertToJson(res1);
@@ -71,7 +68,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
-            catch (BusinessLayer.NoSuchElementException ex)
+            catch (NoSuchElementException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -91,7 +88,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
-            catch (BusinessLayer.UserDoesNotExistException ex)
+            catch (UserDoesNotExistException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -124,9 +121,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName);
-                BusinessLayer.Task task = board.SearchTask(taskId, columnOrdinal);
-                if (!Backend.BusinessLayer.BoardMembersPermissions.EditTask(email.ToLower(), task))
+                Board board = boardController.SearchBoard(email.ToLower(), boardName);
+                Task task = board.SearchTask(taskId, columnOrdinal);
+                if (!BoardMembersPermissions.EditTask(email.ToLower(), task))
                 {
                     Response<string> res1 = new(false, "UpdateTaskTitle() failed: User is not the task's assignee");
                     return JsonController.ConvertToJson(res1);
@@ -135,7 +132,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
-            catch (BusinessLayer.NoSuchElementException ex)
+            catch (NoSuchElementException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -155,7 +152,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
-            catch (BusinessLayer.UserDoesNotExistException ex)
+            catch (UserDoesNotExistException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -188,9 +185,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), boardName);
-                BusinessLayer.Task task = board.SearchTask(taskId, columnOrdinal);
-                if (!Backend.BusinessLayer.BoardMembersPermissions.EditTask(email.ToLower(), task))
+                Board board = boardController.SearchBoard(email.ToLower(), boardName);
+                Task task = board.SearchTask(taskId, columnOrdinal);
+                if (!BoardMembersPermissions.EditTask(email.ToLower(), task))
                 {
                     Response<string> res1 = new(false, "UpdateTaskDescription() failed: User is not the task's assignee");
                     return JsonController.ConvertToJson(res1);
@@ -199,7 +196,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
-            catch (BusinessLayer.NoSuchElementException ex)
+            catch (NoSuchElementException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -219,7 +216,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
-            catch (BusinessLayer.UserDoesNotExistException ex)
+            catch (UserDoesNotExistException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);

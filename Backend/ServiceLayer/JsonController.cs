@@ -1,4 +1,4 @@
-﻿using System;
+﻿using IntroSE.Kanban.Backend.BusinessLayer;
 using System.Text.Json;
 using System.Collections.Generic;
 
@@ -22,33 +22,33 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 
 		//public functions
 
-		public static string ConvertToJson(BusinessLayer.Task task)
+		public static string ConvertToJson(Task task)
 		{
 			return Serialize(task.GetSerializableInstance());
 		}
-		public static string ConvertToJson(BusinessLayer.Board board)
+		public static string ConvertToJson(Board board)
 		{
 			return Serialize(board.GetSerializableInstance());
 		}
-		public static string ConvertToJson(LinkedList<BusinessLayer.Board> boardList)
+		public static string ConvertToJson(LinkedList<Board> boardList)
 		{
 			LinkedList<BusinessLayer.Serializable.Board_Serializable> boardList_Serializable = new();
-			foreach (BusinessLayer.Board board in boardList) 
+			foreach (Board board in boardList) 
 			{
 				boardList_Serializable.AddLast(board.GetSerializableInstance());
 			}
 			return Serialize(boardList_Serializable);
 		}
-		public static string ConvertToJson(LinkedList<BusinessLayer.Task> taskList)
+		public static string ConvertToJson(LinkedList<Task> taskList)
 		{
 			LinkedList<BusinessLayer.Serializable.Task_Serializable> taskList_Serializable = new();
-			foreach (BusinessLayer.Task task in taskList)
+			foreach (Task task in taskList)
 			{
 				taskList_Serializable.AddLast(task.GetSerializableInstance());
 			}
 			return Serialize(taskList_Serializable);
 		}
-		public static string ConvertToJson(BusinessLayer.User user)
+		public static string ConvertToJson(User user)
 		{
 			return Serialize(user.GetSerializableInstance());
 		}
@@ -64,10 +64,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             return Serialize(response);
         }
-		public static string ConvertToJson(GradingService.GradingResponse2 response)
-		{
-			return Serialize(response);
-		}
 		public static T BuildFromJson<T>(string json)
 		{
 			return Deserialize<T>(json);
