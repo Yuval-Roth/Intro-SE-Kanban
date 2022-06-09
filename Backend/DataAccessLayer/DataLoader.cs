@@ -22,8 +22,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
         private void LoadUsers()
         {
-            string query = "SELECT * FROM Users";
-            SQLiteDataReader userReader = executer.ExecuteRead(query);
+            string userQuery = "SELECT * FROM Users";
+            SQLiteDataReader userReader = executer.ExecuteRead(userQuery);
 
             while(userReader.Read())
             {
@@ -31,11 +31,12 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 {
                     Email = userReader.GetString(0),
                     Password = userReader.GetString(1)
-                });
-                string query = "SELECT * FROM UserJoinedBoards" +
+                };
+                string joinedQuery = "SELECT * FROM UserJoinedBoards" +
                     $"WHERE Email = '{user.Email}'";
 
-                SQLiteDataReader joinedBoardsReader = executer.ExecuteRead(query);
+                SQLiteDataReader joinedBoardsReader = executer.ExecuteRead(joinedQuery);
+
             }         
         }
         
