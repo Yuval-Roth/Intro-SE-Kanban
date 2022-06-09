@@ -37,6 +37,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 			this.password = password;
 		}
 
+		public User(DataAccessLayer.UserDTO userDTO)
+		{
+			email = userDTO.Email;
+			password = userDTO.Password;
+		}
+
+		public string Email => email;
+
 		/// <summary>
 		/// Replace the user's password with the new password entered
 		/// </summary>
@@ -68,6 +76,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		{
 			return email;
 		}
+
+		
 
 		/// <summary>
 		/// Check if the user's password match the password entered <br/><br/>

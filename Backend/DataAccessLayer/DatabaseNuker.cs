@@ -8,5 +8,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
     public class DatabaseNuker
     {
+        public void Nuke()
+        {
+            
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         private SQLExecuter executer;
         private LinkedList<UserDTO> usersList;
         private LinkedList<BoardDTO> boardsList;
+        private int boardIdCounter;
 
         public DataLoader(SQLExecuter executer) 
         {
@@ -23,9 +24,13 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             LoadUsers();            
             LoadBoards();
+            LoadBoardIdCounter();
         }
+
         public LinkedList<UserDTO> UsersList => usersList;
         public LinkedList<BoardDTO> BoardsList => boardsList;
+        public int BoardIdCounter => boardIdCounter;
+
 
         private void LoadUsers()
         {
@@ -66,8 +71,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
                     // Load JoinedBoards
                     boardsQuery = "SELECT BoardId" +
-                                      "FROM UserJoinedBoards" +
-                                     $"WHERE Email = '{user.Email}'";
+                                  "FROM UserJoinedBoards" +
+                                 $"WHERE Email = '{user.Email}'";
                     using (SQLiteDataReader boardsReader = executer.ExecuteRead(boardsQuery))
                     {
                         while (boardsReader.Read())
@@ -173,6 +178,25 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 log.Error(e.Message);
                 throw;
             }   
+        }
+        private void LoadBoardIdCounter()
+        {
+            log.Debug("LoadBoardIdCounter() initiated");
+            try
+            {
+                string query = "SELECT Counter FROM BoardIDCounter ";
+                using (SQLiteDataReader reader = executer.ExecuteRead(query))
+                {
+                    reader.Read();
+                    boardIdCounter = reader.GetInt32(0);
+                }
+            }
+            catch (SQLiteException e) 
+            {
+                log.Error(e.Message);
+                throw;
+            }
+            log.Debug("LoadBoardIdCounter() success");
         }
     }
 }

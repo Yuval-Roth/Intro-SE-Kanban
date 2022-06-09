@@ -13,12 +13,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <summary>
     /// The class uses the facade design pattern.<br/>
     /// it manages a data structure of of <c>User</c>s and <c>Board</c>s. <br/><br/>
-    /// The class provides an interface for the underlying data structures and performs most of the<br/>
+    /// The class provides an interface for accessing the underlying data structures and performs most of the<br/>
     /// basic operations needed.<br/><br/>
-    /// 
-    /// <b>No checks are being done to ensure whether or not those operations are legal or sensible in a given context.</b><br/>
-    /// for example: the class does not check whether or not a user is logged in before performing operations.<br/>
-    /// this class is simply a tool for using the underlying data structures
     /// 
     /// <code>Supported operations:</code>
     /// <b>-------------User Related--------------</b>
@@ -75,12 +71,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private HashSet<string> loggedIn;
         private int nextBoardID;
 
+        private DataAccessLayerFactory DALFactory;
+
         public DataCenter()
         {
             UsersAndBoardsTree = new();
             OnlyBoardsTree = new();
             loggedIn = new();
-            //LoadData();
+            DALFactory = DataAccessLayerFactory.GetInstance();
         }
 
 
@@ -376,6 +374,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 Board newBoard = new(title, GetNextBoardID,email);
                 OnlyBoardsTree.Add(newBoard.Id, newBoard);
                 myBoardList.AddLast(newBoard);
+                IncrementBoardID();
                 log.Debug("AddNewBoard() success");
                 return newBoard;
             }
@@ -838,27 +837,72 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             log.Debug("ValidateUser() success");
         }
-        /// <summary>
-        /// Auto incrementing counter for boards ID.<br/>
-        /// Everytime this method is called, the counter in incremented.
-        /// </summary>
-        private int GetNextBoardID => nextBoardID++;
+
+        private int GetNextBoardID => nextBoardID;
+        private void IncrementBoardID()
+        {
+            DALFactory.BoardControllerDTO.UpdateBoardIdCounter(nextBoardID+1);
+            nextBoardID++;
+        }
         
         public void LoadData()
         {
-            DataAccessLayerFactory factory = DataAccessLayerFactory.GetInstance();
-            DataLoader dataLoader = factory.DataLoader;
+            
+            DataLoader dataLoader = DALFactory.DataLoader;
             dataLoader.LoadData();
 
+
+            nextBoardID = dataLoader.BoardIdCounter;
             LinkedList<BoardDTO> boardDTOs = dataLoader.BoardsList;
             LinkedList<UserDTO> userDTOs = dataLoader.UsersList;
+
+            foreach (BoardDTO boardDTO in boardDTOs)
+            {
+                OnlyBoardsTree.Add(boardDTO.Id,new Board(boardDTO));
+            }
+
+            foreach (UserDTO userDTO in userDTOs)
+            {
+                User user = new(userDTO);
+
+                LinkedList<Board> myBoards = new();
+                foreach(int boardId in userDTO.MyBoards)
+                {
+                    myBoards.AddLast(OnlyBoardsTree.GetData(boardId));
+                }
+
+                LinkedList<Board> joinedBoards = new();
+                foreach (int boardId in userDTO.JoinedBoards)
+                {
+                    joinedBoards.AddLast(OnlyBoardsTree.GetData(boardId));
+                }
+
+                UsersAndBoardsTree.Add(user.Email, new DataUnit()
+                {
+                    User = user,
+                    BoardsDataUnit = new()
+                    {
+                        MyBoards = myBoards,
+                        JoinedBoards = joinedBoards
+                    }
+                });
+            }
         }
         public void DeleteData()
         {
-            throw new NotImplementedException();
+            new DatabaseNuker().Nuke();
+            UsersAndBoardsTree = null;
+            OnlyBoardsTree = null;
+            loggedIn = null;
+            nextBoardID = 0;
         }
 
     }
+
+    //===========================================================================
+    //                                Interfaces
+    //===========================================================================
+
     public interface UserDataOperations
     {
         /// <summary>
