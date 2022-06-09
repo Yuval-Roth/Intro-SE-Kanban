@@ -160,7 +160,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public void RemoveUser(string email)
         {
-            throw new NotImplementedException("Not updated to support current implementation");
+            throw new NotImplementedException("DEPRECATED METHOD: Not updated to support current requirements");
+
             try
             {
                 log.Debug("RemoveUser() for: " + email);
