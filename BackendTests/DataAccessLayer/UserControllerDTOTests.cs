@@ -20,7 +20,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             ServiceLayerFactory.DeleteEverything();
             ServiceLayerFactory ServiceFactory = ServiceLayerFactory.GetInstance();
             DataAccessLayerFactory DataFactory = DataAccessLayerFactory.GetInstance();
-            userControllerDTO = DataFactory.UserControllerDTO;
             service = ServiceFactory.UserService;
             executer = DataFactory.SQLExecuter;
         }
@@ -53,7 +52,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             string email = "printz@post.bgu.ac.il";
             string password = "Hadas1234";
             string newPassword = "Printz1234";
-            service.Register(email, password);
+            if(GetOperationState(service.Register(email, password))==false)
+                Assert.Fail("Register failed");
             string result = service.SetPassword(email, password, newPassword);
             string query = $"SELECT Password FROM Users WHERE Email='{email}'";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
@@ -70,7 +70,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             string email = "printz@post.bgu.ac.il";
             string password = "Hadas1234";
             string newEmail = "Hadaspr100@gmail.com";
-            service.Register(email, password);
+            if (GetOperationState(service.Register(email, password)) == false)
+                Assert.Fail("Register failed");
             string result = service.SetEmail(email, newEmail);
             string query = $"SELECT Email FROM Users WHERE Email='{newEmail}'";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
