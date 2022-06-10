@@ -350,7 +350,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string AssignTask(string email, string boardName, int columnOrdinal, int taskID, string emailAssignee)
         {
-            throw new NotImplementedException();
+            string json = taskServiceLayer.AssignTask(email, boardName, columnOrdinal, taskID, emailAssignee);
+            GradingResponse<string> res = new(json);
+            return JsonController.ConvertToJson(res);
         }
 
         ///<summary>This method loads all persisted data.
