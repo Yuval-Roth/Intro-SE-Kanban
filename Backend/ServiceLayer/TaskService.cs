@@ -222,6 +222,20 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
         }
+        public string AssignTask(string email, string boardName, int columnOrdinal, int taskId, string emailAssignee)
+        {
+            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName, columnOrdinal, taskId, emailAssignee }) == false)
+            {
+                Response<string> res = new(false, "UpdateTaskDescription() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                Board board = boardController.SearchBoard(email.ToLower(), boardName);
+                Task task = board.SearchTask(taskId, columnOrdinal);
+
+            }
+        }
 
     }
     

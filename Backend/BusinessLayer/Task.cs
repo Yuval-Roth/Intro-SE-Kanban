@@ -224,6 +224,24 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new ArgumentException("task numbered '" + id + "' is done and can't be advanced");
             }
             state++;
+            log.Debug("AdvanceTask() success");
+        }
+
+        public void AssignTask(string email, string emailAssignee)
+        {
+            log.Debug("AssignTask() for taskId: " + email + ", emailAssignee:" + emailAssignee);
+            if (assignee!=email && assignee != "unAssigned")
+            {
+                log.Error("AssignTask() failed: task numbered '" + id + "' , email: '" + email + "' isn't the task's assignee");
+                throw new FieldAccessException("email: '" + email + "' isn't the task's assignee");
+            }
+            if (assignee==email && email == emailAssignee)
+            {
+                log.Error("AssignTask() failed: task numbered '" + id + "' , email: '" + email + "' is already the assignee");
+                throw new ElementAlreadyExistsException("email: '" + email + "' isn't the task's assignee");
+            }
+            assignee = emailAssignee;
+            log.Debug("AssignTask() success");
         }
 
 
