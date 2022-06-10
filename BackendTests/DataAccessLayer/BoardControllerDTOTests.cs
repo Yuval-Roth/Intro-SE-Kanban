@@ -173,12 +173,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
                 if (reader.GetInt32(0) != 20) Assert.Fail("change Limit incorrectly");
             }
         }
-
-        [TestMethod()]
-        public void UpdateBoardIdCounterTest()
-        {
-            Assert.Fail();
-        }
         private static bool GetOperationState(string json)
         {
             Response<object> res = JsonController.BuildFromJson<Response<object>>(json);
