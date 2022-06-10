@@ -116,36 +116,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
         public TaskStates State => state;
 
-        /// <summary>
-        /// Set <c>Task Title</c> to <c>Task</c> task <br/> <br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the title over his char cap
-        /// </summary>
-        /// <param name="value"></param>
-        /// <exception cref="ArgumentException"></exception>
         public string Title 
         {
             get { return title; }
-            set {
-                log.Debug("UpdateTitle() for taskId: " + id);
-                if (state == TaskStates.done)
-                {
-                    log.Error("UpdateTitle() failed: " + id + "is done");
-                    throw new ArgumentException("the task '" +
-                        Id + "' is already done");
-                }
-                if (value.Length < MIN_TITLE_CHAR_CAP)
-                {
-                    log.Error("UpdateTitle() failed: title is empty");
-                    throw new ArgumentException("title is empty");
-                }
-                if (value.Length > MAX_TITLE_CHAR_CAP)
-                {
-                    log.Error("UpdateTitle() failed: title is over the limit");
-                    throw new ArgumentException("title is over the limit");
-                }
-                log.Debug("UpdateTitle() success");
-                title = value;
-                }
+            set { title = value; }
         }
 
         /// <summary>
@@ -254,7 +228,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <summary>
         /// Set <c>Task DueDate</c> to <c>Task</c> task <br/> <br/>
         /// <b>Throws</b> <c>ArgumentException</c> if the due date has passed or task is already done
-        /// <b>Throws</b> <c>ArgumentException</c> if the user isn't the assignee
+        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't the assignee
         /// </summary>
         /// <param name="value"></param>
         /// <exception cref="ArgumentException"></exception>
@@ -281,6 +255,44 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             dueDate = value;
             log.Debug("UpdateDueDate() success");
         }
+
+
+        /// <summary>
+        /// Set <c>Task DueDate</c> to <c>Task</c> task <br/> <br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if the title over his char cap/empty or task is already done
+        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't the assignee
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="AccessViolationException"></exception>
+        public void UpdateTitle(string email, string value)
+        {
+            log.Debug("UpdateTitle() for taskId: " + email + ", email:" + email);
+            if (assignee != email)
+            {
+                log.Error("UpdateTitle() failed: User is not the task's assignee");
+                throw new AccessViolationException("User is not the task's assignee");
+            }
+            if (state == TaskStates.done)
+            {
+                log.Error("UpdateTitle() failed: " + id + "is done");
+                throw new ArgumentException("the task '" +
+                    id + "' is already done");
+            }
+            if (value.Length < MIN_TITLE_CHAR_CAP)
+            {
+                log.Error("UpdateTitle() failed: title is empty");
+                throw new ArgumentException("title is empty");
+            }
+            if (value.Length > MAX_TITLE_CHAR_CAP)
+            {
+                log.Error("UpdateTitle() failed: title is over the limit");
+                throw new ArgumentException("title is over the limit");
+            }
+            log.Debug("UpdateTitle() success");
+            title = value;
+        }
+    }
 
         //====================================================
         //                  Json related
