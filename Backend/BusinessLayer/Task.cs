@@ -122,41 +122,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             set { title = value; }
         }
 
-        /// <summary>
-        /// Set <c>Task Description</c> to <c>Task</c> task <br/> <br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the Description over his char cap
-        /// </summary>
-        /// <param name="value"></param>
-        /// <exception cref="ArgumentException"></exception>
         public string Description
         {
             get { return description; }
-            set
-            {
-                log.Debug("UpdateDescription() for taskId: " + id);
-                if (state == TaskStates.done)
-                {
-                    log.Error("UpdateDescription() failed: " + id + "is done");
-                    throw new ArgumentException("the task '" +
-                        Id + "' is already done");
-                }
-                if (value.Length > MAX_DESCRIPTION_CHAR_CAP)
-                {
-                    log.Error("UpdateDescription() failed: description is over the limit");
-                    throw new ArgumentException("description is over the limit");
-                }
-                log.Debug("UpdateDescription() success");
-                description = value;
-            }
+            set { description = value; }
         }
 
 
-        /// <summary>
-        /// Set <c>Task DueDate</c> to <c>Task</c> task <br/> <br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the due date has passed
-        /// </summary>
-        /// <param name="value"></param>
-        /// <exception cref="ArgumentException"></exception>
         public DateTime DueDate
         {
             get { return dueDate; }
@@ -258,7 +230,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
 
         /// <summary>
-        /// Set <c>Task DueDate</c> to <c>Task</c> task <br/> <br/>
+        /// Set <c>Task Title</c> to <c>Task</c> task <br/> <br/>
         /// <b>Throws</b> <c>ArgumentException</c> if the title over his char cap/empty or task is already done
         /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't the assignee
         /// </summary>
@@ -292,13 +264,45 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             log.Debug("UpdateTitle() success");
             title = value;
         }
-    }
+
+
+        /// <summary>
+        /// Set <c>Task Description</c> to <c>Task</c> task <br/> <br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if the title over his char cap or task is already done
+        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't the assignee
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="AccessViolationException"></exception>
+        public void UpdateDescription(string email, string value)
+        {
+            log.Debug("UpdateDescription() for taskId: " + email + ", email:" + email);
+            if (assignee != email)
+            {
+                log.Error("UpdateDescription() failed: User is not the task's assignee");
+                throw new AccessViolationException("User is not the task's assignee");
+            }
+            if (state == TaskStates.done)
+            {
+                log.Error("UpdateDescription() failed: " + id + "is done");
+                throw new ArgumentException("the task '" +
+                    id + "' is already done");
+            }
+            if (value.Length > MAX_DESCRIPTION_CHAR_CAP)
+            {
+                log.Error("UpdateDescription() failed: title is over the limit");
+                throw new ArgumentException("Description is over the limit");
+            }
+            log.Debug("UpdateDescription() success");
+            description = value;
+        }
+
 
         //====================================================
         //                  Json related
         //====================================================
 
-        public Serializable.Task_Serializable GetSerializableInstance() 
+        public Serializable.Task_Serializable GetSerializableInstance()
         {
             return new Serializable.Task_Serializable()
             {
