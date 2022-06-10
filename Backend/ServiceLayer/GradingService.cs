@@ -314,7 +314,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response with a list of IDs of all user's boards, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string GetUserBoards(string email)
         {
-            throw new NotImplementedException();
+            string json = boardControllerServiceLayer.GetUserBoards(email);
+            if (GetOperationState(json) == true)
+            {
+                return JsonController.ConvertToJson(new GradingResponse<LinkedList<int>>(json));
+            }
+            else return JsonController.ConvertToJson(new GradingResponse<string>(json));
         }
 
         /// <summary>
@@ -325,7 +330,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string JoinBoard(string email, int boardID)
         {
-            throw new NotImplementedException();
+            string json = boardServiceLayer.JoinBoard(email, boardID);
+            GradingResponse<string> res = new(json);
+            return JsonController.ConvertToJson(res);
         }
 
         /// <summary>
@@ -336,7 +343,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string LeaveBoard(string email, int boardID)
         {
-            throw new NotImplementedException();
+            string json = boardServiceLayer.LeaveBoard(email, boardID);
+            GradingResponse<string> res = new(json);
+            return JsonController.ConvertToJson(res);
         }
 
         /// <summary>
