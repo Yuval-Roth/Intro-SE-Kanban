@@ -47,6 +47,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                                         $"SET Counter = {newValue}");
 
         }
-
+        public bool UpdateTaskIdCounter(int id, int newValue)
+        {
+            return executer.ExecuteWrite("UPDATE Boards" +
+                                        $"SET TaskIDCounter = {newValue}" +
+                                        $"WHERE BoardId = {id}");
+        }
     }
 }
