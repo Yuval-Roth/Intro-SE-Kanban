@@ -230,10 +230,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void AssignTask(string email, string emailAssignee)
         {
             log.Debug("AssignTask() for taskId: " + email + ", emailAssignee:" + emailAssignee);
+            if (state == TaskStates.done)
+            {
+                log.Error("AssignTask() failed: " + id + "is done");
+                throw new ArgumentException("the task '" +
+                    id + "' is already done");
+            }
             if (assignee!=email && assignee != "unAssigned")
             {
                 log.Error("AssignTask() failed: task numbered '" + id + "' , email: '" + email + "' isn't the task's assignee");
-                throw new FieldAccessException("email: '" + email + "' isn't the task's assignee");
+                throw new AccessViolationException("email: '" + email + "' isn't the task's assignee");
             }
             if (assignee==email && email == emailAssignee)
             {
