@@ -86,7 +86,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <b>Throws</b> <c>ArgumentException</c> if a <c>Board</c> with that title <br/>
         /// doesn't exist for the user<br/>
         /// <b>Throws</b> <c>NoSuchElementException</c> if the user doesn't exist<br/>
-        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't logged in<br/>
+        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't logged in or user isn't the owner<br/>
         /// in the system
         /// </summary>
         /// <param name="email"></param>
@@ -99,9 +99,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             log.Debug("RemoveBoard() for: " + email + "Board's name" + name);
             ValidateUser(email);
-
             try
             {
+                Board board = SearchBoard(email, name);
+                if (board.Owner != email)
+                {
+                    log.Error("RemoveBoard() failed: user has not permission to do RemoveBoard");
+                    throw new AccessViolationException("user has not permission to do RemoveBoard");
+                }
                 boardData.NukeBoard(email, name);
                 log.Debug("RemoveBoard() success");
             }
