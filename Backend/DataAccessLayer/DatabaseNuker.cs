@@ -18,7 +18,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             {
                 executer.ExecuteWrite($"DELETE FROM {table}");
             }
-            executer.ExecuteWrite($"UPDATE BoardIDCounter SET Counter = 0");
+            executer.ExecuteWrite($"UPDATE GlobalCounters SET BoardIDCounter = 0");
         }
     }
 }
