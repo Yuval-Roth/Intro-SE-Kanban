@@ -203,7 +203,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Debug("UpdateDueDate() success");
             }
         }
-        
+
 
         //====================================
         //            Functionality
@@ -213,15 +213,22 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <summary>
         /// Advance <c>Task</c>
         /// <b>Throws</b> <c>ArgumentException</c> if the task can't be advanced<br/>
+        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't task assignee
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
-        public void AdvanceTask()
+        /// <exception cref="AccessViolationException"></exception>
+        public void AdvanceTask(string email)
         {
             log.Debug("UpdateDescription() for taskId: " + id);
             if(state == TaskStates.done)
             {
                 log.Error("AdvanceTask() failed: task numbered '" + id + "' is done and can't be advanced");
                 throw new ArgumentException("task numbered '" + id + "' is done and can't be advanced");
+            }
+            if (assignee != email)
+            {
+                log.Error("AdvanceTask() failed: User is not the task's assignee");
+                throw new AccessViolationException("User is not the task's assignee");
             }
             state++;
             log.Debug("AdvanceTask() success");
