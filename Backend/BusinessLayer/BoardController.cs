@@ -230,15 +230,27 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public void ChangeOwner(string currentOwnerEmail, string newOwnerEmail, string boardName)
         {
-            //log.Debug("ChangeOwner() for board: " + boardName + "from: " + currentOwnerEmail + "to: " + newOwnerEmail);
-            //if (!this.joined.Contains(newOwnerEmail))
-            //{
-            //    log.Error("ChangeOwner() failed: '" + newOwnerEmail + "' isn't joined to the board");
-            //    throw new ArgumentException("the user " + newOwnerEmail + " isn't joined to the board");
-            //}
-            //this.owner = newOwnerEmail;
-            //this.joined.AddLast(currentOwnerEmail);
-            //this.joined.Remove(newOwnerEmail);
+            log.Debug("ChangeOwner() for board: " + boardName + "from: " + currentOwnerEmail + "to: " + newOwnerEmail);
+            try
+            {
+                boardData.ChangeOwnerPointer(currentOwnerEmail, newOwnerEmail, boardName);
+                log.Debug("ChangeOwner() success");
+            }
+            catch (ElementAlreadyExistsException)
+            {
+                log.Error("ChangeOwner() failed: board '" + boardName + "' already exists for " + newOwnerEmail);
+                throw;
+            }
+            catch (NoSuchElementException e)
+            {
+                log.Error("ChangeOwner() failed: " + e.Message);
+                throw;
+            }
+            catch (UserDoesNotExistException e)
+            {
+                log.Error("ChangeOwner() failed: " + e.Message);
+                throw;
+            }
         }
 
         /// <summary>
