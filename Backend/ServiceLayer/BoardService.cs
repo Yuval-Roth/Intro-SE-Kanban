@@ -59,10 +59,30 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                     Response<string> res1 = new(false, "ChangeOwner() failed: user isn't the board's owner");
                     return JsonController.ConvertToJson(res1);
                 }
-                }
-                board.ChangeOwner(currentOwnerEmail, newOwnerEmail, boardName);
-
-
+                boardController.ChangeOwner(currentOwnerEmail, newOwnerEmail, boardName);
+                board.ChangeOwner(currentOwnerEmail,newOwnerEmail, boardName);
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ElementAlreadyExistsException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
             }
         }
 
