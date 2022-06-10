@@ -10,10 +10,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.executer = executer;
         }
 
-        public bool AddUser(UserDTO user)
+        public bool AddUser(string email, string password)
         {
             return executer.ExecuteWrite("INSERT INTO Users (Email,Password)" +
-                $"VALUES('{user.Email}','{user.Password}')");
+                $"VALUES('{email}','{password}')");
         }
         public bool DeleteUser(string email)
         {

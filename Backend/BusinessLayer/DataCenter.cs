@@ -147,6 +147,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         JoinedBoards = new LinkedList<Board>()
                     }
                 });
+                DALFactory.UserControllerDTO.AddUser(email, password);
                 log.Debug("AddUser() success");
                 return data.User;
             }
@@ -325,6 +326,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 OnlyBoardsTree.Add(newBoard.Id, newBoard);
                 myBoardList.AddLast(newBoard);
                 IncrementBoardID();
+                DALFactory.BoardControllerDTO.AddBoard(newBoard.Id, newBoard.Title, newBoard.Owner);
                 log.Debug("AddNewBoard() success");
                 return newBoard;
             }
@@ -359,6 +361,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
                 LinkedList<Board> joinedBoardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.JoinedBoards;
                 joinedBoardList.AddLast(boardToJoin);
+                DALFactory.BoardControllerDTO.JoinBoard(email, id);
                 log.Debug("AddPointerToJoinedBoard() success");
                 return boardToJoin;
             }
@@ -392,6 +395,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     {
                         Board output = node.Value;
                         joinedBoardList.Remove(node);
+                        DALFactory.BoardControllerDTO.LeaveBoard(email, id);
                         log.Debug("RemovePointerToJoinedBoard() success");
                         return output;
                     }
@@ -440,6 +444,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 {
                     RemovePointerToJoinedBoard(joinedEmail, toRemove.Id);
                 }
+
+                DALFactory.BoardControllerDTO.RemoveBoard(id);
                 log.Debug("NukeBoard() success");
             }
             catch (NoSuchElementException)
@@ -459,13 +465,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
                 //validate that the board can be cleanly removed
                 Board toRemove = SearchBoardByEmailAndTitle(email,title);
-                //if (UserOwnsABoardWithThisTitle(toRemove.Owner, toRemove.Title) == false)
-                //{
-                //    log.Fatal("Board numbered " + toRemove.Id + " says that '" + toRemove.Owner +
-                //        "' owns it but the user '"+email+"' owns it as well");
-                //    throw new OperationCanceledException("NukeBoard() failed: Board numbered " + toRemove.Id + " says that '" + toRemove.Owner +
-                //        "' owns it but the user '" + email + "' owns it as well");
-                //}
+                if (email != toRemove.Owner)
+                {
+                    log.Fatal("Board numbered " + toRemove.Id + " says that '" + toRemove.Owner +
+                        "' owns it but the user '" + email + "' owns it as well");
+                    throw new OperationCanceledException("NukeBoard() failed: Board numbered " + toRemove.Id + " says that '" + toRemove.Owner +
+                        "' owns it but the user '" + email + "' owns it as well");
+                }
                 foreach (string joinedEmail in toRemove.Joined)
                 {
                     if (UserJoinedToBoardCheck(joinedEmail, title) == false)
@@ -485,6 +491,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     RemovePointerToJoinedBoard(joinedEmail, toRemove.Id);
                 }
                 RemoveBoardById(toRemove.Id);
+                DALFactory.BoardControllerDTO.RemoveBoard(toRemove.Id);
                 log.Debug("NukeBoard() success");
             }
             catch (NoSuchElementException)
@@ -515,7 +522,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     throw new ElementAlreadyExistsException("A board titled " +
                             title + " already exists for the user with the email " + newOwner);
                 }
-                AddExistingBoard(newOwner, RemoveBoardFromOwner(oldOwner, title));
+                Board board = RemoveBoardFromOwner(oldOwner, title);
+                AddExistingBoard(newOwner, board);
+
+                DALFactory.BoardControllerDTO.ChangeOwner(newOwner, board.Id);
                 log.Debug("ChangeOwnerPointers() success");
             }
             catch (NoSuchElementException e)

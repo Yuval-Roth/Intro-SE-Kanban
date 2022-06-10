@@ -10,10 +10,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.executer = executer;
         }
 
-        public bool AddBoard(BoardDTO board)
+        public bool AddBoard(int Id,string Title ,string Owner)
         {
             return executer.ExecuteWrite ("INSERT into Boards (BoardId, BoardTitle, Owner, BacklogLimit, InprogressLimit, DoneLimit) " +
-                $"VALUES({board.Id},'{board.Title}','{board.Owner}',{board.BackLogLimit},{board.InProgressLimit},{board.DoneLimit})");
+                $"VALUES({Id},'{Title}','{Owner}',-1,-1,-1)");
         }
         public bool RemoveBoard(int id)
         {
