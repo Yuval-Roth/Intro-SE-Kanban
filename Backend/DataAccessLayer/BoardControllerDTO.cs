@@ -41,6 +41,12 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             $"SET {column}Limit = {limit}" +
             $"WHERE BoardId = {id}");
         }
+        public bool UpdateBoardIdCounter(int newValue)
+        {
+            return executer.ExecuteWrite("UPDATE BoardIDCounter" +
+                                        $"SET Counter = {newValue}");
+
+        }
 
     }
 }

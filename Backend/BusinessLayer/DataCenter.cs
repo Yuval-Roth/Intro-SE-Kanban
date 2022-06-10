@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using IntroSE.Kanban.Backend.DataAccessLayer;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
@@ -12,12 +13,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <summary>
     /// The class uses the facade design pattern.<br/>
     /// it manages a data structure of of <c>User</c>s and <c>Board</c>s. <br/><br/>
-    /// The class provides an interface for the underlying data structures and performs most of the<br/>
+    /// The class provides an interface for accessing the underlying data structures and performs most of the<br/>
     /// basic operations needed.<br/><br/>
-    /// 
-    /// <b>No checks are being done to ensure whether or not those operations are legal or sensible in a given context.</b><br/>
-    /// for example: the class does not check whether or not a user is logged in before performing operations.<br/>
-    /// this class is simply a tool for using the underlying data structures
     /// 
     /// <code>Supported operations:</code>
     /// <b>-------------User Related--------------</b>
@@ -57,8 +54,30 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// </summary>
     public class DataCenter : UserDataOperations, BoardDataOperations, DataCenterManagement
     {
+
+        // --------------------------------- Chapters ------------------------------------- 
+
+        // 1) Fields and Constructors
+        // 2) Public Methods
+        // 3) Private Methods
+        // 4) Implemented Interfaces
+
+        // NOTICE: the documentation for all public methods is inherited from the Interfaces
+
+        //----------------------------------------------------------------------------------
+
+
+
+
+        //===========================================================================
+        //                                Fields And Constructors
+        //===========================================================================
+
+
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\DataCenter.cs");
 
+
+        // ------------------ Structs --------------------
         private struct DataUnit
         {
             public User User { get; init; }
@@ -69,27 +88,34 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             public LinkedList<Board> MyBoards { get; init; }
             public LinkedList<Board> JoinedBoards { get; init; }
         }
+        //------------------------------------------------------
+
+        //------------------- Data Repository -----------------------
         private AVLTree<string, DataUnit> UsersAndBoardsTree;
         private AVLTree<int, Board> OnlyBoardsTree;
         private HashSet<string> loggedIn;
         private int nextBoardID;
+        private bool dataLoaded;
+        //-----------------------------------------------------
+
+
+        private DataAccessLayerFactory DALFactory;
+        
 
         public DataCenter()
         {
             UsersAndBoardsTree = new();
             OnlyBoardsTree = new();
             loggedIn = new();
-            //LoadData();
+            DALFactory = DataAccessLayerFactory.GetInstance();
+            dataLoaded = false;
         }
 
 
-        /// <summary>
-        /// Searches for a user with the specified email<br/><br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist
-        /// </summary>
-        /// <param name="email"></param>
-        /// <returns>User</returns>
-        /// <exception cref="UserDoesNotExistException"></exception>
+        //===========================================================================
+        //                                Public Methods
+        //===========================================================================
+
         public User SearchUser(string email)
         {
             try
@@ -107,15 +133,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        /// <summary>
-        /// Adds a user to the system
-        /// <br/><br/>
-        /// <b>Throws</b> <c>ElementAlreadyExists</c> if a user with this email<br/>
-        /// already exists in the system
-        /// </summary>
-        /// <param name="email"></param>
-        /// <exception cref="ElementAlreadyExistsException"></exception>
-        /// <returns>The added <c>User</c></returns>
         public User AddUser(string email, string password)
         {
             try
@@ -141,17 +158,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        /// <summary>
-        /// Removes the user with the specified email from the system
-        /// <br/><br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system
-        /// </summary>
-        /// <param name="email"></param>
-        /// <exception cref="UserDoesNotExistException"></exception>
         public void RemoveUser(string email)
         {
             throw new NotImplementedException("Not updated to support current implementation");
 #pragma warning disable CS0162 // Unreachable code detected
+            throw new NotImplementedException("DEPRECATED METHOD: Not updated to support current requirements");
+
             try
             {
                 log.Debug("RemoveUser() for: " + email);
@@ -171,26 +183,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 #pragma warning restore CS0162 // Unreachable code detected
         }
 
-        /// <summary>
-        /// Gets the user's logged in status
-        /// </summary>
-        /// <returns><c>true</c> if the user is logged in, <c>false</c>  otherwise</returns>
-        /// <param name="email"></param>
         public bool UserLoggedInStatus(string email)
         {
             log.Debug("UserLoggedInStatus() for: " + email);
             return loggedIn.Contains(email);
         }
 
-        /// <summary>
-        /// Sets a user's logged in status to true
-        /// <br/><br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the user's logged in status is already true<br/><br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system
-        /// </summary>
-        /// <param name="email"></param>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="UserDoesNotExistException"></exception>
         public void SetLoggedIn(string email)
         {
             try
@@ -216,14 +214,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             
         }
 
-        /// <summary>
-        /// Sets a user's logged in status to false
-        /// <br/><br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the user's logged in status is already false
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system
-        /// </summary>
-        /// <param name="email"></param>
-        /// <exception cref="ArgumentException"></exception>
         public void SetLoggedOut(string email)
         {
             try
@@ -248,25 +238,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        /// <summary>
-        /// Check if a user exists in the system
-        /// </summary>
-        /// <param name="email"></param>
-        /// <returns>true or false</returns>
         public bool UserExists(string email)
         {
             log.Debug("UserExists() for: " + email);
             return UsersAndBoardsTree.Contains(email);
         }
 
-        /// <summary>
-        /// Gets all the <c>User</c>'s boards data
-        /// <br/><br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the <c>User</c> does not exist<br/>
-        /// in the system
-        /// </summary>
-        /// <returns><see cref="BoardsDataUnit"/></returns>
-        /// <exception cref="UserDoesNotExistException"></exception>
         public BoardsDataUnit GetBoardsDataUnit(string email)
         {
             
@@ -287,14 +264,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        /// <summary>
-        /// Search for a board using id
-        /// <br/><br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if the board does not exist<br/>
-        /// in the system
-        /// </summary>
-        /// <returns><see cref="Board"/></returns>
-        /// <exception cref="NoSuchElementException"></exception>
         public Board SearchBoardById(int id)
         {
             try
@@ -311,16 +280,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        /// <summary>
-        /// Searches for a board by email and title<br/><br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if the board doesn't exist for the user<br/><br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system
-        /// </summary>
-        /// <param name="email"></param>
-        /// <param name="title"></param>
-        /// <returns></returns>
-        /// <exception cref="NoSuchElementException"></exception>
-        /// <exception cref="UserDoesNotExistException"></exception>
         public Board SearchBoardByEmailAndTitle(string email, string title)
         {
             try
@@ -343,17 +302,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        /// <summary>
-        /// Adds a <c>Board</c> to the <c>User</c>.
-        /// <br/><br/>
-        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if a <c>Board</c> with that title already exists <br/>
-        /// for the <c>User</c><br/><br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the <c>User</c> doesn't exist <br/>
-        /// in the system
-        /// </summary>
-        /// <returns>The <c>Board</c> that was added</returns>
-        /// <exception cref="ElementAlreadyExistsException"></exception>
-        /// <exception cref="UserDoesNotExistException"></exception>
         public Board AddNewBoard(string email, string title)
         {
             try
@@ -377,6 +325,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 Board newBoard = new(title, GetNextBoardID,email);
                 OnlyBoardsTree.Add(newBoard.Id, newBoard);
                 myBoardList.AddLast(newBoard);
+                IncrementBoardID();
                 log.Debug("AddNewBoard() success");
                 return newBoard;
             }
@@ -392,17 +341,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        /// <summary>
-        /// Adds a pointer of an existing board to the user's JoinedBoards.<br/><br/>
-        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if the user is already joined on the board<br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system<br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if a board with that id doesn't exist<br/>
-        /// </summary>
-        /// <param name="email"></param>
-        /// <param name="id"></param>
-        /// <exception cref="ElementAlreadyExistsException"></exception>
-        /// <exception cref="UserDoesNotExistException"></exception>
-        /// <exception cref="NoSuchElementException"></exception>
         public Board AddPointerToJoinedBoard(string email, int id)
         {
             try
@@ -437,16 +375,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }        
         }
 
-        /// <summary>
-        /// Removes the pointer of the joined board from the user's JoinedBoards<br/><br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system<br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if the user is not joined on a board with that id<br/>
-        /// </summary>
-        /// <param name="email"></param>
-        /// <param name="id"></param>
-        /// <returns>The unjoined board</returns>
-        /// <exception cref="UserDoesNotExistException"></exception>
-        /// <exception cref="NoSuchElementException"></exception>
         public Board RemovePointerToJoinedBoard(string email, int id) 
         {
             try
@@ -481,13 +409,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        /// <summary>
-        /// Removes a <c>Board</c> from the <b>entire system</b><br/>
-        /// <br/><br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if a board with that id doesn't exist in the system
-        /// in the system
-        /// </summary>
-        /// <exception cref="NoSuchElementException"></exception>
         public void NukeBoard(int id)
         {
             try
@@ -529,14 +450,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }        
         }
         
-        /// <summary>
-        ///  Completly removes a <c>Board</c> from the <b>entire system</b><br/>
-        /// <br/><br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if a board with that title does not exist for this user<br/><br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system
-        /// </summary>
-        /// <exception cref="NoSuchElementException"></exception>
-        /// <exception cref="UserDoesNotExistException"></exception>
         public void NukeBoard(string email, string title)
         {
             try
@@ -587,16 +500,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        /// <summary>
-        /// Remove pointer from old owner and add pointer to new owner<br/><br/>
-        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if a board with that title already exists for the newOwner<br/><br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if a user with that email doesn't exist<br/><br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if a <c>Board</c> with that title <br/>
-        /// doesn't exist for the oldOwner<br/><br/>
-        /// </summary>
-        /// <param name="oldOwner"></param>
-        /// <param name="boardName"></param>
-        /// <param name="newOwner"></param>
         public void ChangeOwnerPointer(string oldOwner,string title, string newOwner)
         {
             
@@ -627,13 +530,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        /// <summary>
-        /// Checks whether or not a user owns a board with the specified title
-        /// </summary>
-        /// <param name="email"></param>
-        /// <param name="title"></param>
-        /// <returns>true is yes, false if no</returns>
-        /// <exception cref="UserDoesNotExistException"></exception>
         public bool UserOwnsABoardWithThisTitle(string email, string title)
         {
             try
@@ -654,6 +550,72 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw;
             }     
         }
+
+        public void LoadData()
+        {
+            if (dataLoaded) throw new OperationCanceledException("Data is already loaded");
+
+            log.Debug("LoadData() initialized");
+
+            DataLoader dataLoader = DALFactory.DataLoader;
+            dataLoader.LoadData();
+
+
+            nextBoardID = dataLoader.BoardIdCounter;
+            LinkedList<BoardDTO> boardDTOs = dataLoader.BoardsList;
+            LinkedList<UserDTO> userDTOs = dataLoader.UsersList;
+
+            foreach (BoardDTO boardDTO in boardDTOs)
+            {
+                OnlyBoardsTree.Add(boardDTO.Id, new Board(boardDTO));
+            }
+
+            foreach (UserDTO userDTO in userDTOs)
+            {
+                User user = new(userDTO);
+
+                LinkedList<Board> myBoards = new();
+                foreach (int boardId in userDTO.MyBoards)
+                {
+                    myBoards.AddLast(OnlyBoardsTree.GetData(boardId));
+                }
+
+                LinkedList<Board> joinedBoards = new();
+                foreach (int boardId in userDTO.JoinedBoards)
+                {
+                    joinedBoards.AddLast(OnlyBoardsTree.GetData(boardId));
+                }
+
+                UsersAndBoardsTree.Add(user.Email, new DataUnit()
+                {
+                    User = user,
+                    BoardsDataUnit = new()
+                    {
+                        MyBoards = myBoards,
+                        JoinedBoards = joinedBoards
+                    }
+                });
+            }
+            dataLoaded = true;
+            log.Debug("LoadData() success");
+
+        }
+
+        public void DeleteData()
+        {
+            new DatabaseNuker().Nuke();
+            UsersAndBoardsTree = null;
+            OnlyBoardsTree = null;
+            loggedIn = null;
+            nextBoardID = 0;
+            dataLoaded = false;
+        }
+
+
+        //===========================================================================
+        //                                Private Methods
+        //===========================================================================
+
 
         /// <summary>
         /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if a board with that title already exists for the user<br/><br/>
@@ -839,27 +801,27 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             log.Debug("ValidateUser() success");
         }
-        /// <summary>
-        /// Auto incrementing counter for boards ID.<br/>
-        /// Everytime this method is called, the counter in incremented.
-        /// </summary>
-        private int GetNextBoardID => nextBoardID++;
-        
-        public void LoadData()
+
+        private int GetNextBoardID => nextBoardID;
+        private void IncrementBoardID()
         {
-            throw new NotImplementedException();
-        }
-        public void DeleteData()
-        {
-            throw new NotImplementedException();
+            DALFactory.BoardControllerDTO.UpdateBoardIdCounter(nextBoardID+1);
+            nextBoardID++;
         }
 
+
+
     }
+
+    //===========================================================================
+    //                           Implemented Interfaces
+    //===========================================================================
+
     public interface UserDataOperations
     {
         /// <summary>
         /// Searches for a user with the specified email<br/><br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist
+        /// <b>Throws </b> <c>UserDoesNotExistException</c> if the user doesn't exist
         /// </summary>
         /// <param name="email"></param>
         /// <returns>User</returns>
@@ -869,7 +831,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <summary>
         /// Adds a user to the system
         /// <br/><br/>
-        /// <b>Throws</b> <c>ElementAlreadyExists</c> if a user with this email<br/>
+        /// <b>Throws </b> <c>ElementAlreadyExists</c> if a user with this email<br/>
         /// already exists in the system
         /// </summary>
         /// <param name="email"></param>
@@ -880,7 +842,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <summary>
         /// Removes the user with the specified email from the system
         /// <br/><br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system
+        /// <b>Throws </b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system
         /// </summary>
         /// <param name="email"></param>
         /// <exception cref="UserDoesNotExistException"></exception>
@@ -903,7 +865,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <summary>
         /// Sets a user's logged in status to true
         /// <br/><br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the user's logged in status is already true
+        /// <b>Throws </b> <c>ArgumentException</c> if the user's logged in status is already true
         /// </summary>
         /// <param name="email"></param>
         /// <exception cref="ArgumentException"></exception>
@@ -912,7 +874,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <summary>
         /// Sets a user's logged in status to false
         /// <br/><br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the user's logged in status is already false
+        /// <b>Throws </b> <c>ArgumentException</c> if the user's logged in status is already false
         /// </summary>
         /// <param name="email"></param>
         /// <exception cref="ArgumentException"></exception>
@@ -937,7 +899,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <summary>
         /// Gets all the <c>User</c>'s boards data
         /// <br/><br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the <c>User</c> does not exist<br/>
+        /// <b>Throws </b> <c>UserDoesNotExistException</c> if the <c>User</c> does not exist<br/>
         /// in the system
         /// </summary>
         /// <returns><see cref="BoardsDataUnit"/></returns>
@@ -947,7 +909,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <summary>
         /// Gets all the <c>User</c>'s <c>Board</c>s
         /// <br/><br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if the <c>User</c> does not exist<br/>
+        /// <b>Throws </b> <c>NoSuchElementException</c> if the <c>User</c> does not exist<br/>
         /// in the system
         /// </summary>
         /// <returns><see cref="Board"/></returns>
@@ -956,8 +918,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Searches for a board by email and title<br/><br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if the board doesn't exist for the user<br/><br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system
+        /// <b>Throws </b> <c>NoSuchElementException</c> if the board doesn't exist for the user<br/><br/>
+        /// <b>Throws </b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system
         /// </summary>
         /// <param name="email"></param>
         /// <param name="title"></param>
@@ -969,9 +931,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <summary>
         /// Adds a <c>Board</c> to the <c>User</c>.
         ///<br/><br/>
-        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if a <c>Board</c> with that title already exists <br/>
+        /// <b>Throws </b> <c>ElementAlreadyExistsException</c> if a <c>Board</c> with that title already exists <br/>
         /// for the <c>User</c><br/><br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the <c>User</c> doesn't exist <br/>
+        /// <b>Throws </b> <c>UserDoesNotExistException</c> if the <c>User</c> doesn't exist <br/>
         /// in the system
         /// </summary>
         /// <returns>The <c>Board</c> that was added</returns>
@@ -981,9 +943,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Adds a pointer of an existing board to the user's JoinedBoards.<br/><br/>
-        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if the user is already joined on the board<br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system<br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if a board with that id doesn't exist<br/>
+        /// <b>Throws </b> <c>ElementAlreadyExistsException</c> if the user is already joined on the board<br/>
+        /// <b>Throws </b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system<br/>
+        /// <b>Throws </b> <c>NoSuchElementException</c> if a board with that id doesn't exist<br/>
         /// </summary>
         /// <param name="email"></param>
         /// <param name="id"></param>
@@ -994,8 +956,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Removes the pointer of the joined board from the user's JoinedBoards<br/><br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system<br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the user is not joined on a board with that id<br/>
+        /// <b>Throws </b> <c>UserDoesNotExistException</c> if the user doesn't exist in the system<br/>
+        /// <b>Throws </b> <c>ArgumentException</c> if the user is not joined on a board with that id<br/>
         /// </summary>
         /// <param name="email"></param>
         /// <param name="id"></param>
@@ -1007,11 +969,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <summary>
         /// Removes a <c>Board</c> from the <b>entire system</b><br/>
         /// <br/><br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if,  for some reason, a board with that id <br/>
+        /// <b>Throws </b> <c>NoSuchElementException</c> if,  for some reason, a board with that id <br/>
         /// doesn't exist in the system in general or specifically for its owner<br/><br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if, for some reason, a board with that id doesn't<br/>
+        /// <b>Throws </b> <c>ArgumentException</c> if, for some reason, a board with that id doesn't<br/>
         /// exist for any of the joined users<br/><br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if, for some reason, one of the board's joined users doesn't exist <br/>
+        /// <b>Throws </b> <c>UserDoesNotExistException</c> if, for some reason, one of the board's joined users doesn't exist <br/>
         /// in the system
         /// </summary>
         /// <exception cref="NoSuchElementException"></exception>
@@ -1022,11 +984,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <summary>
         ///  Completly removes a <c>Board</c> from the <b>entire system</b><br/>
         /// <br/><br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if,  for some reason, a board with that id <br/>
+        /// <b>Throws </b> <c>NoSuchElementException</c> if,  for some reason, a board with that id <br/>
         /// doesn't exist in the system in general or specifically for its owner<br/><br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if, for some reason, a board with that id doesn't<br/>
+        /// <b>Throws </b> <c>ArgumentException</c> if, for some reason, a board with that id doesn't<br/>
         /// exist for any of the joined users<br/><br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if, for some reason, one of the board's joined users doesn't exist <br/>
+        /// <b>Throws </b> <c>UserDoesNotExistException</c> if, for some reason, one of the board's joined users doesn't exist <br/>
         /// in the system
         /// </summary>
         /// <exception cref="NoSuchElementException"></exception>
@@ -1036,9 +998,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Remove pointer from old owner and add pointer to new owner<br/><br/>
-        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if a board with that title already exists for the newOwner<br/><br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if a user with that email doesn't exist<br/><br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if a <c>Board</c> with that title <br/>
+        /// <b>Throws </b> <c>ElementAlreadyExistsException</c> if a board with that title already exists for the newOwner<br/><br/>
+        /// <b>Throws </b> <c>UserDoesNotExistException</c> if a user with that email doesn't exist<br/><br/>
+        /// <b>Throws </b> <c>NoSuchElementException</c> if a <c>Board</c> with that title <br/>
         /// doesn't exist for the oldOwner<br/><br/>
         /// </summary>
         /// <param name="oldOwner"></param>
@@ -1064,7 +1026,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void LoadData();
 
         /// <summary>
-        /// <b>WARNING: this method deletes all persisted data</b>
+        /// <b>WARNING: this method deletes all persisted and loaded data</b>
         /// </summary>
         public void DeleteData();
     }

@@ -48,7 +48,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="duedate"></param>
         /// <param name="description"></param>
         /// <exception cref="ArgumentException"></exception>
-        public Task(int id, string title, DateTime duedate,string description)
+        public Task(int id, string title, DateTime dueDate,string description)
         {
             log.Debug("Task() for id: " + id);
             if (title.Length < MIN_TITLE_CHAR_CAP)
@@ -66,19 +66,30 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("Task() failed: description is over the limit");
                 throw new ArgumentException("description is over the limit");
             }
-            if (duedate.CompareTo(DateTime.Today) < 0)
+            if (dueDate.CompareTo(DateTime.Today) < 0)
             {
                 log.Error("Task() failed: due date was passed");
                 throw new ArgumentException("due date was passed");
             }
             this.id = id;
             this.title = title;
-            this.dueDate = duedate;
+            this.dueDate = dueDate;
             this.description = description;
-            this.assignee = "unAssigned";
+            assignee = "unAssigned";
             creationTime = DateTime.Today;
             state = TaskStates.backlog;
             log.Debug("Task() success");
+        }
+
+        public Task(DataAccessLayer.TaskDTO taskDTO)
+        {
+            id = taskDTO.Id;
+            title = taskDTO.Title;
+            dueDate = taskDTO.DueDate;
+            description = taskDTO.Description;
+            assignee = taskDTO.Assignee;
+            creationTime = taskDTO.CreationTime;
+            state = (TaskStates)taskDTO.State;
         }
 
 
@@ -103,6 +114,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             get { return assignee; }
             init { assignee = value; }
         }
+        public TaskStates State => state;
 
         /// <summary>
         /// Set <c>Task Title</c> to <c>Task</c> task <br/> <br/>

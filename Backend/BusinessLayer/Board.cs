@@ -49,17 +49,55 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             this.id = id;
             this.title = title;
             this.owner = owner;
-            joined = new LinkedList<string>();
+            joined = new();
             columnLimit = new int[3];
             columns = new LinkedList<Task>[3];
             columnLimit[(int)TaskStates.backlog] = -1;
             columnLimit[(int)TaskStates.inprogress] = -1;
             columnLimit[(int)TaskStates.done] = -1;
-            columns[(int)TaskStates.backlog] = new LinkedList<Task>();
-            columns[(int)TaskStates.inprogress] = new LinkedList<Task>();
-            columns[(int)TaskStates.done] = new LinkedList<Task>();
+            columns[(int)TaskStates.backlog] = new();
+            columns[(int)TaskStates.inprogress] = new();
+            columns[(int)TaskStates.done] = new();
             taskStateTracker = new();
         }
+
+        public Board(DataAccessLayer.BoardDTO boardDTO)
+        {
+            id = boardDTO.Id;
+            title = boardDTO.Title;
+            owner = boardDTO.Owner;
+            joined = boardDTO.Joined;
+            columnLimit = new int[3];
+            columns = new LinkedList<Task>[3];
+            columns[(int)TaskStates.backlog] = new();
+            columns[(int)TaskStates.inprogress] = new();
+            columns[(int)TaskStates.done] = new();
+            columnLimit[(int)TaskStates.backlog] = boardDTO.BackLogLimit;
+            columnLimit[(int)TaskStates.inprogress] = boardDTO.InProgressLimit;
+            columnLimit[(int)TaskStates.done] = boardDTO.DoneLimit;
+            taskStateTracker = new();
+
+            foreach (DataAccessLayer.TaskDTO taskDTO in boardDTO.BackLog)
+            {
+                Task task = new(taskDTO);
+                taskStateTracker.Add(task.Id,task.State);
+                columns[(int)TaskStates.backlog].AddLast(task);
+            }
+            foreach (DataAccessLayer.TaskDTO taskDTO in boardDTO.InProgress)
+            {
+                Task task = new(taskDTO);
+                taskStateTracker.Add(task.Id, task.State);
+                columns[(int)TaskStates.inprogress].AddLast(task);
+            }
+            foreach (DataAccessLayer.TaskDTO taskDTO in boardDTO.Done)
+            {
+                Task task = new(taskDTO);
+                taskStateTracker.Add(task.Id, task.State);;
+                columns[(int)TaskStates.done].AddLast(task);
+            }
+            
+        }
+
 
         //====================================
         //         getters/initializers
