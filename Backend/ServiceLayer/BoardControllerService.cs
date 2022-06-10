@@ -103,15 +103,16 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "RemoveBoard() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
+            email = email.ToLower();
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email.ToLower(), name);
-                if (!BusinessLayer.BoardMembersPermissions.BoardOwnerPermission(email.ToLower(), board))
+                BusinessLayer.Board board = boardController.SearchBoard(email, name);
+                if (!BusinessLayer.BoardMembersPermissions.BoardOwnerPermission(email, board))
                 {
                     Response<string> res1 = new(false, "RemoveBoard() failed: user has not permission to do RemoveBoard");
                     return JsonController.ConvertToJson(res1);
                 }
-                boardController.RemoveBoard(email.ToLower(), name);
+                boardController.RemoveBoard(email, name);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
@@ -208,12 +209,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             if (ValidateArguments.ValidateNotNull(new object[] { email}) == false)
             {
-                Response<string> res = new(false, "GetAllTasksByState() failed: ArgumentNullException");
+                Response<string> res = new(false, "GetUserBoards() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
             try
             {
-                boardController.GetBoardsId(email);
+                boardController.GetBoardsId(email.ToLower());
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }

@@ -57,11 +57,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "JoinBoard() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
+            email = email.ToLower();
             try
             {
-                Board board = boardController.SearchBoard(email.ToLower(), boardId);
-                boardController.JoinBoard(email.ToLower(), boardId);
-                board.JoinBoard(email.ToLower(), boardId);
+                Board board = boardController.SearchBoard(email, boardId);
+                boardController.JoinBoard(email, boardId);
+                board.JoinBoard(email, boardId);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
@@ -111,14 +112,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             if (ValidateArguments.ValidateNotNull(new object[] { email, boardId }) == false)
             {
-                Response<string> res = new(false, "JoinBoard() failed: ArgumentNullException");
+                Response<string> res = new(false, "LeaveBoard() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
+            email = email.ToLower();
             try
             {
-                Board board = boardController.SearchBoard(email.ToLower(), boardId);
-                boardController.LeaveBoard(email.ToLower(), boardId);
-                board.LeaveBoard(email.ToLower(), boardId);
+                Board board = boardController.SearchBoard(email, boardId);
+                boardController.LeaveBoard(email, boardId);
+                board.LeaveBoard(email, boardId);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
@@ -170,12 +172,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(currentOwnerEmail.ToLower(), boardName);
-                if (!Backend.BusinessLayer.BoardMembersPermissions.BoardOwnerPermission(currentOwnerEmail, board)){
+                if (!Backend.BusinessLayer.BoardMembersPermissions.BoardOwnerPermission(currentOwnerEmail.ToLower(), board)){
                     Response<string> res1 = new(false, "ChangeOwner() failed: user isn't the board's owner");
                     return JsonController.ConvertToJson(res1);
                 }
-                boardController.ChangeOwner(currentOwnerEmail, newOwnerEmail, boardName);
-                board.ChangeOwner(currentOwnerEmail,newOwnerEmail, boardName);
+                boardController.ChangeOwner(currentOwnerEmail.ToLower(), newOwnerEmail.ToLower(), boardName);
+                board.ChangeOwner(currentOwnerEmail.ToLower(), newOwnerEmail.ToLower(), boardName);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
