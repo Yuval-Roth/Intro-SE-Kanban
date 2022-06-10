@@ -246,6 +246,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     return board;
                 }
             }
+            LinkedList<Board> boardList1 = boardData.GetBoardsDataUnit(email).JoinedBoards;
+            foreach (Board board in boardList1)
+            {
+                if (board.Title == name)
+                {
+                    log.Debug("SearchBoard() success");
+                    return board;
+                }
+            }
             log.Error("SearchBoard() failed: '" + name + "' doesn't exist");
             throw new NoSuchElementException("A board titled '" +
                             name + "' doesn't exists for the user with the email " + email);
