@@ -68,10 +68,13 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     if (reader.HasRows)
                     {
                         log.Debug("ExecuteRead() success");
-                        return reader;
+                        
                     }
-                    log.Error("ExecuteRead() failed - fetched 0 rows");
-                    return null;
+                    else
+                    {
+                        log.Error("ExecuteRead() fetched 0 rows");
+                    }
+                    return reader;
                 }
                 finally
                 {
