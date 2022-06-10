@@ -91,6 +91,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
+            catch (UserNotLoggedInException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
 
         }
         /// <summary>
@@ -140,6 +145,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
             catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserNotLoggedInException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -197,6 +207,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
+            catch (UserNotLoggedInException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
 
         /// <summary>
@@ -250,6 +265,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
+            catch (UserNotLoggedInException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
 
         /// <summary>
@@ -297,6 +317,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
             catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserNotLoggedInException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -361,6 +386,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
+            catch (UserNotLoggedInException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
 
 
@@ -415,6 +445,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
             catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserNotLoggedInException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -475,6 +510,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
+            catch (UserNotLoggedInException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
 
         /// <summary>
@@ -527,6 +567,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
             catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserNotLoggedInException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
