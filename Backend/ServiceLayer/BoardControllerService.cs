@@ -208,7 +208,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             if (ValidateArguments.ValidateNotNull(new object[] { email}) == false)
             {
-                Response<string> res = new(false, "GetAllTasksByState() failed: ArgumentNullException");
+                Response<string> res = new(false, "GetUserBoards() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
             try
