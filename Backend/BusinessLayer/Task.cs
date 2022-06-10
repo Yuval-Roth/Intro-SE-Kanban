@@ -183,25 +183,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <param name="value"></param>
         /// <exception cref="ArgumentException"></exception>
-        public DateTime DueDate 
+        public DateTime DueDate
         {
             get { return dueDate; }
-            set {
-                log.Debug("UpdateDueDate() for taskId: " + id);
-                if (state == TaskStates.done)
-                {
-                    log.Error("UpdateDueDate() failed: " + id + "is done");
-                    throw new ArgumentException("the task '" +
-                        Id + "' is already done");
-                }
-                if (value.CompareTo(DateTime.Today) < 0)
-                {
-                    log.Error("UpdateDueDate() failed: due date was passed");
-                    throw new ArgumentException("due date was passed");
-                }
-                dueDate = value;
-                log.Debug("UpdateDueDate() success");
-            }
+            set { dueDate = value; }
         }
 
 
@@ -266,6 +251,36 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             log.Debug("AssignTask() success");
         }
 
+        /// <summary>
+        /// Set <c>Task DueDate</c> to <c>Task</c> task <br/> <br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if the due date has passed or task is already done
+        /// <b>Throws</b> <c>ArgumentException</c> if the user isn't the assignee
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="AccessViolationException"></exception>
+        public void UpdateDueDate(string email, DateTime value)
+        {
+            log.Debug("UpdateDueDate() for taskId: " + email + ", email:" + email);
+            if(assignee != email)
+            {
+                log.Error("UpdateDueDate() failed: User is not the task's assignee");
+                throw new AccessViolationException("User is not the task's assignee");
+            }
+            if (state == TaskStates.done)
+            {
+                log.Error("UpdateDueDate() failed: " + id + "is done");
+                throw new ArgumentException("the task '" +
+                    id + "' is already done");
+            }
+            if (value.CompareTo(DateTime.Today) < 0)
+            {
+                log.Error("UpdateDueDate() failed: due date was passed");
+                throw new ArgumentException("due date was passed");
+            }
+            dueDate = value;
+            log.Debug("UpdateDueDate() success");
+        }
 
         //====================================================
         //                  Json related
