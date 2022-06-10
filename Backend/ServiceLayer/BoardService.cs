@@ -224,11 +224,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 Board board = boardController.SearchBoard(email.ToLower(),boardName);
-                if (!BoardMembersPermissions.EditBoard(email.ToLower(), board))
-                {
-                    Response<string> res1 = new(false, "AddTask() failed: user has not permission to do addTask");
-                    return JsonController.ConvertToJson(res1);
-                }
                 board.AddTask(title, dueDate, description);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
