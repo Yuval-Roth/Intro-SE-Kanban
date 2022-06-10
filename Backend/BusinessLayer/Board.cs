@@ -414,6 +414,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             this.owner = newOwnerEmail;
             this.joined.AddLast(currentOwnerEmail);
             this.joined.Remove(newOwnerEmail);
+            log.Debug("ChangeOwner() success");
         }
 
         /// <summary>
