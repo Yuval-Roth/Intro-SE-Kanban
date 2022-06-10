@@ -103,9 +103,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "RemoveBoard() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
+            email = email.ToLower();
             try
             {
-                boardController.RemoveBoard(email.ToLower(), name);
+                boardController.RemoveBoard(email, name);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
@@ -207,7 +208,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                boardController.GetBoardsId(email);
+                boardController.GetBoardsId(email.ToLower());
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }

@@ -72,6 +72,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         public static void DeleteEverything()
         {
             instance = null;
+            BusinessLayer.BusinessLayerFactory.DeleteEverything();
         }
 
 
