@@ -329,8 +329,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 Board board = boardController.SearchBoard(email.ToLower(), boardName);
                 Task task = board.SearchTask(taskId);
-                board.AdvanceTask(email,columnOrdinal, taskId);
-                task.AdvanceTask(email);
+                board.AdvanceTask(email.ToLower(),columnOrdinal, taskId);
+                task.AdvanceTask(email.ToLower());
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
