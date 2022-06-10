@@ -18,6 +18,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     /// <list type="bullet">GetColumnLimit()</list>
 	/// <list type="bullet">GetColumnName()</list>
 	/// <list type="bullet">GetColumn()</list>
+    /// /// <list type="bullet">ChangeOwner()</list>
 	/// <br/><br/>
 	/// ===================
 	/// <br/>
@@ -45,9 +46,61 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             return "";
         }
 
-        public string ChangeOwner(string oldemail, int BoardId, string newemail)
+
+        /// <summary>
+        /// This method transfers a board ownership.
+        /// </summary>
+        /// <param name="currentOwnerEmail">Email of the current owner. Must be logged in</param>
+        /// <param name="newOwnerEmail">Email of the new owner</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <returns>
+		/// Json formatted as so:
+		/// <code>
+		///	{
+		///		operationState: bool 
+		///		returnValue: string // (operationState == true) => empty string;
+		/// }				// (operationState == false) => error message		
+		/// </code>
+		/// </returns>
+        public string ChangeOwner(string currentOwnerEmail, string newOwnerEmail, string boardName)
         {
-            return "";
+            if (ValidateArguments.ValidateNotNull(new object[] { currentOwnerEmail, newOwnerEmail, boardName }) == false)
+            {
+                Response<string> res = new(false, "ChangeOwner() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                BusinessLayer.Board board = boardController.SearchBoard(currentOwnerEmail.ToLower(), boardName);
+                if (!Backend.BusinessLayer.BoardMembersPermissions.BoardOwnerPermission(currentOwnerEmail, board)){
+                    Response<string> res1 = new(false, "ChangeOwner() failed: user isn't the board's owner");
+                    return JsonController.ConvertToJson(res1);
+                }
+                boardController.ChangeOwner(currentOwnerEmail, newOwnerEmail, boardName);
+                board.ChangeOwner(currentOwnerEmail,newOwnerEmail, boardName);
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ElementAlreadyExistsException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
 
         /// <summary>

@@ -403,6 +403,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             } 
         }
 
+
+        /// <summary>
+        /// Change <c>Board's Owner</c> to <c>Board</c> <br/> <br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if the newOwnerEmail doesn't joined to the board<br/>
+        /// </summary>
+        /// <param name="currentOwnerEmail"></param>
+        /// <param name="newOwnerEmail"></param>
+        /// <param name="boardName"></param>
+        /// <exception cref="ArgumentException"></exception>
         public void ChangeOwner(string currentOwnerEmail, string newOwnerEmail, string boardName)
         {
             log.Debug("ChangeOwner() for board: " + boardName + "from: " + currentOwnerEmail + "to: " + newOwnerEmail);
@@ -414,6 +423,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             this.owner = newOwnerEmail;
             this.joined.AddLast(currentOwnerEmail);
             this.joined.Remove(newOwnerEmail);
+            log.Debug("ChangeOwner() success");
         }
 
         /// <summary>

@@ -224,6 +224,39 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new ArgumentException("task numbered '" + id + "' is done and can't be advanced");
             }
             state++;
+            log.Debug("AdvanceTask() success");
+        }
+
+
+        /// <summary>
+        /// Assign <c>Task assignee</c> to <c>Task</c> task <br/> <br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if the task is already done <br/>
+        /// <b>Throws</b> <c>AccessViolationException</c> if the the email isn't current assignee <br/>
+        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if the the the new assigne is the current assignee <br/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentException"></exception>
+        public void AssignTask(string email, string emailAssignee)
+        {
+            log.Debug("AssignTask() for taskId: " + email + ", emailAssignee:" + emailAssignee);
+            if (state == TaskStates.done)
+            {
+                log.Error("AssignTask() failed: " + id + "is done");
+                throw new ArgumentException("the task '" +
+                    id + "' is already done");
+            }
+            if (assignee!=email && assignee != "unAssigned")
+            {
+                log.Error("AssignTask() failed: task numbered '" + id + "' , email: '" + email + "' isn't the task's assignee");
+                throw new AccessViolationException("email: '" + email + "' isn't the task's assignee");
+            }
+            if (assignee==email && email == emailAssignee)
+            {
+                log.Error("AssignTask() failed: task numbered '" + id + "' , email: '" + email + "' is already the assignee");
+                throw new ElementAlreadyExistsException("email: '" + email + "' isn't the task's assignee");
+            }
+            assignee = emailAssignee;
+            log.Debug("AssignTask() success");
         }
 
 
