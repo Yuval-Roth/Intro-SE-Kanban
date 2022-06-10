@@ -11,13 +11,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
     [TestClass()]
     public class TaskControllerDTOTests
     {
-        TaskControllerDTO taskControllerDTO;
         UserService userService;
         BoardControllerService boardControllerService;
         BoardService boardService;
         TaskService taskService;
         SQLExecuter executer;
-        BusinessLayer.BoardDataOperations dataOperations;
 
         public TaskControllerDTOTests()
         {
@@ -30,7 +28,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             boardService = ServiceFactory.BoardService;
             taskService = ServiceFactory.TaskService;
             executer = DataFactory.SQLExecuter;
-            dataOperations = BusinessLayer.BusinessLayerFactory.GetInstance().BoardDataOperations;
         }
 
 

@@ -11,7 +11,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
     [TestClass()]
     public class BoardControllerDTOTests
     {
-        BoardControllerDTO boardControllerDTO;
         BoardControllerService service;
         UserService userService;
         BoardService boardService;

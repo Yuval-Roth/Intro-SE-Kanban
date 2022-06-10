@@ -11,7 +11,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
     [TestClass()]
     public class UserControllerDTOTests
     {
-        UserControllerDTO userControllerDTO;
         UserService service;
         SQLExecuter executer;
 
