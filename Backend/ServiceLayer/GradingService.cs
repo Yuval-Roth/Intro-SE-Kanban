@@ -359,7 +359,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string AssignTask(string email, string boardName, int columnOrdinal, int taskID, string emailAssignee)
         {
-            throw new NotImplementedException();
+            string json = taskServiceLayer.AssignTask(email, boardName, columnOrdinal, taskID, emailAssignee);
+            GradingResponse<string> res = new(json);
+            return JsonController.ConvertToJson(res);
         }
 
         ///<summary>This method loads all persisted data.
@@ -411,7 +413,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string TransferOwnership(string currentOwnerEmail, string newOwnerEmail, string boardName)
         {
-            throw new NotImplementedException();
+            string json = boardServiceLayer.ChangeOwner(currentOwnerEmail, newOwnerEmail, boardName);
+            GradingResponse<string> res = new(json);
+            return JsonController.ConvertToJson(res);
         }
 
         private static bool GetOperationState(string json)

@@ -379,17 +379,43 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
+
+        /// <summary>
+        /// Change <c>Board's Owner</c> to <c>BoardData</c> boardData <br/> <br/>
+        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if a<c> Board</c> with that title already exists<br/>
+        /// for the <c>User</c><br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if Board doesn't exist for the user<br/>
+        /// </summary>
+        /// <param name="currentOwnerEmail"></param>
+        /// <param name="newOwnerEmail"></param>
+        /// /// <param name="boardName"></param>
+        /// <exception cref="ElementAlreadyExistsException"></exception>
+        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
         public void ChangeOwner(string currentOwnerEmail, string newOwnerEmail, string boardName)
         {
-            //log.Debug("ChangeOwner() for board: " + boardName + "from: " + currentOwnerEmail + "to: " + newOwnerEmail);
-            //if (!this.joined.Contains(newOwnerEmail))
-            //{
-            //    log.Error("ChangeOwner() failed: '" + newOwnerEmail + "' isn't joined to the board");
-            //    throw new ArgumentException("the user " + newOwnerEmail + " isn't joined to the board");
-            //}
-            //this.owner = newOwnerEmail;
-            //this.joined.AddLast(currentOwnerEmail);
-            //this.joined.Remove(newOwnerEmail);
+            log.Debug("ChangeOwner() for board: " + boardName + "from: " + currentOwnerEmail + "to: " + newOwnerEmail);
+            try
+            {
+                boardData.ChangeOwnerPointer(currentOwnerEmail, newOwnerEmail, boardName);
+                log.Debug("ChangeOwner() success");
+            }
+            catch (ElementAlreadyExistsException)
+            {
+                log.Error("ChangeOwner() failed: board '" + boardName + "' already exists for " + newOwnerEmail);
+                throw;
+            }
+            catch (NoSuchElementException e)
+            {
+                log.Error("ChangeOwner() failed: " + e.Message);
+                throw;
+            }
+            catch (UserDoesNotExistException e)
+            {
+                log.Error("ChangeOwner() failed: " + e.Message);
+                throw;
+            }
         }
 
         /// <summary>

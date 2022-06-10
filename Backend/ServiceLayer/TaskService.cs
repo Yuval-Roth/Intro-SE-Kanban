@@ -223,6 +223,66 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
+
+        /// <summary>
+        /// This method assigns a task to a user
+        /// </summary>
+        /// <param name="email">Email of the user. Must be logged in</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="columnOrdinal">The column number. The first column is 0, the number increases by 1 for each column</param>
+        /// <param name="taskId">The task to be updated identified a task ID</param>        
+        /// <param name="emailAssignee">Email of the asignee user</param>
+        /// <returns>
+        /// Json formatted as so:
+        /// <code>
+        ///	{
+        ///		operationState: bool 
+        ///		returnValue: // (operationState == true) => empty string
+        /// }			// (operationState == false) => error message		
+        /// </code>
+        /// </returns>
+        public string AssignTask(string email, string boardName, int columnOrdinal, int taskId, string emailAssignee)
+        {
+            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName, columnOrdinal, taskId, emailAssignee }) == false)
+            {
+                Response<string> res = new(false, "UpdateTaskDescription() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                Board board = boardController.SearchBoard(email.ToLower(), boardName);
+                Task task = board.SearchTask(taskId, columnOrdinal);
+                task.AssignTask(email, emailAssignee);
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (AccessViolationException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ElementAlreadyExistsException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+        }
+
     }
     
 }
