@@ -252,7 +252,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 Board board = boardController.SearchBoard(email.ToLower(), boardName);
                 Task task = board.SearchTask(taskId, columnOrdinal);
-                task.AssignTask(email, emailAssignee);
+                task.AssignTask(email.ToLower(), emailAssignee.ToLower());
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
