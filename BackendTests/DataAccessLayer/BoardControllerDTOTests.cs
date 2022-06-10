@@ -24,7 +24,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             ServiceLayerFactory.DeleteEverything();
             ServiceLayerFactory ServiceFactory = ServiceLayerFactory.GetInstance();
             DataAccessLayerFactory DataFactory = DataAccessLayerFactory.GetInstance();
-            boardControllerDTO = DataFactory.BoardControllerDTO;
             service = ServiceFactory.BoardControllerService;
             userService = ServiceFactory.UserService;
             boardService = ServiceFactory.BoardService;
@@ -38,7 +37,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             string email = "printz@post.bgu.ac.il";
             string password = "Hadas1234";
             string boardName = "board1";
-            userService.Register(email, password);
+            if(GetOperationState(userService.Register(email, password))==false)
+                Assert.Fail("Register failed");
             string result = service.AddBoard(email, boardName);
             string query = $"SELECT * FROM Boards WHERE Email='{email}'";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
@@ -55,8 +55,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             string email = "printz@post.bgu.ac.il";
             string password = "Hadas1234";
             string boardName = "board1";
-            userService.Register(email, password);
-            service.AddBoard(email, boardName);
+            if(GetOperationState(userService.Register(email, password))==false)
+                Assert.Fail("Register failed");
+            if(GetOperationState(service.AddBoard(email, boardName))==false)
+                Assert.Fail("AddBoard failed");
             string result = service.RemoveBoard(email, boardName);
             string query = $"SELECT * FROM Boards WHERE Owner='{email} AND Title='{boardName}";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
@@ -75,11 +77,15 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             string boardName = "board1";
             string email2 = "hadaspr100@gmail.com";
             string password2 = "Printz1234";
-            userService.Register(email, password);
-            service.AddBoard(email, boardName);
-            userService.Register(email2, password2);
+            if (GetOperationState(userService.Register(email, password)) == false)
+                Assert.Fail("Register failed");
+            if (GetOperationState(service.AddBoard(email, boardName)) == false)
+                Assert.Fail("AddBoard failed");
+            if (GetOperationState(userService.Register(email2, password2))==false)
+                Assert.Fail("Register failed");
             int boardId = dataOperations.SearchBoardByEmailAndTitle(email, boardName).Id;
-            boardService.JoinBoard(email2, boardId); 
+            if (GetOperationState(boardService.JoinBoard(email2, boardId))==false)
+                Assert.Fail("JoinBoard failed");
             string result = service.RemoveBoard(email, boardName);
             string query = $"SELECT * FROM UserJoinedBoards WHERE BoardId='{boardId};";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
@@ -98,10 +104,13 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             string email2 = "hadaspr100@gmail.com";
             string password2 = "Printz1234";
             string boardName = "board1";
-            userService.Register(email, password);
-            service.AddBoard(email, boardName);
+            if (GetOperationState(userService.Register(email, password)) == false)
+                Assert.Fail("Register failed");
+            if (GetOperationState(service.AddBoard(email, boardName)) == false)
+                Assert.Fail("AddBoard failed");
             int boardId = dataOperations.SearchBoardByEmailAndTitle(email, boardName).Id;
-            userService.Register(email2, password2);
+            if (GetOperationState(userService.Register(email2, password2)) == false)
+                Assert.Fail("Register failed");
             string result = boardService.JoinBoard(email2, boardId);
             string query = $"SELECT * FROM UserJoinedBoards WHERE BoardId='{boardId};";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
@@ -120,11 +129,15 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             string email2 = "hadaspr100@gmail.com";
             string password2 = "Printz1234";
             string boardName = "board1";
-            userService.Register(email, password);
-            service.AddBoard(email, boardName);
+            if (GetOperationState(userService.Register(email, password)) == false)
+                Assert.Fail("Register failed");
+            if (GetOperationState(service.AddBoard(email, boardName)) == false)
+                Assert.Fail("AddBoard failed");
             int boardId = dataOperations.SearchBoardByEmailAndTitle(email, boardName).Id;
-            userService.Register(email2, password2);
-            ServiceLayerFactory.GetInstance().BoardService.JoinBoard(email2, boardId);
+            if (GetOperationState(userService.Register(email2, password2)) == false)
+                Assert.Fail("Register failed");
+            if (GetOperationState(ServiceLayerFactory.GetInstance().BoardService.JoinBoard(email2, boardId))==false)
+                Assert.Fail("JoinBoard failed");
             string result = boardService.LeaveBoard(email2, boardId);
             string query = $"SELECT * FROM UserJoinedBoards WHERE BoardId='{boardId};";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
@@ -142,11 +155,14 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             string email2 = "hadaspr100@gmail.com";
             string password2 = "Printz1234";
             string boardName = "board1";
-            userService.Register(email, password);
-            service.AddBoard(email, boardName);
+            if (GetOperationState(userService.Register(email, password)) == false)
+                Assert.Fail("Register failed");
+            if (GetOperationState(service.AddBoard(email, boardName)) == false)
+                Assert.Fail("AddBoard failed");
             int boardId = dataOperations.SearchBoardByEmailAndTitle(email, boardName).Id;
-            userService.Register(email2, password2);
-            string result = boardService.ChangeOwner(email, email2,boardName);
+            if (GetOperationState(userService.Register(email2, password2)) == false)
+                Assert.Fail("Register failed");
+            string result = boardService.ChangeOwner(email, email2, boardName);
             string query = $"SELECT * FROM Boards WHERE Owner='{email2}";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
             using (var reader = executer.ExecuteRead(query))
@@ -161,8 +177,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             string email = "printz@post.bgu.ac.il";
             string password = "Hadas1234";
             string boardName = "board1";
-            userService.Register(email, password);
-            service.AddBoard(email, boardName);
+            if (GetOperationState(userService.Register(email, password)) == false)
+                Assert.Fail("Register failed");
+            if (GetOperationState(service.AddBoard(email, boardName)) == false)
+                Assert.Fail("AddBoard failed");
             string result = boardService.LimitColumn(email, boardName, 0, 20);
             string query = $"SELECT BackLogLimit FROM Boards WHERE BoardTitle='{boardName}";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
