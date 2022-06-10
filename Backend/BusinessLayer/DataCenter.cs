@@ -77,7 +77,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\DataCenter.cs");
 
 
-        // ------------------ Structs --------------------
+        // -------------------- Structs ----------------------
         private struct DataUnit
         {
             public User User { get; init; }
@@ -160,10 +160,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public void RemoveUser(string email)
         {
-            throw new NotImplementedException("Not updated to support current implementation");
-#pragma warning disable CS0162 // Unreachable code detected
             throw new NotImplementedException("DEPRECATED METHOD: Not updated to support current requirements");
 
+#pragma warning disable CS0162 // Unreachable code detected
             try
             {
                 log.Debug("RemoveUser() for: " + email);

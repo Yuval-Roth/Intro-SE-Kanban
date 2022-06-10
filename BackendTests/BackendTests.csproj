@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ServiceLayer\Deprecated\**" />
+    <EmbeddedResource Remove="ServiceLayer\Deprecated\**" />
+    <None Remove="ServiceLayer\Deprecated\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.14" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.7" />
@@ -24,10 +30,6 @@
     <None Update="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ServiceLayer\Deprecated\" />
   </ItemGroup>
   
 </Project>

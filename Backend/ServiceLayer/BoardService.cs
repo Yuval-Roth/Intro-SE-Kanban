@@ -57,11 +57,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "JoinBoard() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
+            email = email.ToLower();
             try
             {
-                Board board = boardController.SearchBoard(email.ToLower(), boardId);
-                boardController.JoinBoard(email.ToLower(), boardId);
-                board.JoinBoard(email.ToLower(), boardId);
+                Board board = boardController.SearchBoard(email, boardId);
+                boardController.JoinBoard(email, boardId);
+                board.JoinBoard(email, boardId);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
@@ -119,11 +120,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "LeaveBoard() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
+            email = email.ToLower();
             try
             {
-                Board board = boardController.SearchBoard(email.ToLower(), boardId);
-                boardController.LeaveBoard(email.ToLower(), boardId);
-                board.LeaveBoard(email.ToLower(), boardId);
+                Board board = boardController.SearchBoard(email, boardId);
+                boardController.LeaveBoard(email, boardId);
+                board.LeaveBoard(email, boardId);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
