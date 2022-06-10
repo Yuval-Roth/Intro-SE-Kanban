@@ -191,6 +191,65 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
+        /// <summary>
+        /// This method returns all the board's Id of the user.
+        /// </summary>
+        /// <param name="email">Email of the user. Must be logged in</param>
+        /// <returns>
+		/// Json formatted as so:
+		/// <code>
+		///	{
+		///		operationState: bool 
+		///		returnValue: //(operationState == true) => LinkedList&lt;int&gt;
+		/// }		      //(operationState == false) => string with error message		
+		/// </code>
+		/// </returns>
+        public string GetUserBoards(string email)
+        {
+            if (ValidateArguments.ValidateNotNull(new object[] { email}) == false)
+            {
+                Response<string> res = new(false, "GetAllTasksByState() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                boardController.GetBoardsId(email);
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (BusinessLayer.NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (AccessViolationException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+
+        }
+
+        //public string ChangeOwner(string currentOwnerEmail, string newOwnerEmail, string boardName)
+        //{
+        //    if (ValidateArguments.ValidateNotNull(new object[] { currentOwnerEmail, newOwnerEmail, boardName }) == false)
+        //    {
+        //        Response<string> res = new(false, "ChangeOwner() failed: ArgumentNullException");
+        //        return JsonController.ConvertToJson(res);
+        //    }
+        //    try
+        //    {
+        //        BusinessLayer.Board board = boardController.SearchBoard(currentOwnerEmail.ToLower(), boardName);
+        //        if (!Backend.BusinessLayer.BoardMembersPermissions.BoardOwnerPermission(currentOwnerEmail, board){
+        //            Response<string> res1 = new(false, "ChangeOwner() failed: user isn't the board's owner");
+        //            return JsonController.ConvertToJson(res1);
+        //        }
+        //        board.ChangeOwner(currentOwnerEmail, newOwnerEmail, boardName);
+
+
+        //    }
+        //}
+
     }
 
     

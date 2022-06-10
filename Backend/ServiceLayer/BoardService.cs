@@ -36,14 +36,112 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             boardController = BC;
         }
 
-        public string JoinBoard(string email, int BoardId)
+        /// <summary>
+        /// This method add user to board's joined boards
+        /// </summary>
+        /// <param name="email">Email of the user. The user must be logged in.</param>
+        /// <param name="boardId">the Id of the board</param>
+        /// <returns>
+        /// Json formatted as so:
+        /// <code>
+        ///	{
+        ///		operationState: bool 
+        ///		returnValue: // (operationState == true) => empty string
+        /// }			// (operationState == false) => error message		
+        /// </code>
+        /// </returns>
+        public string JoinBoard(string email, int boardId)
         {
-            return "";
-        }
+            if (ValidateArguments.ValidateNotNull(new object[] { email, boardId }) == false)
+            {
+                Response<string> res = new(false, "JoinBoard() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                Board board = boardController.SearchBoard(email.ToLower(), boardId);
+                boardController.JoinBoard(email.ToLower(), boardId);
+                board.JoinBoard(email.ToLower(), boardId);
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (AccessViolationException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ElementAlreadyExistsException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
 
-        public string LeaveBoard(string email, int BoardId)
+        }
+        /// <summary>
+        /// This method remove user from the board's joined boards
+        /// </summary>
+        /// <param name="email">Email of the user. The user must be logged in.</param>
+        /// <param name="boardId">the Id of the board</param>
+        /// <returns>
+        /// Json formatted as so:
+        /// <code>
+        ///	{
+        ///		operationState: bool 
+        ///		returnValue: // (operationState == true) => empty string
+        /// }			// (operationState == false) => error message		
+        /// </code>
+        /// </returns>
+
+        public string LeaveBoard(string email, int boardId)
         {
-            return "";
+            if (ValidateArguments.ValidateNotNull(new object[] { email, boardId }) == false)
+            {
+                Response<string> res = new(false, "JoinBoard() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                Board board = boardController.SearchBoard(email.ToLower(), boardId);
+                boardController.LeaveBoard(email.ToLower(), boardId);
+                board.LeaveBoard(email.ToLower(), boardId);
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (AccessViolationException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
 
 
@@ -503,7 +601,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
-       
+
     }
     
 }
