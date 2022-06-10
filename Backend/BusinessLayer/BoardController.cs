@@ -228,6 +228,20 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
+
+        /// <summary>
+        /// Change <c>Board's Owner</c> to <c>BoardData</c> boardData <br/> <br/>
+        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if a<c> Board</c> with that title already exists<br/>
+        /// for the <c>User</c><br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if Board doesn't exist for the user<br/>
+        /// </summary>
+        /// <param name="currentOwnerEmail"></param>
+        /// <param name="newOwnerEmail"></param>
+        /// /// <param name="boardName"></param>
+        /// <exception cref="ElementAlreadyExistsException"></exception>
+        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
         public void ChangeOwner(string currentOwnerEmail, string newOwnerEmail, string boardName)
         {
             log.Debug("ChangeOwner() for board: " + boardName + "from: " + currentOwnerEmail + "to: " + newOwnerEmail);

@@ -18,6 +18,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     /// <list type="bullet">GetColumnLimit()</list>
 	/// <list type="bullet">GetColumnName()</list>
 	/// <list type="bullet">GetColumn()</list>
+    /// /// <list type="bullet">ChangeOwner()</list>
 	/// <br/><br/>
 	/// ===================
 	/// <br/>
@@ -45,6 +46,22 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             return "";
         }
 
+
+        /// <summary>
+        /// This method transfers a board ownership.
+        /// </summary>
+        /// <param name="currentOwnerEmail">Email of the current owner. Must be logged in</param>
+        /// <param name="newOwnerEmail">Email of the new owner</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <returns>
+		/// Json formatted as so:
+		/// <code>
+		///	{
+		///		operationState: bool 
+		///		returnValue: string // (operationState == true) => empty string;
+		/// }				// (operationState == false) => error message		
+		/// </code>
+		/// </returns>
         public string ChangeOwner(string currentOwnerEmail, string newOwnerEmail, string boardName)
         {
             if (ValidateArguments.ValidateNotNull(new object[] { currentOwnerEmail, newOwnerEmail, boardName }) == false)
