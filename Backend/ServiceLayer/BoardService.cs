@@ -111,7 +111,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             if (ValidateArguments.ValidateNotNull(new object[] { email, boardId }) == false)
             {
-                Response<string> res = new(false, "JoinBoard() failed: ArgumentNullException");
+                Response<string> res = new(false, "LeaveBoard() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
             try

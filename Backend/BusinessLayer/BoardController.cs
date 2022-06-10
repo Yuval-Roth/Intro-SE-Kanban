@@ -207,6 +207,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 foreach (Board board in myBoards)
                 {
                     output.AddLast(board.Id);
+                    log.Debug("GetBoards() success");
                 }
                 return output;
             }
