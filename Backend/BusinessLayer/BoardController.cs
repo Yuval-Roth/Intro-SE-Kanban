@@ -401,18 +401,26 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// for the <c>User</c><br/>
         /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/>
         /// <b>Throws</b> <c>NoSuchElementException</c> if Board doesn't exist for the user<br/>
+        /// <b>Throws</b> <c>AccessViolationException</c> if user isn't the owner<br/>
         /// </summary>
         /// <param name="currentOwnerEmail"></param>
         /// <param name="newOwnerEmail"></param>
-        /// /// <param name="boardName"></param>
+        /// <param name="boardName"></param>
         /// <exception cref="ElementAlreadyExistsException"></exception>
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="AccessViolationException"></exception>
         public void ChangeOwner(string currentOwnerEmail, string newOwnerEmail, string boardName)
         {
             log.Debug("ChangeOwner() for board: " + boardName + "from: " + currentOwnerEmail + "to: " + newOwnerEmail);
             try
             {
+                Board board = SearchBoard(currentOwnerEmail, boardName);
+                if (board.Owner != currentOwnerEmail)
+                {
+                    log.Error("ChangeOwner() failed: user isn't the board's owner");
+                    throw new AccessViolationException("user isn't the board's owner");
+                }
                 boardData.ChangeOwnerPointer(currentOwnerEmail, newOwnerEmail, boardName);
                 log.Debug("ChangeOwner() success");
             }

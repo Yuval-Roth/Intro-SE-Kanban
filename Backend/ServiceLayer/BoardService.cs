@@ -170,10 +170,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(currentOwnerEmail.ToLower(), boardName);
-                if (!Backend.BusinessLayer.BoardMembersPermissions.BoardOwnerPermission(currentOwnerEmail.ToLower(), board)){
-                    Response<string> res1 = new(false, "ChangeOwner() failed: user isn't the board's owner");
-                    return JsonController.ConvertToJson(res1);
-                }
                 boardController.ChangeOwner(currentOwnerEmail.ToLower(), newOwnerEmail.ToLower(), boardName);
                 board.ChangeOwner(currentOwnerEmail.ToLower(), newOwnerEmail.ToLower(), boardName);
                 Response<string> res = new(true, "");
