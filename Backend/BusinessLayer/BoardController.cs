@@ -206,6 +206,83 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
         /// <summary>
+        /// Returns <c>board</c> from <c>UserData</c> userData <br/> <br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the board doesn't exist<br/>
+        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't logged in <br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/> 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns>Board, unless an error occurs</returns>
+        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="AccessViolationException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        public Board SearchBoard(string email, int boardId)
+        {
+            log.Debug("SearchBoard() for: Board's Id " + boardId);
+            ValidateUser(email);
+            try
+            {
+                Board board = boardData.SearchBoardById(boardId);
+                log.Debug("SearchBoard() success");
+                return board;
+            }
+            catch (NoSuchElementException)
+            {
+                log.Error("SearchBoard() failed: '" + boardId + "' doesn't exist");
+                throw new NoSuchElementException("A board with Id '" +
+                                boardId + "' doesn't exists");
+            }
+            catch (UserDoesNotExistException)
+            {
+                log.Error("SearchBoard() failed: '" + email + "' doesn't exist");
+                throw new NoSuchElementException("A user with email '" +
+                                email + "' doesn't exists");
+            }
+            catch (AccessViolationException)
+            {
+                log.Error("searchBoard() failed: user '" + email + "' isn't logged in");
+                throw new AccessViolationException("user '" + email + "' isn't logged in");
+            }
+        }
+        /// <summary>
+        /// add <c>Board</c> to <c>user</c> joined boards <br/><br/>
+        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if the user already joined to the board<br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the board doesn't exist <br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/> 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="boardId"></param>
+        /// <exception cref="ElementAlreadyExistsException"></exception>
+        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
+
+        public void JoinBoard(string email, int boardId)
+        {
+            log.Debug("JoinBoard() for: user " + email + " Board's Id " + boardId);
+            try
+            {
+                boardData.AddPointerToJoinedBoard(email, boardId);
+            }
+            catch (ElementAlreadyExistsException)
+            {
+                log.Error("JoinBoard() failed: the user " + email + " is already joined to the board");
+                throw new ElementAlreadyExistsException("the user " + email + " is already joined to the board");
+            }
+            catch (UserDoesNotExistException)
+            {
+                log.Error("JoinBoard() failed: the user " + email + " doesn't exist");
+                throw new UserDoesNotExistException("the user " + email + " doesn't exist");
+            }
+            catch (NoSuchElementException)
+            {
+                log.Error("JoinBoard() failed: the board with id " + boardId + " doesn't exist");
+                throw new NoSuchElementException("the board with id " + boardId + " doesn't exist");
+            }
+           
+        }
+
+
+        /// <summary>
         /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/>
         /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't logged in
         /// </summary>

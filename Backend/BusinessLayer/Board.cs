@@ -417,6 +417,29 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
         /// <summary>
+        /// add <c>Board</c> to <c>user</c> joined boards <br/><br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if the user is the board's owner or if the user alredy joined to the board<br/>
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="boardId"></param>
+        /// <exception cref="ArgumentException"></exception>
+        public void JoinBoard(string email, int boardId)
+        {
+            log.Debug("JoinBoard() for user: " + email + "for board " + boardId);
+            if(this.owner == email)
+            {
+                log.Error("JoinBoard() failed: user with email '" + email + "' is the board's owner");
+                throw new ArgumentException("the user " + email + " is the board's owner");
+            }
+            if (this.joined.Contains(email)){
+                log.Error("JoinBoard() failed: user with email '" + email + "' already joined to the board");
+                throw new ArgumentException("the user " + email + " already joined to the board");
+            }
+            this.joined.AddLast(email);
+            log.Debug("JoinBoard() success");
+        }
+
+        /// <summary>
         /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number
         /// </summary>
         /// <param name="columnOrdinal"></param>
@@ -429,6 +452,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new IndexOutOfRangeException("The column '" + columnOrdinal + "' is not a valid column number");
             }
         }
+
 
 
         //====================================================

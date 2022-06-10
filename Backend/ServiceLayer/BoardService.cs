@@ -35,9 +35,47 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             boardController = BC;
         }
 
-        public string JoinBoard(string email, int BoardId)
+        public string JoinBoard(string email, int boardId)
         {
-            return "";
+            if (ValidateArguments.ValidateNotNull(new object[] { email, boardId }) == false)
+            {
+                Response<string> res = new(false, "JoinBoard() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
+            try
+            {
+                Board board = boardController.SearchBoard(email.ToLower(), boardId);
+                boardController.JoinBoard(email, boardId);
+                board.JoinBoard(email, boardId);
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (AccessViolationException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ElementAlreadyExistsException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+
         }
 
         public string LeaveBoard(string email, int BoardId)
@@ -450,7 +488,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
-       
+
     }
     
 }
