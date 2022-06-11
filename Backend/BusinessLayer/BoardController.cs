@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using IntroSE.Kanban.Backend.Exceptions;
+using IntroSE.Kanban.Backend.Utilities;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
@@ -49,7 +50,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="AccessViolationException"></exception>
-        public void AddBoard(string email, string name)
+        public void AddBoard(CIString email, CIString name)
         {
 
             log.Debug("AddBoard() for: " + email + "Board's name" + name);
@@ -95,7 +96,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="AccessViolationException"></exception>
-        public void RemoveBoard(string email, string name)
+        public void RemoveBoard(CIString email, CIString name)
         {
 
             log.Debug("RemoveBoard() for: " + email + "Board's name" + name);
@@ -130,7 +131,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="AccessViolationException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        public LinkedList<Task> GetAllTasksByState(string email, int columnOrdinal)
+        public LinkedList<Task> GetAllTasksByState(CIString email, int columnOrdinal)
             {
             log.Debug("GetAllTasksByState() for: " + "Board's name" + columnOrdinal);
             ValidateUser(email);
@@ -159,7 +160,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <returns>A list of Boards, unless an error occurs</returns>
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="AccessViolationException"></exception>
-        public LinkedList<Board> GetBoards (string email) {
+        public LinkedList<Board> GetBoards (CIString email) {
 
             log.Debug("GetBoards() for: " + email);
             ValidateUser(email);
@@ -196,7 +197,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <returns>A list of int of board Id, unless an error occurs</returns>
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="AccessViolationException"></exception>
-        public LinkedList<int> GetBoardsId(string email)
+        public LinkedList<int> GetBoardsId(CIString email)
         {
 
             log.Debug("GetBoards() for: " + email);
@@ -233,7 +234,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="email"></param>
         /// <returns>Board, unless an error occurs</returns>
         /// <exception cref="NoSuchElementException"></exception>
-        public Board SearchBoard(string email, string name)
+        public Board SearchBoard(CIString email , CIString name)
         {
             log.Debug("SearchBoard() for: " + email + " Board's name " + name);
             ValidateUser(email);
@@ -263,7 +264,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="AccessViolationException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
-        public Board SearchBoard(string email, int boardId)
+        public Board SearchBoard(CIString email, int boardId)
         {
             log.Debug("SearchBoard() for: Board's Id " + boardId);
             ValidateUser(email);
@@ -303,7 +304,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
 
-        public void JoinBoard(string email, int boardId)
+        public void JoinBoard(CIString email, int boardId)
         {
             log.Debug("JoinBoard() for: user " + email + " Board's Id " + boardId);
             try
@@ -337,7 +338,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="boardId"></param>
         /// <exception cref="UserDoesNotExistException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        public void LeaveBoard(string email, int boardId)
+        public void LeaveBoard(CIString email, int boardId)
         {
             log.Debug("LeaveBoard() for user: " + email + "for board " + boardId);
             try
@@ -365,7 +366,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="email"></param>
         /// <exception cref="UserDoesNotExistException"></exception>
         /// <exception cref="AccessViolationException"></exception>
-        private void ValidateUser(string email)
+        private void ValidateUser(CIString email)
         {
             if (!boardData.UserExists(email))
             {
@@ -395,7 +396,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ElementAlreadyExistsException"></exception>
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
-        public void ChangeOwner(string currentOwnerEmail, string newOwnerEmail, string boardName)
+        public void ChangeOwner(CIString currentOwnerEmail, CIString newOwnerEmail, CIString boardName)
         {
             log.Debug("ChangeOwner() for board: " + boardName + "from: " + currentOwnerEmail + "to: " + newOwnerEmail);
             try

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using IntroSE.Kanban.Backend.Exceptions;
+using IntroSE.Kanban.Backend.Utilities;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
@@ -36,16 +37,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\Board.cs");
 
         private readonly int id;
-        private readonly string title;
-        private string owner;
-        private readonly LinkedList<string> joined;
+        private readonly CIString title;
+        private CIString owner;
+        private readonly LinkedList<CIString> joined;
         private readonly LinkedList<Task>[] columns;
         private readonly int[] columnLimit;
         private readonly Dictionary<int, TaskStates> taskStateTracker;
         private int taskIDCounter;
 
 
-        public Board(string title, int id, string owner)
+        public Board(CIString title, int id, CIString owner)
         {
             this.id = id;
             this.title = title;
@@ -65,9 +66,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public Board(DataAccessLayer.BoardDTO boardDTO)
         {
             id = boardDTO.Id;
-            title = boardDTO.Title;
-            owner = boardDTO.Owner;
-            joined = boardDTO.Joined;
+            title = new CIString(boardDTO.Title);
+            owner = new CIString(boardDTO.Owner);
+            joined = new();
             columnLimit = new int[3];
             columns = new LinkedList<Task>[3];
             columns[(int)TaskStates.backlog] = new();
@@ -77,6 +78,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             columnLimit[(int)TaskStates.inprogress] = boardDTO.InProgressLimit;
             columnLimit[(int)TaskStates.done] = boardDTO.DoneLimit;
             taskStateTracker = new();
+
+            foreach (string email in boardDTO.Joined) 
+            {
+                joined.AddLast(new CIString(email));
+            }
 
             foreach (DataAccessLayer.TaskDTO taskDTO in boardDTO.BackLog)
             {
@@ -105,9 +111,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //====================================
 
         public int Id { get { return id; } init { id = value; } }
-        public string Title { get { return title; } init { title = value; } }
-        public string Owner { get { return owner; } init { owner = value; } }
-        public LinkedList<string> Joined { get { return joined; } init { joined = value; } }
+        public CIString Title { get { return title; } init { title = value; } }
+        public CIString Owner { get { return owner; } init { owner = value; } }
+        public LinkedList<CIString> Joined { get { return joined; } init { joined = value; } }
         public LinkedList<Task>[] Columns { /*get { return columns; }*/ init { columns = value; } }
         public int[] ColumnLimit { /*get { return columnLimit; }*/ init { columnLimit = value; } }
         public Dictionary<int, TaskStates> TaskStateTracker { /*get { return taskStateTracker; }*/ init { taskStateTracker = value; } }
@@ -416,14 +422,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void ChangeOwner(string currentOwnerEmail, string newOwnerEmail, string boardName)
         {
             log.Debug("ChangeOwner() for board: " + boardName + "from: " + currentOwnerEmail + "to: " + newOwnerEmail);
-            if (!this.joined.Contains(newOwnerEmail))
+            if (!joined.Contains(newOwnerEmail))
             {
                 log.Error("ChangeOwner() failed: '" + newOwnerEmail + "' isn't joined to the board");
                 throw new ArgumentException("the user " + newOwnerEmail + " isn't joined to the board");
             }
-            this.owner = newOwnerEmail;
-            this.joined.AddLast(currentOwnerEmail);
-            this.joined.Remove(newOwnerEmail);
+            owner = newOwnerEmail;
+            joined.AddLast(currentOwnerEmail);
+            joined.Remove(newOwnerEmail);
             log.Debug("ChangeOwner() success");
         }
 
@@ -437,16 +443,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void JoinBoard(string email, int boardId)
         {
             log.Debug("JoinBoard() for user: " + email + "for board " + boardId);
-            if(this.owner == email)
+            if(owner == email)
             {
                 log.Error("JoinBoard() failed: user with email '" + email + "' is the board's owner");
                 throw new ArgumentException("the user " + email + " is the board's owner");
             }
-            if (this.joined.Contains(email)){
+            if (joined.Contains(email)){
                 log.Error("JoinBoard() failed: user with email '" + email + "' already joined to the board");
                 throw new ArgumentException("the user " + email + " already joined to the board");
             }
-            this.joined.AddLast(email);
+            joined.AddLast(email);
             log.Debug("JoinBoard() success");
         }
         /// <summary>
@@ -459,12 +465,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void LeaveBoard(string email, int boardId)
         {
             log.Debug("LeaveBoard() for user: " + email + "for board " + boardId);
-            if (!this.joined.Contains(email))
+            if (!joined.Contains(email))
             {
                 log.Error("LeaveBoard() failed: user with email '" + email + "' is not joined to the board");
                 throw new ArgumentException("user with email '" + email + "' is not joined to the board");
             }
-            this.joined.Remove(email);
+            joined.Remove(email);
             foreach(Task task in this.columns[(int)TaskStates.backlog])
             {
                 if (task.Assignee == email)
@@ -472,7 +478,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     task.Assignee = "unAssigned";
                 }
             }
-            foreach (Task task in this.columns[(int)TaskStates.inprogress])
+            foreach (Task task in columns[(int)TaskStates.inprogress])
             {
                 if (task.Assignee == email)
                 {

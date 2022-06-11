@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using IntroSE.Kanban.Backend.Utilities;
 using IntroSE.Kanban.Backend.Exceptions;
+using IntroSE.Kanban.Backend.BusinessLayer;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
@@ -23,9 +24,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     public class BoardControllerService
     {
 
-        private readonly BusinessLayer.BoardController boardController;
+        private readonly BoardController boardController;
 
-        public BoardControllerService(BusinessLayer.BoardController BC)
+        public BoardControllerService(BoardController BC)
         {
             boardController = BC;
         }
@@ -44,16 +45,18 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }		       // (operationState == false) => error message		
 		/// </code>
 		/// </returns>
-        public string AddBoard(string email, string name)
+        public string AddBoard(string emailRaw, string nameRaw)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, name }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, nameRaw }) == false)
             {
                 Response<string> res = new(false, "AddBoard() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
+            CIString email = new CIString(emailRaw);
+            CIString name = new CIString(nameRaw);
             try
             {
-                boardController.AddBoard(email.ToLower(), name);
+                boardController.AddBoard(email, name);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
@@ -98,18 +101,19 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }			// (operationState == false) => error message		
 		/// </code>
 		/// </returns>
-        public string RemoveBoard(string email, string name)
+        public string RemoveBoard(string emailRaw, string nameRaw)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, name }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, nameRaw }) == false)
             {
                 Response<string> res = new(false, "RemoveBoard() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            email = email.ToLower();
+            CIString email = new CIString(emailRaw);
+            CIString name = new CIString(nameRaw);
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email, name);
-                if (!BusinessLayer.BoardMembersPermissions.BoardOwnerPermission(email, board))
+                Board board = boardController.SearchBoard(email, name);
+                if (!BoardMembersPermissions.BoardOwnerPermission(email, board))
                 {
                     Response<string> res1 = new(false, "RemoveBoard() failed: user has not permission to do RemoveBoard");
                     return JsonController.ConvertToJson(res1);
@@ -168,7 +172,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                LinkedList<BusinessLayer.Task> tasks = boardController.GetAllTasksByState(email.ToLower(), columnOrdinal);
+                LinkedList<BusinessLayer.Task> tasks = boardController.GetAllTasksByState(email, columnOrdinal);
                 Response<LinkedList<BusinessLayer.Task>> res = new(true, tasks);
                 return JsonController.ConvertToJson(res);
             }
