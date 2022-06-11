@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace IntroSE.Kanban.Backend.Utilities
 {
@@ -10,6 +11,9 @@ namespace IntroSE.Kanban.Backend.Utilities
     {
         private readonly int value;
 
+        public int Value => value;
+
+        [JsonConstructor]
         public Integer(int num) 
         {
             value = num;
