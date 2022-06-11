@@ -78,7 +78,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 }
                 finally
                 {
-                    connection.Close();
+                    //connection.Close();
                 }
             }
 

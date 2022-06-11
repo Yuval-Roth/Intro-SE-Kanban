@@ -495,7 +495,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     log.Error("ChangeOwner() failed: user isn't the board's owner");
                     throw new AccessViolationException("user isn't the board's owner");
                 }
-                boardData.ChangeOwnerPointer(currentOwnerEmail, newOwnerEmail, boardName);
+                boardData.ChangeOwnerPointer(currentOwnerEmail, boardName, newOwnerEmail);
                 log.Debug("ChangeOwner() success");
             }
             catch (ElementAlreadyExistsException)
