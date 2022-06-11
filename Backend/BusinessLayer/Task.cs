@@ -158,7 +158,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("AdvanceTask() failed: task numbered '" + id + "' is done and can't be advanced");
                 throw new ArgumentException("task numbered '" + id + "' is done and can't be advanced");
             }
-            if (assignee != email)
+            if (assignee.Equals(email) == false)
             {
                 log.Error("AdvanceTask() failed: User is not the task's assignee");
                 throw new AccessViolationException("User is not the task's assignee");
@@ -242,7 +242,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void UpdateTitle(CIString email, CIString value)
         {
             log.Debug("UpdateTitle() for taskId: " + email + ", email:" + email);
-            if (assignee != email)
+            if (assignee.Equals(email) == false)
             {
                 log.Error("UpdateTitle() failed: User is not the task's assignee");
                 throw new AccessViolationException("User is not the task's assignee");
@@ -279,7 +279,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void UpdateDescription(CIString email, CIString value)
         {
             log.Debug("UpdateDescription() for taskId: " + email + ", email:" + email);
-            if (assignee != email)
+            if (assignee.Equals(email) == false)
             {
                 log.Error("UpdateDescription() failed: User is not the task's assignee");
                 throw new AccessViolationException("User is not the task's assignee");
