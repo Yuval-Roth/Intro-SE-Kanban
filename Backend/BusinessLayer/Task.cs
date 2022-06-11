@@ -34,7 +34,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private DateTime dueDate;
         TaskStates state;
         private string assignee;
-
         private readonly int MAX_DESCRIPTION_CHAR_CAP = 300;
         private readonly int MAX_TITLE_CHAR_CAP = 50;
         private readonly int MIN_TITLE_CHAR_CAP = 1;
