@@ -335,8 +335,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method advances a task to the next column
         /// </summary>
-        /// <param name="email">Email of user. Must be logged in</param>
-        /// <param name="boardName">The name of the board</param>
+        /// <param name="emailRaw">Email of user. Must be logged in</param>
+        /// <param name="boardNameRaw">The name of the board</param>
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <param name="taskId">The task to be updated identified task ID</param>
         /// <returns>
@@ -359,10 +359,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             CIString boardName = new CIString(boardNameRaw);
             try
             {
-                Board board = boardController.SearchBoard(email, boardName);
-                Task task = board.SearchTask(taskId);
-                board.AdvanceTask(email,columnOrdinal, taskId);
-                task.AdvanceTask(email);
+                boardController.AdvanceTask(email,boardName,columnOrdinal,taskId);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }

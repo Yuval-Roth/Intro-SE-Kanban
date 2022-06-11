@@ -619,6 +619,50 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
+
+        public void AdvanceTask(CIString email, CIString boardName, int columnOrdinal, int taskId)
+        {
+            log.Debug("AdvanceTask() taskId: " + taskId);
+            try
+            {
+                Board board = SearchBoard(email, boardName);
+                Task task = board.SearchTask(taskId);
+                board.AdvanceTask(email, columnOrdinal, taskId);
+                task.AdvanceTask(email);
+                log.Debug("AdvanceTask() success");
+            }
+            catch (NoSuchElementException ex)
+            {
+                log.Error("AdvanceTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (ArgumentException ex)
+            {
+                log.Error("AdvanceTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                log.Error("AdvanceTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (AccessViolationException ex)
+            {
+                log.Error("AdvanceTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                log.Error("AdvanceTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserNotLoggedInException ex)
+            {
+                log.Error("AdvanceTask() failed: " + ex.Message);
+                throw;
+            }
+        }
+
         /// <summary>
         /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number
         /// </summary>
