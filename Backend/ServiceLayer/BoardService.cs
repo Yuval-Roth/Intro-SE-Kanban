@@ -277,8 +277,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method removes a task to the specific user and board.
         /// </summary>
-        /// <param name="email">Email of the user. The user must be logged in.</param>
-        /// <param name="boardTitle">The name of the board</param>
+        /// <param name="emailRaw">Email of the user. The user must be logged in.</param>
+        /// <param name="boardTitleRaw">The name of the board</param>
         /// <param name="taskId">id of the task</param>
         /// <returns>
 		/// Json formatted as so:
@@ -300,8 +300,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             CIString boardTitle = new CIString(boardTitleRaw);
             try
             {
-                Board board = boardController.SearchBoard(email, boardTitle);
-                board.RemoveTask(taskId);
+                boardController.RemoveTask(email,boardTitle,taskId);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }

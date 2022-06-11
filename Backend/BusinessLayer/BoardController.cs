@@ -581,6 +581,44 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
+
+
+        public void RemoveTask(CIString email, CIString boardTitle, int taskId)
+        {
+            log.Debug("RemoveTask() taskId: " + taskId);
+            try
+            {
+                Board board = SearchBoard(email, boardTitle);
+                board.RemoveTask(taskId);
+                log.Debug("RemoveTask() success");
+            }
+            catch (NoSuchElementException ex)
+            {
+                log.Error("RemoveTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (ArgumentException ex)
+            {
+                log.Error("RemoveTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (AccessViolationException ex)
+            {
+                log.Error("RemoveTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                log.Error("RemoveTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserNotLoggedInException ex)
+            {
+                log.Error("RemoveTask() failed: " + ex.Message);
+                throw;
+            }
+        }
+
         /// <summary>
         /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number
         /// </summary>
