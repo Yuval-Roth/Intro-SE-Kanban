@@ -45,15 +45,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }		       // (operationState == false) => error message		
 		/// </code>
 		/// </returns>
-        public string AddBoard(string emailRaw, string nameRaw)
+        public string AddBoard(string email, string name)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, nameRaw }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email, name }) == false)
             {
                 Response<string> res = new(false, "AddBoard() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = emailRaw;
-            CIString name = nameRaw;
             try
             {
                 boardController.AddBoard(email, name);
@@ -106,15 +104,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }			// (operationState == false) => error message		
 		/// </code>
 		/// </returns>
-        public string RemoveBoard(string emailRaw, string nameRaw)
+        public string RemoveBoard(string email, string name)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, nameRaw }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email, name}) == false)
             {
                 Response<string> res = new(false, "RemoveBoard() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = emailRaw;
-            CIString name = nameRaw;
             try
             {
                 boardController.RemoveBoard(email, name);
@@ -167,14 +163,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }		      //(operationState == false) => string with error message		
 		/// </code>
 		/// </returns>
-        public string GetAllTasksByState(string emailRaw, int columnOrdinal)
+        public string GetAllTasksByState(string email, int columnOrdinal)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, columnOrdinal }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email, columnOrdinal }) == false)
             {
                 Response<string> res = new(false, "GetAllTasksByState() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = emailRaw;
             try
             {
                 LinkedList<Task> tasks = boardController.GetAllTasksByState(email, columnOrdinal);
@@ -228,7 +223,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "GetUserBoards() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            //CIString email = emailRaw;
             try
             {
                 boardController.GetBoardsId(email);

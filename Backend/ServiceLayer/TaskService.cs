@@ -50,15 +50,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }			// (operationState == false) => error message		
 		/// </code>
 		/// </returns>
-        public string UpdateTaskDueDate(string emailRaw, string boardNameRaw, int columnOrdinal, int taskId, DateTime dueDate)
+        public string UpdateTaskDueDate(string email, string boardName, int columnOrdinal, int taskId, DateTime dueDate)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, boardNameRaw, columnOrdinal, taskId, dueDate }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName, columnOrdinal, taskId, dueDate }) == false)
             {
                 Response<string> res = new(false, "UpdateTaskDueDate() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = emailRaw;
-            CIString boardName = boardNameRaw;
             try
             {
                 Board board = boardController.SearchBoard(email, boardName);
@@ -116,16 +114,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }			// (operationState == false) => error message		
 		/// </code>
 		/// </returns>
-        public string UpdateTaskTitle(string emailRaw, string boardNameRaw, int columnOrdinal, int taskId, string titleRaw)
+        public string UpdateTaskTitle(string email, string boardName, int columnOrdinal, int taskId, string title)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, boardNameRaw, columnOrdinal, taskId, titleRaw}) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName, columnOrdinal, taskId, title}) == false)
             {
                 Response<string> res = new(false, "UpdateTaskTitle() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = emailRaw;
-            CIString boardName = boardNameRaw;
-            CIString title = titleRaw;
             try
             {
                 Board board = boardController.SearchBoard(email, boardName);
@@ -183,16 +178,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }			// (operationState == false) => error message		
 		/// </code>
 		/// </returns>
-        public string UpdateTaskDescription(string emailRaw, string boardNameRaw, int columnOrdinal, int taskId, string descriptionRaw)
+        public string UpdateTaskDescription(string email, string boardName, int columnOrdinal, int taskId, string description)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, boardNameRaw, columnOrdinal, taskId, descriptionRaw }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName, columnOrdinal, taskId, description }) == false)
             {
                 Response<string> res = new(false, "UpdateTaskDescription() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = emailRaw;
-            CIString boardName = boardNameRaw;
-            CIString description = descriptionRaw;
             try
             {
                 Board board = boardController.SearchBoard(email, boardName);
@@ -251,16 +243,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// }			// (operationState == false) => error message		
         /// </code>
         /// </returns>
-        public string AssignTask(string emailRaw, string boardNameRaw, int columnOrdinal, int taskId, string emailAssigneeRaw)
+        public string AssignTask(string email, string boardName, int columnOrdinal, int taskId, string emailAssignee)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, boardNameRaw, columnOrdinal, taskId, emailAssigneeRaw }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName, columnOrdinal, taskId, emailAssignee }) == false)
             {
                 Response<string> res = new(false, "UpdateTaskDescription() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = emailRaw;
-            CIString boardName = boardNameRaw;
-            CIString emailAssignee = emailAssigneeRaw;
             try
             {
                 Board board = boardController.SearchBoard(email, boardName);

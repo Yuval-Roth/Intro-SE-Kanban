@@ -51,14 +51,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }				// (operationState == false) => error message		
 		/// </code>
 		/// </returns>
-		public string Register(string emailRaw, string password)
+		public string Register(string email, string password)
 		{
-			if (ValidateArguments.ValidateNotNull(new object[] { emailRaw,password }) == false)
+			if (ValidateArguments.ValidateNotNull(new object[] { email,password }) == false)
 			{
 				Response<string> res = new(false, "Register() failed: ArgumentNullException");
 				return JsonController.ConvertToJson(res);
 			}
-			CIString email = new CIString(emailRaw);
 			try
 			{
 				userController.Register(email, password);
@@ -84,14 +83,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }				// (operationState == false) => error message		
 		/// </code>
 		/// </returns>
-		public string DeleteUser(string emailRaw)
+		public string DeleteUser(string email)
 		{
-			if (ValidateArguments.ValidateNotNull(new object[] { emailRaw }) == false)
+			if (ValidateArguments.ValidateNotNull(new object[] { email }) == false)
 			{
 				Response<string> res = new(false, "DeleteUser() failed: ArgumentNullException");
 				return JsonController.ConvertToJson(res);
 			}
-			CIString email = new CIString(emailRaw);
 			try
             {
 				userController.DeleteUser(email);
@@ -122,14 +120,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }				// (operationState == false) => error message		
 		/// </code>
 		/// </returns>
-		public string LogIn(string emailRaw, string password)
+		public string LogIn(string email, string password)
 		{
-			if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, password }) == false)
+			if (ValidateArguments.ValidateNotNull(new object[] { email, password }) == false)
 			{
 				Response<string> res = new(false, "LogIn() failed: ArgumentNullException");
 				return JsonController.ConvertToJson(res);
 			}
-			CIString email = new CIString(emailRaw);
 			try
             {
 				userController.LogIn(email, password);
@@ -155,14 +152,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }				// (operationState == false) => error message		
 		/// </code>
 		/// </returns>
-		public string LogOut(string emailRaw)
+		public string LogOut(string email)
 		{
-			if (ValidateArguments.ValidateNotNull(new object[] { emailRaw }) == false)
+			if (ValidateArguments.ValidateNotNull(new object[] { email }) == false)
 			{
 				Response<string> res = new(false, "LogOut() failed: ArgumentNullException");
 				return JsonController.ConvertToJson(res);
 			}
-			CIString email = new CIString(emailRaw);
 			try
             {
 				userController.LogOut(email);
@@ -193,14 +189,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }				// (operationState == false) => error message		
 		/// </code>
 		/// </returns>
-		public string SetPassword(string emailRaw, string old, string newP)
+		public string SetPassword(string email, string old, string newP)
 		{
-			if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, old,newP }) == false)
+			if (ValidateArguments.ValidateNotNull(new object[] { email, old,newP }) == false)
 			{
 				Response<string> res = new(false, "SetPassword() failed: ArgumentNullException");
 				return JsonController.ConvertToJson(res);
 			}
-			CIString email = new CIString(emailRaw);
 			try
             {
 				User toSetPassword = userController.SearchUser(email);
@@ -232,15 +227,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }				// (operationState == false) => error message		
 		/// </code>
 		/// </returns>
-		public string SetEmail(string emailRaw, string newEmailRaw)
+		public string SetEmail(string email, string newEmail)
 		{
-			if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, newEmailRaw}) == false)
+			if (ValidateArguments.ValidateNotNull(new object[] { email, newEmail}) == false)
 			{
 				Response<string> res = new(false, "SetEmail() failed: ArgumentNullException");
 				return JsonController.ConvertToJson(res);
 			}
-			CIString email = new CIString(emailRaw);
-			CIString newEmail = new CIString(newEmailRaw);
 			try
             {
 				User toSetEmail = userController.SearchUser(email);

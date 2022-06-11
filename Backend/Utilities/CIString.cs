@@ -38,6 +38,10 @@ namespace IntroSE.Kanban.Backend.Utilities
             }
             else throw new ArgumentException("Argument is not a CIString");
         }
+        private int CompareTo(CIString other)
+        {
+            return value.ToLower().CompareTo(other.value.ToLower());
+        }
         public override string ToString()
         {
             return value;
@@ -56,36 +60,26 @@ namespace IntroSE.Kanban.Backend.Utilities
             if (obj is string @str)  return Equals(@str);
             return false;
         }
-
         public override int GetHashCode()
         {            
             return value.GetHashCode();
         }
-
         public object Clone()
         {
             return new CIString(new string(value));
         }
-
         public static bool operator ==(CIString left, CIString right)
         {
             if (ReferenceEquals(left, null))
             {
                 return ReferenceEquals(right, null);
             }
-
             return left.Equals(right);
         }
-
         public static bool operator !=(CIString left, CIString right)
         {
             return !(left == right);
-        }
-
-        private int CompareTo(CIString other)
-        {
-            return value.ToLower().CompareTo(other.value.ToLower());
-        }
+        }     
         public static bool operator <(CIString left, CIString right)
         {
             return ReferenceEquals(left, null) ? !ReferenceEquals(right, null) : left.CompareTo(right) < 0;
@@ -105,7 +99,10 @@ namespace IntroSE.Kanban.Backend.Utilities
         {
             return ReferenceEquals(left, null) ? ReferenceEquals(right, null) : left.CompareTo(right) >= 0;
         }
-
+        public static CIString operator +(CIString left, CIString right)
+        {
+            return new CIString(left.Value + right.Value);
+        }
         public static implicit operator CIString(string v)
         {
             return new CIString(v);

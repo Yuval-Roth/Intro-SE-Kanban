@@ -33,9 +33,9 @@ namespace IntroSE.Kanban.selfTesting
             stringCompare("test2", "tEst2");
 
         }
-        public static void stringCompare(CIString s1,CIString s2)
+        public static void stringCompare(string s1,string s2)
         {
-            Console.WriteLine(s1==s2); // true
+            Console.WriteLine(s1== (CIString)s2); // true
         }
     }
 }
