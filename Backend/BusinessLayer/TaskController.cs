@@ -27,38 +27,80 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 task.UpdateDescription(email, description);
                 log.Debug("UpdateDescription() success");
             }
-            catch (UserDoesNotExistException e)
+            catch (UserDoesNotExistException ex)
             {
-                log.Error("UpdateDescription() failed: " + e.Message);
+                log.Error("UpdateDescription() failed: " + ex.Message);
                 throw;
             }
-            catch (UserNotLoggedInException e)
+            catch (UserNotLoggedInException ex)
             {
-                log.Error("SearchBoard() failed: " + e.Message);
+                log.Error("SearchBoard() failed: " + ex.Message);
                 throw;
             }
 
             catch (NoSuchElementException ex)
             {
-                log.Error("UpdateDescription() failed: " + e.Message);
+                log.Error("UpdateDescription() failed: " + ex.Message);
                 throw;
             }
             catch (ArgumentException ex)
             {
-                log.Error("UpdateDescription() failed: " + e.Message);
+                log.Error("UpdateDescription() failed: " + ex.Message);
                 throw;
             }
             catch (IndexOutOfRangeException ex)
             {
-                log.Error("UpdateDescription() failed: " + e.Message);
+                log.Error("UpdateDescription() failed: " + ex.Message);
                 throw;
             }
             catch (AccessViolationException ex)
             {
-                log.Error("UpdateDescription() failed: " + e.Message);
+                log.Error("UpdateDescription() failed: " + ex.Message);
                 throw;
             }
 
+        }
+
+        public void UpdateTaskDueDate(CIString email, CIString boardName, int columnOrdinal, int taskId, DateTime dueDate)
+        {
+            log.Debug("UpdateDueDate() for taskId: " + taskId + ", email:" + email);
+            try
+            {
+                Board board = boardController.SearchBoard(email, boardName);
+                Task task = board.SearchTask(taskId, columnOrdinal);
+                task.UpdateDueDate(email, dueDate);
+                log.Debug("UpdateTaskDueDate() success");
+            }
+            catch (NoSuchElementException ex)
+            {
+                log.Error("UpdateDueDate() failed: " + ex.Message);
+                throw;
+            }
+            catch (ArgumentException ex)
+            {
+                log.Error("UpdateDueDate() failed: " + ex.Message);
+                throw;
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                log.Error("UpdateDueDate() failed: " + ex.Message);
+                throw;
+            }
+            catch (AccessViolationException ex)
+            {
+                log.Error("UpdateDueDate() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                log.Error("UpdateDueDate() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserNotLoggedInException ex)
+            {
+                log.Error("UpdateDueDate() failed: " + ex.Message);
+                throw;
+            }
         }
 
     }
