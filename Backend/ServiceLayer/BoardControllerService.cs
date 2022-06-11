@@ -52,8 +52,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "AddBoard() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = new CIString(emailRaw);
-            CIString name = new CIString(nameRaw);
+            CIString email = emailRaw;
+            CIString name = nameRaw;
             try
             {
                 boardController.AddBoard(email, name);
@@ -113,8 +113,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "RemoveBoard() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = new CIString(emailRaw);
-            CIString name = new CIString(nameRaw);
+            CIString email = emailRaw;
+            CIString name = nameRaw;
             try
             {
                 boardController.RemoveBoard(email, name);
@@ -174,7 +174,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "GetAllTasksByState() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = new CIString(emailRaw);
+            CIString email = emailRaw;
             try
             {
                 LinkedList<Task> tasks = boardController.GetAllTasksByState(email, columnOrdinal);
@@ -221,14 +221,14 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }		      //(operationState == false) => string with error message		
 		/// </code>
 		/// </returns>
-        public string GetUserBoards(string emailRaw)
+        public string GetUserBoards(string email)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw}) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email}) == false)
             {
                 Response<string> res = new(false, "GetUserBoards() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = new CIString(emailRaw);
+            //CIString email = emailRaw;
             try
             {
                 boardController.GetBoardsId(email);

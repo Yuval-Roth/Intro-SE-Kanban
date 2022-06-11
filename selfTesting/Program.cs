@@ -17,7 +17,8 @@ namespace IntroSE.Kanban.selfTesting
 
         public static void Main(string[] args)
         {
-            CIStringDeserialization();
+            //CIStringDeserialization();
+            CIStringTesting();
         }
         public static void CIStringDeserialization()
         {
@@ -26,6 +27,15 @@ namespace IntroSE.Kanban.selfTesting
             Console.WriteLine(json);
             CIString str1 = JsonSerializer.Deserialize<CIString>(json);
             Console.WriteLine(str1);
+        }
+        public static void CIStringTesting()
+        {
+            stringCompare("test2", "tEst2");
+
+        }
+        public static void stringCompare(CIString s1,CIString s2)
+        {
+            Console.WriteLine(s1==s2); // true
         }
     }
 }

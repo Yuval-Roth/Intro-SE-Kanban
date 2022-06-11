@@ -57,8 +57,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "UpdateTaskDueDate() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = new CIString(emailRaw);
-            CIString boardName = new CIString(boardNameRaw);
+            CIString email = emailRaw;
+            CIString boardName = boardNameRaw;
             try
             {
                 Board board = boardController.SearchBoard(email, boardName);
@@ -123,9 +123,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "UpdateTaskTitle() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = new CIString(emailRaw);
-            CIString boardName = new CIString(boardNameRaw);
-            CIString title = new CIString(titleRaw);
+            CIString email = emailRaw;
+            CIString boardName = boardNameRaw;
+            CIString title = titleRaw;
             try
             {
                 Board board = boardController.SearchBoard(email, boardName);
@@ -190,9 +190,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "UpdateTaskDescription() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = new CIString(emailRaw);
-            CIString boardName = new CIString(boardNameRaw);
-            CIString description = new CIString(descriptionRaw);
+            CIString email = emailRaw;
+            CIString boardName = boardNameRaw;
+            CIString description = descriptionRaw;
             try
             {
                 Board board = boardController.SearchBoard(email, boardName);
@@ -258,9 +258,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "UpdateTaskDescription() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = new CIString(emailRaw);
-            CIString boardName = new CIString(boardNameRaw);
-            CIString emailAssignee = new CIString(emailAssigneeRaw);
+            CIString email = emailRaw;
+            CIString boardName = boardNameRaw;
+            CIString emailAssignee = emailAssigneeRaw;
             try
             {
                 Board board = boardController.SearchBoard(email, boardName);

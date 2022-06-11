@@ -59,7 +59,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "JoinBoard() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = new CIString(emailRaw);
+            CIString email = emailRaw;
             try
             {
                 Board board = boardController.SearchBoard(email, boardId);
@@ -122,7 +122,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "LeaveBoard() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = new CIString(emailRaw);
+            CIString email = emailRaw;
             try
             {
                 Board board = boardController.SearchBoard(email, boardId);
@@ -181,9 +181,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "ChangeOwner() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString currentOwnerEmail = new CIString(currentOwnerEmailRaw);
-            CIString newOwnerEmail = new CIString(newOwnerEmailRaw);
-            CIString boardName = new CIString(boardNameRaw);
+            CIString currentOwnerEmail = currentOwnerEmailRaw;
+            CIString newOwnerEmail = newOwnerEmailRaw;
+            CIString boardName = boardNameRaw;
             try
             {
                 Board board = boardController.SearchBoard(currentOwnerEmail, boardName);
@@ -243,10 +243,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "AddTask() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = new CIString(emailRaw);
-            CIString boardName = new CIString(boardNameRaw);
-            CIString title = new CIString(titleRaw);
-            CIString description = new CIString(descriptionRaw);
+            CIString email = emailRaw;
+            CIString boardName = boardNameRaw;
+            CIString title = titleRaw;
+            CIString description = descriptionRaw;
             try
             {
                 Board board = boardController.SearchBoard(email,boardName);
@@ -303,8 +303,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "RemoveTask() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = new CIString(emailRaw);
-            CIString boardTitle = new CIString(boardTitleRaw);
+            CIString email = emailRaw;
+            CIString boardTitle = boardTitleRaw;
             try
             {
                 Board board = boardController.SearchBoard(email, boardTitle);
@@ -363,8 +363,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "AdvanceTask() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = new CIString(emailRaw);
-            CIString boardName = new CIString(boardNameRaw);
+            CIString email = emailRaw;
+            CIString boardName = boardNameRaw;
             try
             {
                 Board board = boardController.SearchBoard(email, boardName);
@@ -431,8 +431,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
 
-            CIString email = new CIString(emailRaw);
-            CIString boardName = new CIString(boardNameRaw);
+            CIString email = emailRaw;
+            CIString boardName = boardNameRaw;
 
             try
             {
@@ -495,8 +495,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "GetColumnLimit() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = new CIString(emailRaw);
-            CIString boardName = new CIString(boardNameRaw);
+            CIString email = emailRaw;
+            CIString boardName = boardNameRaw;
 
             try
             {
@@ -559,8 +559,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "GetColumnName() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = new CIString(emailRaw);
-            CIString boardName = new CIString(boardNameRaw);
+            CIString email = emailRaw;
+            CIString boardName = boardNameRaw;
             try
             {
                 Board board = boardController.SearchBoard(email, boardName);
@@ -622,8 +622,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, "GetColumn() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            CIString email = new CIString(emailRaw);
-            CIString boardName = new CIString(boardNameRaw);
+            CIString email = emailRaw;
+            CIString boardName = boardNameRaw;
             try
             {
                 Board board = boardController.SearchBoard(email, boardName);

@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 namespace IntroSE.Kanban.Backend.Utilities
 {
     [Serializable]
-    public sealed class CIString : IEquatable<CIString>, IComparable
+    public sealed class CIString : IEquatable<CIString>, IComparable,ICloneable
     {
         private readonly string value;
 
@@ -22,10 +22,12 @@ namespace IntroSE.Kanban.Backend.Utilities
 
         public bool Equals(CIString s)
         {
+            if (s == null) return false;
             return value.ToLower().Equals(s.value.ToLower());
         }
-        public bool Equals(string s)
+        private bool Equals(string s)
         {
+            if (s == null) return false;
             return value.ToLower().Equals(s.ToLower());
         }
         int IComparable.CompareTo(object obj)
@@ -39,6 +41,74 @@ namespace IntroSE.Kanban.Backend.Utilities
         public override string ToString()
         {
             return value;
+        }
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(this, obj))
+            {
+                return Equals((CIString)obj);
+            }
+
+            if (ReferenceEquals(obj, null))
+            {
+                return false;
+            }   
+            if (obj is string @str)  return Equals(@str);
+            return false;
+        }
+
+        public override int GetHashCode()
+        {            
+            return value.GetHashCode();
+        }
+
+        public object Clone()
+        {
+            return new CIString(new string(value));
+        }
+
+        public static bool operator ==(CIString left, CIString right)
+        {
+            if (ReferenceEquals(left, null))
+            {
+                return ReferenceEquals(right, null);
+            }
+
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(CIString left, CIString right)
+        {
+            return !(left == right);
+        }
+
+        private int CompareTo(CIString other)
+        {
+            return value.ToLower().CompareTo(other.value.ToLower());
+        }
+        public static bool operator <(CIString left, CIString right)
+        {
+            return ReferenceEquals(left, null) ? !ReferenceEquals(right, null) : left.CompareTo(right) < 0;
+        }
+
+        public static bool operator <=(CIString left, CIString right)
+        {
+            return ReferenceEquals(left, null) || left.CompareTo(right) <= 0;
+        }
+
+        public static bool operator >(CIString left, CIString right)
+        {
+            return !ReferenceEquals(left, null) && left.CompareTo(right) > 0;
+        }
+
+        public static bool operator >=(CIString left, CIString right)
+        {
+            return ReferenceEquals(left, null) ? ReferenceEquals(right, null) : left.CompareTo(right) >= 0;
+        }
+
+        public static implicit operator CIString(string v)
+        {
+            return new CIString(v);
         }
     }
 }
