@@ -749,6 +749,50 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
+
+
+        public string GetColumnName(CIString email, CIString boardName, int columnOrdinal)
+        {
+            log.Debug("GetColumnName() columnOrdinal: " + columnOrdinal);
+            try
+            {
+                Board board = SearchBoard(email, boardName);
+                string columnname = board.GetColumnName(columnOrdinal);
+                log.Debug("GetColumnName() success");
+                return columnname
+            }
+            catch (NoSuchElementException ex)
+            {
+                log.Error("GetColumnName() failed: " + ex.Message);
+                throw;
+            }
+            catch (ArgumentException ex)
+            {
+                log.Error("GetColumnName() failed: " + ex.Message);
+                throw;
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                log.Error("GetColumnName() failed: " + ex.Message);
+                throw;
+            }
+            catch (AccessViolationException ex)
+            {
+                log.Error("GetColumnName() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                log.Error("GetColumnName() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserNotLoggedInException ex)
+            {
+                log.Error("GetColumnName() failed: " + ex.Message);
+                throw;
+            }
+        }
+
         /// <summary>
         /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number
         /// </summary>

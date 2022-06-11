@@ -527,8 +527,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method gets the name of a specific column
         /// </summary>
-        /// <param name="email">The email address of the user, must be logged in</param>
-        /// <param name="boardName">The name of the board</param>
+        /// <param name="emailRaw">The email address of the user, must be logged in</param>
+        /// <param name="boardNameRaw">The name of the board</param>
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <returns>
 		/// Json formatted as so:
@@ -550,9 +550,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             CIString boardName = new CIString(boardNameRaw);
             try
             {
-                Board board = boardController.SearchBoard(email, boardName);
-                string columnname = board.GetColumnName(columnOrdinal);
-                Response<string> res = new(true, columnname.ToLower());
+
+                string columnname = boardController.GetColumnName(email,boardName,columnOrdinal);
+                Response<string> res = new(true, columnname);
                 return JsonController.ConvertToJson(res);
             }
             catch (NoSuchElementException ex)
