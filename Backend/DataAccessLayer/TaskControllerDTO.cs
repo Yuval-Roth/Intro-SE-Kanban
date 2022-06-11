@@ -28,7 +28,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             string command = "UPDATE Tasks " +
                             $"SET State = {(int)state} " +
-                            $"WHERE BoardId = '{boardId}' and TaskId = '{taskId}'";
+                            $"WHERE BoardId = {boardId} and TaskId = {taskId}";
 
             return executer.ExecuteWrite(command);
         }
