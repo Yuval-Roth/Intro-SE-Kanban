@@ -66,14 +66,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 try
                 {
                     SQLiteDataReader reader = command.ExecuteReader();
-                    if (reader.HasRows)
-                    {
-                        log.Debug("ExecuteRead() success");              
-                    }
-                    else
-                    {
-                        log.Error("ExecuteRead() fetched 0 rows");
-                    }
                     LinkedList<object[]> output = new();
                     while (reader.Read())
                     {
@@ -84,6 +76,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                         }
                         output.AddLast(row);
                     }
+                    log.Debug($"ExecuteRead() fetched {reader.StepCount} rows");
                     return output;
                 }
                 finally
