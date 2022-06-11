@@ -391,6 +391,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 ValidateUser(email);
                 boardData.AddPointerToJoinedBoard(email, boardId);
+                Board board = SearchBoard(email, boardId);
+                board.JoinBoard(email, boardId);
                 log.Debug("JoinBoard() success");
             }
             catch (ElementAlreadyExistsException)
@@ -413,6 +415,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("JoinBoard() failed: " + e.Message);
                 throw;
             }
+            catch (AccessViolationException e)
+            {
+                log.Error("JoinBoard() failed: " + e.Message);
+                throw;
+            }
+            catch (ArgumentException e)
+            {
+                log.Error("JoinBoard() failed: " + e.Message);
+                throw;
+            }
 
         }
         /// <summary>
@@ -429,7 +441,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             log.Debug("LeaveBoard() for user: " + email + "for board " + boardId);
             try
             {
+                Board board = SearchBoard(email, boardId);
                 boardData.RemovePointerToJoinedBoard(email, boardId);
+                board.LeaveBoard(email, boardId);
                 log.Debug("LeaveBoard() success");
             }
             catch (UserDoesNotExistException)
@@ -437,10 +451,20 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("LeaveBoard() failed: the user " + email + " doesn't exist");
                 throw new UserDoesNotExistException("the user " + email + " doesn't exist");
             }
-            catch (ArgumentException)
+            catch (UserNotLoggedInException e)
             {
-                log.Error("LeaveBoard() failed: the user " + email + " is not joined to a board with Id '" + boardId +" '");
+                log.Error("JoinBoard() failed: " + e.Message);
+                throw;
+            }
+            catch (AccessViolationException)
+            {
+                log.Error("LeaveBoard() failed: the user " + email + " is not joined to a board with Id '" + boardId + " '");
                 throw new UserDoesNotExistException("the user " + email + " is not joined to a board with Id '" + boardId + " '");
+            }
+            catch (ArgumentException e)
+            {
+                log.Error("JoinBoard() failed: " + e.Message);
+                throw;
             }
         }
 
@@ -496,6 +520,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     throw new AccessViolationException("user isn't the board's owner");
                 }
                 boardData.ChangeOwnerPointer(currentOwnerEmail, boardName, newOwnerEmail);
+                boardData.ChangeOwnerPointer(currentOwnerEmail, newOwnerEmail, boardName);
+                board.ChangeOwner(currentOwnerEmail, newOwnerEmail, boardName);
                 log.Debug("ChangeOwner() success");
             }
             catch (ElementAlreadyExistsException)
@@ -511,6 +537,129 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             catch (UserDoesNotExistException e)
             {
                 log.Error("ChangeOwner() failed: " + e.Message);
+                throw;
+            }
+            catch (ArgumentException e)
+            {
+                log.Error("ChangeOwner() failed: " + e.Message);
+                throw;
+            }
+        }
+
+        public void AddTask(CIString email, CIString boardName, CIString title, CIString description, DateTime dueDate)
+        {
+            log.Debug("AddTask() for: " + title + ", " + description + ", " + dueDate);
+            try
+            {
+                Board board = SearchBoard(email, boardName);
+                board.AddTask(title, dueDate, description);
+                log.Debug("AddTask() success");
+            }
+            catch (NoSuchElementException ex)
+            {
+                log.Error("AddTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (ArgumentException ex)
+            {
+                log.Error("AddTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (AccessViolationException ex)
+            {
+                log.Error("AddTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                log.Error("AddTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserNotLoggedInException ex)
+            {
+                log.Error("AddTask() failed: " + ex.Message);
+                throw;
+            }
+        }
+
+
+
+        public void RemoveTask(CIString email, CIString boardTitle, int taskId)
+        {
+            log.Debug("RemoveTask() taskId: " + taskId);
+            try
+            {
+                Board board = SearchBoard(email, boardTitle);
+                board.RemoveTask(taskId);
+                log.Debug("RemoveTask() success");
+            }
+            catch (NoSuchElementException ex)
+            {
+                log.Error("RemoveTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (ArgumentException ex)
+            {
+                log.Error("RemoveTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (AccessViolationException ex)
+            {
+                log.Error("RemoveTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                log.Error("RemoveTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserNotLoggedInException ex)
+            {
+                log.Error("RemoveTask() failed: " + ex.Message);
+                throw;
+            }
+        }
+
+
+        public void AdvanceTask(CIString email, CIString boardName, int columnOrdinal, int taskId)
+        {
+            log.Debug("AdvanceTask() taskId: " + taskId);
+            try
+            {
+                Board board = SearchBoard(email, boardName);
+                Task task = board.SearchTask(taskId);
+                board.AdvanceTask(email, columnOrdinal, taskId);
+                task.AdvanceTask(email);
+                log.Debug("AdvanceTask() success");
+            }
+            catch (NoSuchElementException ex)
+            {
+                log.Error("AdvanceTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (ArgumentException ex)
+            {
+                log.Error("AdvanceTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                log.Error("AdvanceTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (AccessViolationException ex)
+            {
+                log.Error("AdvanceTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                log.Error("AdvanceTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserNotLoggedInException ex)
+            {
+                log.Error("AdvanceTask() failed: " + ex.Message);
                 throw;
             }
         }

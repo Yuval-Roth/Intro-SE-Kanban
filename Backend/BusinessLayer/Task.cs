@@ -183,7 +183,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         public void AssignTask(CIString email, CIString emailAssignee)
         {
-            log.Debug("AssignTask() for taskId: " + email + ", emailAssignee:" + emailAssignee);
+            log.Debug("AssignTask() for taskId: " + id + ", emailAssignee:" + emailAssignee);
             if (state == TaskStates.done)
             {
                 log.Error("AssignTask() failed: " + id + "is done");
@@ -215,7 +215,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="AccessViolationException"></exception>
         public void UpdateDueDate(CIString email, DateTime newDueDate)
         {
-            log.Debug("UpdateDueDate() for taskId: " + email + ", email:" + email);
+            log.Debug("UpdateDueDate() for taskId: " + id + ", email:" + email);
             if(assignee.Equals(email) == false)
             {
                 log.Error("UpdateDueDate() failed: User is not the task's assignee");
@@ -248,7 +248,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="AccessViolationException"></exception>
         public void UpdateTitle(CIString email, CIString value)
         {
-            log.Debug("UpdateTitle() for taskId: " + email + ", email:" + email);
+            log.Debug("UpdateTitle() for taskId: " + id + ", email:" + email);
             if (assignee.Equals(email) == false)
             {
                 log.Error("UpdateTitle() failed: User is not the task's assignee");
@@ -287,7 +287,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="AccessViolationException"></exception>
         public void UpdateDescription(CIString email, CIString newDescription)
         {
-            log.Debug("UpdateDescription() for taskId: " + email + ", email:" + email);
+            log.Debug("UpdateDescription() for taskId: " + id + ", email:" + email);
             if (assignee.Equals(email) == false)
             {
                 log.Error("UpdateDescription() failed: User is not the task's assignee");
