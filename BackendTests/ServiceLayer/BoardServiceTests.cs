@@ -63,7 +63,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void JoinBoardTest_board_doesnt_exist()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board with id '1' doesn't exists in the system"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board with id '1' doesn't exist in the system"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = userservice.Register("Printz@post.bgu.ac.il", "Ha12345");
@@ -75,7 +75,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void JoinBoardTest_user_already_joined()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "user 'Printz@post.bgu.ac.il' is already joined the board"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "the user \u0027Printz@post.bgu.ac.il\u0027 is already joined to the board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = userservice.Register("Printz@post.bgu.ac.il", "Ha12345");
@@ -88,7 +88,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void JoinBoardTest_user_is_the_owner()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "user 'kfirniss@post.bgu.ac.il' is the board's owner"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "the user 'kfirniss@post.bgu.ac.il' is the board's owner"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardservice.JoinBoard("kfirniss@post.bgu.ac.il", 0);
