@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 namespace IntroSE.Kanban.Backend.Utilities
 {
     [Serializable]
-    public sealed class CIString : IEquatable<CIString>, IComparable,ICloneable
+    public sealed class CIString : IEquatable<CIString>, IComparable,IComparable<CIString>,ICloneable
     {
         private readonly string value;
 
@@ -19,7 +19,6 @@ namespace IntroSE.Kanban.Backend.Utilities
         {
             value = Value;
         }
-
         public bool Equals(CIString s)
         {
             if (s == null) return false;
@@ -68,6 +67,10 @@ namespace IntroSE.Kanban.Backend.Utilities
         {
             return new CIString(new string(value));
         }
+        int IComparable<CIString>.CompareTo(CIString other)
+        {
+            return value.ToLower().CompareTo(other.value.ToLower());
+        }
         public static bool operator ==(CIString left, CIString right)
         {
             if (ReferenceEquals(left, null))
@@ -94,14 +97,29 @@ namespace IntroSE.Kanban.Backend.Utilities
         {
             return !ReferenceEquals(left, null) && left.CompareTo(right) > 0;
         }
-
         public static bool operator >=(CIString left, CIString right)
         {
             return ReferenceEquals(left, null) ? ReferenceEquals(right, null) : left.CompareTo(right) >= 0;
         }
         public static CIString operator +(CIString left, CIString right)
         {
-            return new CIString(left.Value + right.Value);
+            return new CIString(left.value + right.value);
+        }
+        public static CIString operator +(int left, CIString right)
+        {
+            return new CIString(left + right.value);
+        }
+        public static CIString operator +(CIString left, int right)
+        {
+            return new CIString(left.value + right);
+        }
+        public static string operator +(CIString left, string right)
+        {
+            return left.value + right;
+        }
+        public static string operator +(string left, CIString right)
+        {
+            return left + right.value;
         }
         public static implicit operator CIString(string v)
         {

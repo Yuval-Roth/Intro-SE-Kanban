@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using IntroSE.Kanban.Backend.Utilities;
 
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]
 
@@ -140,7 +141,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             string json = boardServiceLayer.GetColumnLimit(email, boardName, columnOrdinal);
             if (GetOperationState(json) == true)
             {
-                return JsonController.ConvertToJson(new intResponse(json));
+                //return JsonController.ConvertToJson(new intResponse(json));
+                return JsonController.ConvertToJson(new GradingResponse<Integer>(json));
             }
             else return JsonController.ConvertToJson(new GradingResponse<string>(json));
 
