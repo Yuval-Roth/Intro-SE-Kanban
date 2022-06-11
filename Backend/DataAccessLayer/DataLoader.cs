@@ -184,7 +184,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             log.Debug("LoadBoardIdCounter() initiated");
             try
             {
-                string query = "SELECT Counter FROM BoardIDCounter ";
+                string query = "SELECT BoardIDCounter FROM GlobalCounters ";
                 using (SQLiteDataReader reader = executer.ExecuteRead(query))
                 {
                     reader.Read();

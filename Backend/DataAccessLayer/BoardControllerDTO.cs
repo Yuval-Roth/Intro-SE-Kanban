@@ -43,15 +43,17 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         }
         public bool UpdateBoardIdCounter(int newValue)
         {
-            return executer.ExecuteWrite("UPDATE BoardIDCounter" +
-                                        $"SET Counter = {newValue}");
+            return executer.ExecuteWrite("UPDATE GlobalCounters" +
+                                        $"SET BoardIDCounter = {newValue}");
 
         }
+
         public bool UpdateTaskIdCounter(int id, int newValue)
         {
             return executer.ExecuteWrite("UPDATE Boards" +
                                         $"SET TaskIDCounter = {newValue}" +
                                         $"WHERE BoardId = {id}");
         }
+
     }
 }
