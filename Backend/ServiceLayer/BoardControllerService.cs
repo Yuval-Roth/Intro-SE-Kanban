@@ -167,17 +167,18 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }		      //(operationState == false) => string with error message		
 		/// </code>
 		/// </returns>
-        public string GetAllTasksByState(string email, int columnOrdinal)
+        public string GetAllTasksByState(string emailRaw, int columnOrdinal)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, columnOrdinal }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, columnOrdinal }) == false)
             {
                 Response<string> res = new(false, "GetAllTasksByState() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
+            CIString email = new CIString(emailRaw);
             try
             {
-                LinkedList<BusinessLayer.Task> tasks = boardController.GetAllTasksByState(email, columnOrdinal);
-                Response<LinkedList<BusinessLayer.Task>> res = new(true, tasks);
+                LinkedList<Task> tasks = boardController.GetAllTasksByState(email, columnOrdinal);
+                Response<LinkedList<Task>> res = new(true, tasks);
                 return JsonController.ConvertToJson(res);
             }
             catch (NoSuchElementException ex)
@@ -220,16 +221,17 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }		      //(operationState == false) => string with error message		
 		/// </code>
 		/// </returns>
-        public string GetUserBoards(string email)
+        public string GetUserBoards(string emailRaw)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email}) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw}) == false)
             {
                 Response<string> res = new(false, "GetUserBoards() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
+            CIString email = new CIString(emailRaw);
             try
             {
-                boardController.GetBoardsId(email.ToLower());
+                boardController.GetBoardsId(email);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }

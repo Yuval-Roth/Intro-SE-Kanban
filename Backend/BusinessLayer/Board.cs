@@ -132,7 +132,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="duedate"></param>
         /// <param name="description"></param>
         /// <exception cref="ArgumentException"></exception>
-        public void AddTask(string title, DateTime duedate, string description)
+        public void AddTask(CIString title, DateTime duedate, CIString description)
         {
             log.Debug("AddTask() for: " + title + ", " + description + ", " + duedate);
             if (columns[(int)TaskStates.backlog].Count != columnLimit[(int)TaskStates.backlog])
@@ -208,7 +208,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         /// <exception cref="AccessViolationException"></exception>
-        public void AdvanceTask(string email, int columnOrdinal, int taskId)
+        public void AdvanceTask(CIString email, int columnOrdinal, int taskId)
         {
             log.Debug("AdvanceTask() for column and taskId: " + columnOrdinal + ", " + taskId);
             ValidateColumnOrdinal(columnOrdinal);
@@ -428,7 +428,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="newOwnerEmail"></param>
         /// <param name="boardName"></param>
         /// <exception cref="ArgumentException"></exception>
-        public void ChangeOwner(string currentOwnerEmail, string newOwnerEmail, string boardName)
+        public void ChangeOwner(CIString currentOwnerEmail, CIString newOwnerEmail, CIString boardName)
         {
             log.Debug("ChangeOwner() for board: " + boardName + "from: " + currentOwnerEmail + "to: " + newOwnerEmail);
             if (!joined.Contains(newOwnerEmail))
@@ -449,7 +449,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="email"></param>
         /// <param name="boardId"></param>
         /// <exception cref="ArgumentException"></exception>
-        public void JoinBoard(string email, int boardId)
+        public void JoinBoard(CIString email, int boardId)
         {
             log.Debug("JoinBoard() for user: " + email + "for board " + boardId);
             if(owner == email)
@@ -471,7 +471,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="email"></param>
         /// <param name="boardId"></param>
         /// <exception cref="ArgumentException"></exception>
-        public void LeaveBoard(string email, int boardId)
+        public void LeaveBoard(CIString email, int boardId)
         {
             log.Debug("LeaveBoard() for user: " + email + "for board " + boardId);
             if (!joined.Contains(email))

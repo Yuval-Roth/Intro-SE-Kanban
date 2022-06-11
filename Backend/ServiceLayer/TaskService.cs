@@ -59,7 +59,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                Board board = boardController.SearchBoard(email.ToLower(), boardName);
+                Board board = boardController.SearchBoard(email, boardName);
                 Task task = board.SearchTask(taskId, columnOrdinal);
                 task.UpdateDueDate(email.ToLower(), dueDate);
                 Response<string> res = new(true, "");
@@ -123,7 +123,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                Board board = boardController.SearchBoard(email.ToLower(), boardName);
+                Board board = boardController.SearchBoard(email, boardName);
                 Task task = board.SearchTask(taskId, columnOrdinal);
                 task.UpdateTitle(email.ToLower(), title);
                 Response<string> res = new(true, "");

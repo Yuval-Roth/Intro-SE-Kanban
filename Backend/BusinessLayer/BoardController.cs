@@ -484,7 +484,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
         /// <exception cref="AccessViolationException"></exception>
-        public void ChangeOwner(string currentOwnerEmail, string newOwnerEmail, string boardName)
+        public void ChangeOwner(CIString currentOwnerEmail, CIString newOwnerEmail, CIString boardName)
         {
             log.Debug("ChangeOwner() for board: " + boardName + "from: " + currentOwnerEmail + "to: " + newOwnerEmail);
             try

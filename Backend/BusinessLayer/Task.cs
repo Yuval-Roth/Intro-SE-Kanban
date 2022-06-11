@@ -1,4 +1,6 @@
 ﻿using System;
+using IntroSE.Kanban.Backend.Utilities;
+using IntroSE.Kanban.Backend.Exceptions;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
@@ -29,11 +31,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         private readonly int id;
         private readonly DateTime creationTime;
-        private string title;
-        private string description;
+        private CIString title;
+        private CIString description;
         private DateTime dueDate;
         TaskStates state;
-        private string assignee;
+        private CIString assignee;
 
         private readonly int MAX_DESCRIPTION_CHAR_CAP = 300;
         private readonly int MAX_TITLE_CHAR_CAP = 50;
@@ -48,7 +50,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="duedate"></param>
         /// <param name="description"></param>
         /// <exception cref="ArgumentException"></exception>
-        public Task(int id, string title, DateTime dueDate,string description)
+        public Task(int id, CIString title, DateTime dueDate, CIString description)
         {
             log.Debug("Task() for id: " + id);
             if (title.Length < MIN_TITLE_CHAR_CAP)
@@ -75,7 +77,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             this.title = title;
             this.dueDate = dueDate;
             this.description = description;
-            assignee = "unAssigned";
+            assignee = new CIString("unAssigned");
             creationTime = DateTime.Today;
             state = TaskStates.backlog;
             log.Debug("Task() success");
@@ -84,10 +86,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public Task(DataAccessLayer.TaskDTO taskDTO)
         {
             id = taskDTO.Id;
-            title = taskDTO.Title;
+            title = new CIString(taskDTO.Title);
             dueDate = taskDTO.DueDate;
-            description = taskDTO.Description;
-            assignee = taskDTO.Assignee;
+            description = new CIString(taskDTO.Description);
+            assignee = new CIString(taskDTO.Assignee);
             creationTime = taskDTO.CreationTime;
             state = (TaskStates)taskDTO.State;
         }
@@ -109,20 +111,20 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             init { creationTime = value; }
         }
 
-        public string Assignee
+        public CIString Assignee
         {
             get { return assignee; }
             set { assignee = value; }
         }
         public TaskStates State => state;
 
-        public string Title 
+        public CIString Title 
         {
             get { return title; }
             set { title = value; }
         }
 
-        public string Description
+        public CIString Description
         {
             get { return description; }
             set { description = value; }
@@ -148,7 +150,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="AccessViolationException"></exception>
-        public void AdvanceTask(string email)
+        public void AdvanceTask(CIString email)
         {
             log.Debug("UpdateDescription() for taskId: " + id);
             if(state == TaskStates.done)
@@ -174,7 +176,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <param name="value"></param>
         /// <exception cref="ArgumentException"></exception>
-        public void AssignTask(string email, string emailAssignee)
+        public void AssignTask(CIString email, CIString emailAssignee)
         {
             log.Debug("AssignTask() for taskId: " + email + ", emailAssignee:" + emailAssignee);
             if (state == TaskStates.done)
@@ -205,7 +207,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="value"></param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="AccessViolationException"></exception>
-        public void UpdateDueDate(string email, DateTime value)
+        public void UpdateDueDate(CIString email, DateTime value)
         {
             log.Debug("UpdateDueDate() for taskId: " + email + ", email:" + email);
             if(assignee != email)
@@ -237,7 +239,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="value"></param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="AccessViolationException"></exception>
-        public void UpdateTitle(string email, string value)
+        public void UpdateTitle(CIString email, CIString value)
         {
             log.Debug("UpdateTitle() for taskId: " + email + ", email:" + email);
             if (assignee != email)
@@ -274,7 +276,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="value"></param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="AccessViolationException"></exception>
-        public void UpdateDescription(string email, string value)
+        public void UpdateDescription(CIString email, CIString value)
         {
             log.Debug("UpdateDescription() for taskId: " + email + ", email:" + email);
             if (assignee != email)
