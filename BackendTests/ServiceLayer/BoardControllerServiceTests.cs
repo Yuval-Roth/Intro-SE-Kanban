@@ -95,7 +95,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RemoveBoardTest_user_has_no_boards_to_delete()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "Board title 'new board' doesn't exist for kfirniss@post.bgu.ac.il"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled 'new board' doesn't exists for the user with the email kfirniss@post.bgu.ac.il"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.RemoveBoard("kfirniss@post.bgu.ac.il", "new board");
             Assert.AreEqual(expected, result);
@@ -104,7 +104,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RemoveBoardTest_board_doesnt_exist()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "Board title 'other board' doesn't exist for kfirniss@post.bgu.ac.il"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled 'other board' doesn't exists for the user with the email kfirniss@post.bgu.ac.il"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardcontrollerservice.RemoveBoard("kfirniss@post.bgu.ac.il", "other board");
@@ -114,7 +114,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RemoveBoardTest_user_isnt_owner()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'print@zpost.bgu.ac.il' doesn't exist in the system"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "user has not permission to do RemoveBoard"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = userservice.Register("Printz@post.bgu.ac.il", "Ha12345");
