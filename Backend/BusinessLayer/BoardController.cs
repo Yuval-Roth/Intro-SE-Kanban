@@ -441,7 +441,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             log.Debug("LeaveBoard() for user: " + email + "for board " + boardId);
             try
             {
+                Board board = SearchBoard(email, boardId);
                 boardData.RemovePointerToJoinedBoard(email, boardId);
+                board.LeaveBoard(email, boardId);
                 log.Debug("LeaveBoard() success");
             }
             catch (UserDoesNotExistException)
@@ -449,10 +451,20 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("LeaveBoard() failed: the user " + email + " doesn't exist");
                 throw new UserDoesNotExistException("the user " + email + " doesn't exist");
             }
-            catch (ArgumentException)
+            catch (UserNotLoggedInException e)
             {
-                log.Error("LeaveBoard() failed: the user " + email + " is not joined to a board with Id '" + boardId +" '");
+                log.Error("JoinBoard() failed: " + e.Message);
+                throw;
+            }
+            catch (AccessViolationException)
+            {
+                log.Error("LeaveBoard() failed: the user " + email + " is not joined to a board with Id '" + boardId + " '");
                 throw new UserDoesNotExistException("the user " + email + " is not joined to a board with Id '" + boardId + " '");
+            }
+            catch (ArgumentException e)
+            {
+                log.Error("JoinBoard() failed: " + e.Message);
+                throw;
             }
         }
 

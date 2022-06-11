@@ -41,7 +41,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method add user to board's joined boards
         /// </summary>
-        /// <param name="email">Email of the user. The user must be logged in.</param>
+        /// <param name="emailRaw">Email of the user. The user must be logged in.</param>
         /// <param name="boardId">the Id of the board</param>
         /// <returns>
         /// Json formatted as so:
@@ -101,7 +101,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method remove user from the board's joined boards
         /// </summary>
-        /// <param name="email">Email of the user. The user must be logged in.</param>
+        /// <param name="emailRaw">Email of the user. The user must be logged in.</param>
         /// <param name="boardId">the Id of the board</param>
         /// <returns>
         /// Json formatted as so:
@@ -123,9 +123,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             CIString email = new CIString(emailRaw);
             try
             {
-                Board board = boardController.SearchBoard(email, boardId);
                 boardController.LeaveBoard(email, boardId);
-                board.LeaveBoard(email, boardId);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
