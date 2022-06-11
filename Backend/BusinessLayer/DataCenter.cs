@@ -527,7 +527,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 Board board = RemoveBoardFromOwner(oldOwner, title);
                 AddExistingBoard(newOwner, board);
 
-                DALFactory.BoardControllerDTO.ChangeOwner(newOwner, board.Id);
+                DALFactory.BoardControllerDTO.ChangeOwner(newOwner.Value, board.Id);
                 log.Debug("ChangeOwnerPointers() success");
             }
             catch (NoSuchElementException e)

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using IntroSE.Kanban.Backend.Exceptions;
+using IntroSE.Kanban.Backend.Utilities;
 
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
@@ -51,7 +53,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="password"></param>
         /// <exception cref="ArgumentException"></exception>
 
-        public void Register(string email, string password)
+        public void Register(CIString email, string password)
         {
             log.Debug("Register() for: " + email);
             if (!IsLegalPassword(password)) {
@@ -88,7 +90,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <param name="user"></param>
         /// <exception cref="UserDoesNotExistException"></exception>
-        public void DeleteUser(string email)
+        public void DeleteUser(CIString email)
         {
             log.Debug("DeleteUser() for: " + email);
             try
@@ -110,7 +112,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <exception cref="ArgumentException"></exception>
-        public void LogIn(string email, string password)
+        public void LogIn(CIString email, string password)
         {
             log.Debug("LogIn() for: " + email);
             if(!IsEmailValid(email))
@@ -153,7 +155,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="user"></param>
         /// <exception cref="ArgumentException"></exception>
 
-        public void LogOut(string email)
+        public void LogOut(CIString email)
         {
             log.Debug("LogOut() for " + email);
             if(!IsEmailValid(email))
@@ -220,7 +222,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="newE"></param>
         /// <exception cref="ArgumentException"></exception>
 
-        public void SetEmail(User user, string newE)
+        public void SetEmail(User user, CIString newE)
         {
             log.Debug("SetEmail() for '" + user + "' to '" + newE);
             if (userData.UserExists(user.GetEmail()) == false)
@@ -251,7 +253,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="UserDoesNotExistException"></exception>
 
 
-        public User SearchUser(string email)
+        public User SearchUser(CIString email)
         {
             log.Debug("SearchUser() for: '" + email);
             try
@@ -316,14 +318,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //    return false;
         //}
 
-        public static bool IsEmailValid(string email)
+        public static bool IsEmailValid(CIString email)
         {
-            if(email == null)
-            {
-                return false;
-            }
             Regex valid = new Regex(@"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$");
-            if(valid.Matches(email).Count > 0)
+            if(valid.Matches(email.Value).Count > 0)
             {
                 return true;
             }

@@ -452,7 +452,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="email"></param>
         /// <exception cref="UserDoesNotExistException"></exception>
         /// <exception cref="UserNotLoggedInException"></exception>
-        private void ValidateUser(string email)
+        private void ValidateUser(CIString email)
         {
             if (!boardData.UserExists(email))
             {
