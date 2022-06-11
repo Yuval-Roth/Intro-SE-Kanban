@@ -39,7 +39,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             string boardName = "board1";
             string taskTitle = "task1";
             string description = "desc1";
-            DateTime dueDate = new DateTime(2023, 05, 20);
+            DateTime dueDate = new DateTime(2024, 05, 20);
             if (GetOperationState(userService.Register(email, password))==false)
                 Assert.Fail("Register failed");
             if (GetOperationState(boardControllerService.AddBoard(email, boardName))==false)
@@ -91,7 +91,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             if (GetOperationState(taskService.AssignTask(email, boardName, 0, 0, email)) == false)
                 Assert.Fail("AssignTask failed");
             string result = boardService.AdvanceTask(email, boardName, 0, 0);
-            string query = "SELECT * FROM Tasks WHERE State= 1";
+            string query = "SELECT * FROM Tasks WHERE State = 1";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
             LinkedList<object[]> list = executer.ExecuteRead(query);
             if (list.Count == 0) Assert.Fail("No rows were fetched");
@@ -179,7 +179,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             string boardName = "board1";
             string taskTitle = "task1";
             string description = "desc1";
-            DateTime dueDate = new DateTime(2023,05,20);
+            DateTime dueDate = new DateTime(2024,05,20);
             if (GetOperationState(userService.Register(email, password)) == false)
                 Assert.Fail("Register failed");
             if (GetOperationState(boardControllerService.AddBoard(email, boardName)) == false)
@@ -191,7 +191,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             if(GetOperationState(userService.Register(email2, password2))==false)
                 Assert.Fail("Register failed");
             string result = taskService.AssignTask(email, boardName, 0, 0, email2); 
-            string query = $"SELECT * FROM Tasks WHERE Assignee='{email2}'";
+            string query = $"SELECT * FROM Tasks WHERE Assignee = '{email2}'";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
             LinkedList<object[]> list = executer.ExecuteRead(query);
             if (list.Count == 0) Assert.Fail("No rows were fetched");
@@ -205,7 +205,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             string boardName = "board1";
             string taskTitle = "task1";
             string description = "desc1";
-            DateTime dueDate = new DateTime(2023, 05, 20);
+            DateTime dueDate = new DateTime(2025, 05, 20);
             DateTime dueDate2 = new DateTime(2024, 05, 20);
             if (GetOperationState(userService.Register(email, password)) == false)
                 Assert.Fail("Register failed");
@@ -213,6 +213,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
                 Assert.Fail("AddBoard failed");
             if (GetOperationState(boardService.AddTask(email, boardName, taskTitle, description, dueDate)) == false)
                 Assert.Fail("AddTask failed");
+            if (GetOperationState(taskService.AssignTask(email, boardName, 0, 0, email)) == false)
+                Assert.Fail("AssignTask failed");
             string result = taskService.UpdateTaskDueDate(email, boardName, 0, 0, dueDate2);
             string query = $"SELECT * FROM Tasks WHERE DueDate='{dueDate2}'";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");

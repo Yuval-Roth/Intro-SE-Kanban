@@ -41,7 +41,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             if (GetOperationState(userService.Register(email, password)) == false)
                 Assert.Fail("Register failed");
             string result = service.AddBoard(email, boardName);
-            string query = $"SELECT * FROM Boards WHERE Email='{email}'";
+            string query = $"SELECT * FROM Boards WHERE Owner='{email}'";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
             LinkedList<object[]> list = executer.ExecuteRead(query);
             if (list.Count == 0) Assert.Fail("No rows were fetched");
@@ -87,7 +87,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             string query = $"SELECT * FROM UserJoinedBoards WHERE BoardId='{boardId};";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
             LinkedList<object[]> list = executer.ExecuteRead(query);
-            if (list.Count != 0) Assert.Fail("No rows were fetched");
+            if (list.Count != 0) Assert.Fail("rows were fetched");
         }
 
         [TestMethod()]
@@ -106,7 +106,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             if (GetOperationState(userService.Register(email2, password2)) == false)
                 Assert.Fail("Register failed");
             string result = boardService.JoinBoard(email2, boardId);
-            string query = $"SELECT * FROM UserJoinedBoards WHERE BoardId='{boardId};";
+            string query = $"SELECT * FROM UserJoinedBoards WHERE BoardId='{boardId}';";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
             LinkedList<object[]> list = executer.ExecuteRead(query);
             if (list.Count == 0) Assert.Fail("No rows were fetched");
@@ -130,7 +130,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             if (GetOperationState(ServiceLayerFactory.GetInstance().BoardService.JoinBoard(email2, boardId)) == false)
                 Assert.Fail("JoinBoard failed");
             string result = boardService.LeaveBoard(email2, boardId);
-            string query = $"SELECT * FROM UserJoinedBoards WHERE BoardId='{boardId};";
+            string query = $"SELECT * FROM UserJoinedBoards WHERE BoardId='{boardId}';";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
             LinkedList<object[]> list = executer.ExecuteRead(query);
             if (list.Count != 0) Assert.Fail("No rows were fetched");
