@@ -550,7 +550,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             CIString boardName = new CIString(boardNameRaw);
             try
             {
-
                 string columnname = boardController.GetColumnName(email,boardName,columnOrdinal);
                 Response<string> res = new(true, columnname);
                 return JsonController.ConvertToJson(res);
@@ -590,8 +589,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method returns a column given it's name
         /// </summary>
-        /// <param name="email">Email of the user. Must be logged in</param>
-        /// <param name="boardName">The name of the board</param>
+        /// <param name="emailRaw">Email of the user. Must be logged in</param>
+        /// <param name="boardNameRaw">The name of the board</param>
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <returns>
 		/// Json formatted as so:
@@ -613,8 +612,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             CIString boardName = new CIString(boardNameRaw);
             try
             {
-                Board board = boardController.SearchBoard(email, boardName);
-                LinkedList<Task> column = board.GetColumn(columnOrdinal);
+                LinkedList<Task> column = boardController.GetColumn(email,boardName,columnOrdinal);
                 Response<LinkedList<Task>> res = new(true, column);
                 return JsonController.ConvertToJson(res);
             }

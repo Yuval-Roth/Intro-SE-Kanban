@@ -793,6 +793,45 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
+
+
+        public LinkedList<Task> GetColumn(CIString email, CIString boardName, int columnOrdinal)
+        {
+            log.Debug("GetColumn() columnOrdinal: " + columnOrdinal);
+            try
+            {
+                Board board = SearchBoard(email, boardName);
+                LinkedList<Task> column = board.GetColumn(columnOrdinal);
+                log.Debug("GetColumn() success");
+                return column;
+            }
+            catch (NoSuchElementException ex)
+            {
+                log.Error("GetColumn() failed: " + ex.Message);
+                throw;
+            }
+            catch (ArgumentException ex)
+            {
+                log.Error("GetColumn() failed: " + ex.Message);
+                throw;
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                log.Error("GetColumn() failed: " + ex.Message);
+                throw;
+            }
+            catch (AccessViolationException ex)
+            {
+                log.Error("GetColumn() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                log.Error("GetColumn() failed: " + ex.Message);
+                throw;
+            }
+        }
+
         /// <summary>
         /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number
         /// </summary>
