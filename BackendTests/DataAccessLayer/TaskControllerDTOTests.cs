@@ -157,8 +157,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             string password = "Hadas1234";
             string boardName = "board1";
             string taskTitle = "task1";
-            string description = "desc1";
-            string newDescription = "desc2";
+            string description = "desc1";;
             DateTime dueDate = new DateTime(20 / 05 / 2023);
             if (GetOperationState(userService.Register(email, password)) == false)
                 Assert.Fail("Register failed");

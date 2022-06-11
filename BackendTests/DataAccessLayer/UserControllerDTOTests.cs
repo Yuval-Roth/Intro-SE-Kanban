@@ -60,7 +60,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             using (var reader = executer.ExecuteRead(query))
             {
                 if (!reader.Read()) Assert.Fail("No rows were fetched");
-                if (reader.GetString(0) != newPassword) Assert.Fail("change password incorrectly");
+                if (reader.GetString(0).Equals(newPassword)==false) Assert.Fail("change password incorrectly");
             }
         }
 
@@ -78,7 +78,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             using (var reader = executer.ExecuteRead(query))
             {
                 if (!reader.Read()) Assert.Fail("No rows were fetched");
-                if (reader.GetString(0) != newEmail) Assert.Fail("change email incorrectly");
+                if (reader.GetString(0).Equals(newEmail)==false) Assert.Fail("change email incorrectly");
             }
         }
 

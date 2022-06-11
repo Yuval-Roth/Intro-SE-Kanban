@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IntroSE.Kanban.Backend.Utilities;
 
 namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
 {
@@ -83,7 +84,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
                 Assert.Fail("AddBoard failed");
             if (GetOperationState(userService.Register(email2, password2))==false)
                 Assert.Fail("Register failed");
-            int boardId = dataOperations.SearchBoardByEmailAndTitle(email, boardName).Id;
+            int boardId = dataOperations.SearchBoardByEmailAndTitle(new CIString(email),new CIString(boardName)).Id;
             if (GetOperationState(boardService.JoinBoard(email2, boardId))==false)
                 Assert.Fail("JoinBoard failed");
             string result = service.RemoveBoard(email, boardName);
@@ -108,7 +109,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
                 Assert.Fail("Register failed");
             if (GetOperationState(service.AddBoard(email, boardName)) == false)
                 Assert.Fail("AddBoard failed");
-            int boardId = dataOperations.SearchBoardByEmailAndTitle(email, boardName).Id;
+            int boardId = dataOperations.SearchBoardByEmailAndTitle(new CIString(email), new CIString(boardName)).Id;
             if (GetOperationState(userService.Register(email2, password2)) == false)
                 Assert.Fail("Register failed");
             string result = boardService.JoinBoard(email2, boardId);
@@ -133,7 +134,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
                 Assert.Fail("Register failed");
             if (GetOperationState(service.AddBoard(email, boardName)) == false)
                 Assert.Fail("AddBoard failed");
-            int boardId = dataOperations.SearchBoardByEmailAndTitle(email, boardName).Id;
+            int boardId = dataOperations.SearchBoardByEmailAndTitle(new CIString(email), new CIString(boardName)).Id;
             if (GetOperationState(userService.Register(email2, password2)) == false)
                 Assert.Fail("Register failed");
             if (GetOperationState(ServiceLayerFactory.GetInstance().BoardService.JoinBoard(email2, boardId))==false)
@@ -159,7 +160,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
                 Assert.Fail("Register failed");
             if (GetOperationState(service.AddBoard(email, boardName)) == false)
                 Assert.Fail("AddBoard failed");
-            int boardId = dataOperations.SearchBoardByEmailAndTitle(email, boardName).Id;
+            int boardId = dataOperations.SearchBoardByEmailAndTitle(new CIString(email), new CIString(boardName)).Id;
             if (GetOperationState(userService.Register(email2, password2)) == false)
                 Assert.Fail("Register failed");
             string result = boardService.ChangeOwner(email, email2, boardName);
