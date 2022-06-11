@@ -93,6 +93,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
+            catch (UserNotLoggedInException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
 
         }
         /// <summary>
@@ -146,6 +151,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
+            catch (UserNotLoggedInException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
 
 
@@ -174,10 +184,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 BusinessLayer.Board board = boardController.SearchBoard(currentOwnerEmail.ToLower(), boardName);
-                if (!Backend.BusinessLayer.BoardMembersPermissions.BoardOwnerPermission(currentOwnerEmail.ToLower(), board)){
-                    Response<string> res1 = new(false, "ChangeOwner() failed: user isn't the board's owner");
-                    return JsonController.ConvertToJson(res1);
-                }
                 boardController.ChangeOwner(currentOwnerEmail.ToLower(), newOwnerEmail.ToLower(), boardName);
                 board.ChangeOwner(currentOwnerEmail.ToLower(), newOwnerEmail.ToLower(), boardName);
                 Response<string> res = new(true, "");
@@ -199,6 +205,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
             catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserNotLoggedInException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -232,11 +243,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 Board board = boardController.SearchBoard(email.ToLower(),boardName);
-                if (!BoardMembersPermissions.EditBoard(email.ToLower(), board))
-                {
-                    Response<string> res1 = new(false, "AddTask() failed: user has not permission to do addTask");
-                    return JsonController.ConvertToJson(res1);
-                }
                 board.AddTask(title, dueDate, description);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
@@ -257,6 +263,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
             catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserNotLoggedInException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -312,6 +323,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
+            catch (UserNotLoggedInException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
 
 
@@ -342,13 +358,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 Board board = boardController.SearchBoard(email.ToLower(), boardName);
                 Task task = board.SearchTask(taskId);
-                if (!BoardMembersPermissions.EditTask(email.ToLower(), task))
-                {
-                    Response<string> res1 = new(false, "AdvanceTask() failed: User is not the task's assignee");
-                    return JsonController.ConvertToJson(res1);
-                }
-                board.AdvanceTask(columnOrdinal, taskId);
-                task.AdvanceTask();
+                board.AdvanceTask(email.ToLower(),columnOrdinal, taskId);
+                task.AdvanceTask(email.ToLower());
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
@@ -373,6 +384,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
             catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserNotLoggedInException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -435,6 +451,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
+            catch (UserNotLoggedInException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
 
         /// <summary>
@@ -491,6 +512,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
+            catch (UserNotLoggedInException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
 
         /// <summary>
@@ -543,6 +569,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
             catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserNotLoggedInException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);

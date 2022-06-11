@@ -85,6 +85,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
+            catch (UserNotLoggedInException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
 
         /// <summary>
@@ -112,12 +117,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             CIString name = new CIString(nameRaw);
             try
             {
-                Board board = boardController.SearchBoard(email, name);
-                if (!BoardMembersPermissions.BoardOwnerPermission(email, board))
-                {
-                    Response<string> res1 = new(false, "RemoveBoard() failed: user has not permission to do RemoveBoard");
-                    return JsonController.ConvertToJson(res1);
-                }
                 boardController.RemoveBoard(email, name);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
@@ -143,6 +142,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
             catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserNotLoggedInException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -196,6 +200,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
+            catch (UserNotLoggedInException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
         }
 
         /// <summary>
@@ -234,28 +243,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
+            catch (UserNotLoggedInException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
 
         }
-
-        //public string ChangeOwner(string currentOwnerEmail, string newOwnerEmail, string boardName)
-        //{
-        //    if (ValidateArguments.ValidateNotNull(new object[] { currentOwnerEmail, newOwnerEmail, boardName }) == false)
-        //    {
-        //        Response<string> res = new(false, "ChangeOwner() failed: ArgumentNullException");
-        //        return JsonController.ConvertToJson(res);
-        //    }
-        //    try
-        //    {
-        //        BusinessLayer.Board board = boardController.SearchBoard(currentOwnerEmail.ToLower(), boardName);
-        //        if (!Backend.BusinessLayer.BoardMembersPermissions.BoardOwnerPermission(currentOwnerEmail, board){
-        //            Response<string> res1 = new(false, "ChangeOwner() failed: user isn't the board's owner");
-        //            return JsonController.ConvertToJson(res1);
-        //        }
-        //        board.ChangeOwner(currentOwnerEmail, newOwnerEmail, boardName);
-
-
-        //    }
-        //}
 
     }
 

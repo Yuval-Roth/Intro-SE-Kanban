@@ -199,16 +199,25 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <b>Throws</b> <c>NoSuchElementException</c> if the task doesn't exist at all or is not in the specified column<br/>
         /// <b>Throws</b> <c>ArgumentException</c> if the task can't be advanced<br/>
         /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number
+        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't task assignee
         /// </summary>
+        /// <param name="email"></param>
         /// <param name="taskId"></param>
         /// <param name="columnOrdinal"></param>
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        public void AdvanceTask(int columnOrdinal, int taskId)
+        /// <exception cref="AccessViolationException"></exception>
+        public void AdvanceTask(string email, int columnOrdinal, int taskId)
         {
             log.Debug("AdvanceTask() for column and taskId: " + columnOrdinal + ", " + taskId);
             ValidateColumnOrdinal(columnOrdinal);
+            Task task = SearchTask(taskId);
+            if (task.Assignee != email)
+            {
+                log.Error("AdvanceTask() failed: User is not the task's assignee");
+                throw new AccessViolationException("User is not the task's assignee");
+            }
 
             if (taskStateTracker.ContainsKey(taskId))
             {
@@ -446,7 +455,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             if(owner == email)
             {
                 log.Error("JoinBoard() failed: user with email '" + email + "' is the board's owner");
-                throw new ArgumentException("the user " + email + " is the board's owner");
+                throw new AccessViolationException("the user " + email + " is the board's owner");
             }
             if (joined.Contains(email)){
                 log.Error("JoinBoard() failed: user with email '" + email + "' already joined to the board");

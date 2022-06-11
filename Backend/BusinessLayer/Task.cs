@@ -116,94 +116,25 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
         public TaskStates State => state;
 
-        /// <summary>
-        /// Set <c>Task Title</c> to <c>Task</c> task <br/> <br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the title over his char cap
-        /// </summary>
-        /// <param name="value"></param>
-        /// <exception cref="ArgumentException"></exception>
         public string Title 
         {
             get { return title; }
-            set {
-                log.Debug("UpdateTitle() for taskId: " + id);
-                if (state == TaskStates.done)
-                {
-                    log.Error("UpdateTitle() failed: " + id + "is done");
-                    throw new ArgumentException("the task '" +
-                        Id + "' is already done");
-                }
-                if (value.Length < MIN_TITLE_CHAR_CAP)
-                {
-                    log.Error("UpdateTitle() failed: title is empty");
-                    throw new ArgumentException("title is empty");
-                }
-                if (value.Length > MAX_TITLE_CHAR_CAP)
-                {
-                    log.Error("UpdateTitle() failed: title is over the limit");
-                    throw new ArgumentException("title is over the limit");
-                }
-                log.Debug("UpdateTitle() success");
-                title = value;
-                }
+            set { title = value; }
         }
 
-        /// <summary>
-        /// Set <c>Task Description</c> to <c>Task</c> task <br/> <br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the Description over his char cap
-        /// </summary>
-        /// <param name="value"></param>
-        /// <exception cref="ArgumentException"></exception>
         public string Description
         {
             get { return description; }
-            set
-            {
-                log.Debug("UpdateDescription() for taskId: " + id);
-                if (state == TaskStates.done)
-                {
-                    log.Error("UpdateDescription() failed: " + id + "is done");
-                    throw new ArgumentException("the task '" +
-                        Id + "' is already done");
-                }
-                if (value.Length > MAX_DESCRIPTION_CHAR_CAP)
-                {
-                    log.Error("UpdateDescription() failed: description is over the limit");
-                    throw new ArgumentException("description is over the limit");
-                }
-                log.Debug("UpdateDescription() success");
-                description = value;
-            }
+            set { description = value; }
         }
 
 
-        /// <summary>
-        /// Set <c>Task DueDate</c> to <c>Task</c> task <br/> <br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the due date has passed
-        /// </summary>
-        /// <param name="value"></param>
-        /// <exception cref="ArgumentException"></exception>
-        public DateTime DueDate 
+        public DateTime DueDate
         {
             get { return dueDate; }
-            set {
-                log.Debug("UpdateDueDate() for taskId: " + id);
-                if (state == TaskStates.done)
-                {
-                    log.Error("UpdateDueDate() failed: " + id + "is done");
-                    throw new ArgumentException("the task '" +
-                        Id + "' is already done");
-                }
-                if (value.CompareTo(DateTime.Today) < 0)
-                {
-                    log.Error("UpdateDueDate() failed: due date was passed");
-                    throw new ArgumentException("due date was passed");
-                }
-                dueDate = value;
-                log.Debug("UpdateDueDate() success");
-            }
+            set { dueDate = value; }
         }
-        
+
 
         //====================================
         //            Functionality
@@ -213,15 +144,22 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <summary>
         /// Advance <c>Task</c>
         /// <b>Throws</b> <c>ArgumentException</c> if the task can't be advanced<br/>
+        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't task assignee
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
-        public void AdvanceTask()
+        /// <exception cref="AccessViolationException"></exception>
+        public void AdvanceTask(string email)
         {
             log.Debug("UpdateDescription() for taskId: " + id);
             if(state == TaskStates.done)
             {
                 log.Error("AdvanceTask() failed: task numbered '" + id + "' is done and can't be advanced");
                 throw new ArgumentException("task numbered '" + id + "' is done and can't be advanced");
+            }
+            if (assignee != email)
+            {
+                log.Error("AdvanceTask() failed: User is not the task's assignee");
+                throw new AccessViolationException("User is not the task's assignee");
             }
             state++;
             log.Debug("AdvanceTask() success");
@@ -259,12 +197,112 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             log.Debug("AssignTask() success");
         }
 
+        /// <summary>
+        /// Set <c>Task DueDate</c> to <c>Task</c> task <br/> <br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if the due date has passed or task is already done
+        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't the assignee
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="AccessViolationException"></exception>
+        public void UpdateDueDate(string email, DateTime value)
+        {
+            log.Debug("UpdateDueDate() for taskId: " + email + ", email:" + email);
+            if(assignee != email)
+            {
+                log.Error("UpdateDueDate() failed: User is not the task's assignee");
+                throw new AccessViolationException("User is not the task's assignee");
+            }
+            if (state == TaskStates.done)
+            {
+                log.Error("UpdateDueDate() failed: " + id + "is done");
+                throw new ArgumentException("the task '" +
+                    id + "' is already done");
+            }
+            if (value.CompareTo(DateTime.Today) < 0)
+            {
+                log.Error("UpdateDueDate() failed: due date was passed");
+                throw new ArgumentException("due date was passed");
+            }
+            dueDate = value;
+            log.Debug("UpdateDueDate() success");
+        }
+
+
+        /// <summary>
+        /// Set <c>Task Title</c> to <c>Task</c> task <br/> <br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if the title over his char cap/empty or task is already done
+        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't the assignee
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="AccessViolationException"></exception>
+        public void UpdateTitle(string email, string value)
+        {
+            log.Debug("UpdateTitle() for taskId: " + email + ", email:" + email);
+            if (assignee != email)
+            {
+                log.Error("UpdateTitle() failed: User is not the task's assignee");
+                throw new AccessViolationException("User is not the task's assignee");
+            }
+            if (state == TaskStates.done)
+            {
+                log.Error("UpdateTitle() failed: " + id + "is done");
+                throw new ArgumentException("the task '" +
+                    id + "' is already done");
+            }
+            if (value.Length < MIN_TITLE_CHAR_CAP)
+            {
+                log.Error("UpdateTitle() failed: title is empty");
+                throw new ArgumentException("title is empty");
+            }
+            if (value.Length > MAX_TITLE_CHAR_CAP)
+            {
+                log.Error("UpdateTitle() failed: title is over the limit");
+                throw new ArgumentException("title is over the limit");
+            }
+            log.Debug("UpdateTitle() success");
+            title = value;
+        }
+
+
+        /// <summary>
+        /// Set <c>Task Description</c> to <c>Task</c> task <br/> <br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if the title over his char cap or task is already done
+        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't the assignee
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="AccessViolationException"></exception>
+        public void UpdateDescription(string email, string value)
+        {
+            log.Debug("UpdateDescription() for taskId: " + email + ", email:" + email);
+            if (assignee != email)
+            {
+                log.Error("UpdateDescription() failed: User is not the task's assignee");
+                throw new AccessViolationException("User is not the task's assignee");
+            }
+            if (state == TaskStates.done)
+            {
+                log.Error("UpdateDescription() failed: " + id + "is done");
+                throw new ArgumentException("the task '" +
+                    id + "' is already done");
+            }
+            if (value.Length > MAX_DESCRIPTION_CHAR_CAP)
+            {
+                log.Error("UpdateDescription() failed: title is over the limit");
+                throw new ArgumentException("Description is over the limit");
+            }
+            log.Debug("UpdateDescription() success");
+            description = value;
+        }
+
 
         //====================================================
         //                  Json related
         //====================================================
 
-        public Serializable.Task_Serializable GetSerializableInstance() 
+        public Serializable.Task_Serializable GetSerializableInstance()
         {
             return new Serializable.Task_Serializable()
             {
