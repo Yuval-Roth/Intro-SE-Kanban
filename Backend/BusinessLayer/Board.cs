@@ -66,11 +66,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             boardDTO = DataAccessLayerFactory.GetInstance().BoardControllerDTO;
         }
 
-        public Board(DataAccessLayer.BoardDTO boardDTO)
+        public Board(BoardDTO boardDTO)
         {
             id = boardDTO.Id;
-            title = new CIString(boardDTO.Title);
-            owner = new CIString(boardDTO.Owner);
+            title = boardDTO.Title;
+            owner = boardDTO.Owner;
             joined = new();
             columnLimit = new int[3];
             columns = new LinkedList<Task>[3];
@@ -85,24 +85,24 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             foreach (string email in boardDTO.Joined) 
             {
-                joined.AddLast(new CIString(email));
+                joined.AddLast(email);
             }
 
-            foreach (DataAccessLayer.TaskDTO taskDTO in boardDTO.BackLog)
+            foreach (TaskDTO taskDTO in boardDTO.BackLog)
             {
-                Task task = new(taskDTO);
+                Task task = taskDTO;
                 taskStateTracker.Add(task.Id,task.State);
                 columns[(int)TaskStates.backlog].AddLast(task);
             }
-            foreach (DataAccessLayer.TaskDTO taskDTO in boardDTO.InProgress)
+            foreach (TaskDTO taskDTO in boardDTO.InProgress)
             {
-                Task task = new(taskDTO);
+                Task task = taskDTO;
                 taskStateTracker.Add(task.Id, task.State);
                 columns[(int)TaskStates.inprogress].AddLast(task);
             }
-            foreach (DataAccessLayer.TaskDTO taskDTO in boardDTO.Done)
+            foreach (TaskDTO taskDTO in boardDTO.Done)
             {
-                Task task = new(taskDTO);
+                Task task = taskDTO;
                 taskStateTracker.Add(task.Id, task.State);;
                 columns[(int)TaskStates.done].AddLast(task);
             }
@@ -520,7 +520,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-
+        public static implicit operator Board(BoardDTO other)
+        {
+            return new Board(other);
+        }
 
         //====================================================
         //                  Json related

@@ -34,8 +34,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method adds a board to the specific user.
         /// </summary>
-        /// <param name="emailRaw">Email of the user. Must be logged in</param>
-        /// <param name="nameRaw">The name of the new board</param>
+        /// <param name="email">Email of the user. Must be logged in</param>
+        /// <param name="name">The name of the new board</param>
         /// <returns>
 		/// Json formatted as so:
 		/// <code>
@@ -93,8 +93,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method removes a board to the specific user.
         /// </summary>
-        /// <param name="emailRaw">Email of the user. Must be logged in</param>
-        /// <param name="nameRaw">The name of the board</param>
+        /// <param name="email">Email of the user. Must be logged in</param>
+        /// <param name="name">The name of the board</param>
         /// <returns>
 		/// Json formatted as so:
 		/// <code>
@@ -152,7 +152,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method returns all the tasks of the user by specific state.
         /// </summary>
-        /// <param name="emailRaw">Email of the user. Must be logged in</param>
+        /// <param name="email">Email of the user. Must be logged in</param>
         /// <param name="columnOrdinal">column id . Must be between zero and numbers of columns</param>
         /// <returns>
 		/// Json formatted as so:

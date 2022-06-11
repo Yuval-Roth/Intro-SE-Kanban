@@ -19,11 +19,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         {
             BusinessLayerFactory.GetInstance().DataCenterManagement.DeleteData();
             BusinessLayerFactory.DeleteEverything();
-            BusinessLayerFactory factory = BusinessLayerFactory.GetInstance();
-            userservice = new UserService(factory.UserController);
-            boardcontrollerservice = new BoardControllerService(factory.BoardController);
-            boardservice = new BoardService(factory.BoardController);
-            taskservice = new TaskService(factory.BoardController);
+            ServiceLayerFactory factory = ServiceLayerFactory.GetInstance();
+            userservice = factory.UserService;
+            boardcontrollerservice = factory.BoardControllerService;
+            boardservice = factory.BoardService;
+            taskservice = factory.TaskService;
         }
 
         [TestMethod()]

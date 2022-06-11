@@ -36,8 +36,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method updates the due date of a task
         /// </summary>
-        /// <param name="emailRaw">Email of the user. Must be logged in</param>
-        /// <param name="boardNameRaw">The name of the board</param>
+        /// <param name="email">Email of the user. Must be logged in</param>
+        /// <param name="boardName">The name of the board</param>
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <param name="taskId">The task to be updated identified task ID</param>
         /// <param name="dueDate">The new due date of the column</param>
@@ -98,11 +98,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method updates task title.
         /// </summary>
-        /// <param name="emailRaw">Email of user. Must be logged in</param>
-        /// <param name="boardNameRaw">The name of the board</param>
+        /// <param name="email">Email of user. Must be logged in</param>
+        /// <param name="boardName">The name of the board</param>
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <param name="taskId">The task to be updated identified task ID</param>
-        /// <param name="titleRaw">New title for the task</param>
+        /// <param name="title">New title for the task</param>
         /// <returns>
 		/// Json formatted as so:
 		/// <code>
@@ -160,11 +160,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method updates the description of a task.
         /// </summary>
-        /// <param name="emailRaw">Email of user. Must be logged in</param>
-        /// <param name="boardNameRaw">The name of the board</param>
+        /// <param name="email">Email of user. Must be logged in</param>
+        /// <param name="boardName">The name of the board</param>
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <param name="taskId">The task to be updated identified task ID</param>
-        /// <param name="descriptionRaw">New description for the task</param>
+        /// <param name="description">New description for the task</param>
         /// <returns>
 		/// Json formatted as so:
 		/// <code>
@@ -223,11 +223,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method assigns a task to a user
         /// </summary>
-        /// <param name="emailRaw">Email of the user. Must be logged in</param>
-        /// <param name="boardNameRaw">The name of the board</param>
+        /// <param name="email">Email of the user. Must be logged in</param>
+        /// <param name="boardName">The name of the board</param>
         /// <param name="columnOrdinal">The column number. The first column is 0, the number increases by 1 for each column</param>
         /// <param name="taskId">The task to be updated identified a task ID</param>        
-        /// <param name="emailAssigneeRaw">Email of the asignee user</param>
+        /// <param name="emailAssignee">Email of the asignee user</param>
         /// <returns>
         /// Json formatted as so:
         /// <code>

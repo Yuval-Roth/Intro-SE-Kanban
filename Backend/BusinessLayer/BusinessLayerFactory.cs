@@ -22,12 +22,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private DataCenter dataCenter;
         private BoardController boardController;
         private UserController userController;
+        private TaskController taskController;
 
         private BusinessLayerFactory()
         {
             dataCenter = new();
             boardController = new(dataCenter);
             userController = new(dataCenter);
+            taskController = new(BoardController);
         }
 
         /// <summary>
@@ -49,7 +51,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// retrieve the UserController instance
         /// </summary>
         public UserController UserController => userController;
-        //public BoardMembersPermissions BoardMembersPermissions => BMP;
+
+        /// <summary>
+        /// retrieve the TaskController instance
+        /// </summary>
+        public TaskController TaskController => taskController; 
 
         /// <summary>
         /// retrieve the BoardController instance

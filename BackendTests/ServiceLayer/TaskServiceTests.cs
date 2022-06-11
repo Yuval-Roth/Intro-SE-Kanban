@@ -22,7 +22,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             userservice = new UserService(factory.UserController);
             boardcontrollerservice = new BoardControllerService(factory.BoardController);
             boardservice = new BoardService(factory.BoardController);
-            taskservice = new TaskService(factory.BoardController);
+            taskservice = new TaskService(factory.TaskController);
         }
 
         //successful

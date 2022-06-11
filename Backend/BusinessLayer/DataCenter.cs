@@ -578,12 +578,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             foreach (BoardDTO boardDTO in boardDTOs)
             {
-                OnlyBoardsTree.Add(boardDTO.Id, new Board(boardDTO));
+                OnlyBoardsTree.Add(boardDTO.Id, boardDTO);
             }
 
             foreach (UserDTO userDTO in userDTOs)
             {
-                User user = new(userDTO);
+                User user = userDTO;
 
                 LinkedList<Board> myBoards = new();
                 foreach (int boardId in userDTO.MyBoards)

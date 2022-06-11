@@ -122,7 +122,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
         public TaskStates State => state;
 
-        public CIString Title 
+        public CIString Title
         {
             get { return title; }
             set { title = value; }
@@ -157,7 +157,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void AdvanceTask(CIString email)
         {
             log.Debug("UpdateDescription() for taskId: " + id);
-            if(state == TaskStates.done)
+            if (state == TaskStates.done)
             {
                 log.Error("AdvanceTask() failed: task numbered '" + id + "' is done and can't be advanced");
                 throw new ArgumentException("task numbered '" + id + "' is done and can't be advanced");
@@ -216,7 +216,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void UpdateDueDate(CIString email, DateTime newDueDate)
         {
             log.Debug("UpdateDueDate() for taskId: " + id + ", email:" + email);
-            if(assignee.Equals(email) == false)
+            if (assignee.Equals(email) == false)
             {
                 log.Error("UpdateDueDate() failed: User is not the task's assignee");
                 throw new AccessViolationException("User is not the task's assignee");
@@ -310,7 +310,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         }
 
-
+        public static implicit operator Task(TaskDTO other)
+        {
+            return new Task(other);     
+        }
         //====================================================
         //                  Json related
         //====================================================

@@ -749,8 +749,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-
-
         public string GetColumnName(CIString email, CIString boardName, int columnOrdinal)
         {
             log.Debug("GetColumnName() columnOrdinal: " + columnOrdinal);
@@ -759,7 +757,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 Board board = SearchBoard(email, boardName);
                 string columnname = board.GetColumnName(columnOrdinal);
                 log.Debug("GetColumnName() success");
-                return columnname
+                return columnname;
             }
             catch (NoSuchElementException ex)
             {

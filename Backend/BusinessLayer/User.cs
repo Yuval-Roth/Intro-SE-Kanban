@@ -97,6 +97,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 			return false;
 		}
 
+		public static implicit operator User(DataAccessLayer.UserDTO other)
+		{
+			return new User(other);
+		}
 
 		///// <summary>
 		///// Compare this instance with the entered object and indicates whether this instance is bigger, smaller or same as the object <br/><br/>

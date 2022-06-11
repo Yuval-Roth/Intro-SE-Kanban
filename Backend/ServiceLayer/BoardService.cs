@@ -41,7 +41,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method add user to board's joined boards
         /// </summary>
-        /// <param name="emailRaw">Email of the user. The user must be logged in.</param>
+        /// <param name="email">Email of the user. The user must be logged in.</param>
         /// <param name="boardId">the Id of the board</param>
         /// <returns>
         /// Json formatted as so:
@@ -100,7 +100,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method remove user from the board's joined boards
         /// </summary>
-        /// <param name="emailRaw">Email of the user. The user must be logged in.</param>
+        /// <param name="email">Email of the user. The user must be logged in.</param>
         /// <param name="boardId">the Id of the board</param>
         /// <returns>
         /// Json formatted as so:
@@ -156,9 +156,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method transfers a board ownership.
         /// </summary>
-        /// <param name="currentOwnerEmailRaw">Email of the current owner. Must be logged in</param>
-        /// <param name="newOwnerEmailRaw">Email of the new owner</param>
-        /// <param name="boardNameRaw">The name of the board</param>
+        /// <param name="currentOwnerEmail">Email of the current owner. Must be logged in</param>
+        /// <param name="newOwnerEmail">Email of the new owner</param>
+        /// <param name="boardName">The name of the board</param>
         /// <returns>
 		/// Json formatted as so:
 		/// <code>
@@ -211,10 +211,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method adds a new task.
         /// </summary>
-        /// <param name="emailRaw">Email of the user. The user must be logged in.</param>
-        /// <param name="boardNameRaw">The name of the board</param>
-        /// <param name="titleRaw">Title of the new task</param>
-        /// <param name="descriptionRaw">Description of the new task</param>
+        /// <param name="email">Email of the user. The user must be logged in.</param>
+        /// <param name="boardName">The name of the board</param>
+        /// <param name="title">Title of the new task</param>
+        /// <param name="description">Description of the new task</param>
         /// <param name="dueDate">The due date if the new task</param>
 		/// <returns>
 		/// Json formatted as so:
@@ -268,8 +268,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method removes a task to the specific user and board.
         /// </summary>
-        /// <param name="emailRaw">Email of the user. The user must be logged in.</param>
-        /// <param name="boardTitleRaw">The name of the board</param>
+        /// <param name="email">Email of the user. The user must be logged in.</param>
+        /// <param name="boardTitle">The name of the board</param>
         /// <param name="taskId">id of the task</param>
         /// <returns>
 		/// Json formatted as so:
@@ -324,8 +324,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method advances a task to the next column
         /// </summary>
-        /// <param name="emailRaw">Email of user. Must be logged in</param>
-        /// <param name="boardNameRaw">The name of the board</param>
+        /// <param name="email">Email of user. Must be logged in</param>
+        /// <param name="boardName">The name of the board</param>
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <param name="taskId">The task to be updated identified task ID</param>
         /// <returns>
@@ -386,8 +386,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method limits the number of tasks in a specific column.
         /// </summary>
-        /// <param name="emailRaw">The email address of the user, must be logged in</param>
-        /// <param name="boardNameRaw">The name of the board</param>
+        /// <param name="email">The email address of the user, must be logged in</param>
+        /// <param name="boardName">The name of the board</param>
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <param name="limit">The new limit value. A value of -1 indicates no limit.</param>
         /// <returns>
@@ -447,8 +447,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method gets the limit of a specific column.
         /// </summary>
-        /// <param name="emailRaw">The email address of the user, must be logged in</param>
-        /// <param name="boardNameRaw">The name of the board</param>
+        /// <param name="email">The email address of the user, must be logged in</param>
+        /// <param name="boardName">The name of the board</param>
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <returns>
 		/// Json formatted as so:
@@ -507,8 +507,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method gets the name of a specific column
         /// </summary>
-        /// <param name="emailRaw">The email address of the user, must be logged in</param>
-        /// <param name="boardNameRaw">The name of the board</param>
+        /// <param name="email">The email address of the user, must be logged in</param>
+        /// <param name="boardName">The name of the board</param>
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <returns>
 		/// Json formatted as so:
@@ -567,8 +567,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method returns a column given it's name
         /// </summary>
-        /// <param name="emailRaw">Email of the user. Must be logged in</param>
-        /// <param name="boardNameRaw">The name of the board</param>
+        /// <param name="email">Email of the user. Must be logged in</param>
+        /// <param name="boardName">The name of the board</param>
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <returns>
 		/// Json formatted as so:
