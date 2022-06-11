@@ -663,6 +663,175 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
+
+
+        public void LimitColumn(CIString email, CIString boardName, int columnOrdinal, int limit)
+        {
+            log.Debug("LimitColumn() for column and limit: " + columnOrdinal + ", " + limit);
+            try
+            {
+                Board board = SearchBoard(email, boardName);
+                board.LimitColumn(columnOrdinal, limit);
+                log.Debug("LimitColumn() success");
+            }
+            catch (NoSuchElementException ex)
+            {
+                log.Error("LimitColumn() failed: " + ex.Message);
+                throw;
+            }
+            catch (ArgumentException ex)
+            {
+                log.Error("LimitColumn() failed: " + ex.Message);
+                throw;
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                log.Error("LimitColumn() failed: " + ex.Message);
+                throw;
+            }
+            catch (AccessViolationException ex)
+            {
+                log.Error("LimitColumn() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                log.Error("LimitColumn() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserNotLoggedInException ex)
+            {
+                log.Error("LimitColumn() failed: " + ex.Message);
+                throw;
+            }
+        }
+
+
+        public int GetColumnLimit(CIString email, CIString boardName, int columnOrdinal)
+        {
+            log.Debug("GetColumnLimit() columnOrdinal: " + columnOrdinal);
+            try
+            {
+                Board board = SearchBoard(email, boardName);
+                int columnlimit = board.GetColumnLimit(columnOrdinal);
+                log.Debug("GetColumnLimit() success");
+                return columnlimit;
+            }
+            catch (NoSuchElementException ex)
+            {
+                log.Error("GetColumnLimit() failed: " + ex.Message);
+                throw;
+            }
+            catch (ArgumentException ex)
+            {
+                log.Error("GetColumnLimit() failed: " + ex.Message);
+                throw;
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                log.Error("GetColumnLimit() failed: " + ex.Message);
+                throw;
+            }
+            catch (AccessViolationException ex)
+            {
+                log.Error("GetColumnLimit() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                log.Error("GetColumnLimit() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserNotLoggedInException ex)
+            {
+                log.Error("GetColumnLimit() failed: " + ex.Message);
+                throw;
+            }
+        }
+
+
+
+        public string GetColumnName(CIString email, CIString boardName, int columnOrdinal)
+        {
+            log.Debug("GetColumnName() columnOrdinal: " + columnOrdinal);
+            try
+            {
+                Board board = SearchBoard(email, boardName);
+                string columnname = board.GetColumnName(columnOrdinal);
+                log.Debug("GetColumnName() success");
+                return columnname
+            }
+            catch (NoSuchElementException ex)
+            {
+                log.Error("GetColumnName() failed: " + ex.Message);
+                throw;
+            }
+            catch (ArgumentException ex)
+            {
+                log.Error("GetColumnName() failed: " + ex.Message);
+                throw;
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                log.Error("GetColumnName() failed: " + ex.Message);
+                throw;
+            }
+            catch (AccessViolationException ex)
+            {
+                log.Error("GetColumnName() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                log.Error("GetColumnName() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserNotLoggedInException ex)
+            {
+                log.Error("GetColumnName() failed: " + ex.Message);
+                throw;
+            }
+        }
+
+
+
+        public LinkedList<Task> GetColumn(CIString email, CIString boardName, int columnOrdinal)
+        {
+            log.Debug("GetColumn() columnOrdinal: " + columnOrdinal);
+            try
+            {
+                Board board = SearchBoard(email, boardName);
+                LinkedList<Task> column = board.GetColumn(columnOrdinal);
+                log.Debug("GetColumn() success");
+                return column;
+            }
+            catch (NoSuchElementException ex)
+            {
+                log.Error("GetColumn() failed: " + ex.Message);
+                throw;
+            }
+            catch (ArgumentException ex)
+            {
+                log.Error("GetColumn() failed: " + ex.Message);
+                throw;
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                log.Error("GetColumn() failed: " + ex.Message);
+                throw;
+            }
+            catch (AccessViolationException ex)
+            {
+                log.Error("GetColumn() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                log.Error("GetColumn() failed: " + ex.Message);
+                throw;
+            }
+        }
+
         /// <summary>
         /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number
         /// </summary>
