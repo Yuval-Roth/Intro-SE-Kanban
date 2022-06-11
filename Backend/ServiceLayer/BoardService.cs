@@ -423,13 +423,17 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// }			// (operationState == false) => error message		
         /// </code>
         /// </returns>
-        public string LimitColumn(string email, string boardName, int columnOrdinal, int limit)
+        public string LimitColumn(string emailRaw, string boardNameRaw, int columnOrdinal, int limit)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName, columnOrdinal, limit }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, boardNameRaw, columnOrdinal, limit }) == false)
             {
                 Response<string> res = new(false, "LimitColumn() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
+
+            CIString email = new CIString(emailRaw);
+            CIString boardName = new CIString(boardNameRaw);
+
             try
             {
                 Board board = boardController.SearchBoard(email, boardName);
@@ -484,13 +488,16 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }			// (operationState == false) => error message		
 		/// </code>
 		/// </returns>
-        public string GetColumnLimit(string email, string boardName, int columnOrdinal)
+        public string GetColumnLimit(string emailRaw, string boardNameRaw, int columnOrdinal)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName, columnOrdinal }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, boardNameRaw, columnOrdinal }) == false)
             {
                 Response<string> res = new(false, "GetColumnLimit() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
+            CIString email = new CIString(emailRaw);
+            CIString boardName = new CIString(boardNameRaw);
+
             try
             {
                 Board board = boardController.SearchBoard(email, boardName);
@@ -545,13 +552,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }	             // (operationState == false) => error message		
 		/// </code>
 		/// </returns>
-        public string GetColumnName(string email, string boardName, int columnOrdinal)
+        public string GetColumnName(string emailRaw, string boardNameRaw, int columnOrdinal)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName, columnOrdinal }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, boardNameRaw, columnOrdinal }) == false)
             {
                 Response<string> res = new(false, "GetColumnName() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
+            CIString email = new CIString(emailRaw);
+            CIString boardName = new CIString(boardNameRaw);
             try
             {
                 Board board = boardController.SearchBoard(email, boardName);
@@ -606,16 +615,18 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }				// (operationState == false) => error message		
 		/// </code>
 		/// </returns>
-        public string GetColumn(string email, string boardName, int columnOrdinal)
+        public string GetColumn(string emailRaw, string boardNameRaw, int columnOrdinal)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email ,boardName, columnOrdinal }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw ,boardNameRaw, columnOrdinal }) == false)
             {
                 Response<string> res = new(false, "GetColumn() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
+            CIString email = new CIString(emailRaw);
+            CIString boardName = new CIString(boardNameRaw);
             try
             {
-                Board board = boardController.SearchBoard(email.ToLower(), boardName);
+                Board board = boardController.SearchBoard(email, boardName);
                 LinkedList<Task> column = board.GetColumn(columnOrdinal);
                 Response<LinkedList<Task>> res = new(true, column);
                 return JsonController.ConvertToJson(res);

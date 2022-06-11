@@ -73,7 +73,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		/// Returns user's email
 		/// </summary>
 		/// <returns></returns>
-		public string GetEmail()
+		public CIString GetEmail()
 		{
 			return email;
 		}

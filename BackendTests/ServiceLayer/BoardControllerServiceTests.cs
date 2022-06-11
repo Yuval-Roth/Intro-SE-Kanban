@@ -3,6 +3,7 @@ using IntroSE.Kanban.Backend.BusinessLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using IntroSE.Kanban.Backend.Utilities;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 {
@@ -124,8 +125,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetAllTasksByStateTest_successful()
         {
-            BusinessLayer.Task task1 = new(0, "task 1", new DateTime(2023, 05, 20), "bla bla bla");
-            BusinessLayer.Task task2 = new(0, "task 2", new DateTime(2023, 05, 20), "ninini");
+            BusinessLayer.Task task1 = new(0, new CIString("task 1"), new DateTime(2023, 05, 20), new CIString("bla bla bla"));
+            BusinessLayer.Task task2 = new(0, new CIString("task 2"), new DateTime(2023, 05, 20), new CIString("ninini"));
             userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "another board");

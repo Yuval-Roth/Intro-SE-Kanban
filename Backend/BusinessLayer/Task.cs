@@ -185,12 +185,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new ArgumentException("the task '" +
                     id + "' is already done");
             }
-            if (assignee!=email && assignee != "unAssigned")
+            if (assignee.Equals(email) == false && assignee.Equals("unAssigned") == false)
             {
                 log.Error("AssignTask() failed: task numbered '" + id + "' , email: '" + email + "' isn't the task's assignee");
                 throw new AccessViolationException("email: '" + email + "' isn't the task's assignee");
             }
-            if (assignee==email && email == emailAssignee)
+            if (assignee.Equals(email) == true && email.Equals(emailAssignee) == true)
             {
                 log.Error("AssignTask() failed: task numbered '" + id + "' , email: '" + email + "' is already the assignee");
                 throw new ElementAlreadyExistsException("email: '" + email + "' isn't the task's assignee");

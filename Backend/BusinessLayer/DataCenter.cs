@@ -328,7 +328,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 OnlyBoardsTree.Add(newBoard.Id, newBoard);
                 myBoardList.AddLast(newBoard);
                 IncrementBoardID();
-                DALFactory.BoardControllerDTO.AddBoard(newBoard.Id, newBoard.Title, newBoard.Owner);
+                DALFactory.BoardControllerDTO.AddBoard(newBoard.Id, newBoard.Title.Value, newBoard.Owner.Value);
                 log.Debug("AddNewBoard() success");
                 return newBoard;
             }

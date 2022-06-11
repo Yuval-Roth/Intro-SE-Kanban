@@ -484,14 +484,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 if (task.Assignee == email)
                 {
-                    task.Assignee = "unAssigned";
+                    task.Assignee = new CIString("unAssigned");
                 }
             }
             foreach (Task task in columns[(int)TaskStates.inprogress])
             {
                 if (task.Assignee == email)
                 {
-                    task.Assignee = "unAssigned";
+                    task.Assignee = new CIString("unAssigned");
                 }
             }
             log.Debug("LeaveBoard() success");
