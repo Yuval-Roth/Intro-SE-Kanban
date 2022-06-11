@@ -59,7 +59,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             if (GetOperationState(service.AddBoard(email, boardName)) == false)
                 Assert.Fail("AddBoard failed");
             string result = service.RemoveBoard(email, boardName);
-            string query = $"SELECT * FROM Boards WHERE Owner='{email} AND Title='{boardName}";
+            string query = $"SELECT * FROM Boards WHERE Owner='{email}' AND BoardTitle='{boardName}'";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
             LinkedList<object[]> list = executer.ExecuteRead(query);
             if (list.Count != 0) Assert.Fail("No rows were fetched");
