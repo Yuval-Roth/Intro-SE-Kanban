@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using IntroSE.Kanban.Backend.DataAccessLayer;
+using IntroSE.Kanban.Backend.Utilities;
+using IntroSE.Kanban.Backend.Exceptions;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
@@ -91,9 +93,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //------------------------------------------------------
 
         //------------------- Data Repository -----------------------
-        private AVLTree<string, DataUnit> UsersAndBoardsTree;
+        private AVLTree<CIString, DataUnit> UsersAndBoardsTree;
         private AVLTree<int, Board> OnlyBoardsTree;
-        private HashSet<string> loggedIn;
+        private HashSet<CIString> loggedIn;
         private int nextBoardID;
         private bool dataLoaded;
         //-----------------------------------------------------
@@ -116,7 +118,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //                                Public Methods
         //===========================================================================
 
-        public User SearchUser(string email)
+        public User SearchUser(CIString email)
         {
             try
             {
@@ -133,7 +135,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        public User AddUser(string email, string password)
+        public User AddUser(CIString email, string password)
         {
             try
             {
@@ -147,7 +149,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         JoinedBoards = new LinkedList<Board>()
                     }
                 });
-                DALFactory.UserControllerDTO.AddUser(email, password);
+                DALFactory.UserControllerDTO.AddUser(email.Value, password);
                 log.Debug("AddUser() success");
                 return data.User;
             }
@@ -159,7 +161,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        public void RemoveUser(string email)
+        public void RemoveUser(CIString email)
         {
             throw new NotImplementedException("DEPRECATED METHOD: Not updated to support current requirements");
 
@@ -183,13 +185,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 #pragma warning restore CS0162 // Unreachable code detected
         }
 
-        public bool UserLoggedInStatus(string email)
+        public bool UserLoggedInStatus(CIString email)
         {
             log.Debug("UserLoggedInStatus() for: " + email);
             return loggedIn.Contains(email);
         }
 
-        public void SetLoggedIn(string email)
+        public void SetLoggedIn(CIString email)
         {
             try
             {
@@ -214,7 +216,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             
         }
 
-        public void SetLoggedOut(string email)
+        public void SetLoggedOut(CIString email)
         {
             try
             {
@@ -238,13 +240,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        public bool UserExists(string email)
+        public bool UserExists(CIString email)
         {
             log.Debug("UserExists() for: " + email);
             return UsersAndBoardsTree.Contains(email);
         }
 
-        public BoardsDataUnit GetBoardsDataUnit(string email)
+        public BoardsDataUnit GetBoardsDataUnit(CIString email)
         {
             
             try
@@ -280,7 +282,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        public Board SearchBoardByEmailAndTitle(string email, string title)
+        public Board SearchBoardByEmailAndTitle(CIString email, CIString title)
         {
             try
             {
@@ -302,7 +304,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        public Board AddNewBoard(string email, string title)
+        public Board AddNewBoard(CIString email, CIString title)
         {
             try
             {
@@ -326,7 +328,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 OnlyBoardsTree.Add(newBoard.Id, newBoard);
                 myBoardList.AddLast(newBoard);
                 IncrementBoardID();
-                DALFactory.BoardControllerDTO.AddBoard(newBoard.Id, newBoard.Title, newBoard.Owner);
+                DALFactory.BoardControllerDTO.AddBoard(newBoard.Id, newBoard.Title.Value, newBoard.Owner.Value);
                 log.Debug("AddNewBoard() success");
                 return newBoard;
             }
@@ -342,7 +344,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        public Board AddPointerToJoinedBoard(string email, int id)
+        public Board AddPointerToJoinedBoard(CIString email, int id)
         {
             try
             {
@@ -361,7 +363,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
                 LinkedList<Board> joinedBoardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.JoinedBoards;
                 joinedBoardList.AddLast(boardToJoin);
-                DALFactory.BoardControllerDTO.JoinBoard(email, id);
+                DALFactory.BoardControllerDTO.JoinBoard(email.Value, id);
                 log.Debug("AddPointerToJoinedBoard() success");
                 return boardToJoin;
             }
@@ -377,7 +379,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }        
         }
 
-        public Board RemovePointerToJoinedBoard(string email, int id) 
+        public Board RemovePointerToJoinedBoard(CIString email, int id) 
         {
             try
             {
@@ -395,7 +397,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     {
                         Board output = node.Value;
                         joinedBoardList.Remove(node);
-                        DALFactory.BoardControllerDTO.LeaveBoard(email, id);
+                        DALFactory.BoardControllerDTO.LeaveBoard(email.Value, id);
                         log.Debug("RemovePointerToJoinedBoard() success");
                         return output;
                     }
@@ -426,7 +428,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     throw new OperationCanceledException("NukeBoard() failed: Board numbered " + id + " says that '" + toRemove.Owner +
                         "' owns it but the board doesn't exist for that user");
                 }
-                foreach (string email in toRemove.Joined)
+                foreach (CIString email in toRemove.Joined)
                 {
                     if (UserJoinedToBoardCheck(email, toRemove.Title) == false)
                     {
@@ -440,7 +442,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 // do the removal from everywhere
                 OnlyBoardsTree.Remove(toRemove.Id);
                 RemoveBoardFromOwner(toRemove.Owner, toRemove.Title);
-                foreach (string joinedEmail in toRemove.Joined)
+                foreach (CIString joinedEmail in toRemove.Joined)
                 {
                     RemovePointerToJoinedBoard(joinedEmail, toRemove.Id);
                 }
@@ -455,7 +457,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }        
         }
         
-        public void NukeBoard(string email, string title)
+        public void NukeBoard(CIString email, CIString title)
         {
             try
             {
@@ -465,14 +467,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
                 //validate that the board can be cleanly removed
                 Board toRemove = SearchBoardByEmailAndTitle(email,title);
-                if (email != toRemove.Owner)
+                if (email.Equals(toRemove.Owner)==false)
                 {
                     log.Fatal("Board numbered " + toRemove.Id + " says that '" + toRemove.Owner +
                         "' owns it but the user '" + email + "' owns it as well");
                     throw new OperationCanceledException("NukeBoard() failed: Board numbered " + toRemove.Id + " says that '" + toRemove.Owner +
                         "' owns it but the user '" + email + "' owns it as well");
                 }
-                foreach (string joinedEmail in toRemove.Joined)
+                foreach (CIString joinedEmail in toRemove.Joined)
                 {
                     if (UserJoinedToBoardCheck(joinedEmail, title) == false)
                     {
@@ -486,7 +488,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
                 //remove it from everywhere
                 RemoveBoardFromOwner(email, title);
-                foreach (string joinedEmail in toRemove.Joined)
+                foreach (CIString joinedEmail in toRemove.Joined)
                 {
                     RemovePointerToJoinedBoard(joinedEmail, toRemove.Id);
                 }
@@ -506,7 +508,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        public void ChangeOwnerPointer(string oldOwner,string title, string newOwner)
+        public void ChangeOwnerPointer(CIString oldOwner, CIString title, CIString newOwner)
         {
             
             try
@@ -525,7 +527,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 Board board = RemoveBoardFromOwner(oldOwner, title);
                 AddExistingBoard(newOwner, board);
 
-                DALFactory.BoardControllerDTO.ChangeOwner(newOwner, board.Id);
+                DALFactory.BoardControllerDTO.ChangeOwner(newOwner.Value, board.Id);
                 log.Debug("ChangeOwnerPointers() success");
             }
             catch (NoSuchElementException e)
@@ -539,7 +541,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        public bool UserOwnsABoardWithThisTitle(string email, string title)
+        public bool UserOwnsABoardWithThisTitle(CIString email, CIString title)
         {
             try
             {
@@ -634,7 +636,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="newBoard"></param>
         /// <exception cref="ElementAlreadyExistsException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
-        private void AddExistingBoard(string email, Board newBoard)
+        private void AddExistingBoard(CIString email, Board newBoard)
         {
             try
             {
@@ -699,7 +701,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
         /// <returns>The removed Board</returns>
-        private Board RemoveBoardFromOwner(string email, string title)
+        private Board RemoveBoardFromOwner(CIString email, CIString title)
         {
             try
             {
@@ -713,7 +715,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 // Search for the specific board
                 for (LinkedListNode<Board> node = myBoardList.First; node != null; node = node.Next)
                 {
-                    if (node.Value.Title == title)
+                    if (node.Value.Title.Equals(title))
                     {
                         Board output = node.Value;
                         myBoardList.Remove(node);
@@ -742,7 +744,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="id"></param>
         /// <returns></returns>
         /// <exception cref="UserDoesNotExistException"></exception>
-        private bool UserJoinedToBoardCheck(string email, string title)
+        private bool UserJoinedToBoardCheck(CIString email, CIString title)
         {
             try
             {
@@ -764,12 +766,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
         /// <returns>Board if found or null if not found</returns>
-        private Board FindBoardInList(LinkedList<Board> boardList,string title)
+        private Board FindBoardInList(LinkedList<Board> boardList, CIString title)
         {
             Board output = null;
             foreach (Board board in boardList)
             {
-                if (board.Title == title) 
+                if (board.Title.Equals(title)) 
                 { 
                     output = board;
                     break;
@@ -798,7 +800,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <param name="email"></param>
         /// <exception cref="UserDoesNotExistException"></exception>
-        private void ValidateUser(string email)
+        private void ValidateUser(CIString email)
         {
             log.Debug("ValidateUser() for: " + email);
             if (UserExists(email) == false)
@@ -835,7 +837,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="email"></param>
         /// <returns>User</returns>
         /// <exception cref="UserDoesNotExistException"></exception>
-        public User SearchUser(string email);
+        public User SearchUser(CIString email);
 
         /// <summary>
         /// Adds a user to the system
@@ -846,7 +848,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="email"></param>
         /// <exception cref="ElementAlreadyExistsException"></exception>
         /// <returns>The added <c>User</c></returns>
-        public User AddUser(string email, string password);
+        public User AddUser(CIString email, string password);
 
         /// <summary>
         /// Removes the user with the specified email from the system
@@ -855,21 +857,21 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <param name="email"></param>
         /// <exception cref="UserDoesNotExistException"></exception>
-        public void RemoveUser(string email);
+        public void RemoveUser(CIString email);
 
         /// <summary>
         /// Check if a user exists in the system
         /// </summary>
         /// <param name="email"></param>
         /// <returns>true or false</returns>
-        public bool UserExists(string email);
+        public bool UserExists(CIString email);
 
         /// <summary>
         /// Gets the user's logged in status
         /// </summary>
         /// <returns><c>true</c> if the user is logged in, <c>false</c>  otherwise</returns>
         /// <param name="email"></param>
-        public bool UserLoggedInStatus(string email);
+        public bool UserLoggedInStatus(CIString email);
 
         /// <summary>
         /// Sets a user's logged in status to true
@@ -878,7 +880,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <param name="email"></param>
         /// <exception cref="ArgumentException"></exception>
-        public void SetLoggedIn(string email);
+        public void SetLoggedIn(CIString email);
 
         /// <summary>
         /// Sets a user's logged in status to false
@@ -887,7 +889,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <param name="email"></param>
         /// <exception cref="ArgumentException"></exception>
-        public void SetLoggedOut(string email);
+        public void SetLoggedOut(CIString email);
     }
     public interface BoardDataOperations 
     {
@@ -896,14 +898,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <param name="email"></param>
         /// <returns>true or false</returns>
-        public bool UserExists(string email);
+        public bool UserExists(CIString email);
 
         /// <summary>
         /// Gets the user's logged in status
         /// </summary>
         /// <returns><c>true</c> if the user is logged in, <c>false</c>  otherwise</returns>
         /// <param name="email"></param>
-        public bool UserLoggedInStatus(string email);
+        public bool UserLoggedInStatus(CIString email);
 
         /// <summary>
         /// Gets all the <c>User</c>'s boards data
@@ -913,7 +915,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <returns><see cref="BoardsDataUnit"/></returns>
         /// <exception cref="UserDoesNotExistException"></exception>
-        public DataCenter.BoardsDataUnit GetBoardsDataUnit(string email);
+        public DataCenter.BoardsDataUnit GetBoardsDataUnit(CIString email);
 
         /// <summary>
         /// Gets all the <c>User</c>'s <c>Board</c>s
@@ -935,7 +937,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <returns></returns>
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
-        public Board SearchBoardByEmailAndTitle(string email,string board_title);
+        public Board SearchBoardByEmailAndTitle(CIString email, CIString board_title);
 
         /// <summary>
         /// Adds a <c>Board</c> to the <c>User</c>.
@@ -948,7 +950,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <returns>The <c>Board</c> that was added</returns>
         /// <exception cref="ElementAlreadyExistsException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
-        public Board AddNewBoard(string email,string board_title);
+        public Board AddNewBoard(CIString email, CIString board_title);
 
         /// <summary>
         /// Adds a pointer of an existing board to the user's JoinedBoards.<br/><br/>
@@ -961,7 +963,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ElementAlreadyExistsException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
         /// <exception cref="NoSuchElementException"></exception>
-        public Board AddPointerToJoinedBoard(string email,int board_id);
+        public Board AddPointerToJoinedBoard(CIString email,int board_id);
 
         /// <summary>
         /// Removes the pointer of the joined board from the user's JoinedBoards<br/><br/>
@@ -973,7 +975,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <returns>The unjoined board</returns>
         /// <exception cref="UserDoesNotExistException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        public Board RemovePointerToJoinedBoard(string email,int board_id);
+        public Board RemovePointerToJoinedBoard(CIString email,int board_id);
 
         /// <summary>
         /// Removes a <c>Board</c> from the <b>entire system</b><br/>
@@ -988,7 +990,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
-        public void NukeBoard(string email,string board_title);
+        public void NukeBoard(CIString email, CIString board_title);
 
         /// <summary>
         ///  Completly removes a <c>Board</c> from the <b>entire system</b><br/>
@@ -1015,7 +1017,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="oldOwner"></param>
         /// <param name="boardName"></param>
         /// <param name="newOwner"></param>
-        public void ChangeOwnerPointer(string old_owner,string board_title,string new_owner);
+        public void ChangeOwnerPointer(CIString old_owner, CIString board_title, CIString new_owner);
 
         /// <summary>
         /// Checks whether or not a user owns a board with the specified title
@@ -1024,7 +1026,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="title"></param>
         /// <returns>true is yes, false if no</returns>
         /// <exception cref="UserDoesNotExistException"></exception>
-        public bool UserOwnsABoardWithThisTitle(string email, string title);
+        public bool UserOwnsABoardWithThisTitle(CIString email, CIString title);
    
     }
     public interface DataCenterManagement

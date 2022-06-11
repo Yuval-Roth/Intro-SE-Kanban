@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using IntroSE.Kanban.Backend.Exceptions;
+using IntroSE.Kanban.Backend.Utilities;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
@@ -35,16 +37,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\Board.cs");
 
         private readonly int id;
-        private readonly string title;
-        private string owner;
-        private readonly LinkedList<string> joined;
+        private readonly CIString title;
+        private CIString owner;
+        private readonly LinkedList<CIString> joined;
         private readonly LinkedList<Task>[] columns;
         private readonly int[] columnLimit;
         private readonly Dictionary<int, TaskStates> taskStateTracker;
         private int taskIDCounter;
 
 
-        public Board(string title, int id, string owner)
+        public Board(CIString title, int id, CIString owner)
         {
             this.id = id;
             this.title = title;
@@ -64,9 +66,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public Board(DataAccessLayer.BoardDTO boardDTO)
         {
             id = boardDTO.Id;
-            title = boardDTO.Title;
-            owner = boardDTO.Owner;
-            joined = boardDTO.Joined;
+            title = new CIString(boardDTO.Title);
+            owner = new CIString(boardDTO.Owner);
+            joined = new();
             columnLimit = new int[3];
             columns = new LinkedList<Task>[3];
             columns[(int)TaskStates.backlog] = new();
@@ -77,6 +79,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             columnLimit[(int)TaskStates.done] = boardDTO.DoneLimit;
             taskIDCounter = boardDTO.TaskIDCounter;
             taskStateTracker = new();
+
+            foreach (string email in boardDTO.Joined) 
+            {
+                joined.AddLast(new CIString(email));
+            }
 
             foreach (DataAccessLayer.TaskDTO taskDTO in boardDTO.BackLog)
             {
@@ -105,9 +112,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //====================================
 
         public int Id { get { return id; } init { id = value; } }
-        public string Title { get { return title; } init { title = value; } }
-        public string Owner { get { return owner; } init { owner = value; } }
-        public LinkedList<string> Joined { get { return joined; } init { joined = value; } }
+        public CIString Title { get { return title; } init { title = value; } }
+        public CIString Owner { get { return owner; } init { owner = value; } }
+        public LinkedList<CIString> Joined { get { return joined; } init { joined = value; } }
         public LinkedList<Task>[] Columns { /*get { return columns; }*/ init { columns = value; } }
         public int[] ColumnLimit { /*get { return columnLimit; }*/ init { columnLimit = value; } }
         public Dictionary<int, TaskStates> TaskStateTracker { /*get { return taskStateTracker; }*/ init { taskStateTracker = value; } }
@@ -126,7 +133,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="duedate"></param>
         /// <param name="description"></param>
         /// <exception cref="ArgumentException"></exception>
-        public void AddTask(string title, DateTime duedate, string description)
+        public void AddTask(CIString title, DateTime duedate, CIString description)
         {
             log.Debug("AddTask() for: " + title + ", " + description + ", " + duedate);
             if (columns[(int)TaskStates.backlog].Count != columnLimit[(int)TaskStates.backlog])
@@ -193,16 +200,25 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <b>Throws</b> <c>NoSuchElementException</c> if the task doesn't exist at all or is not in the specified column<br/>
         /// <b>Throws</b> <c>ArgumentException</c> if the task can't be advanced<br/>
         /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number
+        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't task assignee
         /// </summary>
+        /// <param name="email"></param>
         /// <param name="taskId"></param>
         /// <param name="columnOrdinal"></param>
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        public void AdvanceTask(int columnOrdinal, int taskId)
+        /// <exception cref="AccessViolationException"></exception>
+        public void AdvanceTask(CIString email, int columnOrdinal, int taskId)
         {
             log.Debug("AdvanceTask() for column and taskId: " + columnOrdinal + ", " + taskId);
             ValidateColumnOrdinal(columnOrdinal);
+            Task task = SearchTask(taskId);
+            if (task.Assignee.Equals(email)==false)
+            {
+                log.Error("AdvanceTask() failed: User is not the task's assignee");
+                throw new AccessViolationException("User is not the task's assignee");
+            }
 
             if (taskStateTracker.ContainsKey(taskId))
             {
@@ -413,17 +429,17 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="newOwnerEmail"></param>
         /// <param name="boardName"></param>
         /// <exception cref="ArgumentException"></exception>
-        public void ChangeOwner(string currentOwnerEmail, string newOwnerEmail, string boardName)
+        public void ChangeOwner(CIString currentOwnerEmail, CIString newOwnerEmail, CIString boardName)
         {
             log.Debug("ChangeOwner() for board: " + boardName + "from: " + currentOwnerEmail + "to: " + newOwnerEmail);
-            if (!this.joined.Contains(newOwnerEmail))
+            if (!joined.Contains(newOwnerEmail))
             {
                 log.Error("ChangeOwner() failed: '" + newOwnerEmail + "' isn't joined to the board");
                 throw new ArgumentException("the user " + newOwnerEmail + " isn't joined to the board");
             }
-            this.owner = newOwnerEmail;
-            this.joined.AddLast(currentOwnerEmail);
-            this.joined.Remove(newOwnerEmail);
+            owner = newOwnerEmail;
+            joined.AddLast(currentOwnerEmail);
+            joined.Remove(newOwnerEmail);
             log.Debug("ChangeOwner() success");
         }
 
@@ -434,19 +450,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="email"></param>
         /// <param name="boardId"></param>
         /// <exception cref="ArgumentException"></exception>
-        public void JoinBoard(string email, int boardId)
+        public void JoinBoard(CIString email, int boardId)
         {
             log.Debug("JoinBoard() for user: " + email + "for board " + boardId);
-            if(this.owner == email)
+            if(owner.Equals(email))
             {
                 log.Error("JoinBoard() failed: user with email '" + email + "' is the board's owner");
-                throw new ArgumentException("the user " + email + " is the board's owner");
+                throw new AccessViolationException("the user " + email + " is the board's owner");
             }
-            if (this.joined.Contains(email)){
+            if (joined.Contains(email)){
                 log.Error("JoinBoard() failed: user with email '" + email + "' already joined to the board");
                 throw new ArgumentException("the user " + email + " already joined to the board");
             }
-            this.joined.AddLast(email);
+            joined.AddLast(email);
             log.Debug("JoinBoard() success");
         }
         /// <summary>
@@ -456,27 +472,27 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="email"></param>
         /// <param name="boardId"></param>
         /// <exception cref="ArgumentException"></exception>
-        public void LeaveBoard(string email, int boardId)
+        public void LeaveBoard(CIString email, int boardId)
         {
             log.Debug("LeaveBoard() for user: " + email + "for board " + boardId);
-            if (!this.joined.Contains(email))
+            if (!joined.Contains(email))
             {
                 log.Error("LeaveBoard() failed: user with email '" + email + "' is not joined to the board");
                 throw new ArgumentException("user with email '" + email + "' is not joined to the board");
             }
-            this.joined.Remove(email);
+            joined.Remove(email);
             foreach(Task task in this.columns[(int)TaskStates.backlog])
             {
-                if (task.Assignee == email)
+                if (task.Assignee.Equals(email))
                 {
-                    task.Assignee = "unAssigned";
+                    task.Assignee = new CIString("unAssigned");
                 }
             }
-            foreach (Task task in this.columns[(int)TaskStates.inprogress])
+            foreach (Task task in columns[(int)TaskStates.inprogress])
             {
-                if (task.Assignee == email)
+                if (task.Assignee.Equals(email))
                 {
-                    task.Assignee = "unAssigned";
+                    task.Assignee = new CIString("unAssigned");
                 }
             }
             log.Debug("LeaveBoard() success");

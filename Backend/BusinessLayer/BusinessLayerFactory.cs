@@ -13,7 +13,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <item>BoardDataOperations</item>
     /// <item>BoardController</item>
     /// <item>UserController</item>
-    /// <item>BoardMembersPermissions</item>
     /// </list>
     /// </summary>
     public class BusinessLayerFactory
@@ -23,14 +22,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private DataCenter dataCenter;
         private BoardController boardController;
         private UserController userController;
-        private BoardMembersPermissions boardMembersPermissions;
 
         private BusinessLayerFactory()
         {
             dataCenter = new();
             boardController = new(dataCenter);
             userController = new(dataCenter);
-            boardMembersPermissions = new();
         }
 
         /// <summary>
@@ -58,11 +55,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// retrieve the BoardController instance
         /// </summary>
         public DataCenterManagement DataCenterManagement => dataCenter;
-
-        /// <summary>
-        /// retrieve the BoardMemebersPermissions instance
-        /// </summary>
-        public BoardMembersPermissions BoardMembersPermissions => boardMembersPermissions;
 
         /// <returns>The instance of the singleton BusinessLayerFatory</returns>
         public static BusinessLayerFactory GetInstance()

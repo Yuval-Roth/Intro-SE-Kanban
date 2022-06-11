@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.Json.Serialization;
+using IntroSE.Kanban.Backend.Utilities;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
@@ -22,7 +23,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 	/// </summary>
 	public class User
     {
-		private string email;
+		private CIString email;
 		private string password;
 
 		/// <summary>
@@ -31,7 +32,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		/// <param name="email"></param>
 		/// <param name="password"></param>
 		[JsonConstructor]
-		public User(string email, string password)
+		public User(CIString email, string password)
 		{
 			this.email = email;
 			this.password = password;
@@ -39,11 +40,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
 		public User(DataAccessLayer.UserDTO userDTO)
 		{
-			email = userDTO.Email;
+			email = new CIString(userDTO.Email);
 			password = userDTO.Password;
 		}
 
-		public string Email => email;
+		public CIString Email => email;
 
 		/// <summary>
 		/// Replace the user's password with the new password entered
@@ -62,7 +63,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		/// </summary>
 		/// <param name="newE"></param>
 		/// <exception cref="ArgumentNullException"></exception>
-		public void SetEmail(string newE)
+		public void SetEmail(CIString newE)
 		{
 			if (newE == null)  throw new ArgumentNullException("email is null");
 			email = newE;
@@ -72,7 +73,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 		/// Returns user's email
 		/// </summary>
 		/// <returns></returns>
-		public string GetEmail()
+		public CIString GetEmail()
 		{
 			return email;
 		}

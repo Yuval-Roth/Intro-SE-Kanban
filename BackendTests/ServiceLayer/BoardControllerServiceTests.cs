@@ -3,6 +3,7 @@ using IntroSE.Kanban.Backend.BusinessLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using IntroSE.Kanban.Backend.Utilities;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 {
@@ -124,8 +125,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void GetAllTasksByStateTest_successful()
         {
-            BusinessLayer.Task task1 = new(0, "task 1", new DateTime(2023, 05, 20), "bla bla bla");
-            BusinessLayer.Task task2 = new(0, "task 2", new DateTime(2023, 05, 20), "ninini");
+            BusinessLayer.Task task1 = new(0, new CIString("task 1"), new DateTime(2023, 05, 20), new CIString("bla bla bla"));
+            BusinessLayer.Task task2 = new(0, new CIString("task 2"), new DateTime(2023, 05, 20), new CIString("ninini"));
             userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "another board");
@@ -137,8 +138,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Response<LinkedList<BusinessLayer.Task>> act = JsonController.BuildFromJson<Response<LinkedList<BusinessLayer.Task>>>(result);
             BusinessLayer.Task tAct1 = act.returnValue.ElementAt(0);
             BusinessLayer.Task tAct2 = act.returnValue.ElementAt(1);
-            Assert.IsFalse(task1.Id != tAct1.Id || task1.Title != tAct1.Title || task1.Description != tAct1.Description || task1.DueDate != tAct1.DueDate);
-            Assert.IsFalse(task2.Id != tAct2.Id || task2.Title != tAct2.Title || task2.Description != tAct2.Description || task2.DueDate != tAct2.DueDate);
+            Assert.IsFalse(task1.Id != tAct1.Id || task1.Title.Equals(tAct1.Title)==false || task1.Description.Equals(tAct1.Description)==false || task1.DueDate.Equals(tAct1.DueDate)==false);
+            Assert.IsFalse(task2.Id != tAct2.Id || task2.Title.Equals(tAct2.Title)==false || task2.Description.Equals(tAct2.Description)==false || task2.DueDate.Equals(tAct2.DueDate)==false);
         }
 
         [TestMethod()]

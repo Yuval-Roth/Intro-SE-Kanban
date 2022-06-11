@@ -1,5 +1,7 @@
 ﻿using System;
 using IntroSE.Kanban.Backend.BusinessLayer;
+using IntroSE.Kanban.Backend.Utilities;
+using IntroSE.Kanban.Backend.Exceptions;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
@@ -48,23 +50,20 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }			// (operationState == false) => error message		
 		/// </code>
 		/// </returns>
-        public string UpdateTaskDueDate(string email, string boardName, int columnOrdinal, int taskId, DateTime dueDate)
+        public string UpdateTaskDueDate(string emailRaw, string boardNameRaw, int columnOrdinal, int taskId, DateTime dueDate)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName, columnOrdinal, taskId, dueDate }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, boardNameRaw, columnOrdinal, taskId, dueDate }) == false)
             {
                 Response<string> res = new(false, "UpdateTaskDueDate() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
+            CIString email = new CIString(emailRaw);
+            CIString boardName = new CIString(boardNameRaw);
             try
             {
-                Board board = boardController.SearchBoard(email.ToLower(), boardName);
+                Board board = boardController.SearchBoard(email, boardName);
                 Task task = board.SearchTask(taskId, columnOrdinal);
-                if(!BoardMembersPermissions.EditTask(email.ToLower(), task))
-                {
-                    Response<string> res1 = new(false, "UpdateTaskDueDate() failed: User is not the task's assignee");
-                    return JsonController.ConvertToJson(res1);
-                }
-                task.DueDate = dueDate;
+                task.UpdateDueDate(email, dueDate);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
@@ -89,6 +88,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
             catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserNotLoggedInException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -112,23 +116,21 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }			// (operationState == false) => error message		
 		/// </code>
 		/// </returns>
-        public string UpdateTaskTitle(string email, string boardName, int columnOrdinal, int taskId, string title)
+        public string UpdateTaskTitle(string emailRaw, string boardNameRaw, int columnOrdinal, int taskId, string titleRaw)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName, columnOrdinal, taskId, title}) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, boardNameRaw, columnOrdinal, taskId, titleRaw}) == false)
             {
                 Response<string> res = new(false, "UpdateTaskTitle() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
+            CIString email = new CIString(emailRaw);
+            CIString boardName = new CIString(boardNameRaw);
+            CIString title = new CIString(titleRaw);
             try
             {
-                Board board = boardController.SearchBoard(email.ToLower(), boardName);
+                Board board = boardController.SearchBoard(email, boardName);
                 Task task = board.SearchTask(taskId, columnOrdinal);
-                if (!BoardMembersPermissions.EditTask(email.ToLower(), task))
-                {
-                    Response<string> res1 = new(false, "UpdateTaskTitle() failed: User is not the task's assignee");
-                    return JsonController.ConvertToJson(res1);
-                }
-                task.Title = title;
+                task.UpdateTitle(email, title);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
@@ -153,6 +155,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
             catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserNotLoggedInException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -176,23 +183,21 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }			// (operationState == false) => error message		
 		/// </code>
 		/// </returns>
-        public string UpdateTaskDescription(string email, string boardName, int columnOrdinal, int taskId, string description)
+        public string UpdateTaskDescription(string emailRaw, string boardNameRaw, int columnOrdinal, int taskId, string descriptionRaw)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName, columnOrdinal, taskId, description }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, boardNameRaw, columnOrdinal, taskId, descriptionRaw }) == false)
             {
                 Response<string> res = new(false, "UpdateTaskDescription() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
+            CIString email = new CIString(emailRaw);
+            CIString boardName = new CIString(boardNameRaw);
+            CIString description = new CIString(descriptionRaw);
             try
             {
-                Board board = boardController.SearchBoard(email.ToLower(), boardName);
+                Board board = boardController.SearchBoard(email, boardName);
                 Task task = board.SearchTask(taskId, columnOrdinal);
-                if (!BoardMembersPermissions.EditTask(email.ToLower(), task))
-                {
-                    Response<string> res1 = new(false, "UpdateTaskDescription() failed: User is not the task's assignee");
-                    return JsonController.ConvertToJson(res1);
-                }
-                task.Description = description;
+                task.UpdateDescription(email,description);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
@@ -217,6 +222,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
             catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserNotLoggedInException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -241,18 +251,21 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// }			// (operationState == false) => error message		
         /// </code>
         /// </returns>
-        public string AssignTask(string email, string boardName, int columnOrdinal, int taskId, string emailAssignee)
+        public string AssignTask(string emailRaw, string boardNameRaw, int columnOrdinal, int taskId, string emailAssigneeRaw)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, boardName, columnOrdinal, taskId, emailAssignee }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, boardNameRaw, columnOrdinal, taskId, emailAssigneeRaw }) == false)
             {
                 Response<string> res = new(false, "UpdateTaskDescription() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
+            CIString email = new CIString(emailRaw);
+            CIString boardName = new CIString(boardNameRaw);
+            CIString emailAssignee = new CIString(emailAssigneeRaw);
             try
             {
-                Board board = boardController.SearchBoard(email.ToLower(), boardName);
+                Board board = boardController.SearchBoard(email, boardName);
                 Task task = board.SearchTask(taskId, columnOrdinal);
-                task.AssignTask(email.ToLower(), emailAssignee.ToLower());
+                task.AssignTask(email, emailAssignee);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
@@ -277,6 +290,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
             catch (ElementAlreadyExistsException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserNotLoggedInException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);

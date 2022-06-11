@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using IntroSE.Kanban.Backend.Utilities;
+using IntroSE.Kanban.Backend.Exceptions;
+using IntroSE.Kanban.Backend.BusinessLayer;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
@@ -21,9 +24,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     public class BoardControllerService
     {
 
-        private readonly BusinessLayer.BoardController boardController;
+        private readonly BoardController boardController;
 
-        public BoardControllerService(BusinessLayer.BoardController BC)
+        public BoardControllerService(BoardController BC)
         {
             boardController = BC;
         }
@@ -42,30 +45,32 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }		       // (operationState == false) => error message		
 		/// </code>
 		/// </returns>
-        public string AddBoard(string email, string name)
+        public string AddBoard(string emailRaw, string nameRaw)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, name }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, nameRaw }) == false)
             {
                 Response<string> res = new(false, "AddBoard() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
+            CIString email = new CIString(emailRaw);
+            CIString name = new CIString(nameRaw);
             try
             {
-                boardController.AddBoard(email.ToLower(), name);
+                boardController.AddBoard(email, name);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
-            catch (BusinessLayer.ElementAlreadyExistsException ex)
+            catch (ElementAlreadyExistsException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
-            catch (DataMisalignedException ex)
-            {
-                Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
-            }
-            catch (BusinessLayer.UserDoesNotExistException ex)
+            //catch (DataMisalignedException ex)
+            //{
+            //    Response<string> res = new(false, ex.Message);
+            //    return JsonController.ConvertToJson(res);
+            //}
+            catch (UserDoesNotExistException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -76,6 +81,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
             catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserNotLoggedInException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -96,27 +106,22 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }			// (operationState == false) => error message		
 		/// </code>
 		/// </returns>
-        public string RemoveBoard(string email, string name)
+        public string RemoveBoard(string emailRaw, string nameRaw)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, name }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, nameRaw }) == false)
             {
                 Response<string> res = new(false, "RemoveBoard() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
-            email = email.ToLower();
+            CIString email = new CIString(emailRaw);
+            CIString name = new CIString(nameRaw);
             try
             {
-                BusinessLayer.Board board = boardController.SearchBoard(email, name);
-                if (!BusinessLayer.BoardMembersPermissions.BoardOwnerPermission(email, board))
-                {
-                    Response<string> res1 = new(false, "RemoveBoard() failed: user has not permission to do RemoveBoard");
-                    return JsonController.ConvertToJson(res1);
-                }
                 boardController.RemoveBoard(email, name);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
-            catch (BusinessLayer.NoSuchElementException ex)
+            catch (NoSuchElementException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -136,7 +141,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
-            catch (BusinessLayer.UserDoesNotExistException ex)
+            catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserNotLoggedInException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -157,20 +167,21 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }		      //(operationState == false) => string with error message		
 		/// </code>
 		/// </returns>
-        public string GetAllTasksByState(string email, int columnOrdinal)
+        public string GetAllTasksByState(string emailRaw, int columnOrdinal)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, columnOrdinal }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw, columnOrdinal }) == false)
             {
                 Response<string> res = new(false, "GetAllTasksByState() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
+            CIString email = new CIString(emailRaw);
             try
             {
-                LinkedList<BusinessLayer.Task> tasks = boardController.GetAllTasksByState(email.ToLower(), columnOrdinal);
-                Response<LinkedList<BusinessLayer.Task>> res = new(true, tasks);
+                LinkedList<Task> tasks = boardController.GetAllTasksByState(email, columnOrdinal);
+                Response<LinkedList<Task>> res = new(true, tasks);
                 return JsonController.ConvertToJson(res);
             }
-            catch (BusinessLayer.NoSuchElementException ex)
+            catch (NoSuchElementException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -185,7 +196,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
-            catch (BusinessLayer.UserDoesNotExistException ex)
+            catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserNotLoggedInException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -205,20 +221,21 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }		      //(operationState == false) => string with error message		
 		/// </code>
 		/// </returns>
-        public string GetUserBoards(string email)
+        public string GetUserBoards(string emailRaw)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email}) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { emailRaw}) == false)
             {
                 Response<string> res = new(false, "GetUserBoards() failed: ArgumentNullException");
                 return JsonController.ConvertToJson(res);
             }
+            CIString email = new CIString(emailRaw);
             try
             {
-                boardController.GetBoardsId(email.ToLower());
+                boardController.GetBoardsId(email);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
-            catch (BusinessLayer.NoSuchElementException ex)
+            catch (NoSuchElementException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -228,28 +245,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
+            catch (UserNotLoggedInException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
 
         }
-
-        //public string ChangeOwner(string currentOwnerEmail, string newOwnerEmail, string boardName)
-        //{
-        //    if (ValidateArguments.ValidateNotNull(new object[] { currentOwnerEmail, newOwnerEmail, boardName }) == false)
-        //    {
-        //        Response<string> res = new(false, "ChangeOwner() failed: ArgumentNullException");
-        //        return JsonController.ConvertToJson(res);
-        //    }
-        //    try
-        //    {
-        //        BusinessLayer.Board board = boardController.SearchBoard(currentOwnerEmail.ToLower(), boardName);
-        //        if (!Backend.BusinessLayer.BoardMembersPermissions.BoardOwnerPermission(currentOwnerEmail, board){
-        //            Response<string> res1 = new(false, "ChangeOwner() failed: user isn't the board's owner");
-        //            return JsonController.ConvertToJson(res1);
-        //        }
-        //        board.ChangeOwner(currentOwnerEmail, newOwnerEmail, boardName);
-
-
-        //    }
-        //}
 
     }
 
