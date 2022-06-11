@@ -191,7 +191,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             if(GetOperationState(userService.Register(email2, password2))==false)
                 Assert.Fail("Register failed");
             string result = taskService.AssignTask(email, boardName, 0, 0, email2); 
-            string query = $"SELECT * FROM Task WHERE Assignee='{email2}'";
+            string query = $"SELECT * FROM Tasks WHERE Assignee='{email2}'";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
             LinkedList<object[]> list = executer.ExecuteRead(query);
             if (list.Count == 0) Assert.Fail("No rows were fetched");
