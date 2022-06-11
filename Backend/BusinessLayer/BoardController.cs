@@ -441,6 +441,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             log.Debug("LeaveBoard() for user: " + email + "for board " + boardId);
             try
             {
+                ValidateUser(email);
                 Board board = SearchBoard(email, boardId);
                 boardData.RemovePointerToJoinedBoard(email, boardId);
                 board.LeaveBoard(email, boardId);
