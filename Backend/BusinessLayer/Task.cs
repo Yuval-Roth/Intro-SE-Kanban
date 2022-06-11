@@ -36,11 +36,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private CIString title;
         private CIString description;
         private DateTime dueDate;
-        TaskStates state;
-        private CIString assignee;
-
         private TaskStates state;
-        private string assignee;
+        private CIString assignee;
         private TaskControllerDTO taskDTO;
         private readonly int MAX_DESCRIPTION_CHAR_CAP = 300;
         private readonly int MAX_TITLE_CHAR_CAP = 50;
@@ -55,8 +52,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="duedate"></param>
         /// <param name="description"></param>
         /// <exception cref="ArgumentException"></exception>
-        public Task(int id, string title, DateTime dueDate,string description, int boardId)
-        public Task(int id, CIString title, DateTime dueDate, CIString description)
+        public Task(int id, CIString title, DateTime dueDate, CIString description, int boardId)
         {
             log.Debug("Task() for id: " + id);
             if (title.Length < MIN_TITLE_CHAR_CAP)
@@ -204,8 +200,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("AssignTask() failed: task numbered '" + id + "' , email: '" + email + "' is already the assignee");
                 throw new ElementAlreadyExistsException("email: '" + email + "' isn't the task's assignee");
             }
-            taskDTO.ChangeAssignee(email, boardId, Id);
             assignee = emailAssignee;
+            taskDTO.ChangeAssignee(email.Value, boardId, Id);
             log.Debug("AssignTask() success");
         }
 
@@ -217,7 +213,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="value"></param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="AccessViolationException"></exception>
-        public void UpdateDueDate(CIString email, DateTime value)
+        public void UpdateDueDate(CIString email, DateTime newDueDate)
         {
             log.Debug("UpdateDueDate() for taskId: " + email + ", email:" + email);
             if(assignee.Equals(email) == false)
@@ -231,13 +227,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new ArgumentException("the task '" +
                     id + "' is already done");
             }
-            if (value.CompareTo(DateTime.Today) < 0)
+            if (newDueDate.CompareTo(DateTime.Today) < 0)
             {
                 log.Error("UpdateDueDate() failed: due date was passed");
                 throw new ArgumentException("due date was passed");
             }
-            taskDTO.ChangeDueDate(value, boardId, Id);
-            dueDate = value;
+            dueDate = newDueDate;
+            taskDTO.ChangeDueDate(newDueDate, boardId, Id);
             log.Debug("UpdateDueDate() success");
         }
 
@@ -274,8 +270,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("UpdateTitle() failed: title is over the limit");
                 throw new ArgumentException("title is over the limit");
             }
-            taskDTO.ChangeTitle(value, boardId, Id);
             title = value;
+            taskDTO.ChangeTitle(value.Value, boardId, Id);
             log.Debug("UpdateTitle() success");
 
         }
@@ -289,7 +285,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="value"></param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="AccessViolationException"></exception>
-        public void UpdateDescription(CIString email, CIString value)
+        public void UpdateDescription(CIString email, CIString newDescription)
         {
             log.Debug("UpdateDescription() for taskId: " + email + ", email:" + email);
             if (assignee.Equals(email) == false)
@@ -303,13 +299,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new ArgumentException("the task '" +
                     id + "' is already done");
             }
-            if (value.Length > MAX_DESCRIPTION_CHAR_CAP)
+            if (newDescription.Length > MAX_DESCRIPTION_CHAR_CAP)
             {
                 log.Error("UpdateDescription() failed: title is over the limit");
                 throw new ArgumentException("Description is over the limit");
             }
-            taskDTO.ChangeDescription(value, boardId, Id);
-            description = value;
+            description = newDescription;
+            taskDTO.ChangeDescription(newDescription.Value, boardId, Id);
             log.Debug("UpdateDescription() success");
 
         }
