@@ -437,7 +437,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("ChangeOwner() failed: '" + newOwnerEmail + "' isn't joined to the board");
                 throw new ArgumentException("the user " + newOwnerEmail + " isn't joined to the board");
             }
-            boardDTO.ChangeOwner(newOwnerEmail, Id);
             this.owner = newOwnerEmail;
             this.joined.AddLast(currentOwnerEmail);
             this.joined.Remove(newOwnerEmail);
@@ -463,7 +462,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("JoinBoard() failed: user with email '" + email + "' already joined to the board");
                 throw new ArgumentException("the user " + email + " already joined to the board");
             }
-            boardDTO.JoinBoard(email, boardId);
             this.joined.AddLast(email);
             log.Debug("JoinBoard() success");
         }
@@ -482,7 +480,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("LeaveBoard() failed: user with email '" + email + "' is not joined to the board");
                 throw new ArgumentException("user with email '" + email + "' is not joined to the board");
             }
-            boardDTO.LeaveBoard(email, boardId);
             this.joined.Remove(email);
             foreach(Task task in this.columns[(int)TaskStates.backlog])
             {
