@@ -1,5 +1,6 @@
 ﻿using System.Data.SQLite;
 using System.IO;
+using System.Collections.Generic;
 
 namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
@@ -44,7 +45,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 }
             }   
         }
-        public SQLiteDataReader ExecuteRead(string query)
+        public LinkedList<object[]> ExecuteRead(string query)
         {
 
             log.Debug("ExecuteRead() for: " + query);
@@ -67,18 +68,27 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     SQLiteDataReader reader = command.ExecuteReader();
                     if (reader.HasRows)
                     {
-                        log.Debug("ExecuteRead() success");
-                        
+                        log.Debug("ExecuteRead() success");              
                     }
                     else
                     {
                         log.Error("ExecuteRead() fetched 0 rows");
                     }
-                    return reader;
+                    LinkedList<object[]> output = new();
+                    while (reader.Read())
+                    {
+                        object[] row = new object[reader.FieldCount];
+                        for(int i=0; i< row.Length; i++)
+                        { 
+                            row[i] = reader.GetValue(i);
+                        }
+                        output.AddLast(row);
+                    }
+                    return output;
                 }
                 finally
                 {
-                    //connection.Close();
+                    connection.Close();
                 }
             }
 

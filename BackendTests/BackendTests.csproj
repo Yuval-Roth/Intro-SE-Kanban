@@ -14,6 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="DataAccessLayer\TaskControllerDTOTests.cs" />
+    <Compile Remove="DataAccessLayer\UserControllerDTOTests.cs" />
     <Compile Remove="ServiceLayer\BoardServiceTests.cs" />
   </ItemGroup>
 
