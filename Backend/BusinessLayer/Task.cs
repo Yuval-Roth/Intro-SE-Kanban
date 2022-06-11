@@ -183,7 +183,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         public void AssignTask(CIString email, CIString emailAssignee)
         {
-            log.Debug("AssignTask() for taskId: " + email + ", emailAssignee:" + emailAssignee);
+            log.Debug("AssignTask() for taskId: " + id + ", emailAssignee:" + emailAssignee);
             if (state == TaskStates.done)
             {
                 log.Error("AssignTask() failed: " + id + "is done");

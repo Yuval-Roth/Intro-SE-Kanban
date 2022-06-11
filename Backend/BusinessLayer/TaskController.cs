@@ -146,5 +146,49 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
+
+        public void AssignTask(CIString email, CIString boardName, int columnOrdinal, int taskId, CIString emailAssignee)
+        {
+            log.Debug("AssignTask() for taskId: " + taskId + ", email:" + email);
+            try
+            {
+                Board board = boardController.SearchBoard(email, boardName);
+                Task task = board.SearchTask(taskId, columnOrdinal);
+                task.AssignTask(email, emailAssignee);
+                log.Debug("AssignTask() success");
+            }
+            catch (NoSuchElementException ex)
+            {
+                log.Error("AssignTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (AccessViolationException ex)
+            {
+                log.Error("AssignTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                log.Error("AssignTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                log.Error("AssignTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (ElementAlreadyExistsException ex)
+            {
+                log.Error("AssignTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserNotLoggedInException ex)
+            {
+                log.Error("AssignTask() failed: " + ex.Message);
+                throw;
+            }
+        }
     }
+
 }
+
