@@ -216,10 +216,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method adds a new task.
         /// </summary>
-        /// <param name="email">Email of the user. The user must be logged in.</param>
-        /// <param name="boardName">The name of the board</param>
-        /// <param name="title">Title of the new task</param>
-        /// <param name="description">Description of the new task</param>
+        /// <param name="emailRaw">Email of the user. The user must be logged in.</param>
+        /// <param name="boardNameRaw">The name of the board</param>
+        /// <param name="titleRaw">Title of the new task</param>
+        /// <param name="descriptionRaw">Description of the new task</param>
         /// <param name="dueDate">The due date if the new task</param>
 		/// <returns>
 		/// Json formatted as so:
@@ -243,8 +243,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             CIString description = new CIString(descriptionRaw);
             try
             {
-                Board board = boardController.SearchBoard(email,boardName);
-                board.AddTask(title, dueDate, description);
+                boardController.AddTask(email,boardName,title,description,dueDate);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }

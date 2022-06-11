@@ -545,6 +545,42 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
+        public void AddTask(CIString email, CIString boardName, CIString title, CIString description, DateTime dueDate)
+        {
+            log.Debug("AddTask() for: " + title + ", " + description + ", " + dueDate);
+            try
+            {
+                Board board = SearchBoard(email, boardName);
+                board.AddTask(title, dueDate, description);
+                log.Debug("AddTask() success");
+            }
+            catch (NoSuchElementException ex)
+            {
+                log.Error("AddTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (ArgumentException ex)
+            {
+                log.Error("AddTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (AccessViolationException ex)
+            {
+                log.Error("AddTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                log.Error("AddTask() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserNotLoggedInException ex)
+            {
+                log.Error("AddTask() failed: " + ex.Message);
+                throw;
+            }
+        }
+
         /// <summary>
         /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number
         /// </summary>
