@@ -315,6 +315,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //                  Json related
         //====================================================
 
+        public Task() { }
+
         public Serializable.Task_Serializable GetSerializableInstance()
         {
             return new Serializable.Task_Serializable()

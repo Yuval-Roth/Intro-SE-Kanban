@@ -10,12 +10,14 @@ namespace IntroSE.Kanban.Backend.Utilities
         private readonly string value;
 
         public string Value => value;
+
+        [JsonIgnore]
         public int Length => value.Length;
 
         [JsonConstructor]
-        public CIString(string s)
+        public CIString(string Value)
         {
-            value = s;
+            value = Value;
         }
 
         public bool Equals(CIString s)
