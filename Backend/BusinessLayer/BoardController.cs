@@ -663,6 +663,49 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
+
+
+        public void LimitColumn(CIString email, CIString boardName, int columnOrdinal, int limit)
+        {
+            log.Debug("LimitColumn() for column and limit: " + columnOrdinal + ", " + limit);
+            try
+            {
+                Board board = SearchBoard(email, boardName);
+                board.LimitColumn(columnOrdinal, limit);
+                log.Debug("LimitColumn() success");
+            }
+            catch (NoSuchElementException ex)
+            {
+                log.Error("LimitColumn() failed: " + ex.Message);
+                throw;
+            }
+            catch (ArgumentException ex)
+            {
+                log.Error("LimitColumn() failed: " + ex.Message);
+                throw;
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                log.Error("LimitColumn() failed: " + ex.Message);
+                throw;
+            }
+            catch (AccessViolationException ex)
+            {
+                log.Error("LimitColumn() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                log.Error("LimitColumn() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserNotLoggedInException ex)
+            {
+                log.Error("LimitColumn() failed: " + ex.Message);
+                throw;
+            }
+        }
+
         /// <summary>
         /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number
         /// </summary>

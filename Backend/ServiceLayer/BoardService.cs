@@ -399,8 +399,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method limits the number of tasks in a specific column.
         /// </summary>
-        /// <param name="email">The email address of the user, must be logged in</param>
-        /// <param name="boardName">The name of the board</param>
+        /// <param name="emailRaw">The email address of the user, must be logged in</param>
+        /// <param name="boardNameRaw">The name of the board</param>
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <param name="limit">The new limit value. A value of -1 indicates no limit.</param>
         /// <returns>
@@ -425,8 +425,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 
             try
             {
-                Board board = boardController.SearchBoard(email, boardName);
-                board.LimitColumn(columnOrdinal,limit);
+                boardController.LimitColumn(email,boardName,columnOrdinal,limit);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
