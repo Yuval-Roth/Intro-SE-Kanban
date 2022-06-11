@@ -62,9 +62,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             CIString email = new CIString(emailRaw);
             try
             {
-                Board board = boardController.SearchBoard(email, boardId);
                 boardController.JoinBoard(email, boardId);
-                board.JoinBoard(email, boardId);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }

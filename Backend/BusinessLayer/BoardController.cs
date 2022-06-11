@@ -391,6 +391,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 ValidateUser(email);
                 boardData.AddPointerToJoinedBoard(email, boardId);
+                Board board = SearchBoard(email, boardId);
+                board.JoinBoard(email, boardId);
                 log.Debug("JoinBoard() success");
             }
             catch (ElementAlreadyExistsException)
@@ -409,6 +411,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw;
             }
             catch (UserNotLoggedInException e)
+            {
+                log.Error("JoinBoard() failed: " + e.Message);
+                throw;
+            }
+            catch (AccessViolationException e)
+            {
+                log.Error("JoinBoard() failed: " + e.Message);
+                throw;
+            }
+            catch (ArgumentException e)
             {
                 log.Error("JoinBoard() failed: " + e.Message);
                 throw;
