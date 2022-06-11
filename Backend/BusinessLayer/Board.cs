@@ -186,7 +186,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     {
                         taskList.Remove(task);
                         taskStateTracker.Remove(taskId);
-                        boardDTO.RemoveBoard(Id);
+                        DataAccessLayerFactory.GetInstance().TaskControllerDTO.RemoveTask(Id,taskId);
                         log.Debug("RemoveTask() success");
                         break;
                     }

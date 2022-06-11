@@ -33,10 +33,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             string result = service.Register(email, password);
             string query = $"SELECT * FROM Users WHERE Email='{email}'";
             if (GetOperationState(result)== false) Assert.Fail("operationState is false");
-            using (var reader = executer.ExecuteRead(query))
-            {
-                if (!reader.Read()) Assert.Fail("No rows were fetched");
-            }
+            LinkedList<object[]> list = executer.ExecuteRead(query);
+            if (list.Count == 0) Assert.Fail("No rows were fetched");
         }
 
 
@@ -55,13 +53,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             if(GetOperationState(service.Register(email, password))==false)
                 Assert.Fail("Register failed");
             string result = service.SetPassword(email, password, newPassword);
-            string query = $"SELECT Password FROM Users WHERE Email='{email}'";
+            string query = $"SELECT * FROM Users WHERE Password='{newPassword}'";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
-            using (var reader = executer.ExecuteRead(query))
-            {
-                if (!reader.Read()) Assert.Fail("No rows were fetched");
-                if (reader.GetString(0).Equals(newPassword)==false) Assert.Fail("change password incorrectly");
-            }
+            LinkedList<object[]> list = executer.ExecuteRead(query);
+            if (list.Count == 0) Assert.Fail("No rows were fetched");
         }
 
         [TestMethod()]
@@ -73,13 +68,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             if (GetOperationState(service.Register(email, password)) == false)
                 Assert.Fail("Register failed");
             string result = service.SetEmail(email, newEmail);
-            string query = $"SELECT Email FROM Users WHERE Email='{newEmail}'";
+            string query = $"SELECT * FROM Users WHERE Email='{newEmail}'";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
-            using (var reader = executer.ExecuteRead(query))
-            {
-                if (!reader.Read()) Assert.Fail("No rows were fetched");
-                if (reader.GetString(0).Equals(newEmail)==false) Assert.Fail("change email incorrectly");
-            }
+            LinkedList<object[]> list = executer.ExecuteRead(query);
+            if (list.Count == 0) Assert.Fail("No rows were fetched");
         }
 
         private static bool GetOperationState(string json)

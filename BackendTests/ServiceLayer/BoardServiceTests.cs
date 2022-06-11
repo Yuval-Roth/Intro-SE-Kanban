@@ -606,7 +606,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void GetColumnTestSuccess()
         {
             LinkedList<BusinessLayer.Task> tasks = new LinkedList<BusinessLayer.Task>();
-            tasks.AddLast(new BusinessLayer.Task(0, "task 1", new DateTime(2022, 05, 20), "bla bla bla"));
+            tasks.AddLast(new BusinessLayer.Task(0, new Utilities.CIString("task 1") , new DateTime(2022, 05, 20), new Utilities.CIString("bla bla bla"), 0));
 
             string expected = JsonController.ConvertToJson(new Response<LinkedList<BusinessLayer.Task>>(true,tasks));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");

@@ -43,10 +43,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             string result = service.AddBoard(email, boardName);
             string query = $"SELECT * FROM Boards WHERE Email='{email}'";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
-            using (var reader = executer.ExecuteRead(query))
-            {
-                if (!reader.Read()) Assert.Fail("No rows were fetched");
-            }
+            LinkedList<object[]> list = executer.ExecuteRead(query);
+            if (list.Count == 0) Assert.Fail("No rows were fetched");
         }
 
         //remove board of owner
@@ -63,10 +61,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             string result = service.RemoveBoard(email, boardName);
             string query = $"SELECT * FROM Boards WHERE Owner='{email} AND Title='{boardName}";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
-            using (var reader = executer.ExecuteRead(query))
-            {
-                if (reader.Read()) Assert.Fail("No rows were fetched");
-            }
+            LinkedList<object[]> list = executer.ExecuteRead(query);
+            if (list.Count != 0) Assert.Fail("No rows were fetched");
         }
 
         //remove board of joined
@@ -90,11 +86,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             string result = service.RemoveBoard(email, boardName);
             string query = $"SELECT * FROM UserJoinedBoards WHERE BoardId='{boardId};";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
-            using (var reader = executer.ExecuteRead(query))
-            {
-                if (reader.Read()) Assert.Fail("No rows were fetched");
-            }
-
+            LinkedList<object[]> list = executer.ExecuteRead(query);
+            if (list.Count != 0) Assert.Fail("No rows were fetched");
         }
 
         [TestMethod()]
@@ -115,11 +108,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             string result = boardService.JoinBoard(email2, boardId);
             string query = $"SELECT * FROM UserJoinedBoards WHERE BoardId='{boardId};";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
-            using (var reader = executer.ExecuteRead(query))
-            {
-                if (!reader.Read()) Assert.Fail("No rows were fetched");
-            }
-
+            LinkedList<object[]> list = executer.ExecuteRead(query);
+            if (list.Count == 0) Assert.Fail("No rows were fetched");
         }
 
         [TestMethod()]
@@ -142,10 +132,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             string result = boardService.LeaveBoard(email2, boardId);
             string query = $"SELECT * FROM UserJoinedBoards WHERE BoardId='{boardId};";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
-            using (var reader = executer.ExecuteRead(query))
-            {
-                if (reader.Read()) Assert.Fail("No rows were fetched");
-            }
+            LinkedList<object[]> list = executer.ExecuteRead(query);
+            if (list.Count != 0) Assert.Fail("No rows were fetched");
         }
 
         [TestMethod()]
@@ -168,11 +156,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             string result = boardService.ChangeOwner(email, email2 , boardName);
             string query = $"SELECT * FROM Boards WHERE Owner='{email2}'";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
-
-
             LinkedList<object[]> list = executer.ExecuteRead(query);     
             if (list.Count == 0) Assert.Fail("No rows were fetched");
-            
         }
 
         [TestMethod()]
@@ -186,11 +171,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             if (GetOperationState(service.AddBoard(email, boardName)) == false)
                 Assert.Fail("AddBoard failed");
             string result = boardService.LimitColumn(email, boardName, 0, 20);
-            string query = $"SELECT BackLogLimit FROM Boards WHERE BoardTitle='{boardName}";
+            string query = $"SELECT * FROM Boards WHERE BacklogLimit=20";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
             LinkedList<object[]> list = executer.ExecuteRead(query);
-            if (!reader.Read()) Assert.Fail("No rows were fetched");
-            if (reader.GetInt32(0) != 20) Assert.Fail("change Limit incorrectly");
+            if (list.Count == 0) Assert.Fail("No rows were fetched");
         }
 
 
