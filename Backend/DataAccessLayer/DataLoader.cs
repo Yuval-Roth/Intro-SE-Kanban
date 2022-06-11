@@ -125,8 +125,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 {
 
                     // Load joined list
-                    string joinedQuery = "SELECT Email" +
-                                         "FROM UserJoinedBoards" +
+                    string joinedQuery = "SELECT Email " +
+                                         "FROM UserJoinedBoards " +
                                         $"WHERE BoardId = {board.Id}";
                     using (SQLiteDataReader joinedReader = executer.ExecuteRead(joinedQuery))
                     {
@@ -137,8 +137,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     }
 
                     // Load tasks
-                    string taskQuery = "SELECT *" +
-                                       "FROM Tasks" +
+                    string taskQuery = "SELECT * " +
+                                       "FROM Tasks " +
                                       $"WHERE BoardId = {board.Id}";
                     using (SQLiteDataReader taskReader = executer.ExecuteRead(taskQuery))
                     {
@@ -146,6 +146,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                         {
                             TaskDTO task = new()
                             {
+                                BoardId = taskReader.GetInt32(0),
                                 Id = taskReader.GetInt32(1),
                                 Title = taskReader.GetString(2),
                                 Assignee = taskReader.GetString(3),

@@ -17,6 +17,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 
         public BoardControllerServiceTests()
         {
+            BusinessLayerFactory.GetInstance().DataCenterManagement.DeleteData();
             BusinessLayerFactory.DeleteEverything();
             BusinessLayerFactory factory = BusinessLayerFactory.GetInstance();
             userservice = new UserService(factory.UserController);
@@ -113,12 +114,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RemoveBoardTest_user_isnt_owner()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'printzpost.bgu.ac.il' doesn't exist in the system"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'print@zpost.bgu.ac.il' doesn't exist in the system"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-            result = userservice.Register("Printzpost.bgu.ac.il", "Ha12345");
-            result = boardservice.JoinBoard("Printzpost.bgu.ac.il", 0);
-            result = boardcontrollerservice.RemoveBoard("Printzpost.bgu.ac.il", "new Board");
+            result = userservice.Register("Printz@post.bgu.ac.il", "Ha12345");
+            result = boardservice.JoinBoard("Printz@post.bgu.ac.il", 0);
+            result = boardcontrollerservice.RemoveBoard("Printz@post.bgu.ac.il", "new Board");
             Assert.AreEqual(expected, result);
         }
 
@@ -132,8 +133,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "another board");
             boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
             boardservice.AddTask("kfirniss@post.bgu.ac.il", "another board", "task 2", "ninini", new DateTime(2023, 05, 20));
+            taskservice.AssignTask("kfirniss@post.bgu.ac.il", "new board", 0, 0, "kfirniss@post.bgu.ac.il");
+            taskservice.AssignTask("kfirniss@post.bgu.ac.il", "another board", 0, 0, "kfirniss@post.bgu.ac.il");
             boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
             boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "another board", 0, 0);
+            
             string result = boardcontrollerservice.GetAllTasksByState("kfirniss@post.bgu.ac.il",1);
             Response<LinkedList<Task>> act = JsonController.BuildFromJson<Response<LinkedList<Task>>>(result);
             Task tAct1 = act.returnValue.ElementAt(0);

@@ -95,7 +95,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //------------------- Data Repository -----------------------
         private AVLTree<CIString, DataUnit> UsersAndBoardsTree;
         private AVLTree<int, Board> OnlyBoardsTree;
-        private HashSet<CIString> loggedIn;
+        private HashSet<string> loggedIn;
         private int nextBoardID;
         private bool dataLoaded;
         //-----------------------------------------------------
@@ -188,7 +188,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public bool UserLoggedInStatus(CIString email)
         {
             log.Debug("UserLoggedInStatus() for: " + email);
-            return loggedIn.Contains(email);
+            return loggedIn.Contains(email.Value.ToLower());
         }
 
         public void SetLoggedIn(CIString email)
@@ -200,7 +200,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 if (UserLoggedInStatus(email) == false)
                 {
                     log.Info(email + " is now logged in");
-                    loggedIn.Add(email);
+                    loggedIn.Add(email.Value.ToLower());
                 }
                 else
                 {
@@ -225,7 +225,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 if (UserLoggedInStatus(email) == true)
                 {
                     log.Info(email + " is now logged out");
-                    loggedIn.Remove(email);
+                    loggedIn.Remove(email.Value.ToLower());
                 }
                 else
                 {

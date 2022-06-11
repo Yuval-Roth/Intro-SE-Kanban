@@ -34,7 +34,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     }
                     else
                     {
-                        log.Error("ExecuteWrite() failed");
+                        log.Error("ExecuteWrite() 0 rows changed");
                         return false;
                     } 
                 }

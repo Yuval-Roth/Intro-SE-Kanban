@@ -12,7 +12,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
         public bool AddUser(string email, string password)
         {
-            return executer.ExecuteWrite("INSERT INTO Users (Email,Password)" +
+            return executer.ExecuteWrite("INSERT INTO Users (Email,Password) " +
                 $"VALUES('{email}','{password}')");
         }
         public bool DeleteUser(string email)
@@ -21,14 +21,14 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         }
         public bool ChangePassword(string email, string password)
         {
-            return executer.ExecuteWrite("UPDATE Users" +
-                $"SET Password = '{password}'" +
+            return executer.ExecuteWrite("UPDATE Users " +
+                $"SET Password = '{password}' " +
                 $"WHERE Email = '{email}'");
         }
         public bool ChangeEmail(string oldEmail, string newEmail)
         {
-            return executer.ExecuteWrite("UPDATE Users" +
-                $"SET Email = '{newEmail}'" +
+            return executer.ExecuteWrite("UPDATE Users " +
+                $"SET Email = '{newEmail}' " +
                 $"WHERE Email = '{oldEmail}'");
         }
     }

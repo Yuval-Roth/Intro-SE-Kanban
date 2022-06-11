@@ -17,11 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="DataAccessLayer\Kanban.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="DataAccessLayer\Kanban.db-journal">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Kanban.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

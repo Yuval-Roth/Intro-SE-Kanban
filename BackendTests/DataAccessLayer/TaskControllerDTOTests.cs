@@ -19,12 +19,13 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
 
         public TaskControllerDTOTests()
         {
-            Backend.BusinessLayer.BusinessLayerFactory.GetInstance().DataCenterManagement.DeleteData();
+            BusinessLayer.BusinessLayerFactory.GetInstance().DataCenterManagement.DeleteData();
             ServiceLayerFactory.DeleteEverything();
             ServiceLayerFactory ServiceFactory = ServiceLayerFactory.GetInstance();
             DataAccessLayerFactory DataFactory = DataAccessLayerFactory.GetInstance();
             userService = ServiceFactory.UserService;
             boardService = ServiceFactory.BoardService;
+            boardControllerService = ServiceFactory.BoardControllerService;
             taskService = ServiceFactory.TaskService;
             executer = DataFactory.SQLExecuter;
         }

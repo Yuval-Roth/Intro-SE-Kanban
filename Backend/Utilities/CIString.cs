@@ -4,7 +4,8 @@ using System.Text.Json.Serialization;
 
 namespace IntroSE.Kanban.Backend.Utilities
 {
-    public class CIString : IEquatable<CIString>, IComparable
+    [Serializable]
+    public sealed class CIString : IEquatable<CIString>, IComparable
     {
         private readonly string value;
 
@@ -16,9 +17,14 @@ namespace IntroSE.Kanban.Backend.Utilities
         {
             value = s;
         }
+
         public bool Equals(CIString s)
         {
             return value.ToLower().Equals(s.value.ToLower());
+        }
+        public bool Equals(string s)
+        {
+            return value.ToLower().Equals(s.ToLower());
         }
         int IComparable.CompareTo(object obj)
         {

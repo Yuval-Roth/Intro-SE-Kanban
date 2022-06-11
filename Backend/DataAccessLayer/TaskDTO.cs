@@ -4,6 +4,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 {
     public class TaskDTO
     {
+        public int BoardId { get; set; }
         public int Id { set; get; }
         public string Title { set; get; }
         public string Description { set; get; }
