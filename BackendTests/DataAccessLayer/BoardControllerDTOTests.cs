@@ -84,7 +84,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             if (GetOperationState(boardService.JoinBoard(email2, boardId)) == false)
                 Assert.Fail("JoinBoard failed");
             string result = service.RemoveBoard(email, boardName);
-            string query = $"SELECT * FROM UserJoinedBoards WHERE BoardId='{boardId};";
+            string query = $"SELECT * FROM UserJoinedBoards WHERE BoardId={boardId};";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
             LinkedList<object[]> list = executer.ExecuteRead(query);
             if (list.Count != 0) Assert.Fail("rows were fetched");

@@ -752,7 +752,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
                 ValidateUser(email);
 
-                LinkedList<Board> myBoardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.MyBoards;
+                LinkedList<Board> myBoardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.JoinedBoards;
 
                 bool answer = FindBoardInList(myBoardList, title) != null;
                 log.Debug("UserJoinedToBoardCheck() success");
