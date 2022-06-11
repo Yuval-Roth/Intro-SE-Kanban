@@ -397,13 +397,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             catch (ElementAlreadyExistsException)
             {
-                log.Error("JoinBoard() failed: the user " + email + " is already joined to the board");
-                throw new ElementAlreadyExistsException("the user " + email + " is already joined to the board");
+                log.Error("JoinBoard() failed: the user '" + email + "' is already joined to the board");
+                throw new ElementAlreadyExistsException("the user '" + email + "' is already joined to the board");
             }
             catch (NoSuchElementException)
             {
-                log.Error("JoinBoard() failed: the board with id " + boardId + " doesn't exist");
-                throw new NoSuchElementException("the board with id " + boardId + " doesn't exist");
+                log.Error($"JoinBoard() failed: A board with id '{boardId}' doesn't exist in the system");
+                throw new NoSuchElementException($"A board with id '{boardId}' doesn't exist in the system");
             }
             catch (UserDoesNotExistException e)
             {
