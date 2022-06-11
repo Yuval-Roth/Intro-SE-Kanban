@@ -13,9 +13,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public UserServiceTests() 
         {
             BusinessLayerFactory.GetInstance().DataCenterManagement.DeleteData();
-            BusinessLayerFactory.DeleteEverything();
-            BusinessLayerFactory factory = BusinessLayerFactory.GetInstance();
-            service = new UserService(factory.UserController);
+            ServiceLayerFactory.DeleteEverything();
+            ServiceLayerFactory factory = ServiceLayerFactory.GetInstance();
+            service = factory.UserService;
         }
 
         [TestMethod()]

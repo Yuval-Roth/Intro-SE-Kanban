@@ -18,7 +18,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public BoardControllerServiceTests()
         {
             BusinessLayerFactory.GetInstance().DataCenterManagement.DeleteData();
-            BusinessLayerFactory.DeleteEverything();
+            ServiceLayerFactory.DeleteEverything();
             ServiceLayerFactory factory = ServiceLayerFactory.GetInstance();
             userservice = factory.UserService;
             boardcontrollerservice = factory.BoardControllerService;
