@@ -167,7 +167,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("AdvanceTask() failed: User is not the task's assignee");
                 throw new AccessViolationException("User is not the task's assignee");
             }
-            ++state;
+            state++;
             taskDTO.ChangeTaskState(boardId, Id, (BoardColumnNames)state);
             log.Debug("AdvanceTask() success");
         }
@@ -201,7 +201,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new ElementAlreadyExistsException("email: '" + email + "' isn't the task's assignee");
             }
             assignee = emailAssignee;
-            taskDTO.ChangeAssignee(email.Value, boardId, Id);
+            taskDTO.ChangeAssignee(assignee.Value, boardId, Id);
             log.Debug("AssignTask() success");
         }
 
