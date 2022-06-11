@@ -213,7 +213,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             log.Debug("AdvanceTask() for column and taskId: " + columnOrdinal + ", " + taskId);
             ValidateColumnOrdinal(columnOrdinal);
             Task task = SearchTask(taskId);
-            if (task.Assignee != email)
+            if (task.Assignee.Equals(email)==false)
             {
                 log.Error("AdvanceTask() failed: User is not the task's assignee");
                 throw new AccessViolationException("User is not the task's assignee");
@@ -452,7 +452,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void JoinBoard(CIString email, int boardId)
         {
             log.Debug("JoinBoard() for user: " + email + "for board " + boardId);
-            if(owner == email)
+            if(owner.Equals(email))
             {
                 log.Error("JoinBoard() failed: user with email '" + email + "' is the board's owner");
                 throw new AccessViolationException("the user " + email + " is the board's owner");
@@ -482,14 +482,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             joined.Remove(email);
             foreach(Task task in this.columns[(int)TaskStates.backlog])
             {
-                if (task.Assignee == email)
+                if (task.Assignee.Equals(email))
                 {
                     task.Assignee = new CIString("unAssigned");
                 }
             }
             foreach (Task task in columns[(int)TaskStates.inprogress])
             {
-                if (task.Assignee == email)
+                if (task.Assignee.Equals(email))
                 {
                     task.Assignee = new CIString("unAssigned");
                 }

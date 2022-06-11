@@ -467,7 +467,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
                 //validate that the board can be cleanly removed
                 Board toRemove = SearchBoardByEmailAndTitle(email,title);
-                if (email != toRemove.Owner)
+                if (email.Equals(toRemove.Owner)==false)
                 {
                     log.Fatal("Board numbered " + toRemove.Id + " says that '" + toRemove.Owner +
                         "' owns it but the user '" + email + "' owns it as well");
@@ -715,7 +715,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 // Search for the specific board
                 for (LinkedListNode<Board> node = myBoardList.First; node != null; node = node.Next)
                 {
-                    if (node.Value.Title == title)
+                    if (node.Value.Title.Equals(title))
                     {
                         Board output = node.Value;
                         myBoardList.Remove(node);
@@ -771,7 +771,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             Board output = null;
             foreach (Board board in boardList)
             {
-                if (board.Title == title) 
+                if (board.Title.Equals(title)) 
                 { 
                     output = board;
                     break;

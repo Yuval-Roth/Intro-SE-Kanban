@@ -113,7 +113,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 ValidateUser(email);
                 Board board = SearchBoard(email, name);
-                if (board.Owner != email)
+                if (board.Owner.Equals(email)==false)
                 {
                     log.Error("RemoveBoard() failed: user has not permission to do RemoveBoard");
                     throw new AccessViolationException("user has not permission to do RemoveBoard");
@@ -302,7 +302,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 LinkedList<Board> boardList = boardData.GetBoardsDataUnit(email).MyBoards;
                 foreach (Board board in boardList)
                 {
-                    if (board.Title == name)
+                    if (board.Title.Equals(name))
                     {
                         log.Debug("SearchBoard() success");
                         return board;
@@ -311,7 +311,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 LinkedList<Board> boardList1 = boardData.GetBoardsDataUnit(email).JoinedBoards;
                 foreach (Board board in boardList1)
                 {
-                    if (board.Title == name)
+                    if (board.Title.Equals(name))
                     {
                         log.Debug("SearchBoard() success");
                         return board;
@@ -490,7 +490,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             try
             {
                 Board board = SearchBoard(currentOwnerEmail, boardName);
-                if (board.Owner != currentOwnerEmail)
+                if (board.Owner.Equals(currentOwnerEmail)==false)
                 {
                     log.Error("ChangeOwner() failed: user isn't the board's owner");
                     throw new AccessViolationException("user isn't the board's owner");
