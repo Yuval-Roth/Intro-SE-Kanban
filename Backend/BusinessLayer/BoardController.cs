@@ -443,6 +443,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 ValidateUser(email);
                 Board board = SearchBoard(email, boardId);
+                if (board.Owner == email)
+                {
+                    log.Error($"LeaveBoard() failed: user {email} is the owner of the board {boardId}");
+                    throw new ElementAlreadyExistsException($"user '{email}' is the board's owner");
+                }
                 boardData.RemovePointerToJoinedBoard(email, boardId);
                 board.LeaveBoard(email, boardId);
                 log.Debug("LeaveBoard() success");
