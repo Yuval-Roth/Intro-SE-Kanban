@@ -464,8 +464,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method gets the limit of a specific column.
         /// </summary>
-        /// <param name="email">The email address of the user, must be logged in</param>
-        /// <param name="boardName">The name of the board</param>
+        /// <param name="emailRaw">The email address of the user, must be logged in</param>
+        /// <param name="boardNameRaw">The name of the board</param>
         /// <param name="columnOrdinal">The column ID. The first column is identified by 0, the ID increases by 1 for each column</param>
         /// <returns>
 		/// Json formatted as so:
@@ -488,8 +488,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 
             try
             {
-                Board board = boardController.SearchBoard(email, boardName);
-                int columnlimit = board.GetColumnLimit(columnOrdinal);
+                int columnlimit = boardController.GetColumnLimit(email, boardName, columnOrdinal);
                 Response<int> res = new(true, columnlimit);
                 return JsonController.ConvertToJson(res);
             }

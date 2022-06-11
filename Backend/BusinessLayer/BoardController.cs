@@ -706,6 +706,49 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
+
+        public int GetColumnLimit(CIString email, CIString boardName, int columnOrdinal)
+        {
+            log.Debug("GetColumnLimit() columnOrdinal: " + columnOrdinal);
+            try
+            {
+                Board board = SearchBoard(email, boardName);
+                int columnlimit = board.GetColumnLimit(columnOrdinal);
+                log.Debug("GetColumnLimit() success");
+                return columnlimit;
+            }
+            catch (NoSuchElementException ex)
+            {
+                log.Error("GetColumnLimit() failed: " + ex.Message);
+                throw;
+            }
+            catch (ArgumentException ex)
+            {
+                log.Error("GetColumnLimit() failed: " + ex.Message);
+                throw;
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                log.Error("GetColumnLimit() failed: " + ex.Message);
+                throw;
+            }
+            catch (AccessViolationException ex)
+            {
+                log.Error("GetColumnLimit() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                log.Error("GetColumnLimit() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserNotLoggedInException ex)
+            {
+                log.Error("GetColumnLimit() failed: " + ex.Message);
+                throw;
+            }
+        }
+
         /// <summary>
         /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number
         /// </summary>
