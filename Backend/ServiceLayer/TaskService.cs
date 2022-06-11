@@ -123,7 +123,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 Board board = boardController.SearchBoard(email.ToLower(), boardName);
                 Task task = board.SearchTask(taskId, columnOrdinal);
-                task.UpdateTitle(email.ToLower(), title);
+                task.UpdateTitle(email.ToLower(), title;
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }

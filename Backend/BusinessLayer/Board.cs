@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using IntroSE.Kanban.Backend.DataAccessLayer;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
@@ -42,6 +43,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private readonly int[] columnLimit;
         private readonly Dictionary<int, TaskStates> taskStateTracker;
         private int taskIDCounter;
+        private BoardControllerDTO boardDTO;
 
 
         public Board(string title, int id, string owner)
@@ -59,6 +61,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             columns[(int)TaskStates.inprogress] = new();
             columns[(int)TaskStates.done] = new();
             taskStateTracker = new();
+            boardDTO = DataAccessLayerFactory.GetInstance().BoardControllerDTO;
         }
 
         public Board(DataAccessLayer.BoardDTO boardDTO)
@@ -132,7 +135,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 try
                 {
-                    columns[(int)TaskStates.backlog].AddLast(new Task(taskIDCounter, title, duedate, description));
+                    Task task = new Task(taskIDCounter, title, duedate, description, Id);
+                    columns[(int)TaskStates.backlog].AddLast(task);
+                    DataAccessLayerFactory.GetInstance().TaskControllerDTO.AddTask(Id, taskIDCounter, title, task.Assignee, description, task.CreationTime, duedate, (BoardColumnNames)task.State);
                     taskStateTracker.Add(taskIDCounter, TaskStates.backlog);
                     taskIDCounter++;
                     log.Debug("AddTask() success");
@@ -173,6 +178,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     {
                         taskList.Remove(task);
                         taskStateTracker.Remove(taskId);
+                        boardDTO.RemoveBoard(Id);
                         log.Debug("RemoveTask() success");
                         break;
                     }
@@ -222,6 +228,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         if (columns[(int)state + 1].Count < columnLimit[(int)state + 1] | columnLimit[(int)state + 1] == -1)
                         {
                             Task toAdvance = SearchTask(taskId);
+                            DataAccessLayerFactory.GetInstance().TaskControllerDTO.ChangeTaskState(id, toAdvance.Id, (BoardColumnNames)toAdvance.State);
                             columns[(int)state].Remove(toAdvance);
                             columns[(int)state + 1].AddLast(toAdvance);
                             taskStateTracker[taskId] = state + 1;
@@ -401,6 +408,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     throw new ArgumentException("A column '" +
                         (TaskStates)columnOrdinal + "' size is bigger than th limit " + limit);
                 }
+                boardDTO.LimitColumn(Id, (BoardColumnNames) columnOrdinal, limit);
                 columnLimit[columnOrdinal] = limit;
                 log.Debug("LimitColumn() success");
             }
@@ -429,6 +437,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("ChangeOwner() failed: '" + newOwnerEmail + "' isn't joined to the board");
                 throw new ArgumentException("the user " + newOwnerEmail + " isn't joined to the board");
             }
+            boardDTO.ChangeOwner(newOwnerEmail, Id);
             this.owner = newOwnerEmail;
             this.joined.AddLast(currentOwnerEmail);
             this.joined.Remove(newOwnerEmail);
@@ -454,6 +463,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("JoinBoard() failed: user with email '" + email + "' already joined to the board");
                 throw new ArgumentException("the user " + email + " already joined to the board");
             }
+            boardDTO.JoinBoard(email, boardId);
             this.joined.AddLast(email);
             log.Debug("JoinBoard() success");
         }
@@ -472,6 +482,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("LeaveBoard() failed: user with email '" + email + "' is not joined to the board");
                 throw new ArgumentException("user with email '" + email + "' is not joined to the board");
             }
+            boardDTO.LeaveBoard(email, boardId);
             this.joined.Remove(email);
             foreach(Task task in this.columns[(int)TaskStates.backlog])
             {
