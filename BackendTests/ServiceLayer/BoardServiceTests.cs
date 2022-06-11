@@ -42,8 +42,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'Printz@post.bgu.ac.il' doesn't exist in the system"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = userservice.LogOut("kfirniss@post.bgu.ac.il");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = userservice.LogOut("kfirniss@post.bgu.ac.il");
             result = boardservice.JoinBoard("Printz@post.bgu.ac.il", 0);
             Assert.AreEqual(expected, result);
         }
@@ -53,9 +53,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "user 'Printz@post.bgu.ac.il' isn't logged in"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = userservice.LogOut("kfirniss@post.bgu.ac.il");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = userservice.LogOut("kfirniss@post.bgu.ac.il");
             result = userservice.Register("Printz@post.bgu.ac.il", "Ha12345");
+            userservice.LogOut("Printz@post.bgu.ac.il");
             result = boardservice.JoinBoard("Printz@post.bgu.ac.il", 0);
             Assert.AreEqual(expected, result);
         }

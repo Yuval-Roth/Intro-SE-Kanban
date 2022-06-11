@@ -42,14 +42,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <b>Throws</b> <c>ArgumentException</c> if a<c> Board</c> with that title already exists<br/>
         /// for the <c>User</c><br/>
         /// <b>Throws</b> <c>NoSuchElementException</c> if the user doesn't exist<br/>
-        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't logged in<br/>
+        /// <b>Throws</b> <c>UserNotLoggedInException</c> if the user isn't logged in<br/>
         /// in the system
         /// </summary>
         /// <param name="email"></param>
         /// <param name="name"></param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="NoSuchElementException"></exception>
-        /// <exception cref="AccessViolationException"></exception>
+        /// <exception cref="UserNotLoggedInException"></exception>
         public void AddBoard(CIString email, CIString name)
         {
 

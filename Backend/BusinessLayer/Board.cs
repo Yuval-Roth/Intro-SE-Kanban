@@ -464,7 +464,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             if(owner.Equals(email))
             {
                 log.Error("JoinBoard() failed: user with email '" + email + "' is the board's owner");
-                throw new AccessViolationException("the user " + email + " is the board's owner");
+                throw new AccessViolationException("the user '" + email + "' is the board's owner");
             }
             if (joined.Contains(email)){
                 log.Error("JoinBoard() failed: user with email '" + email + "' already joined to the board");
