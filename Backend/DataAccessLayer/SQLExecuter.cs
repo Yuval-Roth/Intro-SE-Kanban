@@ -28,16 +28,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 try
                 {
                     int affectedRows = command.ExecuteNonQuery();
-                    if (affectedRows > 0)
-                    {
-                        log.Debug("ExecuteWrite() success");
-                        return true;
-                    }
-                    else
-                    {
-                        log.Error("ExecuteWrite() 0 rows changed");
-                        return false;
-                    } 
+                    log.Debug($"ExecuteWrite() changed {affectedRows} rows");
+
+                    if (affectedRows > 0) return true;
+                    else return false;
                 }
                 finally
                 {
