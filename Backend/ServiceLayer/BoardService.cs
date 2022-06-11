@@ -158,9 +158,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method transfers a board ownership.
         /// </summary>
-        /// <param name="currentOwnerEmail">Email of the current owner. Must be logged in</param>
-        /// <param name="newOwnerEmail">Email of the new owner</param>
-        /// <param name="boardName">The name of the board</param>
+        /// <param name="currentOwnerEmailRaw">Email of the current owner. Must be logged in</param>
+        /// <param name="newOwnerEmailRaw">Email of the new owner</param>
+        /// <param name="boardNameRaw">The name of the board</param>
         /// <returns>
 		/// Json formatted as so:
 		/// <code>
@@ -182,9 +182,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             CIString boardName = new CIString(boardNameRaw);
             try
             {
-                Board board = boardController.SearchBoard(currentOwnerEmail, boardName);
                 boardController.ChangeOwner(currentOwnerEmail, newOwnerEmail, boardName);
-                board.ChangeOwner(currentOwnerEmail, newOwnerEmail, boardName);
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }

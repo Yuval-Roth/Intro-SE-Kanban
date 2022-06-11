@@ -520,6 +520,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     throw new AccessViolationException("user isn't the board's owner");
                 }
                 boardData.ChangeOwnerPointer(currentOwnerEmail, newOwnerEmail, boardName);
+                board.ChangeOwner(currentOwnerEmail, newOwnerEmail, boardName);
                 log.Debug("ChangeOwner() success");
             }
             catch (ElementAlreadyExistsException)
@@ -533,6 +534,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw;
             }
             catch (UserDoesNotExistException e)
+            {
+                log.Error("ChangeOwner() failed: " + e.Message);
+                throw;
+            }
+            catch (ArgumentException e)
             {
                 log.Error("ChangeOwner() failed: " + e.Message);
                 throw;
