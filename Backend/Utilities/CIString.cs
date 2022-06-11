@@ -11,13 +11,11 @@ namespace IntroSE.Kanban.Backend.Utilities
         public string Value => value;
         public int Length => value.Length;
 
-
         [JsonConstructor]
         public CIString(string s)
         {
             value = s;
         }
-
         public bool Equals(CIString s)
         {
             return value.ToLower().Equals(s.value.ToLower());
