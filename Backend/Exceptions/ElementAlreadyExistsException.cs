@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IntroSE.Kanban.Backend.BusinessLayer
+namespace IntroSE.Kanban.Backend.Exceptions
 {
     public class ElementAlreadyExistsException : SystemException
     {

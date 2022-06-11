@@ -1,5 +1,7 @@
 ﻿using System;
 using IntroSE.Kanban.Backend.BusinessLayer;
+using IntroSE.Kanban.Backend.Utilities;
+using IntroSE.Kanban.Backend.Exceptions;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {

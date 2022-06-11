@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using IntroSE.Kanban.Backend.Utilities;
+using IntroSE.Kanban.Backend.Exceptions;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
@@ -55,7 +57,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
-            catch (BusinessLayer.ElementAlreadyExistsException ex)
+            catch (ElementAlreadyExistsException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -65,7 +67,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
-            catch (BusinessLayer.UserDoesNotExistException ex)
+            catch (UserDoesNotExistException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -116,7 +118,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
-            catch (BusinessLayer.NoSuchElementException ex)
+            catch (NoSuchElementException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -136,7 +138,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
-            catch (BusinessLayer.UserDoesNotExistException ex)
+            catch (UserDoesNotExistException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -170,7 +172,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<LinkedList<BusinessLayer.Task>> res = new(true, tasks);
                 return JsonController.ConvertToJson(res);
             }
-            catch (BusinessLayer.NoSuchElementException ex)
+            catch (NoSuchElementException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -185,7 +187,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
-            catch (BusinessLayer.UserDoesNotExistException ex)
+            catch (UserDoesNotExistException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
@@ -218,7 +220,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(true, "");
                 return JsonController.ConvertToJson(res);
             }
-            catch (BusinessLayer.NoSuchElementException ex)
+            catch (NoSuchElementException ex)
             {
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);

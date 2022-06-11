@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using IntroSE.Kanban.Backend.DataAccessLayer;
+using IntroSE.Kanban.Backend.Utilities;
+using IntroSE.Kanban.Backend.Exceptions;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
@@ -91,9 +93,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //------------------------------------------------------
 
         //------------------- Data Repository -----------------------
-        private AVLTree<string, DataUnit> UsersAndBoardsTree;
+        private AVLTree<CIString, DataUnit> UsersAndBoardsTree;
         private AVLTree<int, Board> OnlyBoardsTree;
-        private HashSet<string> loggedIn;
+        private HashSet<CIString> loggedIn;
         private int nextBoardID;
         private bool dataLoaded;
         //-----------------------------------------------------
@@ -116,7 +118,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //                                Public Methods
         //===========================================================================
 
-        public User SearchUser(string email)
+        public User SearchUser(CIString email)
         {
             try
             {
@@ -133,7 +135,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        public User AddUser(string email, string password)
+        public User AddUser(CIString email, string password)
         {
             try
             {
@@ -159,7 +161,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        public void RemoveUser(string email)
+        public void RemoveUser(CIString email)
         {
             throw new NotImplementedException("DEPRECATED METHOD: Not updated to support current requirements");
 
@@ -183,13 +185,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 #pragma warning restore CS0162 // Unreachable code detected
         }
 
-        public bool UserLoggedInStatus(string email)
+        public bool UserLoggedInStatus(CIString email)
         {
             log.Debug("UserLoggedInStatus() for: " + email);
             return loggedIn.Contains(email);
         }
 
-        public void SetLoggedIn(string email)
+        public void SetLoggedIn(CIString email)
         {
             try
             {
@@ -214,7 +216,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             
         }
 
-        public void SetLoggedOut(string email)
+        public void SetLoggedOut(CIString email)
         {
             try
             {
@@ -238,13 +240,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        public bool UserExists(string email)
+        public bool UserExists(CIString email)
         {
             log.Debug("UserExists() for: " + email);
             return UsersAndBoardsTree.Contains(email);
         }
 
-        public BoardsDataUnit GetBoardsDataUnit(string email)
+        public BoardsDataUnit GetBoardsDataUnit(CIString email)
         {
             
             try
@@ -280,7 +282,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        public Board SearchBoardByEmailAndTitle(string email, string title)
+        public Board SearchBoardByEmailAndTitle(CIString email, CIString title)
         {
             try
             {
@@ -302,7 +304,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        public Board AddNewBoard(string email, string title)
+        public Board AddNewBoard(CIString email, CIString title)
         {
             try
             {
@@ -342,7 +344,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        public Board AddPointerToJoinedBoard(string email, int id)
+        public Board AddPointerToJoinedBoard(CIString email, int id)
         {
             try
             {
@@ -377,7 +379,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }        
         }
 
-        public Board RemovePointerToJoinedBoard(string email, int id) 
+        public Board RemovePointerToJoinedBoard(CIString email, int id) 
         {
             try
             {
@@ -455,7 +457,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }        
         }
         
-        public void NukeBoard(string email, string title)
+        public void NukeBoard(CIString email, CIString title)
         {
             try
             {
@@ -506,7 +508,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        public void ChangeOwnerPointer(string oldOwner,string title, string newOwner)
+        public void ChangeOwnerPointer(CIString oldOwner, CIString title, CIString newOwner)
         {
             
             try
@@ -539,7 +541,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        public bool UserOwnsABoardWithThisTitle(string email, string title)
+        public bool UserOwnsABoardWithThisTitle(CIString email, CIString title)
         {
             try
             {

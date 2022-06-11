@@ -1,4 +1,4 @@
-﻿namespace IntroSE.Kanban.Backend.ServiceLayer
+﻿namespace IntroSE.Kanban.Backend.Utilities
 {
     internal class ValidateArguments
     {

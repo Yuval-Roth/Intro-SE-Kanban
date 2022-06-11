@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using IntroSE.Kanban.Backend.Exceptions;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {

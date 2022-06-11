@@ -1,5 +1,7 @@
 ﻿using System;
 using IntroSE.Kanban.Backend.BusinessLayer;
+using IntroSE.Kanban.Backend.Utilities;
+using IntroSE.Kanban.Backend.Exceptions;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer
 {
@@ -25,14 +27,14 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 	
 	public class UserService
 	{
-		BusinessLayer.UserController userController;
+		UserController userController;
 
 		/// <summary>
 		/// Initialize userController
 		/// </summary>
 		/// <param name="userData"></param>
 
-		public UserService(BusinessLayer.UserController UC)
+		public UserService(UserController UC)
 		{
 			userController = UC;
 		}
