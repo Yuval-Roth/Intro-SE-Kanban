@@ -1,4 +1,5 @@
 ﻿using System;
+using IntroSE.Kanban.Backend.DataAccessLayer;
 using IntroSE.Kanban.Backend.Utilities;
 using IntroSE.Kanban.Backend.Exceptions;
 
@@ -29,6 +30,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\Task.cs");
 
+        private int boardId;
         private readonly int id;
         private readonly DateTime creationTime;
         private CIString title;
@@ -37,6 +39,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         TaskStates state;
         private CIString assignee;
 
+        private TaskStates state;
+        private string assignee;
+        private TaskControllerDTO taskDTO;
         private readonly int MAX_DESCRIPTION_CHAR_CAP = 300;
         private readonly int MAX_TITLE_CHAR_CAP = 50;
         private readonly int MIN_TITLE_CHAR_CAP = 1;
@@ -50,6 +55,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="duedate"></param>
         /// <param name="description"></param>
         /// <exception cref="ArgumentException"></exception>
+        public Task(int id, string title, DateTime dueDate,string description, int boardId)
         public Task(int id, CIString title, DateTime dueDate, CIString description)
         {
             log.Debug("Task() for id: " + id);
@@ -81,6 +87,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             creationTime = DateTime.Today;
             state = TaskStates.backlog;
             log.Debug("Task() success");
+            taskDTO = DataAccessLayerFactory.GetInstance().TaskControllerDTO;
+            this.boardId = boardId;
         }
 
         public Task(DataAccessLayer.TaskDTO taskDTO)
@@ -163,6 +171,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("AdvanceTask() failed: User is not the task's assignee");
                 throw new AccessViolationException("User is not the task's assignee");
             }
+            taskDTO.ChangeTaskState(boardId, Id, (BoardColumnNames)state);
             state++;
             log.Debug("AdvanceTask() success");
         }
@@ -195,6 +204,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("AssignTask() failed: task numbered '" + id + "' , email: '" + email + "' is already the assignee");
                 throw new ElementAlreadyExistsException("email: '" + email + "' isn't the task's assignee");
             }
+            taskDTO.ChangeAssignee(email, boardId, Id);
             assignee = emailAssignee;
             log.Debug("AssignTask() success");
         }
@@ -226,6 +236,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("UpdateDueDate() failed: due date was passed");
                 throw new ArgumentException("due date was passed");
             }
+            taskDTO.ChangeDueDate(value, boardId, Id);
             dueDate = value;
             log.Debug("UpdateDueDate() success");
         }
@@ -263,8 +274,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("UpdateTitle() failed: title is over the limit");
                 throw new ArgumentException("title is over the limit");
             }
-            log.Debug("UpdateTitle() success");
+            taskDTO.ChangeTitle(value, boardId, Id);
             title = value;
+            log.Debug("UpdateTitle() success");
+
         }
 
 
@@ -295,8 +308,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("UpdateDescription() failed: title is over the limit");
                 throw new ArgumentException("Description is over the limit");
             }
-            log.Debug("UpdateDescription() success");
+            taskDTO.ChangeDescription(value, boardId, Id);
             description = value;
+            log.Debug("UpdateDescription() success");
+
         }
 
 

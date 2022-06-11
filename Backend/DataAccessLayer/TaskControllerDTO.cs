@@ -11,11 +11,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             this.executer = executer;
         }
 
-        public bool AddTask(int boardId, TaskDTO task)
+        public bool AddTask(int boardId, int taskId, string title, string assignee, string description, DateTime CreationTime, DateTime duedate, BoardColumnNames state)
         {
             string command = "INSERT INTO Tasks(BoardId, TaskId, TaskTitle, Assignee, Description, CreationTime, DueDate, State)"+
-                             $"VALUES({boardId},{task.Id},'{task.Title}','{task.Assignee}','{task.Description}','{task.CreationTime}'," +
-                             $"'{task.DueDate.Year}/{task.DueDate.Month}/{task.DueDate.Day}',{(int)task.State})";
+                             $"VALUES({boardId},{taskId},'{title}','{assignee}','{description}','{CreationTime}'," +
+                             $"'{duedate.Year}/{duedate.Month}/{duedate.Day}',{(int)state})";
 
             return executer.ExecuteWrite(command);
         }

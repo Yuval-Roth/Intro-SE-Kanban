@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using IntroSE.Kanban.Backend.Exceptions;
 using IntroSE.Kanban.Backend.Utilities;
+using IntroSE.Kanban.Backend.DataAccessLayer;
 
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
@@ -34,6 +35,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private UserDataOperations userData;
         private static readonly int MIN_PASS_LENGTH = 6;
         private static readonly int MAX_PASS_LENGTH = 20;
+        private UserControllerDTO userDTO;
 
         /// <summary>
         /// Creates an empty <c>BinaryTree</c> userList <br/>
@@ -42,6 +44,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public UserController(UserDataOperations userData)
         {
             this.userData = userData;
+            userDTO = DataAccessLayerFactory.GetInstance().UserControllerDTO;
         }
 
         /// <summary>
@@ -204,6 +207,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             if (user.CheckPasswordMatch(old))
             {
+                userDTO.ChangePassword(user.Email, newP);
                 user.SetPassword(newP);
                 log.Debug("SetPassword() success");
             }
@@ -240,6 +244,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("SetEmail() failed: user with " + newE + " allready exist in the system");
                 throw new ArgumentException("A user with that email already exists in the system");
             }
+            userDTO.ChangeEmail(user.Email, newE);
             user.SetEmail(newE);
             log.Debug("SetEmail() success");
         }

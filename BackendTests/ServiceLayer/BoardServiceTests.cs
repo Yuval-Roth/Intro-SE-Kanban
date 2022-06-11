@@ -176,7 +176,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             result = userservice.Register("Printzpost.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("Printzpost.bgu.ac.il", "Ha12345");
             result = boardservice.JoinBoard("Printzpost.bgu.ac.il", 0);
-            result = boardservice.ChangeOwner("kfirniss@post.bgu.ac.il", 0, "Printzpost.bgu.ac.il");
+            result = boardservice.ChangeOwner("kfirniss@post.bgu.ac.il", "Printzpost.bgu.ac.il", "new board");
             Assert.AreEqual(expected, result);
         }
 
@@ -184,7 +184,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void ChangeOwnerTest_user_doesnt_exist()
         {
             string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't exist in the system"));
-            string result = boardservice.ChangeOwner("kfirniss@post.bgu.ac.il", 0, "Printzpost.bgu.ac.il");
+            string result = boardservice.ChangeOwner("kfirniss@post.bgu.ac.il", "Printzpost.bgu.ac.il", "new board");
             Assert.AreEqual(expected, result);
         }
 
@@ -194,17 +194,17 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string expected = JsonController.ConvertToJson(new Response<string>(false, "user 'kfirniss@post.bgu.ac.il' isn't logged in"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogOut("kfirniss@post.bgu.ac.il");
-            result = boardservice.ChangeOwner("kfirniss@post.bgu.ac.il", 0, "Printzpost.bgu.ac.il");
+            result = boardservice.ChangeOwner("kfirniss@post.bgu.ac.il", "Printzpost.bgu.ac.il", "new board");
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod()]
         public void ChangeOwnerTest_board_doesnt_exist()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board with id '1' doesn't exists in the system"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board 'another board' doesn't exists for the user"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-            result = boardservice.ChangeOwner("kfirniss@post.bgu.ac.il", 1, "Printzpost.bgu.ac.il");
+            result = boardservice.ChangeOwner("kfirniss@post.bgu.ac.il", "Printzpost.bgu.ac.il", "another board");
             Assert.AreEqual(expected, result);
         }
 
@@ -214,7 +214,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string expected = JsonController.ConvertToJson(new Response<string>(false, "email 'Printzpost.bgu.ac.il' isn't part of joined board list"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-            result = boardservice.ChangeOwner("kfirniss@post.bgu.ac.il", 0, "Printzpost.bgu.ac.il");
+            result = boardservice.ChangeOwner("kfirniss@post.bgu.ac.il", "Printzpost.bgu.ac.il", "new board");
             Assert.AreEqual(expected, result);
         }
 
@@ -224,7 +224,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string expected = JsonController.ConvertToJson(new Response<string>(false, "user 'kfirniss@post.bgu.ac.il' is already the board's owner"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-            result = boardservice.ChangeOwner("kfirniss@post.bgu.ac.il", 0, "kfirniss@post.bgu.ac.il");
+            result = boardservice.ChangeOwner("kfirniss@post.bgu.ac.il", "kfirniss@post.bgu.ac.il", "new board");
             Assert.AreEqual(expected, result);
         }
 

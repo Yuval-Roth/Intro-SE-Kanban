@@ -33,7 +33,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             return executer.ExecuteWrite("UPDATE Boards"+
             $"SET Owner = '{email}'"+
-            $"WHERE TaskId = {id}");
+            $"WHERE BoardId = {id}");
         }
         public bool LimitColumn(int id, BoardColumnNames column, int limit)
         {
