@@ -76,7 +76,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void JoinBoardTest_user_already_joined()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "the user \u0027Printz@post.bgu.ac.il\u0027 is already joined to the board"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "the user 'Printz@post.bgu.ac.il' is already joined to the board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = userservice.Register("Printz@post.bgu.ac.il", "Ha12345");
@@ -112,7 +112,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void LeaveBoardTest_user_doesnt_exist()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'Printz@post.bgu.ac.il' doesn't exist in the system"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "the user Printz@post.bgu.ac.il doesn't exist"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardservice.JoinBoard("Printz@post.bgu.ac.il", 0);
@@ -134,22 +134,22 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         }
 
         [TestMethod()]
-        public void LeaveBoardTest_board_doesnt_exist()
+        public void LeaveBoardTest_Leave_board_doesnt_exist()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board with id '1' doesn't exists in the system"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board with Id '1' doesn't exists"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = userservice.Register("Printz@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("Printz@post.bgu.ac.il", "Ha12345");
-            result = boardservice.JoinBoard("Printz@post.bgu.ac.il", 1);
-            result = boardservice.LeaveBoard("Printz@post.bgu.ac.il", 0);
+            result = boardservice.JoinBoard("Printz@post.bgu.ac.il", 0);
+            result = boardservice.LeaveBoard("Printz@post.bgu.ac.il", 1);
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod()]
-        public void LeaveBoardTest_user_didnt_join_the_board()
+        public void LeaveBoardTest_leave_board_user_didnt_join_the_board()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "user 'Printz@post.bgu.ac.il' didn't joined the board he tried to leave"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "Printz@post.bgu.ac.il is not joined to board nubmer 0"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = userservice.Register("Printz@post.bgu.ac.il", "Ha12345");
