@@ -114,6 +114,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                             BackLogLimit = boardsReader.GetInt32(3),
                             InProgressLimit = boardsReader.GetInt32(4),
                             DoneLimit = boardsReader.GetInt32(5),
+                            TaskIDCounter = boardsReader.GetInt32(6)
                         };
                         boardsList.AddLast(board);
                     }

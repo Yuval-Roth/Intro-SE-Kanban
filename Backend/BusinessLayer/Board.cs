@@ -75,6 +75,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             columnLimit[(int)TaskStates.backlog] = boardDTO.BackLogLimit;
             columnLimit[(int)TaskStates.inprogress] = boardDTO.InProgressLimit;
             columnLimit[(int)TaskStates.done] = boardDTO.DoneLimit;
+            taskIDCounter = boardDTO.TaskIDCounter;
             taskStateTracker = new();
 
             foreach (DataAccessLayer.TaskDTO taskDTO in boardDTO.BackLog)

@@ -14,5 +14,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         public int BackLogLimit { set; get; }
         public int InProgressLimit { set; get; }
         public int DoneLimit { set; get; }
+        public int TaskIDCounter { set; get; }
     }
 }
