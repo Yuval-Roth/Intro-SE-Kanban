@@ -163,7 +163,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             int boardId = dataOperations.SearchBoardByEmailAndTitle(new CIString(email), new CIString(boardName)).Id;
             if (GetOperationState(userService.Register(email2, password2)) == false)
                 Assert.Fail("Register failed");
-            string result = boardService.ChangeOwner(email, email2, boardName);
+            string result = boardService.ChangeOwner(email, boardName, email2);
             string query = $"SELECT * FROM Boards WHERE Owner='{email2}";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
             using (var reader = executer.ExecuteRead(query))
