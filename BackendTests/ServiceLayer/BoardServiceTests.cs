@@ -202,7 +202,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void ChangeOwnerTest_board_doesnt_exist()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board 'another board' doesn't exists for the user"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board titled 'another board' doesn't exists for the user with the email kfirniss@post.bgu.ac.il"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardservice.ChangeOwner("kfirniss@post.bgu.ac.il", "Printz@post.bgu.ac.il", "another board");
@@ -212,10 +212,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void ChangeOwnerTest_user_dont_joined_to_the_board()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "email 'Printz@post.bgu.ac.il' isn't part of joined board list"));
-            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-            result = boardservice.ChangeOwner("kfirniss@post.bgu.ac.il", "Printz@post.bgu.ac.il", "new board");
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "the user Printz@post.bgu.ac.il isn't joined to the board"));
+            userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            userservice.Register("Printz@post.bgu.ac.il", "Ha12345");
+            boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            string result = boardservice.ChangeOwner("kfirniss@post.bgu.ac.il", "Printz@post.bgu.ac.il", "new board");
             Assert.AreEqual(expected, result);
         }
 
@@ -346,6 +347,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
+            taskservice.AssignTask("kfirniss@post.bgu.ac.il", "new board", 0, 0, "kfirniss@post.bgu.ac.il");
             result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
             Assert.AreEqual(expected, result);
         }
@@ -399,6 +401,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
+            taskservice.AssignTask("kfirniss@post.bgu.ac.il", "new board", 0, 0, "kfirniss@post.bgu.ac.il");
             result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
             result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 1, 0);
             result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 2, 0);
@@ -414,6 +417,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
             result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 2", "ni ni ni", new DateTime(2023, 05, 20));
+            taskservice.AssignTask("kfirniss@post.bgu.ac.il", "new board", 0, 0, "kfirniss@post.bgu.ac.il");
+            taskservice.AssignTask("kfirniss@post.bgu.ac.il", "new board", 0, 1, "kfirniss@post.bgu.ac.il");
             result = boardservice.LimitColumn("kfirniss@post.bgu.ac.il", "new board", 1, 1);
             result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
             result = boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 1);
