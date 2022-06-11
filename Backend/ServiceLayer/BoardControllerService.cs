@@ -65,11 +65,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonController.ConvertToJson(res);
             }
-            catch (DataMisalignedException ex)
-            {
-                Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
-            }
+            //catch (DataMisalignedException ex)
+            //{
+            //    Response<string> res = new(false, ex.Message);
+            //    return JsonController.ConvertToJson(res);
+            //}
             catch (UserDoesNotExistException ex)
             {
                 Response<string> res = new(false, ex.Message);
