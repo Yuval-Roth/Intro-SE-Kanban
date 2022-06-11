@@ -167,8 +167,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("AdvanceTask() failed: User is not the task's assignee");
                 throw new AccessViolationException("User is not the task's assignee");
             }
+            ++state;
             taskDTO.ChangeTaskState(boardId, Id, (BoardColumnNames)state);
-            state++;
             log.Debug("AdvanceTask() success");
         }
 
