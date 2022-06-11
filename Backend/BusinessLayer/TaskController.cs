@@ -103,5 +103,48 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
+
+        public void UpdateTaskTitle(CIString email, CIString boardName, int columnOrdinal, int taskId, CIString title)
+        {
+            log.Debug("UpdateTaskTitle() for taskId: " + taskId + ", email:" + email);
+            try
+            {
+                Board board = boardController.SearchBoard(email, boardName);
+                Task task = board.SearchTask(taskId, columnOrdinal);
+                task.UpdateTitle(email, title);
+                log.Debug("UpdateTaskTitle() success");
+            }
+            catch (NoSuchElementException ex)
+            {
+                log.Error("UpdateTaskTitle() failed: " + ex.Message);
+                throw;
+            }
+            catch (ArgumentException ex)
+            {
+                log.Error("UpdateTaskTitle() failed: " + ex.Message);
+                throw;
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                log.Error("UpdateTaskTitle() failed: " + ex.Message);
+                throw;
+            }
+            catch (AccessViolationException ex)
+            {
+                log.Error("UpdateTaskTitle() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                log.Error("UpdateTaskTitle() failed: " + ex.Message);
+                throw;
+            }
+            catch (UserNotLoggedInException ex)
+            {
+                log.Error("UpdateTaskTitle() failed: " + ex.Message);
+                throw;
+            }
+        }
+
     }
 }

@@ -248,7 +248,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="AccessViolationException"></exception>
         public void UpdateTitle(CIString email, CIString value)
         {
-            log.Debug("UpdateTitle() for taskId: " + email + ", email:" + email);
+            log.Debug("UpdateTitle() for taskId: " + id + ", email:" + email);
             if (assignee.Equals(email) == false)
             {
                 log.Error("UpdateTitle() failed: User is not the task's assignee");
