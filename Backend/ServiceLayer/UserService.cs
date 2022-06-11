@@ -199,7 +199,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 			try
             {
 				User toSetPassword = userController.SearchUser(email);
-				userController.SetPassword(emailRaw, old, newP);
+				userController.SetPassword(email, old, newP);
 				Response<string> res = new(true, "");
 				return JsonController.ConvertToJson(res);
 			}
@@ -237,7 +237,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 			try
             {
 				User toSetEmail = userController.SearchUser(email);
-				userController.SetEmail(emailRaw, newEmail);
+				userController.SetEmail(email, newEmail);
 				Response<string> res = new(true, "");
 				return JsonController.ConvertToJson(res);
 			}

@@ -520,7 +520,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     throw new AccessViolationException("user isn't the board's owner");
                 }
                 boardData.ChangeOwnerPointer(currentOwnerEmail, boardName, newOwnerEmail);
-                boardData.ChangeOwnerPointer(currentOwnerEmail, newOwnerEmail, boardName);
                 board.ChangeOwner(currentOwnerEmail, newOwnerEmail, boardName);
                 log.Debug("ChangeOwner() success");
             }
