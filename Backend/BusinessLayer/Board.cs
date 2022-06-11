@@ -145,7 +145,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 {
                     Task task = new Task(taskIDCounter, title, duedate, description, Id);
                     columns[(int)TaskStates.backlog].AddLast(task);
-                    DataAccessLayerFactory.GetInstance().TaskControllerDTO.AddTask(Id, taskIDCounter, title, task.Assignee, description, task.CreationTime, duedate, (BoardColumnNames)task.State);
+                    DataAccessLayerFactory.GetInstance().TaskControllerDTO.AddTask(Id, taskIDCounter, title.Value, task.Assignee.Value, description.Value, task.CreationTime, duedate, (BoardColumnNames)task.State);
                     taskStateTracker.Add(taskIDCounter, TaskStates.backlog);
                     taskIDCounter++;
                     log.Debug("AddTask() success");

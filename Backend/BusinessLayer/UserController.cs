@@ -207,8 +207,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             if (user.CheckPasswordMatch(old))
             {
-                userDTO.ChangePassword(user.Email, newP);
                 user.SetPassword(newP);
+                userDTO.ChangePassword(user.Email.Value, newP);
                 log.Debug("SetPassword() success");
             }
             else
@@ -244,7 +244,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("SetEmail() failed: user with " + newE + " allready exist in the system");
                 throw new ArgumentException("A user with that email already exists in the system");
             }
-            userDTO.ChangeEmail(user.Email, newE);
+            userDTO.ChangeEmail(user.Email.Value, newE.Value);
             user.SetEmail(newE);
             log.Debug("SetEmail() success");
         }
