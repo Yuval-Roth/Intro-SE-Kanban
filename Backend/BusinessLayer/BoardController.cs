@@ -514,6 +514,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             try
             {
                 Board board = SearchBoard(currentOwnerEmail, boardName);
+                if (board.Owner == newOwnerEmail)
+                {
+                    log.Error($"ChangeOwner() failed: user {newOwnerEmail} is already the owner of the board {boardName}");
+                    throw new ElementAlreadyExistsException($"user '{newOwnerEmail}' is already the board's owner");
+                }
                 if (board.Owner.Equals(currentOwnerEmail)==false)
                 {
                     log.Error("ChangeOwner() failed: user isn't the board's owner");
@@ -523,9 +528,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 board.ChangeOwner(currentOwnerEmail, newOwnerEmail, boardName);
                 log.Debug("ChangeOwner() success");
             }
-            catch (ElementAlreadyExistsException)
+            catch (ElementAlreadyExistsException e)
             {
-                log.Error("ChangeOwner() failed: board '" + boardName + "' already exists for " + newOwnerEmail);
+                log.Error("ChangeOwner() failed: "+e.Message);
                 throw;
             }
             catch (NoSuchElementException e)
