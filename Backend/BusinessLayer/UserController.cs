@@ -91,7 +91,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         ///Delate <c>User</c> from the <c>UserData</c> userData <br/> <br/>
         ///<b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the userData
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="email"></param>
         /// <exception cref="UserDoesNotExistException"></exception>
         public void DeleteUser(CIString email)
         {
@@ -155,7 +155,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// Log out user from the system- Remove user from <c>Dictionary</c> loogedIn <br/><br/>
         /// <b>Throws</b> <c>ArgumentException</c> if the user isn't logged in or <br/> if email is illegal
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="email"></param>
         /// <exception cref="ArgumentException"></exception>
 
         public void LogOut(CIString email)
@@ -188,16 +188,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// Replace the user's password after ensuring the user entered his old password correctly <br/><br/>
         /// <b>Throws</b> <c>ArgumentException</c> if the user doesn't exist in the system <b>or</b> <br/> if the new password entered is illegal <b>or</b> <br/> if the old password entered doesn't match the user's password <br/>
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="email"></param>
         /// <param name="old"></param>
         /// <param name="newP"></param>
         /// <exception cref="ArgumentException"></exception>
-        public void SetPassword(User user, string old, string newP)
+        public void SetPassword(string email, string old, string newP)
         {
-            log.Debug("SetPassword() for : '" + user.GetEmail() + "' from '" + old + "' to '" + newP);
-            if (userData.UserExists(user.GetEmail()) == false)
+            log.Debug("SetPassword() for : '" + email + "' from '" + old + "' to '" + newP);
+            if (userData.UserExists(new CIString(email)) == false)
             {
-                log.Error("SetPassword() failed: '" + user.GetEmail() + "' is not in the system");
+                log.Error("SetPassword() failed: '" + email + "' is not in the system");
                 throw new ArgumentException("User is not in the system");
             }
             if (!IsLegalPassword(newP))
@@ -205,6 +205,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("SetPassword() failed: '" + newP + "' is illegal");
                 throw new ArgumentException("New password is illegal");
             }
+            User user = SearchUser(new CIString(email));
             if (user.CheckPasswordMatch(old))
             {
                 user.SetPassword(newP);
@@ -222,16 +223,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// Change the user's email <br/><br/>
         /// <b>Throws</b> <c>ArgumentException</c> if the user doesn't exist in the system <b>or</b> <br/> if a user with the new email exist in the system
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="email"></param>
         /// <param name="newE"></param>
         /// <exception cref="ArgumentException"></exception>
 
-        public void SetEmail(User user, CIString newE)
+        public void SetEmail(string email, CIString newE)
         {
-            log.Debug("SetEmail() for '" + user + "' to '" + newE);
-            if (userData.UserExists(user.GetEmail()) == false)
+            log.Debug("SetEmail() for '" + email + "' to '" + newE);
+            if (userData.UserExists(new CIString(email)) == false)
             {
-                log.Error("SetEmail() failed: '" + user + "' doesn't exist");
+                log.Error("SetEmail() failed: '" + email + "' doesn't exist");
                 throw new ArgumentException("User dosen't exist");
             }
             if (!IsEmailValid(newE))
@@ -244,8 +245,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("SetEmail() failed: user with " + newE + " allready exist in the system");
                 throw new ArgumentException("A user with that email already exists in the system");
             }
-            userDTO.ChangeEmail(user.Email.Value, newE.Value);
-            user.SetEmail(newE);
+            userDTO.ChangeEmail(email, newE.Value);
+            SearchUser(new CIString(email)).SetEmail(newE);
             log.Debug("SetEmail() success");
         }
 
