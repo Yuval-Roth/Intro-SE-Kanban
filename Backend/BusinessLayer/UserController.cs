@@ -192,10 +192,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="old"></param>
         /// <param name="newP"></param>
         /// <exception cref="ArgumentException"></exception>
-        public void SetPassword(string email, string old, string newP)
+        public void SetPassword(CIString email, string old, string newP)
         {
             log.Debug("SetPassword() for : '" + email + "' from '" + old + "' to '" + newP);
-            if (userData.UserExists(new CIString(email)) == false)
+            if (userData.UserExists(email) == false)
             {
                 log.Error("SetPassword() failed: '" + email + "' is not in the system");
                 throw new ArgumentException("User is not in the system");
@@ -205,7 +205,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("SetPassword() failed: '" + newP + "' is illegal");
                 throw new ArgumentException("New password is illegal");
             }
-            User user = SearchUser(new CIString(email));
+            User user = SearchUser(email);
             if (user.CheckPasswordMatch(old))
             {
                 user.SetPassword(newP);
@@ -327,7 +327,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public static bool IsEmailValid(CIString email)
         {
             Regex valid = new Regex(@"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$");
-            if(valid.Matches(email.Value).Count > 0)
+            if(valid.Matches(email.Value).Count == 1)
             {
                 return true;
             }

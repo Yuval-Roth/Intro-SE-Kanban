@@ -615,9 +615,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void DeleteData()
         {
             new DatabaseNuker().Nuke();
-            UsersAndBoardsTree = null;
-            OnlyBoardsTree = null;
-            loggedIn = null;
+            UsersAndBoardsTree = new();
+            OnlyBoardsTree = new();
+            loggedIn = new();
             nextBoardID = 0;
             dataLoaded = false;
         }

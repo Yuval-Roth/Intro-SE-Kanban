@@ -11,7 +11,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         private SQLExecuter executer;
         private LinkedList<UserDTO> usersList;
         private LinkedList<BoardDTO> boardsList;
-        private int boardIdCounter;
+        private long boardIdCounter;
 
         public DataLoader(SQLExecuter executer) 
         {
@@ -29,7 +29,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
         public LinkedList<UserDTO> UsersList => usersList;
         public LinkedList<BoardDTO> BoardsList => boardsList;
-        public int BoardIdCounter => boardIdCounter;
+        public int BoardIdCounter => (int)boardIdCounter;
 
 
         private void LoadUsers()
@@ -57,8 +57,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 foreach (UserDTO user in usersList)
                 {
                     // Load MyBoards
-                    string boardsQuery = "SELECT BoardId" +
-                                         "FROM Boards" +
+                    string boardsQuery = "SELECT BoardId " +
+                                         "FROM Boards " +
                                         $"WHERE Owner = '{user.Email}'";
                     LinkedList<object[]> ownedBoardsList = executer.ExecuteRead(boardsQuery);
                     foreach (object[] row in ownedBoardsList)
@@ -67,8 +67,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     }
 
                     // Load JoinedBoards
-                    boardsQuery = "SELECT BoardId" +
-                                  "FROM UserJoinedBoards" +
+                    boardsQuery = "SELECT BoardId " +
+                                  "FROM UserJoinedBoards " +
                                  $"WHERE Email = '{user.Email}'";
                     LinkedList<object[]> joinedBoardsList = executer.ExecuteRead(boardsQuery);
                     foreach (object[] row in joinedBoardsList)
@@ -177,9 +177,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             log.Debug("LoadBoardIdCounter() initiated");
             try
             {
-                string query = "SELECT BoardIDCounter FROM GlobalCounters ";
+                string query = "SELECT BoardIDCounter FROM GlobalCounters";
                 LinkedList<object[]> list = executer.ExecuteRead(query);
-                boardIdCounter = (int)list.First.Value[0];
+                boardIdCounter = (long)list.First.Value[0];
             }
             catch (SQLiteException e)
             {
