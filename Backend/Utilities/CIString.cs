@@ -61,7 +61,7 @@ namespace IntroSE.Kanban.Backend.Utilities
         }
         public override int GetHashCode()
         {            
-            return value.GetHashCode();
+            return value.ToLower().GetHashCode();
         }
         public object Clone()
         {
