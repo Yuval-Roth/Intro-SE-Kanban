@@ -19,7 +19,8 @@ namespace IntroSE.Kanban.selfTesting
         {
             //CIStringDeserialization();
             //CIStringTesting();
-            getInProgress();
+            //getInProgress();
+            JsonTests();
         }
         public static void CIStringDeserialization()
         {
@@ -58,6 +59,11 @@ namespace IntroSE.Kanban.selfTesting
             {
                 Console.WriteLine(task.CreationTime);
             }
+        }
+        public static void JsonTests()
+        {
+            GradingService gs = new();
+            Console.WriteLine(gs.AddTask("TestEmail@post.bgu.ac.il", "test", "2", "blabla", new DateTime(2200, 10, 20)));
         }
     }
 }
