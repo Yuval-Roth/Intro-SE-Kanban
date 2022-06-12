@@ -63,13 +63,12 @@ namespace IntroSE.Kanban.selfTesting
         public static void JsonTests()
         {
             GradingService gs = new();
-            
-            for(int i = 0; i < 10; i++)
-            Console.WriteLine(gs.Register($"Testemail{i}@lol.com","coolpAss2"));
-            ServiceLayerFactory.DeleteEverything();
-            gs = new();
-            Console.WriteLine(gs.LoadData());
             Console.WriteLine(gs.DeleteData());
+            Console.WriteLine(gs.Register($"Testemail@lol.com","coolpAss2"));
+            for (int i = 0; i < 10; i++)
+                gs.AddBoard("testemail@lol.com", $"board{i}");
+            
+            Console.WriteLine(gs.GetUserBoards("testemail@lol.com"));
         }
     }
 }

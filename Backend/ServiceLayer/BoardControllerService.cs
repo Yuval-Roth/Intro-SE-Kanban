@@ -219,9 +219,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController.ConvertToJson(res);
             }
             try
-            {
-                boardController.GetBoardsId(email);
-                Response<string> res = new(true, "");
+            {            
+                Response<LinkedList<int>> res = new(true, boardController.GetBoardsId(email));
                 return JsonController.ConvertToJson(res);
             }
             catch (NoSuchElementException ex)
