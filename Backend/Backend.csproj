@@ -17,7 +17,7 @@
     <None Update="DataAccessLayer\Kanban.db-journal">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="Kanban.db">
+    <None Update="kanban.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="log4net.config">
