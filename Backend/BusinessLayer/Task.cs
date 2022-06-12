@@ -88,7 +88,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             this.boardId = boardId;
         }
 
-        public Task(DataAccessLayer.TaskDTO taskDTO)
+        public Task(TaskDTO taskDTO)
         {
             id = taskDTO.Id;
             title = new CIString(taskDTO.Title);
@@ -97,16 +97,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             assignee = new CIString(taskDTO.Assignee);
             creationTime = taskDTO.CreationTime;
             state = (TaskStates)taskDTO.State;
-        }
-
-        [JsonConstructor]
-        public Task(int Id, DateTime CreationTime, string Title, string Description, DateTime DueDate)
-        {
-            id = Id;
-            creationTime = CreationTime;
-            title = Title;
-            description = Description;
-            dueDate = DueDate;
         }
 
         //====================================
@@ -130,20 +120,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             get { return assignee; }
             set { assignee = value; }
         }
+
         public TaskStates State => state;
 
-        public CIString Title
+        public string Title
         {
             get { return title; }
             set { title = value; }
         }
-
-        public CIString Description
+        public string Description
         {
             get { return description; }
             set { description = value; }
         }
-
 
         public DateTime DueDate
         {
@@ -330,7 +319,17 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public Task() { }
 
-        
+        public static implicit operator Serializable.Task_Serializable(Task other)
+        {
+            return new Serializable.Task_Serializable()
+            {
+                Id = other.Id,
+                CreationTime = other.CreationTime,
+                Title = other.Title,
+                Description = other.Description,
+                DueDate = other.DueDate,
+            };
+    }
 
         public Serializable.Task_Serializable GetSerializableInstance()
         {

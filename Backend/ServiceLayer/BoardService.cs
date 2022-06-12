@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using IntroSE.Kanban.Backend.BusinessLayer;
+using IntroSE.Kanban.Backend.BusinessLayer.Serializable;
 using IntroSE.Kanban.Backend.Utilities;
 using IntroSE.Kanban.Backend.Exceptions;
 
@@ -594,8 +595,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 LinkedList<Task> column = boardController.GetColumn(email,boardName,columnOrdinal);
-                LinkedList<BusinessLayer.Serializable.Task_Serializable> =  Linked
-                Response<LinkedList<Task>> res = new(true, column);
+                LinkedList<Task_Serializable> columnSerializable = new();
+                foreach (Task task in column)
+                {
+                    Task_Serializable task_Serializable = task;
+                    columnSerializable.AddLast(task_Serializable);
+                }
+                Response<LinkedList<Task_Serializable>> res = new(true, columnSerializable);
                 return JsonController.ConvertToJson(res);
             }
             catch (NoSuchElementException ex)

@@ -146,8 +146,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             string json = boardServiceLayer.GetColumnLimit(email, boardName, columnOrdinal);
             if (GetOperationState(json) == true)
             {
-                //return JsonController.ConvertToJson(new intResponse(json));
-                return JsonController.ConvertToJson(new GradingResponse<Integer>(json));
+                return JsonController.ConvertToJson(new intResponse(json));
+                //return JsonController.ConvertToJson(new GradingResponse<Integer>(json));
             }
             else return JsonController.ConvertToJson(new GradingResponse<string>(json));
 
@@ -402,7 +402,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                BusinessLayer.BusinessLayerFactory.GetInstance().DataCenterManagement.DeleteData();
+                BusinessLayerFactory.GetInstance().DataCenterManagement.DeleteData();
                 return JsonController.ConvertToJson(new GradingResponse<string>());
             }
             catch (SQLiteException e)
