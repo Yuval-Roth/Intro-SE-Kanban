@@ -127,14 +127,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 			//                  Json related
 			//====================================================
 
-			public Serializable.User_Serializable GetSerializableInstance()
-			{
-				return new Serializable.User_Serializable
-				{
-					Email = email,
-					Password = "CENSORED"
-				};
-			}
+			//public Serializable.User_Serializable GetSerializableInstance()
+			//{
+			//	return new Serializable.User_Serializable
+			//	{
+			//		Email = email,
+			//		Password = "CENSORED"
+			//	};
+			//}
 		
 	}
 }

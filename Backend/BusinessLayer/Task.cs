@@ -319,28 +319,28 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public Task() { }
 
-        public static implicit operator Serializable.Task_Serializable(Task other)
-        {
-            return new Serializable.Task_Serializable()
-            {
-                Id = other.Id,
-                CreationTime = other.CreationTime,
-                Title = other.Title,
-                Description = other.Description,
-                DueDate = other.DueDate,
-            };
-    }
+        //public static implicit operator Serializable.Task_Serializable(Task other)
+        //{
+        //    return new Serializable.Task_Serializable()
+        //    {
+        //        Id = other.Id,
+        //        CreationTime = other.CreationTime,
+        //        Title = other.Title,
+        //        Description = other.Description,
+        //        DueDate = other.DueDate,
+        //    };
+        // }
 
-        public Serializable.Task_Serializable GetSerializableInstance()
-        {
-            return new Serializable.Task_Serializable()
-            {
-                Id = id,
-                CreationTime = creationTime,
-                Title = title,
-                Description = description,
-                DueDate = dueDate,
-            };
-        }
+        //public Serializable.Task_Serializable GetSerializableInstance()
+        //{
+        //    return new Serializable.Task_Serializable()
+        //    {
+        //        Id = id,
+        //        CreationTime = creationTime,
+        //        Title = title,
+        //        Description = description,
+        //        DueDate = dueDate,
+        //    };
+        //}
     }
 }

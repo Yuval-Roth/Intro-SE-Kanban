@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using IntroSE.Kanban.Backend.Utilities;
 using IntroSE.Kanban.Backend.BusinessLayer;
-using IntroSE.Kanban.Backend.BusinessLayer.Serializable;
 using IntroSE.Kanban.Backend.ServiceLayer;
 using System.Text.Json.Serialization;
 
@@ -265,7 +264,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             string json = boardServiceLayer.GetColumn(email, boardName, columnOrdinal);
             if (GetOperationState(json) == true)
             {
-                return JsonController.ConvertToJson(new GradingResponse<LinkedList<Task_Serializable>>(json));
+                return JsonController.ConvertToJson(new GradingResponse<LinkedList<Task>>(json));
             }
             else return JsonController.ConvertToJson(new GradingResponse<string>(json));
         }
@@ -309,7 +308,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             string json = boardControllerServiceLayer.GetAllTasksByState(email, 1);
             if (GetOperationState(json) == true)
             {
-                return JsonController.ConvertToJson(new GradingResponse<LinkedList<BusinessLayer.Serializable.Task_Serializable>>(json));
+                return JsonController.ConvertToJson(new GradingResponse<LinkedList<Task>>(json));
             }
             else return JsonController.ConvertToJson(new GradingResponse<string>(json));
         }

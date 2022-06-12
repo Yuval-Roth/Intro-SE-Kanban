@@ -6,12 +6,6 @@ using IntroSE.Kanban.Backend.DataAccessLayer;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
-    public enum TaskStates
-    {
-        backlog,
-        inprogress,
-        done
-    }
 
     /// <summary>
     ///This class controls the actions users' board.<br/>
@@ -529,25 +523,25 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //                  Json related
         //====================================================
 
-        public Serializable.Board_Serializable GetSerializableInstance() 
-        {
-            LinkedList<Serializable.Task_Serializable>[] serializableColumns = new LinkedList<Serializable.Task_Serializable>[3];
+        //public Serializable.Board_Serializable GetSerializableInstance() 
+        //{
+        //    LinkedList<Serializable.Task_Serializable>[] serializableColumns = new LinkedList<Serializable.Task_Serializable>[3];
 
-            for (int column = (int)TaskStates.backlog ; column <= (int)TaskStates.done; column++)
-            {
-                serializableColumns[column] = new LinkedList<Serializable.Task_Serializable>();
-                foreach (Task task in columns[column])
-                {
-                    serializableColumns[column].AddLast(task.GetSerializableInstance());
-                }
-            }
-            return new Serializable.Board_Serializable()
-            {
-                Title = title,
-                Columns = columns,
-                ColumnLimit = columnLimit,
-                TaskStateTracker = taskStateTracker
-            };
-        }
+        //    for (int column = (int)TaskStates.backlog ; column <= (int)TaskStates.done; column++)
+        //    {
+        //        serializableColumns[column] = new LinkedList<Serializable.Task_Serializable>();
+        //        foreach (Task task in columns[column])
+        //        {
+        //            serializableColumns[column].AddLast(task.GetSerializableInstance());
+        //        }
+        //    }
+        //    return new Serializable.Board_Serializable()
+        //    {
+        //        Title = title,
+        //        Columns = columns,
+        //        ColumnLimit = columnLimit,
+        //        TaskStateTracker = taskStateTracker
+        //    };
+        //}
     }
 }

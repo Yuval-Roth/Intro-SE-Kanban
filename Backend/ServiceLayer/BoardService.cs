@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using IntroSE.Kanban.Backend.BusinessLayer;
-using IntroSE.Kanban.Backend.BusinessLayer.Serializable;
 using IntroSE.Kanban.Backend.Utilities;
 using IntroSE.Kanban.Backend.Exceptions;
 
