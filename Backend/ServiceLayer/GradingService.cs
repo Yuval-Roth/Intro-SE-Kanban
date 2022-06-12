@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using IntroSE.Kanban.Backend.Utilities;
+using IntroSE.Kanban.Backend.BusinessLayer;
+using IntroSE.Kanban.Backend.BusinessLayer.Serializable;
+using IntroSE.Kanban.Backend.ServiceLayer;
+using System.Text.Json.Serialization;
+
 
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]
 
@@ -53,7 +58,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
     /// </para>
     /// </summary>
     /// 
-    
+
     public class GradingService
     {
         public UserService userServiceLayer;
@@ -96,7 +101,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             string json = userServiceLayer.LogIn(email, password);
             if (GetOperationState(json) == true)
             {
-                return JsonController.ConvertToJson(new GradingResponse<string>(null,email));
+                return JsonController.ConvertToJson(new GradingResponse<string>(null, email));
             }
             else return JsonController.ConvertToJson(new GradingResponse<string>(json));
         }
@@ -260,7 +265,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             string json = boardServiceLayer.GetColumn(email, boardName, columnOrdinal);
             if (GetOperationState(json) == true)
             {
-                return JsonController.ConvertToJson(new GradingResponse<LinkedList<BusinessLayer.Serializable.Task_Serializable>>(json));
+                return JsonController.ConvertToJson(new GradingResponse<LinkedList<Task_Serializable>>(json));
             }
             else return JsonController.ConvertToJson(new GradingResponse<string>(json));
         }
@@ -382,7 +387,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             catch (SQLiteException e)
             {
-                return JsonController.ConvertToJson(new GradingResponse<string>(e.Message,null)); 
+                return JsonController.ConvertToJson(new GradingResponse<string>(e.Message, null));
             }
         }
 
@@ -404,7 +409,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             {
                 return JsonController.ConvertToJson(new GradingResponse<string>(e.Message, null));
             }
-    
+
         }
         /// <summary>
         /// This method transfers a board ownership.
@@ -428,6 +433,17 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return true;
             }
             else return false;
+        }
+        public class OperationState
+        {
+            bool state;
+
+            [JsonConstructor]
+            public OperationState(bool OperationState, object obj)
+            {
+                state = operationState;
+            }
+            public bool operationState => state;
         }
     }
 }

@@ -2,6 +2,7 @@
 using IntroSE.Kanban.Backend.DataAccessLayer;
 using IntroSE.Kanban.Backend.Utilities;
 using IntroSE.Kanban.Backend.Exceptions;
+using System.Text.Json.Serialization;
 
 namespace IntroSE.Kanban.Backend.BusinessLayer
 {
@@ -98,6 +99,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             state = (TaskStates)taskDTO.State;
         }
 
+        [JsonConstructor]
+        public Task(int Id, DateTime CreationTime, string Title, string Description, DateTime DueDate)
+        {
+            id = Id;
+            creationTime = CreationTime;
+            title = Title;
+            description = Description;
+            dueDate = DueDate;
+        }
 
         //====================================
         //            getters/setters
@@ -319,6 +329,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //====================================================
 
         public Task() { }
+
+        
 
         public Serializable.Task_Serializable GetSerializableInstance()
         {

@@ -594,6 +594,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 LinkedList<Task> column = boardController.GetColumn(email,boardName,columnOrdinal);
+                LinkedList<BusinessLayer.Serializable.Task_Serializable> =  Linked
                 Response<LinkedList<Task>> res = new(true, column);
                 return JsonController.ConvertToJson(res);
             }

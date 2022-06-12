@@ -125,5 +125,9 @@ namespace IntroSE.Kanban.Backend.Utilities
         {
             return new CIString(v);
         }
+        public static implicit operator string(CIString v)
+        {
+            return v.value;
+        }
     }
 }
