@@ -816,8 +816,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private int GetNextBoardID => nextBoardID;
         private void IncrementBoardID()
         {
-            DALFactory.BoardControllerDTO.UpdateBoardIdCounter(nextBoardID+1);
             nextBoardID++;
+            DALFactory.BoardControllerDTO.UpdateBoardIdCounter(nextBoardID);
         }
 
 

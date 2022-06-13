@@ -60,12 +60,12 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                                         $"SET BoardIDCounter = {newValue}");
 
         }
-        public bool UpdateTaskIdCounter(int id, int newValue)
+        public bool UpdateTaskIdCounter(int boardId, int newValue)
         {
-            log.Debug($"AddBoard() for {id}, {newValue}");
+            log.Debug($"AddBoard() for {boardId}, {newValue}");
             return executer.ExecuteWrite("UPDATE Boards " +
                                         $"SET TaskIDCounter = {newValue} " +
-                                        $"WHERE BoardId = {id}");
+                                        $"WHERE BoardId = {boardId}");
         }
 
     }

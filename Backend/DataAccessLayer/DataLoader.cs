@@ -73,7 +73,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     LinkedList<object[]> joinedBoardsList = executer.ExecuteRead(boardsQuery);
                     foreach (object[] row in joinedBoardsList)
                     {
-                        user.MyBoards.AddLast((int)(long)row[0]);
+                        user.JoinedBoards.AddLast((int)(long)row[0]);
                     }
                 }
                 log.Debug("LoadUsers() success");

@@ -142,6 +142,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     DataAccessLayerFactory.GetInstance().TaskControllerDTO.AddTask(Id, taskIDCounter, title.Value, task.Assignee, description.Value, task.CreationTime, duedate, (BoardColumnNames)task.State);
                     taskStateTracker.Add(taskIDCounter, TaskStates.backlog);
                     taskIDCounter++;
+                    boardDTO.UpdateTaskIdCounter(id,taskIDCounter);
                     log.Debug("AddTask() success");
                 }
                 catch (ArgumentException e)
