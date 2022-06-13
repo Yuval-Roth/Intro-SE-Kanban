@@ -67,6 +67,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 
         public GradingService()
         {
+            ServiceLayerFactory.DeleteEverything();
             ServiceLayerFactory factory = ServiceLayerFactory.GetInstance();
             userServiceLayer = factory.UserService;
             boardControllerServiceLayer = factory.BoardControllerService;
@@ -382,7 +383,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             try
             {
-                BusinessLayer.BusinessLayerFactory.GetInstance().DataCenterManagement.LoadData();
+                BusinessLayerFactory.GetInstance().DataCenterManagement.LoadData();
                 return JsonController.ConvertToJson(new GradingResponse<string>());
             }
             catch (SQLiteException e)
@@ -403,8 +404,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 BusinessLayerFactory.GetInstance().DataCenterManagement.DeleteData();
-                ServiceLayerFactory.DeleteEverything();
-                ServiceLayerFactory.GetInstance();
                 return JsonController.ConvertToJson(new GradingResponse<string>());
             }
             catch (SQLiteException e)
@@ -435,17 +434,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return true;
             }
             else return false;
-        }
-        public class OperationState
-        {
-            bool state;
-
-            [JsonConstructor]
-            public OperationState(bool OperationState, object obj)
-            {
-                state = operationState;
-            }
-            public bool operationState => state;
         }
     }
 }
