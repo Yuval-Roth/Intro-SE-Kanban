@@ -278,7 +278,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Set <c>Task Description</c> to <c>Task</c> task <br/> <br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the title over his char cap or task is already done
+        /// <b>Throws</b> <c>ArgumentException</c> if the title over his char cap or task is already done<br/><br/>
         /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't the assignee
         /// </summary>
         /// <param name="value"></param>
