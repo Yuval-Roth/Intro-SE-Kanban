@@ -115,12 +115,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             init { creationTime = value; }
         }
 
+        [JsonIgnore]
         public CIString Assignee
         {
             get { return assignee; }
             set { assignee = value; }
         }
-
+        [JsonIgnore]
         public TaskStates State => state;
 
         public string Title

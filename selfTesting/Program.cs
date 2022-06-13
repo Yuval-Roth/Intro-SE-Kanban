@@ -62,13 +62,16 @@ namespace IntroSE.Kanban.selfTesting
         }
         public static void JsonTests()
         {
+            string user1 = "TestEmail@lol.com";
+            string pass1 = "coolpAss2";
             GradingService gs = new();
             Console.WriteLine(gs.DeleteData());
-            Console.WriteLine(gs.Register($"Testemail@lol.com","coolpAss2"));
-            for (int i = 0; i < 10; i++)
-                gs.AddBoard("testemail@lol.com", $"board{i}");
-            
-            Console.WriteLine(gs.GetUserBoards("testemail@lol.com"));
+            Console.WriteLine(gs.Register(user1,pass1));
+            Console.WriteLine(gs.AddBoard(user1,"Board1"));
+            Console.WriteLine(gs.AddTask(user1,"board1","Task1","hello1",new DateTime(2200,2,2)));
+            Console.WriteLine(gs.AssignTask(user1, "boaRd1", 0, 0, user1));
+            Console.WriteLine(gs.UpdateTaskDescription("testemAil@lol.com","BOARD1",0,0,"hello1upDated"));
+            Console.WriteLine(gs.GetUserBoards("TestEmail@LOL.com"));
         }
     }
 }
