@@ -71,10 +71,11 @@ namespace IntroSE.Kanban.selfTesting
             Console.WriteLine(gs.Register(user1,pass1));
             Console.WriteLine(gs.Register(user2, pass2));
             Console.WriteLine(gs.AddBoard(user1,"Board1"));
-            Console.WriteLine(gs.AddBoard(user1, "BoardYuval"));
+            Console.WriteLine(gs.AddBoard(user2, "    "/*"BoardYuval"*/));
             Console.WriteLine(gs.JoinBoard(user2, 0));
+            Console.WriteLine(gs.JoinBoard(user1, 0));
             Console.WriteLine(gs.JoinBoard(user2, 1));
-            Console.WriteLine(gs.AddTask(user2,"board1","task1","",new DateTime(2200,2,2)));
+            Console.WriteLine(gs.AddTask(user1,"board1","task1","",new DateTime(2200,2,2)));
             Console.WriteLine(gs.AddTask(user2, "BoardYuval", "task2", "", new DateTime(2200, 2, 2)));
             Console.WriteLine(gs.AssignTask(user1, "boaRd1", 0, 0, user1));
             Console.WriteLine(gs.AssignTask(user2, "boaRdYuval", 0, 0, user2));
@@ -83,7 +84,7 @@ namespace IntroSE.Kanban.selfTesting
             Console.WriteLine(gs.LoadData());
             Console.WriteLine(gs.Login("TESTEMAIL@LOL.COM",pass1));
             Console.WriteLine(gs.Login(user2, pass2));
-            Console.WriteLine(gs.GetUserBoards(""));
+            Console.WriteLine(gs.GetUserBoards(user1));
             Console.WriteLine(gs.GetUserBoards(user2));
         }
     }

@@ -390,14 +390,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             try
             {
                 ValidateUser(email);
-                boardData.AddPointerToJoinedBoard(email, boardId);
                 Board board = SearchBoard(email, boardId);
                 board.JoinBoard(email, boardId);
+                boardData.AddPointerToJoinedBoard(email, boardId);
                 log.Debug("JoinBoard() success");
             }
-            catch (ElementAlreadyExistsException)
+            catch (ElementAlreadyExistsException e)
             {
-                log.Error("JoinBoard() failed: the user '" + email + "' is already joined to the board");
+                log.Error("JoinBoard() failed: "+e.Message);
                 throw new ElementAlreadyExistsException("the user '" + email + "' is already joined to the board");
             }
             catch (NoSuchElementException)
