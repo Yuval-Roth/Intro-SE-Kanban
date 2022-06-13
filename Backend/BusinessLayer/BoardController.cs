@@ -252,7 +252,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public LinkedList<int> GetBoardsId(CIString email)
         {
 
-            log.Debug("GetBoards() for: " + email);
+            log.Debug("GetBoardsId() for: " + email);
             try
             {
                 ValidateUser(email);
@@ -261,23 +261,23 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 foreach (Board board in myBoards)
                 {
                     output.AddLast(board.Id);
-                    log.Debug("GetBoards() success");
                 }
+                log.Debug("GetBoardsId() success");
                 return output;
             }
             catch (NoSuchElementException)
             {
-                log.Error("GetBoards() failed: '" + email + "' doesn't exist");
+                log.Error("GetBoardsId() failed: '" + email + "' doesn't exist");
                 throw;
             }
             catch (UserDoesNotExistException e)
             {
-                log.Error("GetBoards() failed: " + e.Message);
+                log.Error("GetBoardsId() failed: " + e.Message);
                 throw;
             }
             catch (UserNotLoggedInException e)
             {
-                log.Error("GetBoards() failed: " + e.Message);
+                log.Error("GetBoardsId() failed: " + e.Message);
                 throw;
             }
         }

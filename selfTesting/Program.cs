@@ -81,9 +81,9 @@ namespace IntroSE.Kanban.selfTesting
             Console.WriteLine(gs.UpdateTaskDescription(/*user1*/"testemAil@lol.com", "BOARD1",0,0,"hello1upDated"));
             gs = new();
             Console.WriteLine(gs.LoadData());
-            Console.WriteLine(gs.Login(user1,pass1));
+            Console.WriteLine(gs.Login("TESTEMAIL@LOL.COM",pass1));
             Console.WriteLine(gs.Login(user2, pass2));
-            Console.WriteLine(gs.GetUserBoards(user1));
+            Console.WriteLine(gs.GetUserBoards("tEsTeMaiL@LOL.com"));
             Console.WriteLine(gs.GetUserBoards(user2));
         }
     }
