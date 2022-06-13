@@ -83,7 +83,7 @@ namespace IntroSE.Kanban.selfTesting
             Console.WriteLine(gs.LoadData());
             Console.WriteLine(gs.Login("TESTEMAIL@LOL.COM",pass1));
             Console.WriteLine(gs.Login(user2, pass2));
-            Console.WriteLine(gs.GetUserBoards("tEsTeMaiL@LOL.com"));
+            Console.WriteLine(gs.GetUserBoards(""));
             Console.WriteLine(gs.GetUserBoards(user2));
         }
     }
