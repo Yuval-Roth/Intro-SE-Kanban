@@ -70,7 +70,7 @@ namespace IntroSE.Kanban.selfTesting
             Console.WriteLine(gs.AddBoard(user1,"Board1"));
             Console.WriteLine(gs.AddTask(user1,"board1","task1","hello1",new DateTime(2200,2,2)));
             Console.WriteLine(gs.AssignTask(user1, "board1", 0, 0, user1));
-            Console.WriteLine(gs.UpdateTaskDescription("testemail@lol.com","board1",0,0,"hello1updated"));
+            Console.WriteLine(gs.UpdateTaskDescription("testemail@lol.com","board1",0,0,"hello1upDated"));
             Console.WriteLine(gs.GetColumn(user1, "Board1", 0));
         }
     }

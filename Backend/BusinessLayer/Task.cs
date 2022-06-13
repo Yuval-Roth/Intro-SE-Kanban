@@ -121,7 +121,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             get { return assignee; }
             set { assignee = value; }
         }
-
+        [JsonIgnore]
         public TaskStates State => state;
 
         public string Title
