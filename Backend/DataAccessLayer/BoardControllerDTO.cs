@@ -23,9 +23,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             log.Debug($"RemoveBoard() for {Id}");
             return executer.ExecuteWrite($"DELETE FROM Boards " +
-                                         $"WHERE Boards.BoardId={Id}; " +
+                                         $"WHERE BoardId = {Id}; " +
                                          $"DELETE FROM UserJoinedBoards " +
-                                         $"WHERE UserJoinedBoards.BoardId={Id}");
+                                         $"WHERE BoardId = {Id}");
         }
         public bool JoinBoard(string email, int id)
         {
@@ -37,7 +37,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             log.Debug($"LeaveBoard() for {email}, {id}");
             return executer.ExecuteWrite("DELETE FROM UserJoinedBoards " +
-                                        $"WHERE BoardId= '{id}' and Email= '{email}'");
+                                        $"WHERE BoardId = {id} and Email like '{email}'");
         }
         public bool ChangeOwner(string email, int id)
         {

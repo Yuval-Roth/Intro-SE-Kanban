@@ -17,19 +17,19 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         }
         public bool DeleteUser(string email)
         {
-            return executer.ExecuteWrite($"DELETE FROM Users WHERE Email= '{email}'");
+            return executer.ExecuteWrite($"DELETE FROM Users WHERE Email like '{email}'");
         }
         public bool ChangePassword(string email, string password)
         {
             return executer.ExecuteWrite("UPDATE Users " +
                 $"SET Password = '{password}' " +
-                $"WHERE Email = '{email}'");
+                $"WHERE Email like '{email}'");
         }
         public bool ChangeEmail(string oldEmail, string newEmail)
         {
             return executer.ExecuteWrite("UPDATE Users " +
                 $"SET Email = '{newEmail}' " +
-                $"WHERE Email = '{oldEmail}'");
+                $"WHERE Email like '{oldEmail}'");
         }
     }
 }
