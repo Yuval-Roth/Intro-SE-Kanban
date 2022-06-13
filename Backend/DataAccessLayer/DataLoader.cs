@@ -63,7 +63,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     LinkedList<object[]> ownedBoardsList = executer.ExecuteRead(boardsQuery);
                     foreach (object[] row in ownedBoardsList)
                     {
-                        user.MyBoards.AddLast((int)row[0]);
+                        user.MyBoards.AddLast((int)(long)row[0]);
                     }
 
                     // Load JoinedBoards
@@ -73,7 +73,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     LinkedList<object[]> joinedBoardsList = executer.ExecuteRead(boardsQuery);
                     foreach (object[] row in joinedBoardsList)
                     {
-                        user.MyBoards.AddLast((int)row[0]);
+                        user.MyBoards.AddLast((int)(long)row[0]);
                     }
                 }
                 log.Debug("LoadUsers() success");
@@ -99,17 +99,17 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     // Create a new board
                     BoardDTO board = new()
                     {
-                        Id = (int)row[0],
+                        Id = (int)(long)row[0],
                         Title = (string)row[1],
                         Owner = (string)row[2],
                         Joined = new(),
                         BackLog = new(),
                         InProgress = new(),
                         Done = new(),
-                        BackLogLimit = (int)row[3],
-                        InProgressLimit = (int)row[4],
-                        DoneLimit = (int)row[5],
-                        TaskIDCounter = (int)row[6]
+                        BackLogLimit = (int)(long)row[3],
+                        InProgressLimit = (int)(long)row[4],
+                        DoneLimit = (int)(long)row[5],
+                        TaskIDCounter = (int)(long)row[6]
                     };
                     boardsList.AddLast(board);
                 }
@@ -138,14 +138,14 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     {
                         TaskDTO task = new()
                         {
-                            BoardId = (int)row[0],
-                            Id = (int)row[1],
+                            BoardId = (int)(long)row[0],
+                            Id = (int)(long)row[1],
                             Title = (string)row[2],
                             Assignee = (string)row[3],
                             Description = (string)row[4],
-                            CreationTime = (DateTime)row[5],
-                            DueDate = (DateTime)row[6],
-                            State = (BoardColumnNames)row[7]
+                            CreationTime = DateTime.Parse((string)row[5]),
+                            DueDate = DateTime.Parse((string)row[6]),
+                            State = (BoardColumnNames)(int)(long)row[7]
                         };
                         switch (task.State)
                         {
@@ -179,7 +179,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             {
                 string query = "SELECT BoardIDCounter FROM GlobalCounters";
                 LinkedList<object[]> list = executer.ExecuteRead(query);
-                boardIdCounter = (long)list.First.Value[0];
+                boardIdCounter = (int)(long)list.First.Value[0];
             }
             catch (SQLiteException e)
             {

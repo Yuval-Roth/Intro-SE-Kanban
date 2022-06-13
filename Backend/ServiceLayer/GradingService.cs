@@ -403,6 +403,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 BusinessLayerFactory.GetInstance().DataCenterManagement.DeleteData();
+                ServiceLayerFactory.DeleteEverything();
+                ServiceLayerFactory.GetInstance();
                 return JsonController.ConvertToJson(new GradingResponse<string>());
             }
             catch (SQLiteException e)
