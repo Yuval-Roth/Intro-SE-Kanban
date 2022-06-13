@@ -115,6 +115,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             init { creationTime = value; }
         }
 
+        [JsonIgnore]
         public CIString Assignee
         {
             get { return assignee; }
