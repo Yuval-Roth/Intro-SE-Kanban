@@ -131,12 +131,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "another board");
-            boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
-            boardservice.AddTask("kfirniss@post.bgu.ac.il", "another board", "task 2", "ninini", new DateTime(2023, 05, 20));
+            taskservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
+            taskservice.AddTask("kfirniss@post.bgu.ac.il", "another board", "task 2", "ninini", new DateTime(2023, 05, 20));
             taskservice.AssignTask("kfirniss@post.bgu.ac.il", "new board", 0, 0, "kfirniss@post.bgu.ac.il");
             taskservice.AssignTask("kfirniss@post.bgu.ac.il", "another board", 0, 0, "kfirniss@post.bgu.ac.il");
-            boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
-            boardservice.AdvanceTask("kfirniss@post.bgu.ac.il", "another board", 0, 0);
+            taskservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
+            taskservice.AdvanceTask("kfirniss@post.bgu.ac.il", "another board", 0, 0);
             
             string result = boardcontrollerservice.GetAllTasksByState("kfirniss@post.bgu.ac.il",1);
             Response<LinkedList<Task>> act = JsonController.BuildFromJson<Response<LinkedList<Task>>>(result);
@@ -180,8 +180,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "another board");
-            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2022,05,20));
-            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "another board", "task 2", "ninini", new DateTime(2022, 05, 20));
+            result = taskservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2022,05,20));
+            result = taskservice.AddTask("kfirniss@post.bgu.ac.il", "another board", "task 2", "ninini", new DateTime(2022, 05, 20));
             result = boardcontrollerservice.GetAllTasksByState("kfirniss@post.bgu.ac.il", 1);
             Assert.AreEqual(expected, result);
         }
