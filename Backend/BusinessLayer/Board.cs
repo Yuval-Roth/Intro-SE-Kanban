@@ -456,7 +456,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void JoinBoard(CIString email, int boardId)
         {
             log.Debug("JoinBoard() for user: " + email + "for board " + boardId);
-            if(owner.Equals(email))
+            if(owner == email)
             {
                 log.Error("JoinBoard() failed: user with email '" + email + "' is the board's owner");
                 throw new AccessViolationException("the user '" + email + "' is the board's owner");

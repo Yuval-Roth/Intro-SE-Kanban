@@ -313,7 +313,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 ValidateUser(email);
 
                 // Check if there's a board with that title already
-                if (UserOwnsABoardWithThisTitle(email, title))
+                if (UserOwnsABoardWithThisTitle(email, title) | UserIsJoinedToABoardWithThisTitle(email,title))
                 {
                     log.Error("AddNewBoard() failed: board '" + title + "' already exists for " + email);
                     throw new ElementAlreadyExistsException("A board titled " +
@@ -560,6 +560,27 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("UserOwnsABoardWithThisTitle() failed: "+e.Message);
                 throw;
             }     
+        }
+
+        public bool UserIsJoinedToABoardWithThisTitle(CIString email, CIString title)
+        {
+            try
+            {
+                log.Debug("UserIsJoinedABoardWithThisTitle() for: " + email + ", " + title);
+
+                ValidateUser(email);
+
+                LinkedList<Board> JoinedBoardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.JoinedBoards;
+
+                bool answer = FindBoardInList(JoinedBoardList, title) != null;
+                log.Debug("UserIsJoinedABoardWithThisTitle() success");
+                return answer;
+            }
+            catch (UserDoesNotExistException e)
+            {
+                log.Error("UserIsJoinedABoardWithThisTitle() failed: " + e.Message);
+                throw;
+            }
         }
 
         public void LoadData()
@@ -1027,7 +1048,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <returns>true is yes, false if no</returns>
         /// <exception cref="UserDoesNotExistException"></exception>
         public bool UserOwnsABoardWithThisTitle(CIString email, CIString title);
-   
+
+        /// <summary>
+        /// Checks whether or not a user is joined to a board with the specified title
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="title"></param>
+        /// <returns>true is yes, false if no</returns>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        public bool UserIsJoinedToABoardWithThisTitle(CIString email, CIString title);
     }
     public interface DataCenterManagement
     {
