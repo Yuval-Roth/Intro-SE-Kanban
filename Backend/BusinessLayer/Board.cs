@@ -462,8 +462,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new AccessViolationException("the user '" + email + "' is the board's owner");
             }
             if (joined.Contains(email)){
-                log.Error("JoinBoard() failed: user with email '" + email + "' already joined to the board");
-                throw new ArgumentException("the user " + email + " already joined to the board");
+                log.Error("JoinBoard() failed: user with email '" + email + "' is already joined to the board");
+                throw new ArgumentException("the user " + email + " is already joined to the board");
             }
             joined.AddLast(email);
             log.Debug("JoinBoard() success");

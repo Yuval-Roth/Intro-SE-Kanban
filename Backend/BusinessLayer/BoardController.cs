@@ -355,11 +355,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Debug("SearchBoard() success");
                 return board;
             }
-            catch (NoSuchElementException)
+            catch (NoSuchElementException e)
             {
-                log.Error("SearchBoard() failed: '" + boardId + "' doesn't exist");
-                throw new NoSuchElementException("A board with Id '" +
-                                boardId + "' doesn't exists");
+                log.Error("SearchBoard() failed: " + e.Message);
+                throw;
             }
             catch (UserDoesNotExistException e)
             {
@@ -398,12 +397,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             catch (ElementAlreadyExistsException e)
             {
                 log.Error("JoinBoard() failed: "+e.Message);
-                throw new ElementAlreadyExistsException("the user '" + email + "' is already joined to the board");
+                throw;
             }
-            catch (NoSuchElementException)
+            catch (NoSuchElementException e)
             {
-                log.Error($"JoinBoard() failed: A board with id '{boardId}' doesn't exist in the system");
-                throw new NoSuchElementException($"A board with id '{boardId}' doesn't exist in the system");
+                log.Error($"JoinBoard() failed: "+ e.Message);
+                throw; ;
             }
             catch (UserDoesNotExistException e)
             {
@@ -446,26 +445,31 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 if (board.Owner == email)
                 {
                     log.Error($"LeaveBoard() failed: user {email} is the owner of the board {boardId}");
-                    throw new ElementAlreadyExistsException($"user '{email}' is the board's owner");
+                    throw new AccessViolationException($"user '{email}' is the board's owner");
                 }
                 boardData.RemovePointerToJoinedBoard(email, boardId);
                 board.LeaveBoard(email, boardId);
                 log.Debug("LeaveBoard() success");
             }
-            catch (UserDoesNotExistException)
+            catch (UserDoesNotExistException e)
             {
-                log.Error("LeaveBoard() failed: the user " + email + " doesn't exist");
-                throw new UserDoesNotExistException("the user " + email + " doesn't exist");
+                log.Error("LeaveBoard() failed: "+e.Message);
+                throw;
             }
             catch (UserNotLoggedInException e)
             {
                 log.Error("JoinBoard() failed: " + e.Message);
                 throw;
             }
-            catch (AccessViolationException)
+            catch(NoSuchElementException e)
             {
-                log.Error("LeaveBoard() failed: the user " + email + " is not joined to a board with Id '" + boardId + " '");
-                throw new UserDoesNotExistException("the user " + email + " is not joined to a board with Id '" + boardId + " '");
+                log.Error($"LeaveBoard() failed: "+e.Message);
+                throw;
+            }
+            catch (AccessViolationException e)
+            {
+                log.Error("LeaveBoard() failed: "+e.Message);
+                throw;
             }
             catch (ArgumentException e)
             {

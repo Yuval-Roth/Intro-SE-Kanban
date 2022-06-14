@@ -64,7 +64,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void JoinBoardTest_board_doesnt_exist()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board with id '1' doesn't exist in the system"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "Board number '1' doesn't exist"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = userservice.Register("Printz@post.bgu.ac.il", "Ha12345");
@@ -76,7 +76,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void JoinBoardTest_user_already_joined()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "the user 'Printz@post.bgu.ac.il' is already joined to the board"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "the user Printz@post.bgu.ac.il is already joined to the board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = userservice.Register("Printz@post.bgu.ac.il", "Ha12345");
@@ -112,7 +112,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void LeaveBoardTest_user_doesnt_exist()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "the user Printz@post.bgu.ac.il doesn't exist"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'Printz@post.bgu.ac.il' doesn't exist in the system"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardservice.JoinBoard("Printz@post.bgu.ac.il", 0);
@@ -136,7 +136,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void LeaveBoardTest_Leave_board_doesnt_exist()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A board with Id '1' doesn't exists"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "Board number '1' doesn't exist"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = userservice.Register("Printz@post.bgu.ac.il", "Ha12345");
