@@ -29,7 +29,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             BusinessLayer.BusinessLayerFactory BLFactory = BusinessLayer.BusinessLayerFactory.GetInstance();
             boardControllerService = new(BLFactory.BoardController);
-            boardService = new(BLFactory.BoardController,BLFactory.TaskController);
+            boardService = new(BLFactory.BoardController);
             taskService = new(BLFactory.TaskController);
             userService = new(BLFactory.UserController);
         }

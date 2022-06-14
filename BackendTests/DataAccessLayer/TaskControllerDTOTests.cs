@@ -44,7 +44,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
                 Assert.Fail("Register failed");
             if (GetOperationState(boardControllerService.AddBoard(email, boardName))==false)
                 Assert.Fail("AddBoard failed");
-            string result = boardService.AddTask(email, boardName, taskTitle, description, dueDate);
+            string result = taskService.AddTask(email, boardName, taskTitle, description, dueDate);
             string query = "SELECT * FROM Tasks WHERE TaskId=0";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
             LinkedList<object[]> list = executer.ExecuteRead(query);
@@ -64,9 +64,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
                 Assert.Fail("Register failed");
             if (GetOperationState(boardControllerService.AddBoard(email, boardName)) == false)
                 Assert.Fail("AddBoard failed");
-            if (GetOperationState(boardService.AddTask(email, boardName, taskTitle, description, dueDate))==false)
+            if (GetOperationState(taskService.AddTask(email, boardName, taskTitle, description, dueDate))==false)
                 Assert.Fail("AddTask failed"); ;
-            string result = boardService.RemoveTask(email, boardName, 0);
+            string result = taskService.RemoveTask(email, boardName, 0);
             string query = "SELECT * FROM Tasks WHERE BoardId=0 AND TaskId=0";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
             LinkedList<object[]> list = executer.ExecuteRead(query);
@@ -86,11 +86,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
                 Assert.Fail("Register failed");
             if (GetOperationState(boardControllerService.AddBoard(email, boardName)) == false)
                 Assert.Fail("AddBoard failed");
-            if (GetOperationState(boardService.AddTask(email, boardName, taskTitle, description, dueDate)) == false)
+            if (GetOperationState(taskService.AddTask(email, boardName, taskTitle, description, dueDate)) == false)
                 Assert.Fail("AddTask failed");
             if (GetOperationState(taskService.AssignTask(email, boardName, 0, 0, email)) == false)
                 Assert.Fail("AssignTask failed");
-            string result = boardService.AdvanceTask(email, boardName, 0, 0);
+            string result = taskService.AdvanceTask(email, boardName, 0, 0);
             string query = "SELECT * FROM Tasks WHERE State = 1";
             if (GetOperationState(result) == false) Assert.Fail("operationState is false");
             LinkedList<object[]> list = executer.ExecuteRead(query);
@@ -111,7 +111,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
                 Assert.Fail("Register failed");
             if (GetOperationState(boardControllerService.AddBoard(email, boardName)) == false)
                 Assert.Fail("AddBoard failed");
-            if (GetOperationState(boardService.AddTask(email, boardName, taskTitle, description, dueDate)) == false)
+            if (GetOperationState(taskService.AddTask(email, boardName, taskTitle, description, dueDate)) == false)
                 Assert.Fail("AddTask failed");
             if (GetOperationState(taskService.AssignTask(email, boardName, 0, 0, email)) == false)
                 Assert.Fail("AssignTask failed");
@@ -136,7 +136,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
                 Assert.Fail("Register failed");
             if (GetOperationState(boardControllerService.AddBoard(email, boardName)) == false)
                 Assert.Fail("AddBoard failed");
-            if (GetOperationState(boardService.AddTask(email, boardName, taskTitle, description, dueDate)) == false)
+            if (GetOperationState(taskService.AddTask(email, boardName, taskTitle, description, dueDate)) == false)
                 Assert.Fail("AddTask failed");
             if (GetOperationState(taskService.AssignTask(email, boardName, 0, 0, email)) == false)
                 Assert.Fail("AssignTask failed");
@@ -160,7 +160,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
                 Assert.Fail("Register failed");
             if (GetOperationState(boardControllerService.AddBoard(email, boardName)) == false)
                 Assert.Fail("AddBoard failed");
-            if (GetOperationState(boardService.AddTask(email, boardName, taskTitle, description, dueDate)) == false)
+            if (GetOperationState(taskService.AddTask(email, boardName, taskTitle, description, dueDate)) == false)
                 Assert.Fail("AddTask failed"); ;
             string result = taskService.AssignTask(email, boardName, 0, 0, email);
             string query = $"SELECT * FROM Tasks WHERE Assignee='{email}'";
@@ -184,7 +184,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
                 Assert.Fail("Register failed");
             if (GetOperationState(boardControllerService.AddBoard(email, boardName)) == false)
                 Assert.Fail("AddBoard failed");
-            if (GetOperationState(boardService.AddTask(email, boardName, taskTitle, description, dueDate)) == false)
+            if (GetOperationState(taskService.AddTask(email, boardName, taskTitle, description, dueDate)) == false)
                 Assert.Fail("AddTask failed");
             if (GetOperationState(taskService.AssignTask(email, boardName, 0, 0, email))==false)
                 Assert.Fail("AssignTask failed");
@@ -211,7 +211,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
                 Assert.Fail("Register failed");
             if (GetOperationState(boardControllerService.AddBoard(email, boardName)) == false)
                 Assert.Fail("AddBoard failed");
-            if (GetOperationState(boardService.AddTask(email, boardName, taskTitle, description, dueDate)) == false)
+            if (GetOperationState(taskService.AddTask(email, boardName, taskTitle, description, dueDate)) == false)
                 Assert.Fail("AddTask failed");
             if (GetOperationState(taskService.AssignTask(email, boardName, 0, 0, email)) == false)
                 Assert.Fail("AssignTask failed");

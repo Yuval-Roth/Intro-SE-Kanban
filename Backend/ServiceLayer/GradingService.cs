@@ -181,7 +181,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string AddTask(string email, string boardName, string title, string description, DateTime dueDate)
         {
-            string json = boardServiceLayer.AddTask(email, boardName, title, description, dueDate);
+            string json = taskServiceLayer.AddTask(email, boardName, title, description, dueDate);
             GradingResponse<string> res = new(json);
             return JsonController.ConvertToJson(res);
         }
@@ -248,7 +248,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string AdvanceTask(string email, string boardName, int columnOrdinal, int taskId)
         {
-            string json = boardServiceLayer.AdvanceTask(email, boardName, columnOrdinal, taskId);
+            string json = taskServiceLayer.AdvanceTask(email, boardName, columnOrdinal, taskId);
             GradingResponse<string> res = new(json);
             return JsonController.ConvertToJson(res);
         }
