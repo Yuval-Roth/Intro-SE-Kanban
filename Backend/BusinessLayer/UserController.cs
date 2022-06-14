@@ -208,7 +208,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             User user = SearchUser(email);
             if (user.CheckPasswordMatch(old))
             {
-                user.SetPassword(newP);
+                user.Password = newP;
                 userDTO.ChangePassword(user.Email.Value, newP);
                 log.Debug("SetPassword() success");
             }
@@ -230,7 +230,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void SetEmail(string email, CIString newE)
         {
             log.Debug("SetEmail() for '" + email + "' to '" + newE);
-            if (userData.UserExists(new CIString(email)) == false)
+            if (userData.UserExists(email) == false)
             {
                 log.Error("SetEmail() failed: '" + email + "' doesn't exist");
                 throw new ArgumentException("User dosen't exist");
@@ -245,8 +245,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("SetEmail() failed: user with " + newE + " allready exist in the system");
                 throw new ArgumentException("A user with that email already exists in the system");
             }
+            SearchUser(email).Email = newE;
             userDTO.ChangeEmail(email, newE.Value);
-            SearchUser(new CIString(email)).SetEmail(newE);
             log.Debug("SetEmail() success");
         }
 

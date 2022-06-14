@@ -40,45 +40,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
 		public User(DataAccessLayer.UserDTO userDTO)
 		{
-			email = new CIString(userDTO.Email);
+			email = userDTO.Email;
 			password = userDTO.Password;
 		}
 
-		public CIString Email => email;
-
-		/// <summary>
-		/// Replace the user's password with the new password entered
-		/// </summary>
-		/// <param name="newP"></param>
-		public void SetPassword(string newP)
-		{
-			if (newP != null)
-			{
-				password = newP;
-			}
-		}
-
-		/// <summary>
-		/// Change the user's email to the new email entered
-		/// </summary>
-		/// <param name="newE"></param>
-		/// <exception cref="ArgumentNullException"></exception>
-		public void SetEmail(CIString newE)
-		{
-			if (newE == null)  throw new ArgumentNullException("email is null");
-			email = newE;
-		}
-
-		/// <summary>
-		/// Returns user's email
-		/// </summary>
-		/// <returns></returns>
-		public CIString GetEmail()
-		{
-			return email;
-		}
-
-		
+		public CIString Email { set { email = value; } get { return email; } }
+		public string Password { set { password = value; } }
 
 		/// <summary>
 		/// Check if the user's password match the password entered <br/><br/>
@@ -102,39 +69,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 			return new User(other);
 		}
 
-		///// <summary>
-		///// Compare this instance with the entered object and indicates whether this instance is bigger, smaller or same as the object <br/><br/>
-		/////<b>Throws</b> <c>ArgumentNullException</c> if the object entered is null <br/>
-		/////<b>Throws</b> <c>ArgumentException</c> if the object isn't instance of User <br/>
-		///// </summary>
-		///// <param name="obj"></param>
-		///// <returns></returns>
-		///// <exception cref="ArgumentNullException"></exception>
-		///// <exception cref="ArgumentException"></exception>
-		//public int CompareTo(object obj)
-		//{
-		//	if (obj == null) throw new ArgumentNullException("obj is null");
-		//	if (obj is User)
-		//	{
-		//		return ((User)obj).email.CompareTo(this.email);
-		//	}
-		//	else
-		//	{
-		//		throw new ArgumentException("can't compare because obj is not User");
-		//	}
-		//}
 			//====================================================
 			//                  Json related
 			//====================================================
-
-			//public Serializable.User_Serializable GetSerializableInstance()
-			//{
-			//	return new Serializable.User_Serializable
-			//	{
-			//		Email = email,
-			//		Password = "CENSORED"
-			//	};
-			//}
 		
 	}
 }

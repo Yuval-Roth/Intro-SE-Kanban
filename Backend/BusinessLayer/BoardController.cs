@@ -60,7 +60,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 ValidateUser(email);
 
-                if (name.Length == 0)
+                if (string.IsNullOrWhiteSpace(name))
                 {
                     log.Error("AddBoard() failed: board name is empty");
                     throw new ArgumentException("board name is empty");
