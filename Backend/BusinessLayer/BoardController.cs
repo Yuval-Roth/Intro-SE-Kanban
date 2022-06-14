@@ -311,7 +311,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 LinkedList<Board> boardList = boardData.GetBoardsDataUnit(email).MyBoards;
                 foreach (Board board in boardList)
                 {
-                    if (board.Title.Equals(name))
+                    if (board.Title == name)
                     {
                         log.Debug("SearchBoard() success");
                         return board;
@@ -320,7 +320,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 LinkedList<Board> boardList1 = boardData.GetBoardsDataUnit(email).JoinedBoards;
                 foreach (Board board in boardList1)
                 {
-                    if (board.Title.Equals(name))
+                    if (board.Title == name)
                     {
                         log.Debug("SearchBoard() success");
                         return board;
