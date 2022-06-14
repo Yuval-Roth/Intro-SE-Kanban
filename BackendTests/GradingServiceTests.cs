@@ -56,9 +56,10 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             gs.Register(email1, password1);
             gs.AddBoard(email1, boardName1);
             gs.AddTask(email1, boardName1, title1, desc1, due1);
+            gs.AssignTask(email1, boardName1, 0, 0, email1);
             gs.Register(email2, password2);
             string result = gs.TransferOwnership(email1, email2, boardName1);
-            Assert.AreEqual(TOF(result), false);
+            Assert.AreEqual(TOF(result), true);
         }
 
         [TestMethod()]
