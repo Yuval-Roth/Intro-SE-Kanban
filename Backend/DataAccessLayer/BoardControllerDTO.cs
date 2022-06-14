@@ -25,7 +25,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return executer.ExecuteWrite($"DELETE FROM Boards " +
                                          $"WHERE BoardId = {Id}; " +
                                          $"DELETE FROM UserJoinedBoards " +
-                                         $"WHERE BoardId = {Id}");
+                                         $"WHERE BoardId = {Id}; " +
+                                         $"DELETE FROM Tasks " +
+                                         $"WHERE BoardId = {Id}") ;
         }
 
         public bool JoinBoard(string email, int id)
