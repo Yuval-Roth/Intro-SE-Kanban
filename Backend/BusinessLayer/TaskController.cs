@@ -300,6 +300,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             try
             {
                 Board board = boardController.SearchBoard(email, boardName);
+                if (board.Joined.Contains(email) == false)
+                {
+                    throw new AccessViolationException($"{emailAssignee} is not joined to the board and cannot be assigned to the task");
+                }
                 Task task = board.SearchTask(taskId, columnOrdinal);
                 task.AssignTask(email, emailAssignee);
 
