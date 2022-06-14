@@ -91,26 +91,32 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         }
 
-        ///// <summary>
-        /////Delate <c>User</c> from the <c>UserData</c> userData <br/> <br/>
-        /////<b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the userData
-        ///// </summary>
-        ///// <param name="email"></param>
-        ///// <exception cref="UserDoesNotExistException"></exception>
-        //public void DeleteUser(CIString email)
-        //{
-        //    log.Debug("DeleteUser() for: " + email);
-        //    try
-        //    {
-        //        userData.RemoveUser(email);
-        //        log.Debug("DeleteUser() success");
-        //    }
-        //    catch (UserDoesNotExistException)
-        //    {
-        //        log.Error("DeleteUser() failed: " + email + " doesn't exist in the system");
-        //        throw new UserDoesNotExistException("User doesn't exist in the system");
-        //    }
-        //}
+        /// <summary>
+        ///Delate <c>User</c> from the <c>UserData</c> userData <br/> <br/>
+        ///<b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist in the userData
+        /// </summary>
+        /// <param name="email"></param>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        public void DeleteUser(CIString email)
+        {
+            throw new NotImplementedException("DEPRECATED METHOD: Not updated to support current requirements");
+
+
+#pragma warning disable CS0162 // Unreachable code detected
+            log.Debug("DeleteUser() for: " + email);
+
+            try
+            {
+                userData.RemoveUser(email);
+                log.Debug("DeleteUser() success");
+            }
+            catch (UserDoesNotExistException)
+            {
+                log.Error("DeleteUser() failed: " + email + " doesn't exist in the system");
+                throw new UserDoesNotExistException("User doesn't exist in the system");
+            }
+#pragma warning restore CS0162 // Unreachable code detected
+        }
 
         /// <summary>
         /// Log in User to the system-Add user to <c>Dictionary</c> loogedIn <br/><br/>

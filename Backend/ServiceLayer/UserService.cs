@@ -71,42 +71,48 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 			}
 		}
 
-		///// <summary>
-		///// Delete user with the email entered <br/><br/>
-		///// </summary>
-		///// <returns>
-		///// Json formatted as so:
-		///// <code>
-		/////	{
-		/////		operationState: bool 
-		/////		returnValue: string // (operationState == true) => empty string
-		///// }				// (operationState == false) => error message		
-		///// </code>
-		///// </returns>
-		//public string DeleteUser(string email)
-		//{
-		//	if (ValidateArguments.ValidateNotNull(new object[] { email }) == false)
-		//	{
-		//		Response<string> res = new(false, "DeleteUser() failed: ArgumentNullException");
-		//		return JsonController.ConvertToJson(res);
-		//	}
-		//	try
-  //          {
-		//		userController.DeleteUser(email);
-		//		Response<string> res = new(true,"");
-		//		return JsonController.ConvertToJson(res);
-		//	}
-		//	catch (UserDoesNotExistException ex)
-		//	{
-		//		Response<string> res = new(false,ex.Message);
-		//		return JsonController.ConvertToJson(res);
-		//	}
-		//	catch (ArgumentException ex)
-  //          {
-		//		Response<string> res = new(false,ex.Message);
-		//		return JsonController.ConvertToJson(res);
-		//	}
-		//}
+        /// <summary>
+        /// Delete user with the email entered <br/><br/>
+        /// </summary>
+        /// <returns>
+        /// Json formatted as so:
+        /// <code>
+        ///	{
+        ///		operationState: bool 
+        ///		returnValue: string // (operationState == true) => empty string
+        /// }				// (operationState == false) => error message		
+        /// </code>
+        /// </returns>
+        public string DeleteUser(string email)
+        {
+
+			throw new NotImplementedException("DEPRECATED METHOD: Not updated to support current requirements");
+
+#pragma warning disable CS0162 // Unreachable code detected
+            if (ValidateArguments.ValidateNotNull(new object[] { email }) == false)
+            {
+                Response<string> res = new(false, "DeleteUser() failed: ArgumentNullException");
+                return JsonController.ConvertToJson(res);
+            }
+
+            try
+            {
+                userController.DeleteUser(email);
+                Response<string> res = new(true, "");
+                return JsonController.ConvertToJson(res);
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonController.ConvertToJson(res);
+            }
+#pragma warning restore CS0162 // Unreachable code detected
+		}
 
 		/// <summary>
 		/// LogIn user with the email and password entered <br/><br/>

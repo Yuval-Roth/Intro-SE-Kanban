@@ -39,7 +39,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             log.Debug($"LeaveBoard() for {email}, {id}");
             return executer.ExecuteWrite("DELETE FROM UserJoinedBoards " +
-                                        $"WHERE BoardId = {id} and Email like '{email}'");
+                                        $"WHERE BoardId = {id} and Email like '{email}'; " +
+                                        $"UPDATE Tasks " +
+                                        $"SET Assignee = 'unAssigned' " +
+                                        $"WHERE BoardId = {id} and Assignee like '{email}'");
         }
         public bool ChangeOwner(string email, int id)
         {
