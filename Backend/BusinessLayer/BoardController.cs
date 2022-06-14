@@ -108,6 +108,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void RemoveBoard(CIString email, CIString name)
         {
 
+
             log.Debug("RemoveBoard() for: " + email + "Board's name" + name);
             try
             {
