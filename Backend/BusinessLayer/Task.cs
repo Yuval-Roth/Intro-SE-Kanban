@@ -224,7 +224,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void UpdateDueDate(CIString email, DateTime newDueDate)
         {
             log.Debug("UpdateDueDate() for taskId: " + id + ", email:" + email);
-            if (assignee.Equals(email) == false)
+            if (assignee != email)
             {
                 log.Error("UpdateDueDate() failed: User is not the task's assignee");
                 throw new AccessViolationException("User is not the task's assignee");
@@ -296,7 +296,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void UpdateDescription(CIString email, CIString newDescription)
         {
             log.Debug("UpdateDescription() for taskId: " + id + ", email:" + email);
-            if (assignee.Equals(email) == false)
+            if (assignee != email)
             {
                 log.Error("UpdateDescription() failed: User is not the task's assignee");
                 throw new AccessViolationException("User is not the task's assignee");

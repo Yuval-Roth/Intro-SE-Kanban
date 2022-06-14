@@ -216,7 +216,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             log.Debug("AdvanceTask() for column and taskId: " + columnOrdinal + ", " + taskId);
             ValidateColumnOrdinal(columnOrdinal);
             Task task = SearchTask(taskId);
-            if (task.Assignee.Equals(email)==false)
+            if (task.Assignee != email)
             {
                 log.Error("AdvanceTask() failed: User is not the task's assignee");
                 throw new AccessViolationException("User is not the task's assignee");
