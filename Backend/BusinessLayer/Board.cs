@@ -130,7 +130,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="duedate"></param>
         /// <param name="description"></param>
         /// <exception cref="ArgumentException"></exception>
-        public void AddTask(CIString title, DateTime duedate, CIString description)
+        public Task AddTask(CIString title, DateTime duedate, CIString description)
         {
             log.Debug("AddTask() for: " + title + ", " + description + ", " + duedate);
             if (columns[(int)TaskStates.backlog].Count != columnLimit[(int)TaskStates.backlog])
@@ -139,11 +139,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 {
                     Task task = new Task(taskIDCounter, title, duedate, description, Id);
                     columns[(int)TaskStates.backlog].AddLast(task);
-                    DataAccessLayerFactory.GetInstance().TaskControllerDTO.AddTask(Id, taskIDCounter, title.Value, task.Assignee, description.Value, task.CreationTime, duedate, (BoardColumnNames)task.State);
+                    
                     taskStateTracker.Add(taskIDCounter, TaskStates.backlog);
                     taskIDCounter++;
                     boardDTO.UpdateTaskIdCounter(id,taskIDCounter);
                     log.Debug("AddTask() success");
+                    return task;
                 }
                 catch (ArgumentException e)
                 {
@@ -181,7 +182,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     {
                         taskList.Remove(task);
                         taskStateTracker.Remove(taskId);
-                        DataAccessLayerFactory.GetInstance().TaskControllerDTO.RemoveTask(Id,taskId);
+
                         log.Debug("RemoveTask() success");
                         break;
                     }
@@ -411,7 +412,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     throw new ArgumentException("A column '" +
                         (TaskStates)columnOrdinal + "' size is bigger than th limit " + limit);
                 }
-                boardDTO.LimitColumn(Id, (BoardColumnNames) columnOrdinal, limit);
+                
                 columnLimit[columnOrdinal] = limit;
                 log.Debug("LimitColumn() success");
             }
@@ -456,7 +457,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void JoinBoard(CIString email, int boardId)
         {
             log.Debug("JoinBoard() for user: " + email + "for board " + boardId);
-            if(owner.Equals(email))
+            if(owner == email)
             {
                 log.Error("JoinBoard() failed: user with email '" + email + "' is the board's owner");
                 throw new AccessViolationException("the user '" + email + "' is the board's owner");
@@ -486,16 +487,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             joined.Remove(email);
             foreach(Task task in this.columns[(int)TaskStates.backlog])
             {
-                if (task.Assignee.Equals(email))
+                if (task.Assignee == email)
                 {
-                    task.Assignee = new CIString("unAssigned");
+                    task.Assignee = "unAssigned";
                 }
             }
             foreach (Task task in columns[(int)TaskStates.inprogress])
             {
-                if (task.Assignee.Equals(email))
+                if (task.Assignee == email)
                 {
-                    task.Assignee = new CIString("unAssigned");
+                    task.Assignee = "unAssigned";
                 }
             }
             log.Debug("LeaveBoard() success");
@@ -524,25 +525,5 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //                  Json related
         //====================================================
 
-        //public Serializable.Board_Serializable GetSerializableInstance() 
-        //{
-        //    LinkedList<Serializable.Task_Serializable>[] serializableColumns = new LinkedList<Serializable.Task_Serializable>[3];
-
-        //    for (int column = (int)TaskStates.backlog ; column <= (int)TaskStates.done; column++)
-        //    {
-        //        serializableColumns[column] = new LinkedList<Serializable.Task_Serializable>();
-        //        foreach (Task task in columns[column])
-        //        {
-        //            serializableColumns[column].AddLast(task.GetSerializableInstance());
-        //        }
-        //    }
-        //    return new Serializable.Board_Serializable()
-        //    {
-        //        Title = title,
-        //        Columns = columns,
-        //        ColumnLimit = columnLimit,
-        //        TaskStateTracker = taskStateTracker
-        //    };
-        //}
     }
 }

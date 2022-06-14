@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using IntroSE.Kanban.Backend.DataAccessLayer;
 using IntroSE.Kanban.Backend.Exceptions;
 using IntroSE.Kanban.Backend.Utilities;
 
@@ -28,6 +29,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\BusinessLayer\\BoardController.cs");
         BoardDataOperations boardData;
+        BoardControllerDTO BCDTO;
         /// <summary>
         /// Initialize a new BoardController <br/><br/>
         /// </summary>
@@ -35,6 +37,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public BoardController(BoardDataOperations boardData)
         {
             this.boardData = boardData;
+            BCDTO = DataAccessLayerFactory.GetInstance().BoardControllerDTO;
         }
 
         /// <summary>
@@ -65,7 +68,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     log.Error("AddBoard() failed: board name is empty");
                     throw new ArgumentException("board name is empty");
                 }
-                boardData.AddNewBoard(email, name);
+                Board newBoard = boardData.AddNewBoard(email, name);
+
+                //DAL CALLS
+                BCDTO.AddBoard(newBoard.Id, newBoard.Title.Value, newBoard.Owner.Value);
                 log.Debug("AddBoard() success");
             }
             catch (ElementAlreadyExistsException)
@@ -105,21 +111,24 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="AccessViolationException"></exception>
-        public void RemoveBoard(CIString email, CIString name)
+        public void RemoveBoard(CIString email, CIString title)
         {
 
 
-            log.Debug("RemoveBoard() for: " + email + "Board's name" + name);
+            log.Debug("RemoveBoard() for: " + email + "Board's name" + title);
             try
             {
                 ValidateUser(email);
-                Board board = SearchBoard(email, name);
-                if (board.Owner.Equals(email)==false)
+                Board board = SearchBoard(email, title);
+                if (board.Owner != email)
                 {
                     log.Error("RemoveBoard() failed: user has not permission to do RemoveBoard");
                     throw new AccessViolationException("user has not permission to do RemoveBoard");
                 }
-                boardData.NukeBoard(email, name);
+                boardData.NukeBoard(email, title);
+
+                //DAL CALLS
+                BCDTO.RemoveBoard(board.Id);
                 log.Debug("RemoveBoard() success");
             }
             catch (NoSuchElementException)
@@ -129,7 +138,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
             catch (OperationCanceledException)
             {
-                log.Error("RemoveBoard() failed: board '" + name + "' doesn't exist for " + email);
+                log.Error("RemoveBoard() failed: board '" + title + "' doesn't exist for " + email);
                 throw;
             }
             catch (UserDoesNotExistException e)
@@ -393,6 +402,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 Board board = SearchBoard(email, boardId);
                 board.JoinBoard(email, boardId);
                 boardData.AddPointerToJoinedBoard(email, boardId);
+
+                //DAL CALLS
+                BCDTO.JoinBoard(email, boardId);
+
                 log.Debug("JoinBoard() success");
             }
             catch (ElementAlreadyExistsException e)
@@ -450,6 +463,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 }
                 boardData.RemovePointerToJoinedBoard(email, boardId);
                 board.LeaveBoard(email, boardId);
+
+                //DAL CALLS
+                BCDTO.LeaveBoard(email.Value, boardId);
+
                 log.Debug("LeaveBoard() success");
             }
             catch (UserDoesNotExistException e)
@@ -537,6 +554,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 }
                 boardData.ChangeOwnerPointer(currentOwnerEmail, boardName, newOwnerEmail);
                 board.ChangeOwner(currentOwnerEmail, newOwnerEmail, boardName);
+
+
+                //DAL CALLS
+                BCDTO.ChangeOwner(newOwnerEmail, board.Id);
+                BCDTO.JoinBoard(currentOwnerEmail, board.Id);
+                BCDTO.LeaveBoard(newOwnerEmail, board.Id);
+
                 log.Debug("ChangeOwner() success");
             }
             catch (ElementAlreadyExistsException e)
@@ -561,126 +585,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        public void AddTask(CIString email, CIString boardName, CIString title, CIString description, DateTime dueDate)
-        {
-            log.Debug("AddTask() for: " + title + ", " + description + ", " + dueDate);
-            try
-            {
-                Board board = SearchBoard(email, boardName);
-                board.AddTask(title, dueDate, description);
-                log.Debug("AddTask() success");
-            }
-            catch (NoSuchElementException ex)
-            {
-                log.Error("AddTask() failed: " + ex.Message);
-                throw;
-            }
-            catch (ArgumentException ex)
-            {
-                log.Error("AddTask() failed: " + ex.Message);
-                throw;
-            }
-            catch (AccessViolationException ex)
-            {
-                log.Error("AddTask() failed: " + ex.Message);
-                throw;
-            }
-            catch (UserDoesNotExistException ex)
-            {
-                log.Error("AddTask() failed: " + ex.Message);
-                throw;
-            }
-            catch (UserNotLoggedInException ex)
-            {
-                log.Error("AddTask() failed: " + ex.Message);
-                throw;
-            }
-        }
-
-
-
-        public void RemoveTask(CIString email, CIString boardTitle, int taskId)
-        {
-            log.Debug("RemoveTask() taskId: " + taskId);
-            try
-            {
-                Board board = SearchBoard(email, boardTitle);
-                board.RemoveTask(taskId);
-                log.Debug("RemoveTask() success");
-            }
-            catch (NoSuchElementException ex)
-            {
-                log.Error("RemoveTask() failed: " + ex.Message);
-                throw;
-            }
-            catch (ArgumentException ex)
-            {
-                log.Error("RemoveTask() failed: " + ex.Message);
-                throw;
-            }
-            catch (AccessViolationException ex)
-            {
-                log.Error("RemoveTask() failed: " + ex.Message);
-                throw;
-            }
-            catch (UserDoesNotExistException ex)
-            {
-                log.Error("RemoveTask() failed: " + ex.Message);
-                throw;
-            }
-            catch (UserNotLoggedInException ex)
-            {
-                log.Error("RemoveTask() failed: " + ex.Message);
-                throw;
-            }
-        }
-
-
-        public void AdvanceTask(CIString email, CIString boardName, int columnOrdinal, int taskId)
-        {
-            log.Debug("AdvanceTask() taskId: " + taskId);
-            try
-            {
-                Board board = SearchBoard(email, boardName);
-                Task task = board.SearchTask(taskId);
-                board.AdvanceTask(email, columnOrdinal, taskId);
-                task.AdvanceTask(email);
-                log.Debug("AdvanceTask() success");
-            }
-            catch (NoSuchElementException ex)
-            {
-                log.Error("AdvanceTask() failed: " + ex.Message);
-                throw;
-            }
-            catch (ArgumentException ex)
-            {
-                log.Error("AdvanceTask() failed: " + ex.Message);
-                throw;
-            }
-            catch (IndexOutOfRangeException ex)
-            {
-                log.Error("AdvanceTask() failed: " + ex.Message);
-                throw;
-            }
-            catch (AccessViolationException ex)
-            {
-                log.Error("AdvanceTask() failed: " + ex.Message);
-                throw;
-            }
-            catch (UserDoesNotExistException ex)
-            {
-                log.Error("AdvanceTask() failed: " + ex.Message);
-                throw;
-            }
-            catch (UserNotLoggedInException ex)
-            {
-                log.Error("AdvanceTask() failed: " + ex.Message);
-                throw;
-            }
-        }
-
-
-
         public void LimitColumn(CIString email, CIString boardName, int columnOrdinal, int limit)
         {
             log.Debug("LimitColumn() for column and limit: " + columnOrdinal + ", " + limit);
@@ -688,6 +592,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 Board board = SearchBoard(email, boardName);
                 board.LimitColumn(columnOrdinal, limit);
+
+                //DAL CALLS
+                BCDTO.LimitColumn(board.Id, (BoardColumnNames)columnOrdinal, limit);
+
                 log.Debug("LimitColumn() success");
             }
             catch (NoSuchElementException ex)
@@ -806,8 +714,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw;
             }
         }
-
-
 
         public LinkedList<Task> GetColumn(CIString email, CIString boardName, int columnOrdinal)
         {
