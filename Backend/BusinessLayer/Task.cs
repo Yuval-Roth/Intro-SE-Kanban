@@ -103,6 +103,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //            getters/setters
         //====================================
 
+        [JsonIgnore]
+        public int BoardId
+        { 
+            get { return boardId; } 
+            init { boardId = value;} 
+        }
+
         public int Id
         {
             get { return id; }
@@ -121,6 +128,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             get { return assignee; }
             set { assignee = value; }
         }
+
         [JsonIgnore]
         public TaskStates State => state;
 
@@ -168,7 +176,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new AccessViolationException("User is not the task's assignee");
             }
             state++;
-            taskDTO.ChangeTaskState(boardId, Id, (BoardColumnNames)state);
+
             log.Debug("AdvanceTask() success");
         }
 
@@ -190,18 +198,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new ArgumentException("the task '" +
                     id + "' is already done");
             }
-            if (assignee.Equals(email) == false && assignee.Equals("unAssigned") == false)
+            if (assignee != email && assignee != "unAssigned")
             {
                 log.Error("AssignTask() failed: task numbered '" + id + "' , email: '" + email + "' isn't the task's assignee");
                 throw new AccessViolationException("email: '" + email + "' isn't the task's assignee");
             }
-            if (assignee.Equals(email) == true && email.Equals(emailAssignee) == true)
+            if (assignee == email && email == emailAssignee)
             {
                 log.Error("AssignTask() failed: task numbered '" + id + "' , email: '" + email + "' is already the assignee");
                 throw new ElementAlreadyExistsException("email: '" + email + "' isn't the task's assignee");
             }
+
             assignee = emailAssignee;
-            taskDTO.ChangeAssignee(assignee.Value, boardId, Id);
+            
             log.Debug("AssignTask() success");
         }
 
@@ -216,7 +225,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void UpdateDueDate(CIString email, DateTime newDueDate)
         {
             log.Debug("UpdateDueDate() for taskId: " + id + ", email:" + email);
-            if (assignee.Equals(email) == false)
+            if (assignee != email)
             {
                 log.Error("UpdateDueDate() failed: User is not the task's assignee");
                 throw new AccessViolationException("User is not the task's assignee");
@@ -233,7 +242,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new ArgumentException("due date was passed");
             }
             dueDate = newDueDate;
-            taskDTO.ChangeDueDate(newDueDate, boardId, Id);
+            
             log.Debug("UpdateDueDate() success");
         }
 
@@ -271,7 +280,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new ArgumentException("title is over the limit");
             }
             title = value;
-            taskDTO.ChangeTitle(value.Value, boardId, Id);
+            
             log.Debug("UpdateTitle() success");
 
         }
@@ -288,7 +297,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void UpdateDescription(CIString email, CIString newDescription)
         {
             log.Debug("UpdateDescription() for taskId: " + id + ", email:" + email);
-            if (assignee.Equals(email) == false)
+            if (assignee != email)
             {
                 log.Error("UpdateDescription() failed: User is not the task's assignee");
                 throw new AccessViolationException("User is not the task's assignee");
@@ -305,7 +314,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new ArgumentException("Description is over the limit");
             }
             description = newDescription;
-            taskDTO.ChangeDescription(newDescription.Value, boardId, Id);
+            
             log.Debug("UpdateDescription() success");
 
         }

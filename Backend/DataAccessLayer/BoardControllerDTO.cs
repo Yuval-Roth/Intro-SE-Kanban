@@ -25,8 +25,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return executer.ExecuteWrite($"DELETE FROM Boards " +
                                          $"WHERE BoardId = {Id}; " +
                                          $"DELETE FROM UserJoinedBoards " +
-                                         $"WHERE BoardId = {Id}");
+                                         $"WHERE BoardId = {Id}; " +
+                                         $"DELETE FROM Tasks " +
+                                         $"WHERE BoardId = {Id}") ;
         }
+
         public bool JoinBoard(string email, int id)
         {
             log.Debug($"JoinBoard() for {email}, {id}");
@@ -37,14 +40,21 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             log.Debug($"LeaveBoard() for {email}, {id}");
             return executer.ExecuteWrite("DELETE FROM UserJoinedBoards " +
-                                        $"WHERE BoardId = {id} and Email like '{email}'");
+                                        $"WHERE BoardId = {id} and Email like '{email}'; " +
+                                        $"UPDATE Tasks " +
+                                        $"SET Assignee = 'unAssigned' " +
+                                        $"WHERE BoardId = {id} and Assignee like '{email}'");
         }
-        public bool ChangeOwner(string email, int id)
+        public bool ChangeOwner(string oldOwner,string newOwner, int id)
         {
-            log.Debug($"ChainOwner() for {email}, {id}");
+            log.Debug($"ChangeOwner() for {oldOwner}, {newOwner}, {id}");
             return executer.ExecuteWrite("UPDATE Boards "+
-                                        $"SET Owner = '{email}' "+
-                                        $"WHERE BoardId = {id}");
+                                        $"SET Owner = '{newOwner}' "+
+                                        $"WHERE BoardId = {id}; " +
+                                        $"DELETE FROM UserJoinedBoards " +
+                                        $"WHERE BoardId = {id} and Email like '{newOwner}'; " +
+                                        $"INSERT INTO UserJoinedBoards(BoardId, Email) " +
+                                        $"VALUES({id},'{oldOwner}')");
         }
         public bool LimitColumn(int id, BoardColumnNames column, int limit)
         {

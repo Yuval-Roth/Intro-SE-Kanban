@@ -70,6 +70,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 userData.AddUser(email,password);
                 userData.SetLoggedIn(email);
+
+                //DAL CALLS
+                userDTO.AddUser(email, password);
+
                 log.Debug("Register() success");
             }
             catch (ElementAlreadyExistsException)
@@ -95,7 +99,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="UserDoesNotExistException"></exception>
         public void DeleteUser(CIString email)
         {
+            throw new NotImplementedException("DEPRECATED METHOD: Not updated to support current requirements");
+
+
+#pragma warning disable CS0162 // Unreachable code detected
             log.Debug("DeleteUser() for: " + email);
+
             try
             {
                 userData.RemoveUser(email);
@@ -106,6 +115,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("DeleteUser() failed: " + email + " doesn't exist in the system");
                 throw new UserDoesNotExistException("User doesn't exist in the system");
             }
+#pragma warning restore CS0162 // Unreachable code detected
         }
 
         /// <summary>
@@ -157,7 +167,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <param name="email"></param>
         /// <exception cref="ArgumentException"></exception>
-
         public void LogOut(CIString email)
         {
             log.Debug("LogOut() for " + email);
@@ -209,7 +218,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             if (user.CheckPasswordMatch(old))
             {
                 user.Password = newP;
+
+                //DAL CALLS
                 userDTO.ChangePassword(user.Email.Value, newP);
+
                 log.Debug("SetPassword() success");
             }
             else
@@ -226,7 +238,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="email"></param>
         /// <param name="newE"></param>
         /// <exception cref="ArgumentException"></exception>
-
         public void SetEmail(string email, CIString newE)
         {
             log.Debug("SetEmail() for '" + email + "' to '" + newE);
@@ -246,7 +257,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new ArgumentException("A user with that email already exists in the system");
             }
             SearchUser(email).Email = newE;
+
+            //DAL CALLS
             userDTO.ChangeEmail(email, newE.Value);
+
+
             log.Debug("SetEmail() success");
         }
 
@@ -257,8 +272,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="email"></param>
         /// <returns></returns>
         /// <exception cref="UserDoesNotExistException"></exception>
-
-
         public User SearchUser(CIString email)
         {
             log.Debug("SearchUser() for: '" + email);
@@ -300,31 +313,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             return false;
         }
 
-        //private static bool IsLegalPassword(string pass)
-        //{
-        //    if (pass == null) { return false; }
-        //    if (pass.Length > MAX_PASS_LENGTH || pass.Length < MIN_PASS_LENGTH)
-        //    {
-        //        return false;
-        //    }
-        //    bool isApperChar = false;
-        //    bool isLowerChar = false;
-        //    bool isDigit = false;
-        //    for (int i = 0; i < pass.Length; i++)
-        //    {
-        //        Char c = pass[i];
-        //        if (char.IsUpper(c)) { isApperChar = true; }
-        //        if (char.IsLower(c)) { isLowerChar = true; }
-        //        if (char.IsDigit(c)) { isDigit = true; }
-        //    }
-        //    if (isApperChar == true && isLowerChar == true && isDigit == true)
-        //    {
-        //        return true;
-        //    }
-        //    return false;
-        //}
-
-        public static bool IsEmailValid(CIString email)
+        private static bool IsEmailValid(CIString email)
         {
             Regex valid = new Regex(@"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$");
             if(valid.Matches(email.Value).Count == 1)
