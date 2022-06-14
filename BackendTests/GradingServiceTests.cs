@@ -13,6 +13,24 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
     public class GradingServiceTests
     {
         GradingService gs;
+        CIString email1 = "printz@post.bgu.ac.il";
+        CIString email2 = "hadaspr100@gmail.com";
+        CIString password1 = "Hadas1234";
+        CIString password2 = "Printz1234";
+        CIString boardName1 = "board1";
+        CIString boardName2 = "board2";
+        CIString title1 = "task1";
+        CIString title2 = "task2";
+        CIString title3 = "task3";
+        CIString desc1 = "1bla";
+        CIString desc2 = "2bla";
+        CIString desc3 = "3bla";
+        //DateTime cre1 = new DateTime(2022, 06, 15);
+        //DateTime cre2 = new DateTime(2022, 06, 15);
+        //DateTime cre3 = new DateTime(2022, 06, 15);
+        DateTime due1 = new DateTime(2023, 06, 15);
+        DateTime due2 = new DateTime(2023, 06, 15);
+        DateTime due3 = new DateTime(2023, 06, 15);
 
         [TestMethod()]
         public void GradingService_Test()
@@ -22,9 +40,25 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         }
 
         [TestMethod()]
-        public void Change_Owner_After()
+        public void Change_Owner_User_Isnt_Joined()       
         {
-            Assert.Fail();
+            gs.Register(email1, password1);
+            gs.AddBoard(email1, boardName1);
+            gs.Register(email2, password2);
+            string result = gs.TransferOwnership(email1, email2, boardName1);
+            Assert.AreEqual(TOF(result),false);
+        }
+
+
+        [TestMethod()]
+        public void Change_Owner_User_Joined_With_Tasks()
+        {
+            gs.Register(email1, password1);
+            gs.AddBoard(email1, boardName1);
+            gs.AddTask(email1, boardName1, title1, desc1, due1);
+            gs.Register(email2, password2);
+            string result = gs.TransferOwnership(email1, email2, boardName1);
+            Assert.AreEqual(TOF(result), false);
         }
 
         [TestMethod()]

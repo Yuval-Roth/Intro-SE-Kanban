@@ -119,6 +119,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     throw new AccessViolationException("user has not permission to do RemoveBoard");
                 }
                 boardData.NukeBoard(email, name);
+
                 log.Debug("RemoveBoard() success");
             }
             catch (NoSuchElementException)
