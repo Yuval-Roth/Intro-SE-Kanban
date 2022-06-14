@@ -11,10 +11,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
     [TestClass()]
     public class GradingServiceTests
     {
+        GradingService gs;
+
         [TestMethod()]
         public void GradingService_Test()
         {
-            Assert.Fail();
+            gs = new();
+            gs.DeleteData();
         }
 
         [TestMethod()]

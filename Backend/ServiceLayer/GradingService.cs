@@ -429,11 +429,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         private static bool GetOperationState(string json)
         {
             Response<object> res = JsonController.BuildFromJson<Response<object>>(json);
-            if (res.operationState == true)
-            {
-                return true;
-            }
-            else return false;
+            return res.operationState;
         }
     }
 }
