@@ -149,7 +149,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         JoinedBoards = new LinkedList<Board>()
                     }
                 });
-                DALFactory.UserControllerDTO.AddUser(email.Value, password);
+
                 log.Debug("AddUser() success");
                 return data.User;
             }
