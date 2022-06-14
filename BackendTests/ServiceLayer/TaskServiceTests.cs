@@ -92,18 +92,17 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             Assert.AreEqual(expected, result);
         }
 
-        //user isnt the assignee
-        //[TestMethod()]
-        //public void UpdateTaskDueDateNotAssignee()
-        //{
-        //    string expected = JsonController.ConvertToJson(new Response<string>(false, "This is not the assignee"));
-        //    string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
-        //    result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
-        //    result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-        //    result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2022, 05, 20), "printz@post.bgu.ac.il");
-        //    result = taskservice.UpdateTaskDueDate("kfirniss@post.bgu.ac.il", "new board", 0, 0, new DateTime(2022, 05, 20));
-        //    Assert.AreEqual(expected, result);
-        //}
+        [TestMethod()]
+        public void UpdateTaskDueDateNotAssignee()
+        {
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "This is not the assignee"));
+            string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
+            result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
+            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2022, 05, 20));
+            result = taskservice.UpdateTaskDueDate("kfirniss@post.bgu.ac.il", "new board", 0, 0, new DateTime(2022, 05, 20));
+            Assert.AreEqual(expected, result);
+        }
 
         //successful
         [TestMethod()]

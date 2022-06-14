@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IntroSE.Kanban.Backend.Utilities;
 
 namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
 {
@@ -21,7 +22,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         }
 
         [TestMethod()]
-        public void Register_Test()
+        public void Change_Owner_After()
         {
             Assert.Fail();
         }
@@ -150,6 +151,18 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void TransferOwnership_Test()
         {
             Assert.Fail();
+        }
+
+
+        public bool TOF(string json)
+        {
+            GradingResponse<string> res = JsonController.BuildFromJson<GradingResponse<string>>(json);
+            return res.ErrorMessage == null;
+        }
+        public T ReturnValue<T>(string json)
+        {
+            GradingResponse<T> res = JsonController.BuildFromJson<GradingResponse<T>>(json);
+            return res.ReturnValue;
         }
     }
 }

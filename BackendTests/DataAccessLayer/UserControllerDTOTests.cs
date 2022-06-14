@@ -37,13 +37,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             if (list.Count == 0) Assert.Fail("No rows were fetched");
         }
 
-
-        //[TestMethod()]
-        //public void DeleteUserTest()
-        //{
-        //    Assert.Fail();
-        //}
-
         [TestMethod()]
         public void ChangePasswordTest()
         {

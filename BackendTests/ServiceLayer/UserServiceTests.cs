@@ -82,24 +82,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string result = service.Register("yuval@post.bgu.ac.il", "Ha13345678895gh226557hsgdb");
             Assert.AreEqual(expected, result);
         }
-
-        ////delete successful
-        //[TestMethod()]
-        //public void DeleteUserTestSuccess()
-        //{
-        //    service.Register("printz@post.bgu.il", "Hadas12345");
-        //    string expected = JsonController.ConvertToJson(new Response<string>(true,""));
-        //    string result = service.DeleteUser("printz@post.bgu.il");
-        //    Assert.AreEqual(expected, result);
-        //}
-        ////user doesn't exist
-        //[TestMethod()]
-        //public void DeleteUserTestUserDoesntExist()
-        //{
-        //    string expected = JsonController.ConvertToJson(new Response<string>(false, "User doesn\u0027t exist in the system"));
-        //    string result = service.DeleteUser("printz@post.bgu.il");
-        //    Assert.AreEqual(expected, result);
-        //}
        
         //logIn successesful
         [TestMethod()]
