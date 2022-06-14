@@ -557,9 +557,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
 
                 //DAL CALLS
-                BCDTO.ChangeOwner(newOwnerEmail, board.Id);
-                BCDTO.JoinBoard(currentOwnerEmail, board.Id);
-                BCDTO.LeaveBoard(newOwnerEmail, board.Id);
+                BCDTO.ChangeOwner(currentOwnerEmail,newOwnerEmail, board.Id);
 
                 log.Debug("ChangeOwner() success");
             }
