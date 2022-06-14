@@ -58,7 +58,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             log.Debug("AddBoard() for: " + email + "Board's name" + name);
 
-
             try
             {
                 ValidateUser(email);
@@ -74,9 +73,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 BCDTO.AddBoard(newBoard.Id, newBoard.Title.Value, newBoard.Owner.Value);
                 log.Debug("AddBoard() success");
             }
-            catch (ElementAlreadyExistsException)
+            catch (ElementAlreadyExistsException e)
             {
-                log.Error("AddBoard() failed: board '" + name + "' already exists for " + email);
+                log.Error("AddBoard() failed: "+e.Message);
                 throw;
             }
             catch (DataMisalignedException)
@@ -312,7 +311,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 LinkedList<Board> boardList = boardData.GetBoardsDataUnit(email).MyBoards;
                 foreach (Board board in boardList)
                 {
-                    if (board.Title.Equals(name))
+                    if (board.Title == name)
                     {
                         log.Debug("SearchBoard() success");
                         return board;
@@ -321,7 +320,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 LinkedList<Board> boardList1 = boardData.GetBoardsDataUnit(email).JoinedBoards;
                 foreach (Board board in boardList1)
                 {
-                    if (board.Title.Equals(name))
+                    if (board.Title == name)
                     {
                         log.Debug("SearchBoard() success");
                         return board;
@@ -400,6 +399,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 ValidateUser(email);
                 Board board = SearchBoard(email, boardId);
+                foreach (Board boardToTest in GetBoards(email))
+                {
+                    if (boardToTest.Title == board.Title)
+                    {
+                        throw new ElementAlreadyExistsException($"The user '{email}' already has a board with that name");
+                    }
+                }
+
                 board.JoinBoard(email, boardId);
                 boardData.AddPointerToJoinedBoard(email, boardId);
 
@@ -547,11 +554,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     log.Error($"ChangeOwner() failed: user {newOwnerEmail} is already the owner of the board {boardName}");
                     throw new ElementAlreadyExistsException($"user '{newOwnerEmail}' is already the board's owner");
                 }
-                if (board.Owner.Equals(currentOwnerEmail)==false)
+                if (board.Owner != currentOwnerEmail)
                 {
                     log.Error("ChangeOwner() failed: user isn't the board's owner");
                     throw new AccessViolationException("user isn't the board's owner");
                 }
+                foreach (Board boardToTest in GetBoards(newOwnerEmail))
+                {
+                    if (boardToTest.Title == board.Title) 
+                    {
+                        throw new ElementAlreadyExistsException($"User {newOwnerEmail} already has a board titled {board.Title}");
+                    }
+                }
+
                 boardData.ChangeOwnerPointer(currentOwnerEmail, boardName, newOwnerEmail);
                 board.ChangeOwner(currentOwnerEmail, newOwnerEmail, boardName);
 
