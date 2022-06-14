@@ -149,7 +149,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         JoinedBoards = new LinkedList<Board>()
                     }
                 });
-                DALFactory.UserControllerDTO.AddUser(email.Value, password);
+
                 log.Debug("AddUser() success");
                 return data.User;
             }
@@ -328,7 +328,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 OnlyBoardsTree.Add(newBoard.Id, newBoard);
                 myBoardList.AddLast(newBoard);
                 IncrementBoardID();
-                DALFactory.BoardControllerDTO.AddBoard(newBoard.Id, newBoard.Title.Value, newBoard.Owner.Value);
                 log.Debug("AddNewBoard() success");
                 return newBoard;
             }
@@ -363,7 +362,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
                 LinkedList<Board> joinedBoardList = UsersAndBoardsTree.GetData(email).BoardsDataUnit.JoinedBoards;
                 joinedBoardList.AddLast(boardToJoin);
-                DALFactory.BoardControllerDTO.JoinBoard(email.Value, id);
+
                 log.Debug("AddPointerToJoinedBoard() success");
                 return boardToJoin;
             }
@@ -397,7 +396,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     {
                         Board output = node.Value;
                         joinedBoardList.Remove(node);
-                        DALFactory.BoardControllerDTO.LeaveBoard(email.Value, id);
+
                         log.Debug("RemovePointerToJoinedBoard() success");
                         return output;
                     }
@@ -414,48 +413,48 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-        public void NukeBoard(int id)
-        {
-            try
-            {
-                log.Debug("NukeBoard() for: " + id);
-                //validate that the board can be cleanly removed
-                Board toRemove = SearchBoardById(id);
-                if (UserOwnsABoardWithThisTitle(toRemove.Owner, toRemove.Title) == false)
-                {
-                    log.Fatal("Board numbered " + id + " says that '" + toRemove.Owner +
-                        "' owns it but the board doesn't exist for that user");
-                    throw new OperationCanceledException("NukeBoard() failed: Board numbered " + id + " says that '" + toRemove.Owner +
-                        "' owns it but the board doesn't exist for that user");
-                }
-                foreach (CIString email in toRemove.Joined)
-                {
-                    if (UserJoinedToBoardCheck(email, toRemove.Title) == false)
-                    {
-                        log.Fatal("Board numbered " + id + " says that '" + email +
-                        "' is joined to it but the user isn't joined to that board");
-                        throw new OperationCanceledException("NukeBoard() failed: Board numbered " + id + " says that '" + email +
-                        "' is joined to it but the user isn't joined to that board");
-                    }
-                }
+        //public void NukeBoard(int id)
+        //{
+        //    try
+        //    {
+        //        log.Debug("NukeBoard() for: " + id);
+        //        //validate that the board can be cleanly removed
+        //        Board toRemove = SearchBoardById(id);
+        //        if (UserOwnsABoardWithThisTitle(toRemove.Owner, toRemove.Title) == false)
+        //        {
+        //            log.Fatal("Board numbered " + id + " says that '" + toRemove.Owner +
+        //                "' owns it but the board doesn't exist for that user");
+        //            throw new OperationCanceledException("NukeBoard() failed: Board numbered " + id + " says that '" + toRemove.Owner +
+        //                "' owns it but the board doesn't exist for that user");
+        //        }
+        //        foreach (CIString email in toRemove.Joined)
+        //        {
+        //            if (UserJoinedToBoardCheck(email, toRemove.Title) == false)
+        //            {
+        //                log.Fatal("Board numbered " + id + " says that '" + email +
+        //                "' is joined to it but the user isn't joined to that board");
+        //                throw new OperationCanceledException("NukeBoard() failed: Board numbered " + id + " says that '" + email +
+        //                "' is joined to it but the user isn't joined to that board");
+        //            }
+        //        }
 
-                // do the removal from everywhere
-                OnlyBoardsTree.Remove(toRemove.Id);
-                RemoveBoardFromOwner(toRemove.Owner, toRemove.Title);
-                foreach (CIString joinedEmail in toRemove.Joined)
-                {
-                    RemovePointerToJoinedBoard(joinedEmail, toRemove.Id);
-                }
+        //        // do the removal from everywhere
+        //        OnlyBoardsTree.Remove(toRemove.Id);
+        //        RemoveBoardFromOwner(toRemove.Owner, toRemove.Title);
+        //        foreach (CIString joinedEmail in toRemove.Joined)
+        //        {
+        //            RemovePointerToJoinedBoard(joinedEmail, toRemove.Id);
+        //        }
 
-                DALFactory.BoardControllerDTO.RemoveBoard(id);
-                log.Debug("NukeBoard() success");
-            }
-            catch (NoSuchElementException)
-            {
-                log.Error("NukeBoard() failed: board numbered " + id + " does not exist in the system");
-                throw;
-            }        
-        }
+        //        //DALFactory.BoardControllerDTO.RemoveBoard(id);
+        //        log.Debug("NukeBoard() success");
+        //    }
+        //    catch (NoSuchElementException)
+        //    {
+        //        log.Error("NukeBoard() failed: board numbered " + id + " does not exist in the system");
+        //        throw;
+        //    }        
+        //}
         
         public void NukeBoard(CIString email, CIString title)
         {
@@ -493,7 +492,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     RemovePointerToJoinedBoard(joinedEmail, toRemove.Id);
                 }
                 RemoveBoardById(toRemove.Id);
-                DALFactory.BoardControllerDTO.RemoveBoard(toRemove.Id);
+                
                 log.Debug("NukeBoard() success");
             }
             catch (NoSuchElementException)
@@ -527,7 +526,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 Board board = RemoveBoardFromOwner(oldOwner, title);
                 AddExistingBoard(newOwner, board);
 
-                DALFactory.BoardControllerDTO.ChangeOwner(newOwner.Value, board.Id);
                 log.Debug("ChangeOwnerPointers() success");
             }
             catch (NoSuchElementException e)
@@ -992,20 +990,20 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="UserDoesNotExistException"></exception>
         public void NukeBoard(CIString email, CIString board_title);
 
-        /// <summary>
-        ///  Completly removes a <c>Board</c> from the <b>entire system</b><br/>
-        /// <br/><br/>
-        /// <b>Throws </b> <c>NoSuchElementException</c> if,  for some reason, a board with that id <br/>
-        /// doesn't exist in the system in general or specifically for its owner<br/><br/>
-        /// <b>Throws </b> <c>ArgumentException</c> if, for some reason, a board with that id doesn't<br/>
-        /// exist for any of the joined users<br/><br/>
-        /// <b>Throws </b> <c>UserDoesNotExistException</c> if, for some reason, one of the board's joined users doesn't exist <br/>
-        /// in the system
-        /// </summary>
-        /// <exception cref="NoSuchElementException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="UserDoesNotExistException"></exception>
-        public void NukeBoard(int board_id);
+        ///// <summary>
+        /////  Completly removes a <c>Board</c> from the <b>entire system</b><br/>
+        ///// <br/><br/>
+        ///// <b>Throws </b> <c>NoSuchElementException</c> if,  for some reason, a board with that id <br/>
+        ///// doesn't exist in the system in general or specifically for its owner<br/><br/>
+        ///// <b>Throws </b> <c>ArgumentException</c> if, for some reason, a board with that id doesn't<br/>
+        ///// exist for any of the joined users<br/><br/>
+        ///// <b>Throws </b> <c>UserDoesNotExistException</c> if, for some reason, one of the board's joined users doesn't exist <br/>
+        ///// in the system
+        ///// </summary>
+        ///// <exception cref="NoSuchElementException"></exception>
+        ///// <exception cref="ArgumentException"></exception>
+        ///// <exception cref="UserDoesNotExistException"></exception>
+        //public void NukeBoard(int board_id);
 
         /// <summary>
         /// Remove pointer from old owner and add pointer to new owner<br/><br/>

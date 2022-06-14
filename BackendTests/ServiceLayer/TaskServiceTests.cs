@@ -32,7 +32,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string expected = JsonController.ConvertToJson(new Response<string>(true,""));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
+            result = taskservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
             taskservice.AssignTask("kfirniss@post.bgu.ac.il", "new board", 0, 0, "kfirniss@post.bgu.ac.il");
             result = taskservice.UpdateTaskDueDate("kfirniss@post.bgu.ac.il", "new board", 0, 0, new DateTime(2024, 05, 20));
             Assert.AreEqual(expected, result);
@@ -75,7 +75,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string expected = JsonController.ConvertToJson(new Response<string>(false, "The column '5' is not a valid column number"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
+            result = taskservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
             taskservice.AssignTask("kfirniss@post.bgu.ac.il", "new board", 0, 0, "kfirniss@post.bgu.ac.il");
             result = taskservice.UpdateTaskDueDate("kfirniss@post.bgu.ac.il", "new board", 5, 1, new DateTime(2023, 05, 20));
             Assert.AreEqual(expected, result);
@@ -95,12 +95,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void UpdateTaskDueDateNotAssignee()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "This is not the assignee"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "User is not the task's assignee"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogIn("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2022, 05, 20));
-            result = taskservice.UpdateTaskDueDate("kfirniss@post.bgu.ac.il", "new board", 0, 0, new DateTime(2022, 05, 20));
+            result = taskservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2222, 05, 20));
+            result = taskservice.UpdateTaskDueDate("kfirniss@post.bgu.ac.il", "new board", 0, 0, new DateTime(2222, 05, 20));
             Assert.AreEqual(expected, result);
         }
 
@@ -111,7 +111,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string expected = JsonController.ConvertToJson(new Response<string>(true,""));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
+            result = taskservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
             taskservice.AssignTask("kfirniss@post.bgu.ac.il", "new board", 0, 0, "kfirniss@post.bgu.ac.il");
             result = taskservice.UpdateTaskTitle("kfirniss@post.bgu.ac.il", "new board", 0, 0, "new task title name");
             Assert.AreEqual(expected, result);
@@ -154,7 +154,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string expected = JsonController.ConvertToJson(new Response<string>(false, "The column '5' is not a valid column number"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
+            result = taskservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
             taskservice.AssignTask("kfirniss@post.bgu.ac.il", "new board", 0, 0, "kfirniss@post.bgu.ac.il");
             result = taskservice.UpdateTaskTitle("kfirniss@post.bgu.ac.il", "new board", 5, 0, "new task title name");
             Assert.AreEqual(expected, result);
@@ -178,7 +178,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string expected = JsonController.ConvertToJson(new Response<string>(false, "title is empty"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
+            result = taskservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
             taskservice.AssignTask("kfirniss@post.bgu.ac.il", "new board", 0, 0, "kfirniss@post.bgu.ac.il");
             result = taskservice.UpdateTaskTitle("kfirniss@post.bgu.ac.il", "new board", 0, 0, "");
             Assert.AreEqual(expected, result);
@@ -191,7 +191,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string expected = JsonController.ConvertToJson(new Response<string>(false, "title is over the limit"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
+            result = taskservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
             taskservice.AssignTask("kfirniss@post.bgu.ac.il", "new board", 0, 0, "kfirniss@post.bgu.ac.il");
             string title = "";
             for(int i = 0; i < 60; i++)
@@ -209,7 +209,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string expected = JsonController.ConvertToJson(new Response<string>(true,""));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
+            result = taskservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
             taskservice.AssignTask("kfirniss@post.bgu.ac.il", "new board", 0, 0, "kfirniss@post.bgu.ac.il");
             result = taskservice.UpdateTaskDescription("kfirniss@post.bgu.ac.il", "new board", 0, 0, "new task description");
             Assert.AreEqual(expected, result);
@@ -252,7 +252,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string expected = JsonController.ConvertToJson(new Response<string>(false, "The column '3' is not a valid column number"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
+            result = taskservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
             taskservice.AssignTask("kfirniss@post.bgu.ac.il", "new board", 0, 0, "kfirniss@post.bgu.ac.il");
             result = taskservice.UpdateTaskDescription("kfirniss@post.bgu.ac.il", "new board", 3, 0, "new task description");
             Assert.AreEqual(expected, result);
@@ -276,7 +276,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string expected = JsonController.ConvertToJson(new Response<string>(false, "Description is over the limit"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
-            result = boardservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
+            result = taskservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2023, 05, 20));
             taskservice.AssignTask("kfirniss@post.bgu.ac.il", "new board", 0, 0, "kfirniss@post.bgu.ac.il");
 
             string description = "";
