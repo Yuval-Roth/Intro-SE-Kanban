@@ -46,7 +46,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
                 Assert.Fail("AddBoard failed");
             string result = taskService.AddTask(email, boardName, taskTitle, description, dueDate);
             string query = "SELECT * FROM Tasks WHERE TaskId=0";
-            if (GetOperationState(result) == false) Assert.Fail("operationState is false");
+            if (GetOperationState(result) == false) Assert.Fail(result);
             LinkedList<object[]> list = executer.ExecuteRead(query);
             if (list.Count == 0) Assert.Fail("No rows were fetched");
         }
@@ -68,7 +68,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
                 Assert.Fail("AddTask failed"); ;
             string result = taskService.RemoveTask(email, boardName, 0);
             string query = "SELECT * FROM Tasks WHERE BoardId=0 AND TaskId=0";
-            if (GetOperationState(result) == false) Assert.Fail("operationState is false");
+            if (GetOperationState(result) == false) Assert.Fail(result);
             LinkedList<object[]> list = executer.ExecuteRead(query);
             if (list.Count != 0) Assert.Fail("rows were fetched");
         }
@@ -92,7 +92,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
                 Assert.Fail("AssignTask failed");
             string result = taskService.AdvanceTask(email, boardName, 0, 0);
             string query = "SELECT * FROM Tasks WHERE State = 1";
-            if (GetOperationState(result) == false) Assert.Fail("operationState is false");
+            if (GetOperationState(result) == false) Assert.Fail(result);
             LinkedList<object[]> list = executer.ExecuteRead(query);
             if (list.Count == 0) Assert.Fail("No rows were fetched");
         }
@@ -117,7 +117,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
                 Assert.Fail("AssignTask failed");
             string result = taskService.UpdateTaskTitle(email, boardName, 0, 0, newTitle);
             string query = $"SELECT * FROM Tasks WHERE TaskTitle='{newTitle}'";
-            if (GetOperationState(result) == false) Assert.Fail("operationState is false");
+            if (GetOperationState(result) == false) Assert.Fail(result);
             LinkedList<object[]> list = executer.ExecuteRead(query);
             if (list.Count == 0) Assert.Fail("No rows were fetched");
         }
@@ -142,7 +142,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
                 Assert.Fail("AssignTask failed");
             string result = taskService.UpdateTaskDescription(email, boardName, 0, 0, newDescription);
             string query = $"SELECT * FROM Tasks WHERE Description='{newDescription}'";
-            if (GetOperationState(result) == false) Assert.Fail("operationState is false");
+            if (GetOperationState(result) == false) Assert.Fail(result);
             LinkedList<object[]> list = executer.ExecuteRead(query);
             if (list.Count == 0) Assert.Fail("No rows were fetched");
         }
@@ -161,10 +161,12 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
             if (GetOperationState(boardControllerService.AddBoard(email, boardName)) == false)
                 Assert.Fail("AddBoard failed");
             if (GetOperationState(taskService.AddTask(email, boardName, taskTitle, description, dueDate)) == false)
-                Assert.Fail("AddTask failed"); ;
+                Assert.Fail("AddTask failed");
+            if (GetOperationState(taskService.AddTask(email, boardName, taskTitle, description, dueDate)) == false)
+                Assert.Fail("AddTask failed");
             string result = taskService.AssignTask(email, boardName, 0, 0, email);
             string query = $"SELECT * FROM Tasks WHERE Assignee='{email}'";
-            if (GetOperationState(result) == false) Assert.Fail("operationState is false");
+            if (GetOperationState(result) == false) Assert.Fail(result);
             LinkedList<object[]> list = executer.ExecuteRead(query);
             if (list.Count == 0) Assert.Fail("No rows were fetched");
         }
@@ -190,9 +192,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
                 Assert.Fail("AssignTask failed");
             if(GetOperationState(userService.Register(email2, password2))==false)
                 Assert.Fail("Register failed");
+            if (GetOperationState(boardService.JoinBoard(email2, 0)) == false)
+                Assert.Fail("JoinBoard failed");
             string result = taskService.AssignTask(email, boardName, 0, 0, email2); 
             string query = $"SELECT * FROM Tasks WHERE Assignee = '{email2}'";
-            if (GetOperationState(result) == false) Assert.Fail("operationState is false");
+            if (GetOperationState(result) == false) Assert.Fail(result);
             LinkedList<object[]> list = executer.ExecuteRead(query);
             if (list.Count == 0) Assert.Fail("No rows were fetched");
         }
@@ -217,7 +221,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
                 Assert.Fail("AssignTask failed");
             string result = taskService.UpdateTaskDueDate(email, boardName, 0, 0, dueDate2);
             string query = $"SELECT * FROM Tasks WHERE DueDate='{dueDate2}'";
-            if (GetOperationState(result) == false) Assert.Fail("operationState is false");
+            if (GetOperationState(result) == false) Assert.Fail(result);
             LinkedList<object[]> list = executer.ExecuteRead(query);
             if (list.Count == 0) Assert.Fail("No rows were fetched");
         }
