@@ -35,7 +35,8 @@ namespace IntroSE.Kanban.selfTesting
             //Join_To_Exsisting_BoardName();
             //Delete_Board();
             //Add_Board();
-            change_Things();
+            //change_Things();
+            daltest();
 
         }
         public static void CIStringDeserialization()
@@ -279,6 +280,12 @@ namespace IntroSE.Kanban.selfTesting
             gs.Register(email2, password2);
             gs.JoinBoard(email2, 0);
             gs.AssignTask(email2, boardName1, 0, 0, email1);
+        }
+        public static void daltest()
+        {
+
+            DataAccessLayerFactory.GetInstance().UserControllerDTO.AddUser("test@test.com","testPass123");
+            DataAccessLayerFactory.GetInstance().UserControllerDTO.AddUser("test@test.com", "testPass123");
         }
     }
 }

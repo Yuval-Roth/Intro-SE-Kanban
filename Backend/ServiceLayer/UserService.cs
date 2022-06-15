@@ -61,10 +61,15 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 			try
 			{
 				userController.Register(email, password);
-				Response<string> res = new(true,"");
+				Response<string> res = new(true, "");
 				return JsonController.ConvertToJson(res);
 			}
 			catch (ArgumentException ex)
+			{
+				Response<string> res = new(false, ex.Message);
+				return JsonController.ConvertToJson(res);
+			}
+			catch (System.Data.SQLite.SQLiteException ex)
 			{
 				Response<string> res = new(false, ex.Message);
 				return JsonController.ConvertToJson(res);
