@@ -213,7 +213,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void ChangeOwnerTest_user_dont_joined_to_the_board()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "the user Printz@post.bgu.ac.il isn't joined to the board"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "user Printz@post.bgu.ac.il isn\u0027t joined to the board and can\u0027t be made owner"));
             userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             userservice.Register("Printz@post.bgu.ac.il", "Ha12345");
             boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");

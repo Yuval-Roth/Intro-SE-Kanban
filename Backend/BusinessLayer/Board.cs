@@ -436,11 +436,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void ChangeOwner(CIString currentOwnerEmail, CIString newOwnerEmail, CIString boardName)
         {
             log.Debug("ChangeOwner() for board: " + boardName + "from: " + currentOwnerEmail + "to: " + newOwnerEmail);
-            if (!joined.Contains(newOwnerEmail))
-            {
-                log.Error("ChangeOwner() failed: '" + newOwnerEmail + "' isn't joined to the board");
-                throw new ArgumentException("the user " + newOwnerEmail + " isn't joined to the board");
-            }
             owner = newOwnerEmail;
             joined.AddLast(currentOwnerEmail);
             joined.Remove(newOwnerEmail);

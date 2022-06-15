@@ -558,30 +558,26 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             log.Debug("ChangeOwner() for board: " + boardName + "from: " + currentOwnerEmail + "to: " + newOwnerEmail);
             try
             {
-                throw new OperationCanceledException("NEED TO FIX THIS METHOD");
-
 
                 Board board = SearchBoard(currentOwnerEmail, boardName);
+                if (board.Owner != currentOwnerEmail)
+                {
+                    log.Error($"ChangeOwner() failed: user {currentOwnerEmail} isn't the board's owner");
+                    throw new AccessViolationException($"user {currentOwnerEmail} isn't the board's owner");
+                }
                 if (board.Owner == newOwnerEmail)
                 {
                     log.Error($"ChangeOwner() failed: user {newOwnerEmail} is already the owner of the board {boardName}");
                     throw new ElementAlreadyExistsException($"user '{newOwnerEmail}' is already the board's owner");
                 }
-                if (board.Owner != currentOwnerEmail)
+                if (board.Joined.Contains(newOwnerEmail) == false)
                 {
-                    log.Error("ChangeOwner() failed: user isn't the board's owner");
-                    throw new AccessViolationException("user isn't the board's owner");
-                }
-                foreach (Board boardToTest in GetBoards(newOwnerEmail))
-                {
-                    if (boardToTest.Title == board.Title & boardToTest != board) 
-                    {
-                        throw new ElementAlreadyExistsException($"User {newOwnerEmail} already has a board titled {board.Title}");
-                    }
+                    log.Error($"ChangeOwner() failed: user {newOwnerEmail} isn't joined to the board and can't be made owner");
+                    throw new AccessViolationException($"user {newOwnerEmail} isn't joined to the board and can't be made owner");
                 }
 
-                boardData.ChangeOwnerPointer(currentOwnerEmail, boardName, newOwnerEmail);
                 board.ChangeOwner(currentOwnerEmail, newOwnerEmail, boardName);
+                boardData.ChangeOwnerPointer(currentOwnerEmail, boardName, newOwnerEmail);
 
 
                 //DAL CALLS
