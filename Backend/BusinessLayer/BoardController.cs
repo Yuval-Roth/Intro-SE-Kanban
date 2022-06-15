@@ -399,6 +399,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 ValidateUser(email);
                 Board board = SearchBoard(email, boardId);
+                if (board.Owner == email)
+                {
+                    log.Error("JoinBoard() failed: user with email '" + email + "' is the board's owner");
+                    throw new AccessViolationException("the user '" + email + "' is the board's owner");
+                }
+                if (board.Joined.Contains(email))
+                {
+                    log.Error("JoinBoard() failed: user with email '" + email + "' is already joined to the board");
+                    throw new ArgumentException("the user " + email + " is already joined to the board");
+                }
                 foreach (Board boardToTest in GetBoards(email))
                 {
                     if (boardToTest.Title == board.Title)
@@ -548,6 +558,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             log.Debug("ChangeOwner() for board: " + boardName + "from: " + currentOwnerEmail + "to: " + newOwnerEmail);
             try
             {
+                throw new OperationCanceledException("NEED TO FIX THIS METHOD");
+
+
                 Board board = SearchBoard(currentOwnerEmail, boardName);
                 if (board.Owner == newOwnerEmail)
                 {
@@ -561,7 +574,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 }
                 foreach (Board boardToTest in GetBoards(newOwnerEmail))
                 {
-                    if (boardToTest.Title == board.Title) 
+                    if (boardToTest.Title == board.Title & boardToTest != board) 
                     {
                         throw new ElementAlreadyExistsException($"User {newOwnerEmail} already has a board titled {board.Title}");
                     }
