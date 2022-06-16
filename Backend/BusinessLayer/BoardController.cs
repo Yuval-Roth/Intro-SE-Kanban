@@ -478,8 +478,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     log.Error($"LeaveBoard() failed: user {email} is the owner of the board {boardId}");
                     throw new AccessViolationException($"user '{email}' is the board's owner");
                 }
-                boardData.RemovePointerToJoinedBoard(email, boardId);
                 board.LeaveBoard(email, boardId);
+                boardData.RemovePointerToJoinedBoard(email, boardId);
 
                 //DAL CALLS
                 BCDTO.LeaveBoard(email.Value, boardId);

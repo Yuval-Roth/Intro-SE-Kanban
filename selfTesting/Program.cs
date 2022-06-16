@@ -27,7 +27,7 @@ namespace IntroSE.Kanban.selfTesting
             //CIStringDeserialization();
             //CIStringTesting();
             //getInProgress();
-            //JsonTests();
+            JsonTests();
             //Change_Owner_User_Joined_With_Tasks();
             //Remove_Board_Owner();
             //Leave_Board();
@@ -36,7 +36,7 @@ namespace IntroSE.Kanban.selfTesting
             //Delete_Board();
             //Add_Board();
             //change_Things();
-            daltest();
+            //daltest();
 
         }
         public static void CIStringDeserialization()
