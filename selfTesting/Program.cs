@@ -27,7 +27,7 @@ namespace IntroSE.Kanban.selfTesting
             //CIStringDeserialization();
             //CIStringTesting();
             //getInProgress();
-            JsonTests();
+            //JsonTests();
             //Change_Owner_User_Joined_With_Tasks();
             //Remove_Board_Owner();
             //Leave_Board();
@@ -37,6 +37,7 @@ namespace IntroSE.Kanban.selfTesting
             //Add_Board();
             //change_Things();
             //daltest();
+            GetcolumnLimit();
 
         }
         public static void CIStringDeserialization()
@@ -283,9 +284,19 @@ namespace IntroSE.Kanban.selfTesting
         }
         public static void daltest()
         {
-
             DataAccessLayerFactory.GetInstance().UserControllerDTO.AddUser("test@test.com","testPass123");
             DataAccessLayerFactory.GetInstance().UserControllerDTO.AddUser("test@test.com", "testPass123");
+        }
+        public static void GetcolumnLimit()
+        {
+            GradingService gs = new();
+            string u = "DeVerdad@gmail.com";
+            string p = "Verdad123";
+            gs.Register(u, p);
+            gs.AddBoard(u, "LaCiudadDeMexico");
+            Console.WriteLine(gs.GetColumnLimit(u, "laciudaddemexico", 0));
+            Console.WriteLine(gs.LimitColumn(u, "laciudaddemexico", 0, 5));
+            Console.WriteLine(gs.GetColumnLimit(u, "laciudaddemexico", 0));
         }
     }
 }

@@ -46,7 +46,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         ///<b>throws</b> <c>DuplicateKeysNotSupported</c> if an element with the same key already exists in the tree
         ///</summary>
         ///<exception cref="DuplicateKeysNotSupported"></exception>
-        ///<returns>A pointer to the inserted AVLTreeNode</returns>
+        ///<returns>A pointer to the inserted Data</returns>
         public Data Add(Key key, Data data)
         {
             // if tree is empty, add to the root
