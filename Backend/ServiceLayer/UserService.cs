@@ -56,23 +56,23 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 			if (ValidateArguments.ValidateNotNull(new object[] { email,password }) == false)
 			{
 				Response<string> res = new(false, "Register() failed: ArgumentNullException");
-				return JsonController.ConvertToJson(res);
+				return JsonEncoder.ConvertToJson(res);
 			}
 			try
 			{
 				userController.Register(email, password);
 				Response<string> res = new(true, "");
-				return JsonController.ConvertToJson(res);
+				return JsonEncoder.ConvertToJson(res);
 			}
 			catch (ArgumentException ex)
 			{
 				Response<string> res = new(false, ex.Message);
-				return JsonController.ConvertToJson(res);
+				return JsonEncoder.ConvertToJson(res);
 			}
 			catch (System.Data.SQLite.SQLiteException ex)
 			{
 				Response<string> res = new(false, ex.Message);
-				return JsonController.ConvertToJson(res);
+				return JsonEncoder.ConvertToJson(res);
 			}
 		}
 
@@ -97,24 +97,24 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             if (ValidateArguments.ValidateNotNull(new object[] { email }) == false)
             {
                 Response<string> res = new(false, "DeleteUser() failed: ArgumentNullException");
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
 
             try
             {
                 userController.DeleteUser(email);
                 Response<string> res = new(true, "");
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             catch (UserDoesNotExistException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             catch (ArgumentException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
 #pragma warning restore CS0162 // Unreachable code detected
 		}
@@ -136,18 +136,18 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 			if (ValidateArguments.ValidateNotNull(new object[] { email, password }) == false)
 			{
 				Response<string> res = new(false, "LogIn() failed: ArgumentNullException");
-				return JsonController.ConvertToJson(res);
+				return JsonEncoder.ConvertToJson(res);
 			}
 			try
             {
 				userController.LogIn(email, password);
 				Response<string> res = new(true, "");
-				return JsonController.ConvertToJson(res);
+				return JsonEncoder.ConvertToJson(res);
 			}
 			catch (ArgumentException ex)
             {
 				Response<string> res = new(false,ex.Message);
-				return JsonController.ConvertToJson(res);
+				return JsonEncoder.ConvertToJson(res);
 			}
 		}
 
@@ -168,23 +168,23 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 			if (ValidateArguments.ValidateNotNull(new object[] { email }) == false)
 			{
 				Response<string> res = new(false, "LogOut() failed: ArgumentNullException");
-				return JsonController.ConvertToJson(res);
+				return JsonEncoder.ConvertToJson(res);
 			}
 			try
             {
 				userController.LogOut(email);
 				Response<string> res = new(true, "");
-				return JsonController.ConvertToJson(res);
+				return JsonEncoder.ConvertToJson(res);
 			}
 			catch (NoSuchElementException ex)
             {
 				Response<string> res = new(false,ex.Message);
-				return JsonController.ConvertToJson(res);
+				return JsonEncoder.ConvertToJson(res);
 			}
 			catch (ArgumentException ex)
 			{
 				Response<string> res = new(false,ex.Message);
-				return JsonController.ConvertToJson(res);
+				return JsonEncoder.ConvertToJson(res);
 			}
 		}
 
@@ -205,24 +205,24 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 			if (ValidateArguments.ValidateNotNull(new object[] { email, old,newP }) == false)
 			{
 				Response<string> res = new(false, "SetPassword() failed: ArgumentNullException");
-				return JsonController.ConvertToJson(res);
+				return JsonEncoder.ConvertToJson(res);
 			}
 			try
             {
 				User toSetPassword = userController.SearchUser(email);
 				userController.SetPassword(email, old, newP);
 				Response<string> res = new(true, "");
-				return JsonController.ConvertToJson(res);
+				return JsonEncoder.ConvertToJson(res);
 			}
 			catch (UserDoesNotExistException ex)
 			{
 				Response<string> res = new(false,ex.Message);
-				return JsonController.ConvertToJson(res);
+				return JsonEncoder.ConvertToJson(res);
 			}
 			catch (ArgumentException ex)
 			{
 				Response<string> res = new(false,ex.Message);
-				return JsonController.ConvertToJson(res);
+				return JsonEncoder.ConvertToJson(res);
 			}
 		}
 
@@ -243,24 +243,24 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 			if (ValidateArguments.ValidateNotNull(new object[] { email, newEmail}) == false)
 			{
 				Response<string> res = new(false, "SetEmail() failed: ArgumentNullException");
-				return JsonController.ConvertToJson(res);
+				return JsonEncoder.ConvertToJson(res);
 			}
 			try
             {
 				User toSetEmail = userController.SearchUser(email);
 				userController.SetEmail(email, newEmail);
 				Response<string> res = new(true, "");
-				return JsonController.ConvertToJson(res);
+				return JsonEncoder.ConvertToJson(res);
 			}
 			catch (UserDoesNotExistException ex)
 			{
 				Response<string> res = new(false,ex.Message);
-				return JsonController.ConvertToJson(res);
+				return JsonEncoder.ConvertToJson(res);
 			}
 			catch (ArgumentException ex)
 			{
 				Response<string> res = new(false,ex.Message);
-				return JsonController.ConvertToJson(res);
+				return JsonEncoder.ConvertToJson(res);
 			}
 		}
 	}
