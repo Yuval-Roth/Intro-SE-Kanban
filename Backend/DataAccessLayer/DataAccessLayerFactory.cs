@@ -48,7 +48,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         public UserControllerDTO UserControllerDTO => userControllerDTO;
 
         /// <summary>
-        /// Retrieves the BoardControllerDTO instance
+        /// Retrieves the SQLExecuter instance
         /// </summary>
         public SQLExecuter SQLExecuter => executer;
 

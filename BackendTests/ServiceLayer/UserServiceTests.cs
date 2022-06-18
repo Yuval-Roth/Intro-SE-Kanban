@@ -21,7 +21,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RegisterTestSuccess()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(true,""));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(true,""));
             string result = service.Register("yuval@post.bgu.ac.il", "Ha12345");
             Assert.AreEqual(expected, result);
         }
@@ -29,7 +29,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RegisterTestInvalidEmail()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "email illegal"));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(false, "email illegal"));
             string result = service.Register("Printzpost.bgu.ac.il", "Ha12345");
             Assert.AreEqual(expected , result);
         }
@@ -37,7 +37,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RegisterTestExistUser()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user whith that yuval@post.bgu.ac.il already exist in the system"));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(false, "A user whith that yuval@post.bgu.ac.il already exist in the system"));
             string result = service.Register("yuval@post.bgu.ac.il", "Ha12345");
             result = service.Register("yuval@post.bgu.ac.il", "Ha12345");
             Assert.AreEqual(expected, result);
@@ -46,7 +46,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RegisterTestIllegalPasswordNoBigLetters()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"Password illegal"));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(false,"Password illegal"));
             string result = service.Register("yuval@post.bgu.ac.il", "a12345");
             Assert.AreEqual(expected, result);
         }
@@ -54,7 +54,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RegisterTestIllegalNoSmallLetters()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "Password illegal"));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(false, "Password illegal"));
             string result = service.Register("yuval@post.bgu.ac.il", "H12345");
             Assert.AreEqual(expected, result);
         }
@@ -62,7 +62,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RegisterTestIllegalNoNumbers()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "Password illegal"));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(false, "Password illegal"));
             string result = service.Register("yuval@post.bgu.ac.il", "Haaaaa");
             Assert.AreEqual(expected, result);
         }
@@ -70,7 +70,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RegisterTestIllegalTooShort()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "Password illegal"));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(false, "Password illegal"));
             string result = service.Register("yuval@post.bgu.ac.il", "Ha12");
             Assert.AreEqual(expected, result);
         }
@@ -78,7 +78,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void RegisterTestIllegalTooLong()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "Password illegal"));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(false, "Password illegal"));
             string result = service.Register("yuval@post.bgu.ac.il", "Ha13345678895gh226557hsgdb");
             Assert.AreEqual(expected, result);
         }
@@ -89,7 +89,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
             service.LogOut("printz@post.bgu.il");
-            string expected = JsonController.ConvertToJson(new Response<string>(true,""));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(true,""));
             string result = service.LogIn("printz@post.bgu.il", "Hadas12345");
             Assert.AreEqual(expected, result);
         }
@@ -99,7 +99,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
             service.LogOut("printz@post.bgu.il");
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"Incorrect Password"));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(false,"Incorrect Password"));
             string result = service.LogIn("printz@post.bgu.il", "Hadas6789");
             Assert.AreEqual(expected, result);
         }
@@ -109,7 +109,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         {
             service.Register("@post.bgu.il", "Hadas12345");
             service.LogOut("@post.bgu.il");
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "Illegal email"));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(false, "Illegal email"));
             string result = service.LogIn("@post.bgu.il", "Hadas12345");
             Assert.AreEqual(expected, result);
         }
@@ -118,7 +118,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void LogInTestUserDoesntExist()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "There is no such user in the system"));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(false, "There is no such user in the system"));
             string result = service.LogIn("printz@post.bgu.il", "Hadas12345");
             Assert.AreEqual(expected, result);
         }
@@ -127,7 +127,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void LogInTestUserLoggedIn()
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "The user with the email 'printz@post.bgu.il' is already logged in"));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(false, "The user with the email 'printz@post.bgu.il' is already logged in"));
             string result = service.LogIn("printz@post.bgu.il", "Hadas12345");
             Assert.AreEqual(expected, result);
         }
@@ -137,7 +137,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void logOutTestSuccess()
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
-            string expected = JsonController.ConvertToJson(new Response<string>(true,""));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(true,""));
             string result = service.LogOut("printz@post.bgu.il");
             Assert.AreEqual(expected, result);
 
@@ -148,7 +148,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
             service.LogOut("printz@post.bgu.il");
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"User isn't loggedIn"));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(false,"User isn't loggedIn"));
             string result = service.LogOut("printz@post.bgu.il");
             Assert.AreEqual(expected, result);
 
@@ -158,7 +158,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void LogOutTestIllegalEmail()
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "Illegal email"));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(false, "Illegal email"));
             string result = service.LogOut("@post.bgu.il");
             Assert.AreEqual(expected, result);
 
@@ -169,7 +169,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void SetPasswordTestSuccess()
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
-            string expected = JsonController.ConvertToJson(new Response<string>(true,""));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(true,""));
             string result = service.SetPassword("printz@post.bgu.il", "Hadas12345","Printz12345");
             Assert.AreEqual(expected, result);
         }
@@ -177,7 +177,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void SetPasswordTestUserIsntInTheSystem()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'printz@post.bgu.il' doesn't exist in the system"));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(false, "A user with the email 'printz@post.bgu.il' doesn't exist in the system"));
             string result = service.SetPassword("printz@post.bgu.il", "Hadas12345", "Printz12345");
             Assert.AreEqual(expected, result);
         }
@@ -186,7 +186,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void SetPasswordTestOldPasswordIncorrect()
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"Old Password incorrect"));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(false,"Old Password incorrect"));
             string result = service.SetPassword("printz@post.bgu.il", "Hadas6789", "Printz12345");
             Assert.AreEqual(expected, result);
         }
@@ -195,7 +195,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void SetPasswordTestNewPasswordIllegal()
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"New password is illegal"));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(false,"New password is illegal"));
             string result = service.SetPassword("printz@post.bgu.il", "Hadas12345", "hadas12345");
             Assert.AreEqual(expected, result);
         }
@@ -205,7 +205,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void SetEmailTestSuccess()
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
-            string expected = JsonController.ConvertToJson(new Response<string>(true,""));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(true,""));
             string result = service.SetEmail("printz@post.bgu.il", "hadas@post.bgu.il");
             Assert.AreEqual(expected, result);
         }
@@ -213,7 +213,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void SetEmailTestUserDoesntExist()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "A user with the email 'printz@post.bgu.il' doesn't exist in the system"));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(false, "A user with the email 'printz@post.bgu.il' doesn't exist in the system"));
             string result = service.SetEmail("printz@post.bgu.il", "hadas@post.bgu.il");
             Assert.AreEqual(expected, result);
         }
@@ -223,7 +223,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         {
             service.Register("printz@post.bgu.il", "Hadas12345");
             service.Register("hadas@post.bgu.il", "Hadas6789");
-            string expected = JsonController.ConvertToJson(new Response<string>(false,"A user with that email already exists in the system"));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(false,"A user with that email already exists in the system"));
             string result = service.SetEmail("printz@post.bgu.il", "hadas@post.bgu.il");
             Assert.AreEqual(expected, result);
         }

@@ -20,6 +20,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <list type="bullet">GetColumnName()</list>
     /// <list type="bullet">GetColumn()</list>
     /// <list type="bullet">LimitColumn()</list>
+    /// <list type="bullet">JoinBoard()</list>
+    /// <list type="bullet">LeaveBoard()</list>
+    /// <list type="bullet">ChangeOwner()</list>
+    /// <list type="bullet">ValidateColumnOrdinal()</list>
     /// <br/><br/>
     /// ===================
     /// <br/>
@@ -168,7 +172,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// Remove <c>Task</c> from <c>Board</c> board <br/> <br/>
         /// <b>Throws</b> <c>NoSuchElementException</c> if the task doesn't exist
         /// </summary>
-        /// <param name="taskID"></param>
+        /// <param name="taskId"></param>
         /// <exception cref="NoSuchElementException"></exception>
         public void RemoveTask(int taskId)
         {
@@ -298,11 +302,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Search <c>Task</c> from <c>Board</c> board <br/> <br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the task doesn't exist
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the task doesn't exist
         /// </summary>
         /// <param name="taskId"></param>
         /// <returns>Task, unless an error occurs</returns>
-        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="NoSuchElementException"></exception>
         public Task SearchTask(int taskId) 
         {
             log.Debug("SearchTask() taskId: " + taskId);
@@ -330,7 +334,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             else
             {
                 log.Error("SearchTask() failed: A task numbered '" + taskId + "' doesn't exist");
-                throw new UserDoesNotExistException("A Task with the taskId '" +
+                throw new NoSuchElementException("A Task with the taskId '" +
                     taskId + "' doesn't exist in the Board");
             }           
         }
@@ -507,10 +511,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         {
             return new Board(other);
         }
-
-        //====================================================
-        //                  Json related
-        //====================================================
 
     }
 }

@@ -69,7 +69,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer.Tests
 
         private static bool GetOperationState(string json)
         {
-            Response<object> res = JsonController.BuildFromJson<Response<object>>(json);
+            Response<object> res = JsonEncoder.BuildFromJson<Response<object>>(json);
             if (res.operationState == true)
             {
                 return true;

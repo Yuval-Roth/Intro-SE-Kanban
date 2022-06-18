@@ -86,7 +86,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = userServiceLayer.Register(email, password);
             GradingResponse<string> res = new(json);
-            return JsonController.ConvertToJson(res);
+            return JsonEncoder.ConvertToJson(res);
         }
 
 
@@ -101,9 +101,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             string json = userServiceLayer.LogIn(email, password);
             if (GetOperationState(json) == true)
             {
-                return JsonController.ConvertToJson(new GradingResponse<string>(null, email));
+                return JsonEncoder.ConvertToJson(new GradingResponse<string>(null, email));
             }
-            else return JsonController.ConvertToJson(new GradingResponse<string>(json));
+            else return JsonEncoder.ConvertToJson(new GradingResponse<string>(json));
         }
 
 
@@ -116,7 +116,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = userServiceLayer.LogOut(email);
             GradingResponse<string> res = new(json);
-            return JsonController.ConvertToJson(res);
+            return JsonEncoder.ConvertToJson(res);
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = boardServiceLayer.LimitColumn(email, boardName, columnOrdinal, limit);
             GradingResponse<string> res = new(json);
-            return JsonController.ConvertToJson(res);
+            return JsonEncoder.ConvertToJson(res);
         }
 
         /// <summary>
@@ -146,11 +146,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             string json = boardServiceLayer.GetColumnLimit(email, boardName, columnOrdinal);
             if (GetOperationState(json) == true)
             {
-                return JsonController.ConvertToJson(new GradingResponse<int>(json));
+                return JsonEncoder.ConvertToJson(new GradingResponse<int>(json));
                 //return JsonController.ConvertToJson(new intResponse(json));
                 //return JsonController.ConvertToJson(new GradingResponse<Integer>(json));
             }
-            else return JsonController.ConvertToJson(new GradingResponse<string>(json));
+            else return JsonEncoder.ConvertToJson(new GradingResponse<string>(json));
 
         }
 
@@ -166,7 +166,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = boardServiceLayer.GetColumnName(email, boardName, columnOrdinal);
             GradingResponse<string> res = new(json);
-            return JsonController.ConvertToJson(res);
+            return JsonEncoder.ConvertToJson(res);
         }
 
 
@@ -183,7 +183,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = taskServiceLayer.AddTask(email, boardName, title, description, dueDate);
             GradingResponse<string> res = new(json);
-            return JsonController.ConvertToJson(res);
+            return JsonEncoder.ConvertToJson(res);
         }
 
 
@@ -200,7 +200,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = taskServiceLayer.UpdateTaskDueDate(email, boardName, columnOrdinal, taskId, dueDate);
             GradingResponse<string> res = new(json);
-            return JsonController.ConvertToJson(res);
+            return JsonEncoder.ConvertToJson(res);
         }
 
 
@@ -217,7 +217,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = taskServiceLayer.UpdateTaskTitle(email, boardName, columnOrdinal, taskId, title);
             GradingResponse<string> res = new(json);
-            return JsonController.ConvertToJson(res);
+            return JsonEncoder.ConvertToJson(res);
         }
 
 
@@ -234,7 +234,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = taskServiceLayer.UpdateTaskDescription(email, boardName, columnOrdinal, taskId, description);
             GradingResponse<string> res = new(json);
-            return JsonController.ConvertToJson(res);
+            return JsonEncoder.ConvertToJson(res);
         }
 
 
@@ -250,7 +250,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = taskServiceLayer.AdvanceTask(email, boardName, columnOrdinal, taskId);
             GradingResponse<string> res = new(json);
-            return JsonController.ConvertToJson(res);
+            return JsonEncoder.ConvertToJson(res);
         }
 
 
@@ -266,9 +266,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             string json = boardServiceLayer.GetColumn(email, boardName, columnOrdinal);
             if (GetOperationState(json) == true)
             {
-                return JsonController.ConvertToJson(new GradingResponse<LinkedList<Task>>(json));
+                return JsonEncoder.ConvertToJson(new GradingResponse<LinkedList<Task>>(json));
             }
-            else return JsonController.ConvertToJson(new GradingResponse<string>(json));
+            else return JsonEncoder.ConvertToJson(new GradingResponse<string>(json));
         }
 
 
@@ -282,7 +282,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = boardControllerServiceLayer.AddBoard(email, name);
             GradingResponse<string> res = new(json);
-            return JsonController.ConvertToJson(res);
+            return JsonEncoder.ConvertToJson(res);
         }
 
 
@@ -296,7 +296,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = boardControllerServiceLayer.RemoveBoard(email, name);
             GradingResponse<string> res = new(json);
-            return JsonController.ConvertToJson(res);
+            return JsonEncoder.ConvertToJson(res);
         }
 
 
@@ -310,9 +310,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             string json = boardControllerServiceLayer.GetAllTasksByState(email, 1);
             if (GetOperationState(json) == true)
             {
-                return JsonController.ConvertToJson(new GradingResponse<LinkedList<Task>>(json));
+                return JsonEncoder.ConvertToJson(new GradingResponse<LinkedList<Task>>(json));
             }
-            else return JsonController.ConvertToJson(new GradingResponse<string>(json));
+            else return JsonEncoder.ConvertToJson(new GradingResponse<string>(json));
         }
 
         /// <summary>
@@ -325,9 +325,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             string json = boardControllerServiceLayer.GetUserBoards(email);
             if (GetOperationState(json) == true)
             {
-                return JsonController.ConvertToJson(new GradingResponse<LinkedList<int>>(json));
+                return JsonEncoder.ConvertToJson(new GradingResponse<LinkedList<int>>(json));
             }
-            else return JsonController.ConvertToJson(new GradingResponse<string>(json));
+            else return JsonEncoder.ConvertToJson(new GradingResponse<string>(json));
         }
 
         /// <summary>
@@ -340,7 +340,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = boardServiceLayer.JoinBoard(email, boardID);
             GradingResponse<string> res = new(json);
-            return JsonController.ConvertToJson(res);
+            return JsonEncoder.ConvertToJson(res);
         }
 
         /// <summary>
@@ -353,7 +353,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = boardServiceLayer.LeaveBoard(email, boardID);
             GradingResponse<string> res = new(json);
-            return JsonController.ConvertToJson(res);
+            return JsonEncoder.ConvertToJson(res);
         }
 
         /// <summary>
@@ -369,7 +369,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = taskServiceLayer.AssignTask(email, boardName, columnOrdinal, taskID, emailAssignee);
             GradingResponse<string> res = new(json);
-            return JsonController.ConvertToJson(res);
+            return JsonEncoder.ConvertToJson(res);
         }
 
         ///<summary>This method loads all persisted data.
@@ -384,11 +384,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 BusinessLayerFactory.GetInstance().DataCenterManagement.LoadData();
-                return JsonController.ConvertToJson(new GradingResponse<string>());
+                return JsonEncoder.ConvertToJson(new GradingResponse<string>());
             }
             catch (SQLiteException e)
             {
-                return JsonController.ConvertToJson(new GradingResponse<string>(e.Message, null));
+                return JsonEncoder.ConvertToJson(new GradingResponse<string>(e.Message, null));
             }
         }
 
@@ -404,11 +404,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             try
             {
                 BusinessLayerFactory.GetInstance().DataCenterManagement.DeleteData();
-                return JsonController.ConvertToJson(new GradingResponse<string>());
+                return JsonEncoder.ConvertToJson(new GradingResponse<string>());
             }
             catch (SQLiteException e)
             {
-                return JsonController.ConvertToJson(new GradingResponse<string>(e.Message, null));
+                return JsonEncoder.ConvertToJson(new GradingResponse<string>(e.Message, null));
             }
 
         }
@@ -423,14 +423,63 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             string json = boardServiceLayer.ChangeOwner(currentOwnerEmail, newOwnerEmail, boardName);
             GradingResponse<string> res = new(json);
-            return JsonController.ConvertToJson(res);
+            return JsonEncoder.ConvertToJson(res);
         }
 
         private static bool GetOperationState(string json)
         {
-            Response<object> res = JsonController.BuildFromJson<Response<object>>(json);
+            Response<object> res = JsonEncoder.BuildFromJson<Response<object>>(json);
             return res.operationState;
         }
+    }
+#nullable enable
+    [Serializable]
+    public class GradingResponse<T>
+    {
+        [JsonInclude]
+        //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public readonly string? ErrorMessage;
+
+        [JsonInclude]
+        //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public readonly T? ReturnValue;
+
+
+        [JsonConstructor]
+        public GradingResponse(string? ErrorMessage, T? ReturnValue)
+        {
+            this.ErrorMessage = ErrorMessage;
+            this.ReturnValue = ReturnValue;
+        }
+
+
+        public GradingResponse() { }
+
+        public GradingResponse(string json)
+        {
+            Response<T> response = JsonEncoder.BuildFromJson<Response<T>>(json);
+            if (response.operationState == true)
+            {
+                if (response.returnValue is string)
+                {
+                    if (response.returnValue as string != "")
+                        ReturnValue = response.returnValue;
+                }
+                else
+                {
+                    ReturnValue = response.returnValue;
+                }
+            }
+            else if (response.returnValue is string)
+            {
+                ErrorMessage = response.returnValue as string;
+            }
+            else
+            {
+                throw new NotSupportedException("Response.operationState is false and returnValue is not string");
+            }
+        }
+
     }
 }
 
