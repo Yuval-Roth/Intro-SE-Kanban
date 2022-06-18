@@ -29,6 +29,7 @@ namespace IntroSE.Kanban.selfTesting
             //getInProgress();
             //JsonTests();
             //Change_Owner_User_Joined_With_Tasks();
+            //Change_Owner_User_Joined_With_Tasks1();
             //Remove_Board_Owner();
             //Leave_Board();
             //Limit_Column();
@@ -37,7 +38,8 @@ namespace IntroSE.Kanban.selfTesting
             //Add_Board();
             //change_Things();
             //daltest();
-            GetcolumnLimit();
+            //GetcolumnLimit();
+            AssignTask();
 
         }
         public static void CIStringDeserialization()
@@ -125,6 +127,27 @@ namespace IntroSE.Kanban.selfTesting
             gs.JoinBoard(email2, 0);
             gs.AssignTask(email1, boardName1, 0, 0, email1);
             gs.TransferOwnership(email1, email2, boardName1);
+        }
+        public static void Change_Owner_User_Joined_With_Tasks1()
+        {
+            GradingService gs = new();
+            gs.DeleteData();
+            CIString email1 = "printz@post.bgu.ac.il";
+            CIString email2 = "hadaspr100@gmail.com";
+            CIString password1 = "Hadas1234";
+            CIString password2 = "Printz1234";
+            CIString boardName1 = "board1";
+            CIString title1 = "task1";
+            CIString desc1 = "1bla";
+            DateTime due1 = new DateTime(2023, 06, 15);
+            gs.Register(email1, password1);
+            gs.AddBoard(email1, boardName1);
+            gs.AddTask(email1, boardName1, title1, desc1, due1);
+            gs.Register(email2, password2);
+            gs.JoinBoard(email2, 0);
+            gs.AssignTask(email1, boardName1, 0, 0, email1);
+            gs.TransferOwnership(email1, email2, boardName1);
+            //gs.TransferOwnership(email2, email1, boardName1);
         }
 
         public static void Remove_Board_Owner()
@@ -297,6 +320,27 @@ namespace IntroSE.Kanban.selfTesting
             Console.WriteLine(gs.GetColumnLimit(u, "laciudaddemexico", 0));
             Console.WriteLine(gs.LimitColumn(u, "laciudaddemexico", 0, 5));
             Console.WriteLine(gs.GetColumnLimit(u, "laciudaddemexico", 0));
+        }
+
+        public static void AssignTask()
+        {
+            GradingService gs = new();
+            gs.DeleteData();
+            CIString email1 = "printz@post.bgu.ac.il";
+            CIString password1 = "Hadas1234";
+            CIString boardName1 = "board1";
+            gs.Register(email1, password1);
+            gs.AddBoard(email1, boardName1);
+            CIString title1 = "task1";
+            CIString desc1 = "1bla";
+            DateTime due1 = new DateTime(2023, 06, 15);
+            gs.AddTask(email1, boardName1, title1, desc1, due1);
+            CIString email2 = "hadaspr100@gmail.com";
+            CIString password2 = "Printz1234";
+            gs.Register(email2, password2);
+            gs.JoinBoard(email2, 0);
+            gs.AssignTask(email2, boardName1, 0, 0, email2);
+            gs.AssignTask(email2, boardName1, 0, 0, email2);
         }
     }
 }
