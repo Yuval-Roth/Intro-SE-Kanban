@@ -3,7 +3,22 @@ using System;
 
 namespace IntroSE.Kanban.Backend.Utilities
 {
-    public sealed class CIString : IEquatable<CIString>, IComparable,IComparable<CIString>,ICloneable
+
+    /// <summary>
+    /// This class represents a <b>case-insensitive</b> <see cref="string"/>.<br/><br/>
+    /// Supports the Length method and allows implicit conversion between<br/>
+    /// <see cref="CIString"/> and <see cref="string"/> and vice-versa.<br/><br/>
+    /// Supports all the operators that can be used on a normal <see cref="string"/><br/>
+    /// e.g: == , != , &gt; , &lt; , &gt;= , &lt;= <br/><br/>
+    /// <b>Implements:</b> <see cref="IEquatable{T}"/>, <see cref="IComparable"/>, <see cref="IComparable{T}"/>, <see cref="ICloneable"/>
+    /// <br/><br/>
+    /// ===================
+    /// <br/>
+    /// <c>Ⓒ Yuval Roth</c>
+    /// <br/>
+    /// ===================
+    /// </summary>
+    public sealed class CIString : IEquatable<CIString>,IComparable,IComparable<CIString>,ICloneable
     {
         private readonly string value;
 
