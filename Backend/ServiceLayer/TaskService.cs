@@ -11,7 +11,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 	///<br/>
 	///<code>Supported operations:</code>
 	///<br/>
-	/// <list type="bullet">UpdateTaskDueDate()</list>
+    /// <list type="bullet">AddTask()</list>
+    /// <list type="bullet">RemoveTask()</list>
+    /// <list type="bullet">AdvanceTask()</list>
+    /// <list type="bullet">UpdateTaskDueDate()</list>
+	/// <list type="bullet">AssignTask()</list>
 	/// <list type="bullet">UpdateTaskTitle()</list>
     /// <list type="bullet">UpdateTaskDescription()</list>
 	/// <br/><br/>
