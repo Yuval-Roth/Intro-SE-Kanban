@@ -16,7 +16,17 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <list type="bullet">RemoveBoard()</list>
     /// <list type="bullet">GetAllTasksByState()</list>
     /// <list type="bullet">GetBoards()</list>
+    /// <list type="bullet">GetBoardsId()</list>
     /// <list type="bullet">SearchBoard()</list>
+    /// <list type="bullet">JoinBoard()</list>
+    /// <list type="bullet">LeaveBoard()</list>
+    /// <list type="bullet">ValidateUser()</list>
+    /// <list type="bullet">ChangeOwner()</list>
+    /// <list type="bullet">LimitColumn()</list>
+    /// <list type="bullet">GetColumnLimit()</list>
+    /// <list type="bullet">GetColumnName()</list>
+    /// <list type="bullet">>GetColumn()</list>
+    /// <list type="bullet">>ValidateColumnOrdinal()</list>
     /// <br/><br/>
     /// ===================
     /// <br/>
@@ -33,7 +43,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <summary>
         /// Initialize a new BoardController <br/><br/>
         /// </summary>
-        /// <param name="userData"></param>
+        /// <param name="boardData"></param>
         public BoardController(BoardDataOperations boardData)
         {
             this.boardData = boardData;
@@ -42,17 +52,20 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Add new <c>Board</c> to <c>UserData</c> userData <br/> <br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if a<c> Board</c> with that title already exists<br/>
+        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if a<c> Board</c> with that title already exists<br/>
         /// for the <c>User</c><br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if the user doesn't exist<br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/>
         /// <b>Throws</b> <c>UserNotLoggedInException</c> if the user isn't logged in<br/>
-        /// in the system
+        /// <b>Throws</b> <c>DataMisalignedException</c> if BoardIDCounter is out of sync<br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if board name is empty<br/>
         /// </summary>
         /// <param name="email"></param>
         /// <param name="name"></param>
-        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ElementAlreadyExistsException"></exception>
         /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
         /// <exception cref="UserNotLoggedInException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public void AddBoard(CIString email, CIString name)
         {
 
@@ -99,17 +112,18 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Remove <c>Board</c> from <c>UserData</c> userData <br/> <br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if a <c>Board</c> with that title <br/>
-        /// doesn't exist for the user<br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if the user doesn't exist<br/>
-        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't logged in or user isn't the owner<br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/>
+        /// <b>Throws</b> <c>UserNotLoggedInException</c> if the user isn't logged in<br/>
+        /// <b>Throws</b> <c>AccessViolationException</c> if the user user isn't the owner<br/>
+        /// <b>Throws</b> <c>OperationCanceledException</c> if the user user isn't the owner<br/>
         /// in the system
         /// </summary>
         /// <param name="email"></param>
-        /// <param name="name"></param>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="NoSuchElementException"></exception>
+        /// <param name="title"></param>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="UserNotLoggedInException"></exception>
         /// <exception cref="AccessViolationException"></exception>
+        /// <exception cref="OperationCanceledException"></exception>
         public void RemoveBoard(CIString email, CIString title)
         {
 
@@ -154,15 +168,15 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Returns <c>tasks' list</c> from <c>UserData</c> userData <br/> <br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if the user doesn't exist<br/>
-        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't logged in<br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/>
+        /// <b>Throws</b> <c>UserNotLoggedInException</c> if the user isn't logged in<br/>
         /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number
         /// </summary>
         /// <param name="email"></param>
         /// <param name="columnOrdinal"></param>
         /// <returns>A list of tasks by specific state, unless an error occurs</returns>
-        /// <exception cref="NoSuchElementException"></exception>
-        /// <exception cref="AccessViolationException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="UserNotLoggedInException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         public LinkedList<Task> GetAllTasksByState(CIString email, int columnOrdinal)
             {
@@ -205,13 +219,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Returns <c>boards' list</c> from <c>UserData</c> userData <br/> <br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if the user doesn't exist<br/>
-        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't logged in
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/>
+        /// <b>Throws</b> <c>UserNotLoggedInException</c> if the user isn't logged in<br/>
         /// </summary>
         /// <param name="email"></param>
         /// <returns>A list of Boards, unless an error occurs</returns>
-        /// <exception cref="NoSuchElementException"></exception>
-        /// <exception cref="AccessViolationException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="UserNotLoggedInException"></exception>
         public LinkedList<Board> GetBoards (CIString email) {
 
             log.Debug("GetBoards() for: " + email);
@@ -251,13 +265,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Returns <c>List</c> of boardId of user <br/> <br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if the user doesn't exist<br/>
-        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't logged in
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/>
+        /// <b>Throws</b> <c>UserNotLoggedInException</c> if the user isn't logged in<br/>
         /// </summary>
         /// <param name="email"></param>
         /// <returns>A list of int of board Id, unless an error occurs</returns>
-        /// <exception cref="NoSuchElementException"></exception>
-        /// <exception cref="AccessViolationException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="UserNotLoggedInException"></exception>
         public LinkedList<int> GetBoardsId(CIString email)
         {
 
@@ -294,11 +308,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Returns <c>board</c> from <c>UserData</c> userData <br/> <br/>
-        /// <b>Throws</b> <c>NoSuchElementException</c> if the user or the board doesn't exist<br/>
-        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't logged in
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/>
+        /// <b>Throws</b> <c>UserNotLoggedInException</c> if the user isn't logged in<br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the board doesn't exists for the user<br/>
         /// </summary>
         /// <param name="email"></param>
         /// <returns>Board, unless an error occurs</returns>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="UserNotLoggedInException"></exception>
         /// <exception cref="NoSuchElementException"></exception>
         public Board SearchBoard(CIString email , CIString name)
         {
@@ -346,13 +363,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <summary>
         /// Returns <c>board</c> from <c>UserData</c> userData <br/> <br/>
         /// <b>Throws</b> <c>NoSuchElementException</c> if the board doesn't exist<br/>
-        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't logged in <br/>
+        /// <b>Throws</b> <c>UserNotLoggedInException</c> if the user isn't logged in <br/>
         /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/> 
         /// </summary>
         /// <param name="email"></param>
         /// <returns>Board, unless an error occurs</returns>
         /// <exception cref="NoSuchElementException"></exception>
-        /// <exception cref="AccessViolationException"></exception>
+        /// <exception cref="UserNotLoggedInException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
         public Board SearchBoard(CIString email, int boardId)
         {
@@ -382,16 +399,21 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
         /// <summary>
         /// add <c>User</c> to <c>Board</c> joined boards <br/><br/>
-        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if the user already joined to the board<br/>
+        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if The user already has a board with that name<br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if The user is already joined to the board<br/>
+        /// <b>Throws</b> <c>AccessViolationException</c> if The user is the board's owner<br/>
         /// <b>Throws</b> <c>NoSuchElementException</c> if the board doesn't exist <br/>
         /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/> 
+        /// <b>Throws</b> <c>UserNotLoggedInException</c> if the user isn't logged in <br/>
         /// </summary>
         /// <param name="email"></param>
         /// <param name="boardId"></param>
         /// <exception cref="ElementAlreadyExistsException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="AccessViolationException"></exception>
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
-
+        /// <exception cref="UserNotLoggedInException"></exception>
         public void JoinBoard(CIString email, int boardId)
         {
             log.Debug("JoinBoard() for: user " + email + " Board's Id " + boardId);
@@ -459,13 +481,21 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
         /// <summary>
         /// remove <c>User</c> from <c>Board</c> joined boards <br/><br/>
-        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the user isn't joined to a board with that Id<br/> 
+        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if The user already has a board with that name<br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if The user is already joined to the board<br/>
+        /// <b>Throws</b> <c>AccessViolationException</c> if The user is the board's owner<br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the board doesn't exist <br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/> 
+        /// <b>Throws</b> <c>UserNotLoggedInException</c> if the user isn't logged in <br/>
         /// </summary>
         /// <param name="email"></param>
         /// <param name="boardId"></param>
-        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="ElementAlreadyExistsException"></exception>
         /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="AccessViolationException"></exception>
+        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="UserNotLoggedInException"></exception>
         public void LeaveBoard(CIString email, int boardId)
         {
             log.Debug("LeaveBoard() for user: " + email + "for board " + boardId);
@@ -543,6 +573,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if a<c> Board</c> with that title already exists<br/>
         /// for the <c>User</c><br/>
         /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/>
+        /// <b>Throws</b> <c>UserNotLoggedInException</c> if the user isn't logged in <br/>
         /// <b>Throws</b> <c>NoSuchElementException</c> if Board doesn't exist for the user<br/>
         /// <b>Throws</b> <c>AccessViolationException</c> if user isn't the owner<br/>
         /// </summary>
@@ -552,6 +583,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ElementAlreadyExistsException"></exception>
         /// <exception cref="NoSuchElementException"></exception>
         /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="UserNotLoggedInException"></exception>
         /// <exception cref="AccessViolationException"></exception>
         public void ChangeOwner(CIString currentOwnerEmail, CIString newOwnerEmail, CIString boardName)
         {
@@ -607,6 +639,26 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
+
+        /// <summary>
+        /// Limit<c>column</c> from <c>Board</c> board <br/> <br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/>
+        /// <b>Throws</b> <c>UserNotLoggedInException</c> if the user isn't logged in <br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the board doesn't exist<br/>
+        /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number<br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if the limit is illegal<br/>
+        /// <b>Throws</b> <c>AccessViolationException</c> if the the user isn't the board's owner or joined the board<br/>
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="boardName"></param>
+        /// <param name="columnOrdinal"></param>
+        /// <param name="limit"></param>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="UserNotLoggedInException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="AccessViolationException"></exception>
         public void LimitColumn(CIString email, CIString boardName, int columnOrdinal, int limit)
         {
             log.Debug("LimitColumn() for column and limit: " + columnOrdinal + ", " + limit);
@@ -652,7 +704,23 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-
+        /// <summary>
+        /// Get<c>column limit</c> from <c>Board</c> board <br/> <br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/>
+        /// <b>Throws</b> <c>UserNotLoggedInException</c> if the user isn't logged in <br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the board doesn't exist<br/>
+        /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number<br/>
+        /// <b>Throws</b> <c>AccessViolationException</c> if the the user isn't the board's owner or joined the board<br/>
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="boardName"></param>
+        /// <param name="columnOrdinal"></param>
+        /// <returns>int column limit, unless an error occurs</returns>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="UserNotLoggedInException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="AccessViolationException"></exception>
         public int GetColumnLimit(CIString email, CIString boardName, int columnOrdinal)
         {
             log.Debug("GetColumnLimit() columnOrdinal: " + columnOrdinal);
@@ -695,6 +763,24 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
+
+        /// <summary>
+        /// Get<c>column name</c> from <c>Board</c> board <br/> <br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/>
+        /// <b>Throws</b> <c>UserNotLoggedInException</c> if the user isn't logged in <br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the board doesn't exist<br/>
+        /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number<br/>
+        /// <b>Throws</b> <c>AccessViolationException</c> if the the user isn't the board's owner or joined the board<br/>
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="boardName"></param>
+        /// <param name="columnOrdinal"></param>
+        /// <returns>column name, unless an error occurs</returns>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="UserNotLoggedInException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="AccessViolationException"></exception>
         public string GetColumnName(CIString email, CIString boardName, int columnOrdinal)
         {
             log.Debug("GetColumnName() columnOrdinal: " + columnOrdinal);
@@ -737,6 +823,24 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
+
+        /// <summary>
+        /// Get<c>column</c> from <c>Board</c> board <br/> <br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/>
+        /// <b>Throws</b> <c>UserNotLoggedInException</c> if the user isn't logged in <br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the board doesn't exist<br/>
+        /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number<br/>
+        /// <b>Throws</b> <c>AccessViolationException</c> if the the user isn't the board's owner or joined the board<br/>
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="boardName"></param>
+        /// <param name="columnOrdinal"></param>
+        /// <returns>LinkedList of task, unless an error occurs</returns>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="UserNotLoggedInException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="AccessViolationException"></exception>
         public LinkedList<Task> GetColumn(CIString email, CIString boardName, int columnOrdinal)
         {
             log.Debug("GetColumn() columnOrdinal: " + columnOrdinal);

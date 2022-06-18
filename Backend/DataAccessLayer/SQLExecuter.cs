@@ -8,8 +8,16 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger("Backend\\DataAccessLayer\\SQLExecuter.cs");
 
+        /// <summary>
+        /// Initialize a new SQLExecuter instance
+        /// </summary>
         public SQLExecuter() { }
 
+        /// <summary>
+        /// Executes an SQL query in write-only mode.
+        /// </summary>
+        /// <param name="query">SQL Query</param>
+        /// <returns>true if the amount of rows that changed is greater than 0, false if it equals 0</returns>
         public bool ExecuteWrite(string query) {
 
             log.Debug("ExecuteWrite() for: "+query);
@@ -39,6 +47,12 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 }
             }   
         }
+
+        /// <summary>
+        /// Execute an SQL query in read-only mode
+        /// </summary>
+        /// <param name="query">SQL Query</param>
+        /// <returns>LinkedList&lt;object[]&gt;</returns>
         public LinkedList<object[]> ExecuteRead(string query)
         {
 

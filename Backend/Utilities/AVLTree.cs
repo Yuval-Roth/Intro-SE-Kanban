@@ -29,7 +29,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <br/>
     /// ===================
     /// </summary>
-    public class AVLTree<Key,Data> : IEnumerable<Data> where Key : IComparable
+    public sealed class AVLTree<Key,Data> : IEnumerable<Data> where Key : IComparable
     {
         private AVLTreeNode root;
 
@@ -151,7 +151,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //                                AVLTreeNode
         //===========================================================================
 
-        public class AVLTreeNode
+        private sealed class AVLTreeNode
         {
             private readonly AVLTree<Key,Data> tree;
             private readonly Key key;
