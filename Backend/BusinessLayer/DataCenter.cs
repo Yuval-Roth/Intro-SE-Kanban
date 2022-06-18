@@ -38,9 +38,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     /// <item>AddPointerToJoinedBoard(email,board_id)</item>
     /// <item>RemovePointerToJoinedBoard(email,board_id)</item>
     /// <item>NukeBoard(email,board_title)</item>
-    /// <item>NukeBoard(board_id)</item>
     /// <item>ChangeOwnerPointer(old_owner,board_title,new_owner)</item>
     /// <item>UserOwnsABoardWithThisTitle(email, board_title)</item>
+    /// <item>UserIsJoinedToABoardWithThisTitle</item>
     /// </list>
     /// <b>-------------Management--------------</b>
     /// <list type="bullet">
@@ -106,10 +106,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public DataCenter()
         {
+            DALFactory = DataAccessLayerFactory.GetInstance();
             UsersAndBoardsTree = new();
             OnlyBoardsTree = new();
             loggedIn = new();
-            DALFactory = DataAccessLayerFactory.GetInstance();
             dataLoaded = false;
         }
 
