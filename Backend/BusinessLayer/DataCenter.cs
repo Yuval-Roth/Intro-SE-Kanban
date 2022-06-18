@@ -92,7 +92,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
         //------------------------------------------------------
 
-        //------------------- Data Repository -----------------------
+        //------------------- Data Repository ------------------
         private AVLTree<CIString, DataUnit> UsersAndBoardsTree;
         private AVLTree<int, Board> OnlyBoardsTree;
         private HashSet<CIString> loggedIn;
