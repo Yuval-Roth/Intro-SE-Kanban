@@ -1,6 +1,6 @@
 ﻿namespace IntroSE.Kanban.Backend.Utilities
 {
-    internal class ValidateArguments
+    public class ValidateArguments
     {
         public static bool ValidateNotNull(object[] args)
         {

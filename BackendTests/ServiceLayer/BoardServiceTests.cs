@@ -149,7 +149,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void LeaveBoardTest_leave_board_user_didnt_join_the_board()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "Printz@post.bgu.ac.il is not joined to board nubmer 0"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "user with email 'Printz@post.bgu.ac.il' is not joined to the board"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = userservice.Register("Printz@post.bgu.ac.il", "Ha12345");
@@ -213,7 +213,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void ChangeOwnerTest_user_dont_joined_to_the_board()
         {
-            string expected = JsonController.ConvertToJson(new Response<string>(false, "user Printz@post.bgu.ac.il isn\u0027t joined to the board and can\u0027t be made owner"));
+            string expected = JsonController.ConvertToJson(new Response<string>(false, "user Printz@post.bgu.ac.il isn't joined to the board and can't be made owner"));
             userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             userservice.Register("Printz@post.bgu.ac.il", "Ha12345");
             boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");

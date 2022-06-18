@@ -11,7 +11,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         private SQLExecuter executer;
         private LinkedList<UserDTO> usersList;
         private LinkedList<BoardDTO> boardsList;
-        private long boardIdCounter;
+        private int boardIdCounter;
 
         public DataLoader(SQLExecuter executer) 
         {
@@ -29,7 +29,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
 
         public LinkedList<UserDTO> UsersList => usersList;
         public LinkedList<BoardDTO> BoardsList => boardsList;
-        public int BoardIdCounter => (int)boardIdCounter;
+        public int BoardIdCounter => boardIdCounter;
 
 
         private void LoadUsers()
