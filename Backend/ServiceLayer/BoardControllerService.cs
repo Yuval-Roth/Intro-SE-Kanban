@@ -14,6 +14,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 	/// <list type="bullet">AddBoard()</list>
 	/// <list type="bullet">RemoveBoard()</list>
 	/// <list type="bullet">GetAllTasksByState()</list>
+    /// <list type="bullet">GetUserBoards</list>
 	/// <br/><br/>
 	/// ===================
 	/// <br/>
