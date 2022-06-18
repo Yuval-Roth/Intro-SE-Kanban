@@ -238,7 +238,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="email"></param>
         /// <param name="newE"></param>
         /// <exception cref="ArgumentException"></exception>
-        public void SetEmail(string email, CIString newE)
+        public void SetEmail(CIString email, CIString newE)
         {
             log.Debug("SetEmail() for '" + email + "' to '" + newE);
             if (userData.UserExists(email) == false)
