@@ -15,9 +15,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
     ///<br/>
     /// <list type="bullet">Task()</list>
     /// <list type="bullet">AdvanceTask()</list>
-    /// <list type="bullet">SetTitle()</list>
-    /// <list type="bullet">SetDescription()</list>
-    /// <list type="bullet">SetDueDate()</list>
+    /// <list type="bullet">UpdateTitle()</list>
+    /// <list type="bullet">UpdateDescription()</list>
+    /// <list type="bullet">UpdateDueDate()</list>
+    /// <list type="bullet">AssignTask()</list>
     /// <br/><br/>
     /// ===================
     /// <br/>
@@ -47,10 +48,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Build <c>Task</c> <br/> <br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the title or description over their char cap, or due date is passed
+        /// <b>Throws</b> <c>ArgumentException</c> if the title or description over their char cap, or due date is passed<br/>
         /// </summary>
+        /// <param name="id"></param>
+        /// <param name="boardId"></param>
         /// <param name="title"></param>
-        /// <param name="duedate"></param>
+        /// <param name="dueDate"></param>
         /// <param name="description"></param>
         /// <exception cref="ArgumentException"></exception>
         public Task(int id, CIString title, DateTime dueDate, CIString description, int boardId)
@@ -88,6 +91,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             this.boardId = boardId;
         }
 
+
+        /// <summary>
+        /// Build <c>Task</c> <br/> <br/>
+        /// </summary>
+        /// <param name="taskDTO"></param>
         public Task(TaskDTO taskDTO)
         {
             id = taskDTO.Id;
@@ -158,8 +166,9 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <summary>
         /// Advance <c>Task</c>
         /// <b>Throws</b> <c>ArgumentException</c> if the task can't be advanced<br/>
-        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't task assignee
+        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't task assignee<br/>
         /// </summary>
+        /// <param name="email"></param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="AccessViolationException"></exception>
         public void AdvanceTask(CIString email)
@@ -187,7 +196,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <b>Throws</b> <c>AccessViolationException</c> if the the email isn't current assignee <br/>
         /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if the the the new assigne is the current assignee <br/>
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="email"></param>
+        /// <param name="emailAssignee"></param>
         /// <exception cref="ArgumentException"></exception>
         public void AssignTask(CIString email, CIString emailAssignee)
         {
@@ -217,10 +227,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Set <c>Task DueDate</c> to <c>Task</c> task <br/> <br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the due date has passed or task is already done
-        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't the assignee
+        /// <b>Throws</b> <c>ArgumentException</c> if the due date has passed or task is already done <br/>
+        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't the assignee <br/>
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="email"></param>
+        /// <param name="newDueDate"></param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="AccessViolationException"></exception>
         public void UpdateDueDate(CIString email, DateTime newDueDate)
@@ -250,9 +261,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Set <c>Task Title</c> to <c>Task</c> task <br/> <br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the title over his char cap/empty or task is already done
-        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't the assignee
+        /// <b>Throws</b> <c>ArgumentException</c> if the title over his char cap/empty or task is already done <br/>
+        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't the assignee <br/>
         /// </summary>
+        /// <param name="email"></param>
         /// <param name="value"></param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="AccessViolationException"></exception>
@@ -289,10 +301,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         /// <summary>
         /// Set <c>Task Description</c> to <c>Task</c> task <br/> <br/>
-        /// <b>Throws</b> <c>ArgumentException</c> if the title over his char cap or task is already done<br/><br/>
-        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't the assignee
+        /// <b>Throws</b> <c>ArgumentException</c> if the title over his char cap or task is already done<br/>
+        /// <b>Throws</b> <c>AccessViolationException</c> if the user isn't the assignee<br/>
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="email"></param>
+        /// <param name="newDescription"></param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="AccessViolationException"></exception>
         public void UpdateDescription(CIString email, CIString newDescription)
