@@ -12,15 +12,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 	///<br/>
 	///<code>Supported operations:</code>
 	///<br/>
-	/// <list type="bullet">AddTask()</list>
-	/// <list type="bullet">RemoveTask()</list>
-    /// <list type="bullet">AdvanceTask()</list>
 	/// <list type="bullet">LimitColumn()</list>
-    /// <list type="bullet">UnlimitColumn()</list>
     /// <list type="bullet">GetColumnLimit()</list>
 	/// <list type="bullet">GetColumnName()</list>
 	/// <list type="bullet">GetColumn()</list>
-    /// /// <list type="bullet">ChangeOwner()</list>
+    /// <list type="bullet">ChangeOwner()</list>
+    /// <list type="bullet">JoinBoard()</list>
+    /// <list type="bullet">LeaveBoard()</list>
 	/// <br/><br/>
 	/// ===================
 	/// <br/>
