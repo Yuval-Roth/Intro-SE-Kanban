@@ -646,12 +646,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <b>Throws</b> <c>UserNotLoggedInException</c> if the user isn't logged in <br/>
         /// <b>Throws</b> <c>NoSuchElementException</c> if the board doesn't exist<br/>
         /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number<br/>
-        /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number<br/>
+        /// <b>Throws</b> <c>ArgumentException</c> if the limit is illegal<br/>
+        /// <b>Throws</b> <c>AccessViolationException</c> if the the user isn't the board's owner or joined the board<br/>
         /// </summary>
+        /// <param name="email"></param>
+        /// <param name="boardName"></param>
         /// <param name="columnOrdinal"></param>
         /// <param name="limit"></param>
-        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="UserNotLoggedInException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="AccessViolationException"></exception>
         public void LimitColumn(CIString email, CIString boardName, int columnOrdinal, int limit)
         {
             log.Debug("LimitColumn() for column and limit: " + columnOrdinal + ", " + limit);
@@ -697,7 +704,23 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
-
+        /// <summary>
+        /// Get<c>column limit</c> from <c>Board</c> board <br/> <br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/>
+        /// <b>Throws</b> <c>UserNotLoggedInException</c> if the user isn't logged in <br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the board doesn't exist<br/>
+        /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number<br/>
+        /// <b>Throws</b> <c>AccessViolationException</c> if the the user isn't the board's owner or joined the board<br/>
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="boardName"></param>
+        /// <param name="columnOrdinal"></param>
+        /// <returns>int column limit, unless an error occurs</returns>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="UserNotLoggedInException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="AccessViolationException"></exception>
         public int GetColumnLimit(CIString email, CIString boardName, int columnOrdinal)
         {
             log.Debug("GetColumnLimit() columnOrdinal: " + columnOrdinal);
@@ -740,6 +763,24 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
+
+        /// <summary>
+        /// Get<c>column name</c> from <c>Board</c> board <br/> <br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/>
+        /// <b>Throws</b> <c>UserNotLoggedInException</c> if the user isn't logged in <br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the board doesn't exist<br/>
+        /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number<br/>
+        /// <b>Throws</b> <c>AccessViolationException</c> if the the user isn't the board's owner or joined the board<br/>
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="boardName"></param>
+        /// <param name="columnOrdinal"></param>
+        /// <returns>column name, unless an error occurs</returns>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="UserNotLoggedInException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="AccessViolationException"></exception>
         public string GetColumnName(CIString email, CIString boardName, int columnOrdinal)
         {
             log.Debug("GetColumnName() columnOrdinal: " + columnOrdinal);
@@ -782,6 +823,24 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
         }
 
+
+        /// <summary>
+        /// Get<c>column</c> from <c>Board</c> board <br/> <br/>
+        /// <b>Throws</b> <c>UserDoesNotExistException</c> if the user doesn't exist<br/>
+        /// <b>Throws</b> <c>UserNotLoggedInException</c> if the user isn't logged in <br/>
+        /// <b>Throws</b> <c>NoSuchElementException</c> if the board doesn't exist<br/>
+        /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number<br/>
+        /// <b>Throws</b> <c>AccessViolationException</c> if the the user isn't the board's owner or joined the board<br/>
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="boardName"></param>
+        /// <param name="columnOrdinal"></param>
+        /// <returns>LinkedList of task, unless an error occurs</returns>
+        /// <exception cref="UserDoesNotExistException"></exception>
+        /// <exception cref="UserNotLoggedInException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        /// <exception cref="NoSuchElementException"></exception>
+        /// <exception cref="AccessViolationException"></exception>
         public LinkedList<Task> GetColumn(CIString email, CIString boardName, int columnOrdinal)
         {
             log.Debug("GetColumn() columnOrdinal: " + columnOrdinal);
