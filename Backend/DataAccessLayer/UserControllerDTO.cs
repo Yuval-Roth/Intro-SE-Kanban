@@ -15,10 +15,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return executer.ExecuteWrite("INSERT INTO Users (Email,Password) " +
                 $"VALUES('{email}','{password}')");
         }
-        public bool DeleteUser(string email)
-        {
-            return executer.ExecuteWrite($"DELETE FROM Users WHERE Email like '{email}'");
-        }
         public bool ChangePassword(string email, string password)
         {
             return executer.ExecuteWrite("UPDATE Users " +
