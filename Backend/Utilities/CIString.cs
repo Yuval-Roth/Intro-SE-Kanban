@@ -101,26 +101,6 @@ namespace IntroSE.Kanban.Backend.Utilities
         {
             return ReferenceEquals(left, null) ? ReferenceEquals(right, null) : left.CompareTo(right) >= 0;
         }
-        //public static CIString operator +(CIString left, CIString right)
-        //{
-        //    return new CIString(left.value + right.value);
-        //}
-        //public static CIString operator +(int left, CIString right)
-        //{
-        //    return new CIString(left + right.value);
-        //}
-        //public static CIString operator +(CIString left, int right)
-        //{
-        //    return new CIString(left.value + right);
-        //}
-        //public static string operator +(CIString left, string right)
-        //{
-        //    return left.value + right;
-        //}
-        //public static string operator +(string left, CIString right)
-        //{
-        //    return left + right.value;
-        //}
         public static implicit operator CIString(string v)
         {
             return new CIString(v);
