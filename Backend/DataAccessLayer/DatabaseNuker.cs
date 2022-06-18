@@ -10,7 +10,11 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
         {
             executer = DataAccessLayerFactory.GetInstance().SQLExecuter;
         }
+        
 
+        /// <summary>
+        /// <b>WARNING: DELETES *ALL* PERSISTED DATA FROM THE DATABASE</b>
+        /// </summary>
         public void Nuke()
         {
             string[] tables = { "Users", "Boards","UserJoinedBoards","Tasks"};
