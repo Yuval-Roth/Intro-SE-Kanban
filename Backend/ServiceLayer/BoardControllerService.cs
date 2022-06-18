@@ -51,43 +51,43 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             if (ValidateArguments.ValidateNotNull(new object[] { email, name }) == false)
             {
                 Response<string> res = new(false, "AddBoard() failed: ArgumentNullException");
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             try
             {
                 boardController.AddBoard(email, name);
                 Response<string> res = new(true, "");
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             catch (ElementAlreadyExistsException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             catch (UserDoesNotExistException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             catch (AccessViolationException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             catch (ArgumentException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             catch (UserNotLoggedInException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             catch (System.Data.SQLite.SQLiteException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
         }
 
@@ -110,23 +110,23 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             if (ValidateArguments.ValidateNotNull(new object[] { email, name}) == false)
             {
                 Response<string> res = new(false, "RemoveBoard() failed: ArgumentNullException");
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             try
             {
                 boardController.RemoveBoard(email, name);
                 Response<string> res = new(true, "");
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             catch (NoSuchElementException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             catch (ArgumentException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             //catch (OperationCanceledException ex)
             //{
@@ -136,17 +136,17 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             catch (AccessViolationException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             catch (UserDoesNotExistException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             catch (UserNotLoggedInException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
         }
 
@@ -169,38 +169,38 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             if (ValidateArguments.ValidateNotNull(new object[] { email, columnOrdinal }) == false)
             {
                 Response<string> res = new(false, "GetAllTasksByState() failed: ArgumentNullException");
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             try
             {
                 LinkedList<Task> tasks = boardController.GetAllTasksByState(email, columnOrdinal);
                 Response<LinkedList<Task>> res = new(true, tasks);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             catch (NoSuchElementException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             catch (ArgumentException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             catch (AccessViolationException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             catch (UserDoesNotExistException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             catch (UserNotLoggedInException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
         }
 
@@ -222,32 +222,32 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             if (ValidateArguments.ValidateNotNull(new object[] { email}) == false)
             {
                 Response<string> res = new(false, "GetUserBoards() failed: ArgumentNullException");
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             try
             {            
                 Response<LinkedList<int>> res = new(true, boardController.GetBoardsId(email));
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             catch (NoSuchElementException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             catch (AccessViolationException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             catch (UserNotLoggedInException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
             catch (UserDoesNotExistException ex)
             {
                 Response<string> res = new(false, ex.Message);
-                return JsonController.ConvertToJson(res);
+                return JsonEncoder.ConvertToJson(res);
             }
         }
 
