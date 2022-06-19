@@ -490,6 +490,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("AssignTask() failed: " + ex.Message);
                 throw;
             }
+            catch (ElementAlreadyExistsException ex)
+            {
+                log.Error("AssignTask() failed: " + ex.Message);
+                throw;
+            }
             catch (UserNotLoggedInException ex)
             {
                 log.Error("AssignTask() failed: " + ex.Message);
