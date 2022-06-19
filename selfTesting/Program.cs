@@ -339,8 +339,8 @@ namespace IntroSE.Kanban.selfTesting
             CIString password2 = "Printz1234";
             gs.Register(email2, password2);
             gs.JoinBoard(email2, 0);
-            gs.AssignTask(email2, boardName1, 0, 0, email2);
-            gs.AssignTask(email2, boardName1, 0, 0, email2);
+            gs.AssignTask(email1, boardName1, 0, 0, email1);
+            //gs.AssignTask(email2, boardName1, 0, 0, email2);
         }
     }
 }
