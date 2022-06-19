@@ -447,11 +447,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 Response<string> res = new(false, ex.Message);
                 return JsonEncoder.ConvertToJson(res);
             }
-            catch (ElementAlreadyExistsException ex)
-            {
-                Response<string> res = new(false, ex.Message);
-                return JsonEncoder.ConvertToJson(res);
-            }
             catch (UserNotLoggedInException ex)
             {
                 Response<string> res = new(false, ex.Message);

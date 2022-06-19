@@ -437,7 +437,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <b>Throws</b> <c>IndexOutOfRangeException</c> if the column is not a valid column number<br/>
         /// <b>Throws</b> <c>AccessViolationException</c> if the the email isn't current assignee<br/>
         /// <b>Throws</b> <c>ArgumentException</c> if the task is already done <br/>
-        /// <b>Throws</b> <c>ElementAlreadyExistsException</c> if the the the new assigne is the current assignee <br/>
         /// </summary>
         /// <param name="email"></param>
         /// <param name="boardName"></param>
@@ -450,7 +449,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
         /// <exception cref="AccessViolationException"></exception>
-        /// <exception cref="ElementAlreadyExistsException"></exception>
         public void AssignTask(CIString email, CIString boardName, int columnOrdinal, int taskId, CIString emailAssignee)
         {
             log.Debug("AssignTask() for taskId: " + taskId + ", email:" + email);
