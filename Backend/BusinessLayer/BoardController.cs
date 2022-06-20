@@ -178,29 +178,29 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <exception cref="UserDoesNotExistException"></exception>
         /// <exception cref="UserNotLoggedInException"></exception>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        public LinkedList<Task> GetAllTasksByState(CIString email, int columnOrdinal)
+        public LinkedList<Task> GetInProgressTasks(CIString email)
             {
-            log.Debug("GetAllTasksByState() for: " + "Board's name" + columnOrdinal);
+            log.Debug("GetInProgressTasks() for: " + "Board's name");
             try
             {
                 ValidateUser(email);
-                ValidateColumnOrdinal(columnOrdinal);
 
                 LinkedList<Task> tasks = new LinkedList<Task>();
                 LinkedList<Board> boards = GetBoards(email);
                 foreach (Board board in boards)
                 {
-                    foreach (Task task in board.GetColumn(columnOrdinal))
+                    foreach (Task task in board.GetColumn((int)TaskStates.inprogress))
                     {
-                        tasks.AddLast(task);
+                        if(task.Assignee == email)
+                            tasks.AddLast(task);
                     }
                 }
-                log.Debug("GetAllTasksByState() success");
+                log.Debug("GetInProgressTasks() success");
                 return tasks;
             }
             catch (UserDoesNotExistException e)
             {
-                log.Error("GetAllTasksByState() failed: " + e.Message);
+                log.Error("GetInProgressTasks() failed: " + e.Message);
                 throw;
             }
             catch (UserNotLoggedInException e)
