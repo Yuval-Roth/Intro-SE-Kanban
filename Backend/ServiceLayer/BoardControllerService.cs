@@ -164,9 +164,9 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }		      //(operationState == false) => string with error message		
 		/// </code>
 		/// </returns>
-        public string GetInProgressTasks(string email, int columnOrdinal)
+        public string GetInProgressTasks(string email)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, columnOrdinal }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email }) == false)
             {
                 Response<string> res = new(false, "GetInProgressTasks() failed: ArgumentNullException");
                 return JsonEncoder.ConvertToJson(res);
