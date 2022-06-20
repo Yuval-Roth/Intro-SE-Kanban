@@ -307,7 +307,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <returns>A response with a list of the in-progress tasks of the user, unless an error occurs (see <see cref="GradingService"/>)</returns>
         public string InProgressTasks(string email)
         {
-            string json = boardControllerServiceLayer.GetAllTasksByState(email, 1);
+            string json = boardControllerServiceLayer.GetInProgressTasks(email);
             if (GetOperationState(json) == true)
             {
                 return JsonEncoder.ConvertToJson(new GradingResponse<LinkedList<Task>>(json));

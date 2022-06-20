@@ -138,7 +138,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             taskservice.AdvanceTask("kfirniss@post.bgu.ac.il", "new board", 0, 0);
             taskservice.AdvanceTask("kfirniss@post.bgu.ac.il", "another board", 0, 0);
             
-            string result = boardcontrollerservice.GetAllTasksByState("kfirniss@post.bgu.ac.il",1);
+            string result = boardcontrollerservice.GetInProgressTasks("kfirniss@post.bgu.ac.il");
             Response<LinkedList<Task>> act = JsonEncoder.BuildFromJson<Response<LinkedList<Task>>>(result);
             Task tAct1 = act.returnValue.ElementAt(0);
             Task tAct2 = act.returnValue.ElementAt(1);
@@ -150,7 +150,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         public void GetAllTasksByStateTest_user_doesnt_exist()
         {
             string expected = JsonEncoder.ConvertToJson(new Response<string>(false, "A user with the email 'kfirniss@post.bgu.ac.il' doesn't exist in the system"));
-            string result = boardcontrollerservice.GetAllTasksByState("kfirniss@post.bgu.ac.il", 1);
+            string result = boardcontrollerservice.GetInProgressTasks("kfirniss@post.bgu.ac.il");
             Assert.AreEqual(expected, result);
         }
 
@@ -160,7 +160,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             string expected = JsonEncoder.ConvertToJson(new Response<string>(false, "user 'kfirniss@post.bgu.ac.il' isn't logged in"));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = userservice.LogOut("kfirniss@post.bgu.ac.il");
-            result = boardcontrollerservice.GetAllTasksByState("kfirniss@post.bgu.ac.il", 1);
+            result = boardcontrollerservice.GetInProgressTasks("kfirniss@post.bgu.ac.il");
             Assert.AreEqual(expected, result);
         }
 
@@ -169,7 +169,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         {
             string expected = JsonEncoder.ConvertToJson(new Response<LinkedList<BusinessLayer.Task>> (true,new LinkedList<BusinessLayer.Task>()));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
-            result = boardcontrollerservice.GetAllTasksByState("kfirniss@post.bgu.ac.il", 1);
+            result = boardcontrollerservice.GetInProgressTasks("kfirniss@post.bgu.ac.il");
             Assert.AreEqual(expected, result);
         }
 
@@ -182,7 +182,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "another board");
             result = taskservice.AddTask("kfirniss@post.bgu.ac.il", "new board", "task 1", "bla bla bla", new DateTime(2022,05,20));
             result = taskservice.AddTask("kfirniss@post.bgu.ac.il", "another board", "task 2", "ninini", new DateTime(2022, 05, 20));
-            result = boardcontrollerservice.GetAllTasksByState("kfirniss@post.bgu.ac.il", 1);
+            result = boardcontrollerservice.GetInProgressTasks("kfirniss@post.bgu.ac.il");
             Assert.AreEqual(expected, result);
         }
     }

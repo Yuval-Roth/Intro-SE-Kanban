@@ -151,7 +151,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         }
 
         /// <summary>
-        /// This method returns all the tasks of the user by specific state.
+        /// This method returns all the in-progress tasks that user is assigned to.
         /// </summary>
         /// <param name="email">Email of the user. Must be logged in</param>
         /// <param name="columnOrdinal">column id . Must be between zero and numbers of columns</param>
@@ -164,16 +164,16 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// }		      //(operationState == false) => string with error message		
 		/// </code>
 		/// </returns>
-        public string GetAllTasksByState(string email, int columnOrdinal)
+        public string GetInProgressTasks(string email)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, columnOrdinal }) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email }) == false)
             {
-                Response<string> res = new(false, "GetAllTasksByState() failed: ArgumentNullException");
+                Response<string> res = new(false, "GetInProgressTasks() failed: ArgumentNullException");
                 return JsonEncoder.ConvertToJson(res);
             }
             try
             {
-                LinkedList<Task> tasks = boardController.GetAllTasksByState(email, columnOrdinal);
+                LinkedList<Task> tasks = boardController.GetInProgressTasks(email);
                 Response<LinkedList<Task>> res = new(true, tasks);
                 return JsonEncoder.ConvertToJson(res);
             }
