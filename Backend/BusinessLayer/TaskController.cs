@@ -454,6 +454,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             log.Debug("AssignTask() for taskId: " + taskId + ", email:" + email);
             try
             {
+                if (BusinessLayerFactory.GetInstance().BoardDataOperations.UserExists(emailAssignee) == false)
+                    throw new UserDoesNotExistException($"user {emailAssignee} does not exist in the system");
+
+
+
                 Board board = boardController.SearchBoard(email, boardName);
 
                 if (board.Owner != emailAssignee & board.Joined.Contains(emailAssignee) == false)
@@ -461,11 +466,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     throw new AccessViolationException($"{emailAssignee} is not joined to the board and cannot be assigned to the task");
                 }
                 Task task = board.SearchTask(taskId, columnOrdinal);
-                task.AssignTask(email, emailAssignee);
-
-                //DAL CALLS
-                TCDTO.ChangeAssignee(task.Assignee, task.BoardId, task.Id);
-
+                if (task.AssignTask(email, emailAssignee))
+                {
+                    //DAL CALLS
+                    TCDTO.ChangeAssignee(task.Assignee, task.BoardId, task.Id);
+                }
                 log.Debug("AssignTask() success");
             }
             catch (NoSuchElementException ex)

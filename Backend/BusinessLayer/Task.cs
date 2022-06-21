@@ -199,7 +199,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="emailAssignee"></param>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="AccessViolationException"></exception>
-        public void AssignTask(CIString email, CIString emailAssignee)
+        public bool AssignTask(CIString email, CIString emailAssignee)
         {
             log.Debug("AssignTask() for taskId: " + id + ", emailAssignee:" + emailAssignee);
             if (state == TaskStates.done)
@@ -208,14 +208,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new ArgumentException("the task '" +
                     id + "' is already done");
             }
+            if (assignee == emailAssignee)
+            {
+                log.Info($"AssignTask() didn't do anything: user {emailAssignee} is already assigned to the task");
+                return false;
+            }
             if (assignee != email && assignee != "unAssigned")
             {
                 log.Error("AssignTask() failed: task numbered '" + id + "' , email: '" + email + "' isn't the task's assignee");
                 throw new AccessViolationException("email: '" + email + "' isn't the task's assignee");
             }
-            assignee = emailAssignee;
-            
+            assignee = emailAssignee;        
             log.Debug("AssignTask() success");
+            return true;
         }
 
         /// <summary>

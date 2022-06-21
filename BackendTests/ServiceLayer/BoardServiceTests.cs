@@ -224,7 +224,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer.Tests
         [TestMethod()]
         public void ChangeOwnerTest_user_is_already_the_owner()
         {
-            string expected = JsonEncoder.ConvertToJson(new Response<string>(false, "user 'kfirniss@post.bgu.ac.il' is already the board's owner"));
+            string expected = JsonEncoder.ConvertToJson(new Response<string>(true, ""));
             string result = userservice.Register("kfirniss@post.bgu.ac.il", "Ha12345");
             result = boardcontrollerservice.AddBoard("kfirniss@post.bgu.ac.il", "new board");
             result = boardservice.ChangeOwner("kfirniss@post.bgu.ac.il", "kfirniss@post.bgu.ac.il", "new board");

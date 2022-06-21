@@ -599,8 +599,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 }
                 if (board.Owner == newOwnerEmail)
                 {
-                    log.Error($"ChangeOwner() failed: user {newOwnerEmail} is already the owner of the board {boardName}");
-                    throw new ElementAlreadyExistsException($"user '{newOwnerEmail}' is already the board's owner");
+                    log.Info($"ChangeOwner() didn't do anything: user {newOwnerEmail} is already the owner of the board {boardName}");
+                    return;
                 }
                 if (board.Joined.Contains(newOwnerEmail) == false)
                 {
