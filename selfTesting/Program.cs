@@ -362,7 +362,7 @@ namespace IntroSE.Kanban.selfTesting
                     str += (char)rand.Next(33, 'z');
                 }
                 str += "@";
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 10; i++)
                 {
                     str += (char)rand.Next(33, 'z');
                 }

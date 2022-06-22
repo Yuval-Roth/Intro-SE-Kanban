@@ -320,7 +320,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
-        public static bool IsEmailValid(CIString email)
+        private static bool IsEmailValid(CIString email)
         {
             Regex valid1 = new Regex(@"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$");
             //Regex valid2 = new Regex(@"^\S+@\S+\.\S+$");
