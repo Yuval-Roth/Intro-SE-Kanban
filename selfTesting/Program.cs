@@ -40,7 +40,8 @@ namespace IntroSE.Kanban.selfTesting
             //daltest();
             //GetcolumnLimit();
             //AssignTask();
-            DBTest();
+            //DBTest();
+            checkEmail();
 
         }
         public static void CIStringDeserialization()
@@ -348,6 +349,19 @@ namespace IntroSE.Kanban.selfTesting
             GradingService gs = new();
             gs.LoadData();
             Console.WriteLine(gs.Register("TestUser@gmail.com", "Cooldpass123"));
+        }
+
+        public static void checkEmail()
+        {
+            string email1 = "hadaspr100@gmail1.com1";
+            string email2 = "123@gmail.com";
+            string email3 = "hadas_printz@gmail.com";
+            string email4 = "hadasprintz@gmail.com_";
+            Console.WriteLine(email1 +" "+ UserController.IsEmailValid(email1));
+            Console.WriteLine(email2 +" "+ UserController.IsEmailValid(email2));
+            Console.WriteLine(email3 +" "+ UserController.IsEmailValid(email3));
+            Console.WriteLine(email4 +" "+ UserController.IsEmailValid(email4));
+
         }
     }
 }
