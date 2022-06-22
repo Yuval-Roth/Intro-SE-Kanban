@@ -5,7 +5,7 @@ using IntroSE.Kanban.Backend.DataAccessLayer;
 using IntroSE.Kanban.Backend.ServiceLayer;
 using IntroSE.Kanban.Backend.Utilities;
 using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]
 
@@ -353,14 +353,12 @@ namespace IntroSE.Kanban.selfTesting
 
         public static void checkEmail()
         {
-            string email1 = "hadaspr100@gmail1.com1";
-            string email2 = "123@gmail.com";
-            string email3 = "hadas_printz@gmail.com";
-            string email4 = "hadasprintz@gmail.com_";
-            Console.WriteLine(email1 +" "+ UserController.IsEmailValid(email1));
-            Console.WriteLine(email2 +" "+ UserController.IsEmailValid(email2));
-            Console.WriteLine(email3 +" "+ UserController.IsEmailValid(email3));
-            Console.WriteLine(email4 +" "+ UserController.IsEmailValid(email4));
+            string email = "yuval@post.bgu.ac.il5";
+
+            Console.WriteLine(email + " " + UserController.IsEmailValid(email));
+
+
+
 
         }
     }

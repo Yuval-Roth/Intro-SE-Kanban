@@ -320,15 +320,25 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
-        private static bool IsEmailValid(CIString email)
+        public static bool IsEmailValid(CIString email)
         {
             Regex valid1 = new Regex(@"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$");
-            Regex valid2 = new Regex(@"^\S+@\S+\.\S+$");
-            if (valid1.Matches(email.Value).Count == 1 && valid2.Matches(email.Value).Count == 1)
+            //Regex valid2 = new Regex(@"^\S+@\S+\.\S+$");
+            if (valid1.Matches(email.Value).Count != 1 /*&& valid2.Matches(email.Value).Count == 1*/)
             {
-                return true;
+                return false;
             }
-            return false;
+            string domain = email.Value.Split('@')[1];
+
+            if (domain.Contains('_')) return false;
+            foreach (string str in domain.Split('.'))
+            {
+                if(str.StartsWith('-') | str.EndsWith('-')) return false;
+            }
+            string[] subdomains = domain.Split('.');
+            if (new Regex(@"[0-9]").Matches(subdomains[subdomains.Length - 1]).Count != 0) return false;
+
+            return true;
         }
 
     }
