@@ -638,7 +638,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             OnlyBoardsTree = new();
             loggedIn = new();
             nextBoardID = 0;
-            dataLoaded = false;
+            dataLoaded = true;
         }
 
 
