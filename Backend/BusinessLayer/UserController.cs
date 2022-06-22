@@ -313,7 +313,13 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             return false;
         }
 
-
+        /// <summary>
+        /// Check the legality of a email <br/><br/>
+        /// Returns: <br/>
+        /// <b>True</b> if the email is legal and <b>False</b> otherwise
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         private static bool IsEmailValid(CIString email)
         {
             Regex valid1 = new Regex(@"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$");
