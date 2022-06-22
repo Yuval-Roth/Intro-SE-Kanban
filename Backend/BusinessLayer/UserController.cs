@@ -313,15 +313,18 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             return false;
         }
 
+
         private static bool IsEmailValid(CIString email)
         {
-            Regex valid = new Regex(@"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$");
-            if(valid.Matches(email.Value).Count == 1)
+            Regex valid1 = new Regex(@"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$");
+            Regex valid2 = new Regex(@"^\S+@\S+\.\S+$");
+            if (valid1.Matches(email.Value).Count == 1 && valid2.Matches(email.Value).Count == 1)
             {
                 return true;
             }
             return false;
         }
+
     }
 }
 
