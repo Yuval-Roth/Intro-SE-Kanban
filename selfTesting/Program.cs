@@ -39,7 +39,8 @@ namespace IntroSE.Kanban.selfTesting
             //change_Things();
             //daltest();
             //GetcolumnLimit();
-            AssignTask();
+            //AssignTask();
+            DBTest();
 
         }
         public static void CIStringDeserialization()
@@ -341,6 +342,12 @@ namespace IntroSE.Kanban.selfTesting
             gs.JoinBoard(email2, 0);
             gs.AssignTask(email2, boardName1, 0, 0, email2);
             gs.AssignTask(email2, boardName1, 0, 0, email2);
+        }
+        public static void DBTest()
+        {
+            GradingService gs = new();
+            gs.LoadData();
+            Console.WriteLine(gs.Register("TestUser@gmail.com", "Cooldpass123"));
         }
     }
 }
