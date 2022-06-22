@@ -333,10 +333,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             if (domain.Contains('_')) return false;
             foreach (string str in domain.Split('.'))
             {
-                if(str.StartsWith('-') | str.EndsWith('-')) return false;
+                if(str.StartsWith('-') | str.EndsWith('-') | str.Length > 63) return false;
             }
             string[] subdomains = domain.Split('.');
-            if (new Regex(@"[0-9]").Matches(subdomains[subdomains.Length - 1]).Count != 0) return false;
+            if (new Regex(@"[a-zA-Z]").Matches(subdomains[subdomains.Length - 1]).Count == 0) return false;
 
             return true;
         }
