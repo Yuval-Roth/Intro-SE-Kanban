@@ -583,7 +583,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
         public void LoadData()
         {
-            if (dataLoaded) throw new OperationCanceledException("Data is already loaded");
+            if (dataLoaded) return;
 
             log.Debug("LoadData() initialized");
 
