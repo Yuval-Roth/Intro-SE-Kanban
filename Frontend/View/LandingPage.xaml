@@ -8,7 +8,7 @@
         Title="LandingPage" Height="449" Width="619">
     <Grid Margin="-88,23,0,0">
         <Image Source="/View/Your-Introduction-to-Kanban.jpg" Margin="4,-10,-89,10"/>
-        <Button Name="RegisterButton" Content="Register" HorizontalAlignment="Left" Height="46" Margin="306,287,0,0" VerticalAlignment="Top" Width="188" FontFamily="Comic Sans MS" FontStyle="Normal" Background="#FFD0AD6C"/>
+        <Button Name="RegisterButton" Content="Register" HorizontalAlignment="Left" Height="46" Margin="{Binding Path=RegisterButton.Margin, Mode=OneWay}" VerticalAlignment="Top" Width="188" FontFamily="Comic Sans MS" FontStyle="Normal" Visibility="{Binding Path=RegisterButton, Mode=OneWay}" Background="#FFD0AD6C"/>
         <Button x:Name="LoginButton" Content="Login" HorizontalAlignment="Left" Height="46" Margin="306,205,0,0" VerticalAlignment="Top" Width="188" FontFamily="Comic Sans MS" FontStyle="Normal" Background="#FFD0AD6C"/>
 
     </Grid>
