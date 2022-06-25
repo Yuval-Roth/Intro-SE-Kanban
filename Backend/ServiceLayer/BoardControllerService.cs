@@ -251,6 +251,36 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
+        public string GetBoardById(string email, int id)
+        {
+            if (ValidateArguments.ValidateNotNull(new object[] { email, id }) == false)
+            {
+                Response<string> res = new(false, "getBoardById() failed: ArgumentNullException");
+                return JsonEncoder.ConvertToJson(res);
+            }
+            try
+            {
+                Response<Board> res = new(true, boardController.SearchBoard(email, id));
+                return JsonEncoder.ConvertToJson(res);
+            }
+            catch (NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonEncoder.ConvertToJson(res);
+            }
+            catch (UserNotLoggedInException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonEncoder.ConvertToJson(res);
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonEncoder.ConvertToJson(res);
+            }
+
+        }
+
     }
 
     
