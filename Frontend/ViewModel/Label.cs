@@ -6,20 +6,18 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Frontend.ViewModel
 {
-    public class TextBox:Notifier
+    public class Label:Notifier
     {
         private int x;
         private int y;
         private string text;
-        public bool FirstClick;
         private string visibility;
-        public TextBox(int x, int y,string text, string visibility)
+        public Label(int x, int y,string text, string visibility)
         {
             this.x = x;
             this.y = y;
             this.text = text;
             this.visibility = visibility;
-            FirstClick = true;
         }
         public string Text
         {

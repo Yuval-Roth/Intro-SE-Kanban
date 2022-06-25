@@ -10,24 +10,25 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 
     public partial class LandingPageViewModel : Notifier
     {
-        private static readonly int HEIGHT = (int)System.Windows.SystemParameters.PrimaryScreenHeight;
-        private static readonly int WIDTH = (int)System.Windows.SystemParameters.PrimaryScreenWidth;
+        private static int HEIGHT = (int)System.Windows.SystemParameters.PrimaryScreenHeight;
+        private static int WIDTH = (int)System.Windows.SystemParameters.PrimaryScreenWidth;
 
-        private readonly int LOGIN_BUTTON_X = WIDTH / 2 - 80;
-        private readonly int LOGIN_BUTTON_Y = HEIGHT/2;
-        private readonly int REGISTER_BUTTON_X = WIDTH / 2 - 80;
-        private readonly int REGISTER_BUTTON_Y = HEIGHT / 2 + HEIGHT / 10;
-        private readonly int RETURN_BUTTON_X = WIDTH / 2 - 80 - 100;
-        private readonly int RETURN_BUTTON_Y = HEIGHT / 2 + HEIGHT / 10;
+        private int LOGIN_BUTTON_X = WIDTH / 2 - 95;
+        private int LOGIN_BUTTON_Y = HEIGHT/2;
+        private int REGISTER_BUTTON_X = WIDTH / 2 - 95;
+        private int REGISTER_BUTTON_Y = HEIGHT / 2 + HEIGHT / 10;
+        private int RETURN_BUTTON_X = WIDTH / 2 - 95 - 100;
+        private int RETURN_BUTTON_Y = HEIGHT / 2 + HEIGHT / 10;
 
-        private readonly int LOGIN_BUTTON_LOGIN_SCREEN_X = WIDTH / 2 - 80 + 100;
-        private readonly int LOGIN_BUTTON_LOGIN_SCREEN_Y = HEIGHT / 2 + HEIGHT / 10;
-        private readonly int REGISTER_BUTTON_REGISTER_SCREEN_X = WIDTH / 2 - 80 + 100;
+        private int LOGIN_BUTTON_LOGIN_SCREEN_X = WIDTH / 2 - 95 + 100;
+        private int LOGIN_BUTTON_LOGIN_SCREEN_Y = HEIGHT / 2 + HEIGHT / 10;
+        private int REGISTER_BUTTON_REGISTER_SCREEN_X = WIDTH / 2 - 95 + 100;
+        private int REGISTER_BUTTON_REGISTER_SCREEN_Y = HEIGHT / 2 + HEIGHT / 10;
 
-        private readonly int EMAILBOX_X = WIDTH / 2 -80;
-        private readonly int EMAILBOX_Y = HEIGHT / 2 - HEIGHT / 10;
-        private readonly int PASSWORDBOX_X = WIDTH/2 -80 ;
-        private readonly int PASSWORDBOX_Y = HEIGHT/2;
+        private int EMAILBOX_X = WIDTH / 2 -125;
+        private int EMAILBOX_Y = HEIGHT / 2 - HEIGHT / 15;
+        private int PASSWORDBOX_X = WIDTH/2 -125 ;
+        private int PASSWORDBOX_Y = HEIGHT/2 - HEIGHT / 30;
 
 
         private Button loginButton;
@@ -129,25 +130,52 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             LoginOrRegisterScreen = true;
         }
         public string ImageMargin => $"-{WIDTH * 0.15},-{HEIGHT * 0.15},-{WIDTH * 0.15},-{HEIGHT * 0.15}";
-        //public void UpdateMargins()
-        //{
-        //    if (LoginOrRegisterScreen)
-        //    {
-        //        loginButton.X = LOGIN_BUTTON_X;
-        //        loginButton.Y = LOGIN_BUTTON_Y;
-        //        registerButton.X = REGISTER_BUTTON_X;
-        //        registerButton.Y = REGISTER_BUTTON_Y;
-        //    }
-        //    else
-        //    {
-        //        loginButton.X = LOGIN_BUTTON_LOGIN_SCREEN_X;
-        //        loginButton.Y = LOGIN_BUTTON_LOGIN_SCREEN_Y;
-        //        registerButton.X = REGISTER_BUTTON_REGISTER_SCREEN_X;
-        //        registerButton.Y = REGISTER_BUTTON_REGISTER_SCREEN_Y;
-        //    }
-        //        returnButton.X = RETURN_BUTTON_X;
-        //        returnButton.Y = RETURN_BUTTON_Y;
-        //}
+        public void UpdateMargins(double ActualWidth, double ActualHeight)
+        {
+            HEIGHT = (int)ActualHeight;
+            WIDTH = (int)ActualWidth;
+            UpdateSizes();
+
+            if (LoginOrRegisterScreen)
+            {
+                loginButton.X = LOGIN_BUTTON_X;
+                loginButton.Y = LOGIN_BUTTON_Y;
+                registerButton.X = REGISTER_BUTTON_X;
+                registerButton.Y = REGISTER_BUTTON_Y;
+            }
+            else
+            {
+                loginButton.X = LOGIN_BUTTON_LOGIN_SCREEN_X;
+                loginButton.Y = LOGIN_BUTTON_LOGIN_SCREEN_Y;
+                registerButton.X = REGISTER_BUTTON_REGISTER_SCREEN_X;
+                registerButton.Y = REGISTER_BUTTON_REGISTER_SCREEN_Y;
+            }
+            returnButton.X = RETURN_BUTTON_X;
+            returnButton.Y = RETURN_BUTTON_Y;
+            emailBox.X = EMAILBOX_X;
+            emailBox.Y = EMAILBOX_Y;
+            passwordBox.X = PASSWORDBOX_X;
+            passwordBox.Y = PASSWORDBOX_Y;
+        }
+        private void UpdateSizes()
+        {
+             LOGIN_BUTTON_X = WIDTH / 2 - 80;
+             LOGIN_BUTTON_Y = HEIGHT / 2;
+             REGISTER_BUTTON_X = WIDTH / 2 - 80;
+             REGISTER_BUTTON_Y = HEIGHT / 2 + HEIGHT / 10;
+             RETURN_BUTTON_X = WIDTH / 2 - 95 - 100;
+             RETURN_BUTTON_Y = HEIGHT / 2 + HEIGHT / 10;
+
+             LOGIN_BUTTON_LOGIN_SCREEN_X = WIDTH / 2 - 95 + 100;
+             LOGIN_BUTTON_LOGIN_SCREEN_Y = HEIGHT / 2 + HEIGHT / 10;
+             REGISTER_BUTTON_REGISTER_SCREEN_X = WIDTH / 2 - 95 + 100;
+             REGISTER_BUTTON_REGISTER_SCREEN_Y = HEIGHT / 2 + HEIGHT / 10;
+
+             EMAILBOX_X = WIDTH / 2 - 125;
+             EMAILBOX_Y = HEIGHT / 2 - HEIGHT / 10;
+             PASSWORDBOX_X = WIDTH / 2 - 125;
+             PASSWORDBOX_Y = HEIGHT / 2 - HEIGHT / 20;
+        }
     }
    
 }
