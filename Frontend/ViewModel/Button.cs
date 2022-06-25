@@ -12,10 +12,12 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 
         private int x;
         private int y;
+        private int width;
+        private int height;
         private string visibility;
         private string content;
 
-        public Button(int x, int y, string content,string visibility)
+        public Button(int x, int y,int width,int height, string content,string visibility)
         {
             this.x = x;
             this.y = y;
@@ -40,6 +42,24 @@ namespace IntroSE.Kanban.Frontend.ViewModel
                 RaisePropertyChanged("Margin");
             }
         }
+        public int Width
+        {
+            get { return width; }
+            set
+            {
+                width = value;
+                RaisePropertyChanged("Margin");
+            }
+        }
+        public int Height
+        {
+            get { return height; }
+            set
+            {
+                height = value;
+                RaisePropertyChanged("Margin");
+            }
+        }
         public string Visibility
         {
             get { return visibility; }
@@ -49,7 +69,7 @@ namespace IntroSE.Kanban.Frontend.ViewModel
                 RaisePropertyChanged("Visibility");
             }
         }
-        public string Margin => $"{x},{y},0,0";
+        public string Margin => $"{x},{y},{width},{height}";
         public string Content => content;
 
     }

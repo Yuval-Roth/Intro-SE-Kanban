@@ -52,13 +52,13 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 
         public LandingPageViewModel()
         {
-            loginButton = new(LOGIN_BUTTON_X,LOGIN_BUTTON_Y, "Login","Visible");
-            registerButton = new(REGISTER_BUTTON_X,REGISTER_BUTTON_Y, "Register","Visible");
-            returnButton = new(RETURN_BUTTON_X,RETURN_BUTTON_Y, "Return", "Hidden");
+            loginButton = new(LOGIN_BUTTON_X,LOGIN_BUTTON_Y,0,0, "Login","Visible");
+            registerButton = new(REGISTER_BUTTON_X,REGISTER_BUTTON_Y, 0, 0, "Register","Visible");
+            returnButton = new(RETURN_BUTTON_X,RETURN_BUTTON_Y, 0, 0, "Return", "Hidden");
             emailBox = new(EMAILBOX_X, EMAILBOX_Y,0,0, "Insert email here", "Hidden");
             passwordBox = new(PASSWORDBOX_X, PASSWORDBOX_Y ,0,0, "Insert password here","Hidden");
-            emailBox = new(EMAILBOX_X, EMAILBOX_Y, "Insert email here", "Hidden");
-            passwordBox = new(PASSWORDBOX_X, PASSWORDBOX_Y, "Insert password here","Hidden");
+            emailBox = new(EMAILBOX_X, EMAILBOX_Y, 0, 0, "Insert email here", "Hidden");
+            passwordBox = new(PASSWORDBOX_X, PASSWORDBOX_Y, 0, 0, "Insert password here","Hidden");
             errorMessage = new(ERRORMESSAGE_X, ERRORMESSAGE_Y, "", "Hidden");
         }
 
