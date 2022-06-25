@@ -20,25 +20,50 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 
         private TextBox chosenBoard;
         private GridView boardTable;
+        
 
         public TextBox ChosenBoard => chosenBoard;
         public GridView BoardTable => boardTable;
         
         private Model.BoardController boardController = new Model.BoardController();
 
-        public BoardPageViewModel(string email)
+        private string message;
+
+        public BoardPageViewModel()
         {
             chosenBoard = new(CHOSENBOARD_X, CHOSENBOARD_Y, CHOSENBOARD_WIDTH, CHOSENBOARD_HEIGHT, "Insert your chosen boardId", "Hidden");
-            string[] columnNames = { "BoardId", "BoardName", "Owner", "Joined", "BackLog", "InProgress", "Done" };
+            
         }
 
-        public void setBoardTable()
+        public void setBoardTable(string email)
         {
-            LinkedList<Model.Board> board = boardController.GetBoards(email);
-            boardTable = new(BOARDTABLE_X, BOARDTABLE_Y, BOARDTABLE_WIDTH, BOARDTABLE_HEIGHT, board.Count, columnNames);
+            string[] columnNames = { "BoardId", "BoardName", "Owner", "Joined", "BackLog", "InProgress", "Done" };
+            try
+            {
+                LinkedList<Model.Board> boardList = boardController.GetBoards(email);
+                boardTable = new(BOARDTABLE_X, BOARDTABLE_Y, BOARDTABLE_WIDTH, BOARDTABLE_HEIGHT, boardList.Count, columnNames);
+            }
+            catch(ArgumentException ex)
+            {
+                message = ex.Message;
+                RaisePropertyChanged("Message");
+            }
         }
 
         
+
+        public string Message
+        {
+            get => message;
+            set
+            {
+                this.message = value;
+                RaisePropertyChanged("Message");
+            }
+        }
+
+
+
 
 
 
