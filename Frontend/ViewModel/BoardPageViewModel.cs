@@ -49,9 +49,8 @@ namespace IntroSE.Kanban.Frontend.ViewModel
                 RaisePropertyChanged("Message");
             }
         }
-
+  
         
-
         public string Message
         {
             get => message;

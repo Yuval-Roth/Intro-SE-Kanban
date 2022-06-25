@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using IntroSE.Kanban.Frontend.Model;
 
 namespace IntroSE.Kanban.Frontend.ViewModel
 {
@@ -50,8 +51,11 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         public Label ErrorMessage => errorMessage;
         public string ImageMargin => $"-{WIDTH * 0.15},-{HEIGHT * 0.15},-{WIDTH * 0.15},-{HEIGHT * 0.15}";
 
+        private LoginRegisterController LRController;
+
         public LandingPageViewModel()
         {
+            LRController = new();
             loginButton = new(LOGIN_BUTTON_X,LOGIN_BUTTON_Y,0,0, "Login","Visible");
             registerButton = new(REGISTER_BUTTON_X,REGISTER_BUTTON_Y, 0, 0, "Register","Visible");
             returnButton = new(RETURN_BUTTON_X,RETURN_BUTTON_Y, 0, 0, "Return", "Hidden");
@@ -64,7 +68,7 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 
         public void ResetErrorMessage()
         {
-            errorMessage.Visibility = "Hidden";
+            errorMessage.Hide();
             errorMessage.Text = "";
         }
 
@@ -72,18 +76,27 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         {
             if (LoginOrRegisterScreen)
             {
-                registerButton.Visibility = "Hidden";
+                registerButton.Hide();
                 loginButton.Y = LOGIN_BUTTON_LOGIN_SCREEN_Y;
                 loginButton.X = LOGIN_BUTTON_LOGIN_SCREEN_X;
-                returnButton.Visibility = "Visible";
-                emailBox.Visibility = "Visible";
-                passwordBox.Visibility = "Visible";
+                returnButton.Show();
+                emailBox.Show();
+                passwordBox.Show();
                 LoginOrRegisterScreen = false;
                 return false;
             }
             else
             {
 
+                Response<string> res = LRController.Login(emailBox.Text,passwordBox.Text);
+                if (res.operationState == false)
+                {
+                    ErrorMessage.Text = res.returnValue;
+                    errorMessage.Show();
+                    return false;
+                }
+                ErrorMessage.Text = "Login Successful";
+                errorMessage.Show();
                 return true;
             }
         }
@@ -91,17 +104,25 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         {
             if (LoginOrRegisterScreen)
             {
-                loginButton.Visibility = "Hidden";
+                loginButton.Hide();
                 registerButton.X = REGISTER_BUTTON_REGISTER_SCREEN_X;
-                returnButton.Visibility = "Visible";
-                emailBox.Visibility = "Visible";
-                passwordBox.Visibility = "Visible";
+                returnButton.Show();
+                emailBox.Show();
+                passwordBox.Show();
                 LoginOrRegisterScreen = false;
                 return false;
             }
             else
             {
-
+                Response<string> res = LRController.Register(emailBox.Text, passwordBox.Text);
+                if (res.operationState == false)
+                {
+                    ErrorMessage.Text = res.returnValue;
+                    errorMessage.Show();
+                    return false;
+                }
+                ErrorMessage.Text = "Register Successful";
+                errorMessage.Show();
                 return true;
             }
         }
@@ -127,13 +148,14 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         }
         public void ReturnToFrontPage()
         {
+            ResetErrorMessage();
             loginButton.X = LOGIN_BUTTON_X;
             loginButton.Y = LOGIN_BUTTON_Y;
             registerButton.X = REGISTER_BUTTON_X;
 
-            returnButton.Visibility = "Hidden";
-            registerButton.Visibility = "Visible";
-            loginButton.Visibility = "Visible";
+            returnButton.Hide();
+            registerButton.Show();
+            loginButton.Show();
 
             emailBox = new(EMAILBOX_X,EMAILBOX_Y,0,0,"Insert email here", "Hidden");
             RaisePropertyChanged("EmailBox");

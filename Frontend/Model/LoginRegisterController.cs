@@ -16,10 +16,16 @@ namespace IntroSE.Kanban.Frontend.Model
         {
             userService = ServiceLayerFactory.GetInstance().UserService;
         }
-        public string Login(string email, string password)
+        public Response<string> Login(string email, string password)
         {
             string json = userService.LogIn(email, password);
-
+            return JsonEncoder.BuildFromJson<Response<string>>(json);
+            
+        }
+        public Response<string> Register(string email, string password)
+        {
+            string json = userService.Register(email, password);
+            return JsonEncoder.BuildFromJson<Response<string>>(json);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace IntroSE.Kanban.Frontend.View
             InitializeComponent();
             VM = new LandingPageViewModel();
             DataContext = VM;
-            nav = NavigationService.GetNavigationService(this);
+            //nav = NavigationService.GetNavigationService(this);
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -68,6 +68,11 @@ namespace IntroSE.Kanban.Frontend.View
         private void TextBoxes_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             VM.ResetErrorMessage();
+        }
+
+        private void EmailBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            VM.TextBoxClick(((System.Windows.Controls.TextBox)sender).Name);
         }
     }
 }

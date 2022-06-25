@@ -28,6 +28,14 @@ namespace IntroSE.Kanban.Frontend.ViewModel
                 RaisePropertyChanged("Text");
             }
         }
+        public void Show()
+        {
+            Visibility = "Visible";
+        }
+        public void Hide()
+        {
+            Visibility = "Hidden";
+        }
         public string Visibility
         {
             get { return visibility; }
