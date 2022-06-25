@@ -18,7 +18,7 @@
         <ListView Margin="10,10,10,129" Name="BoardTable">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="BoardId" Width="80" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="BoardId" Width="80" DisplayMemberBinding="{Binding  }" />
                     <GridViewColumn Header="BoardName" Width="100" DisplayMemberBinding="{Binding Age}" />
                     <GridViewColumn Header="Owner" Width="100" DisplayMemberBinding="{Binding Mail}" />
                     <GridViewColumn Header="Joined" Width="100" DisplayMemberBinding="{Binding Mail}" />

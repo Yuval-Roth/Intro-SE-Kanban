@@ -23,9 +23,9 @@ namespace IntroSE.Kanban.Frontend.View
         private BoardPageViewModel VM;
         public BoardPage()
         {
+            InitializeComponent();
             VM = new BoardPageViewModel();
             DataContext = VM;
-            InitializeComponent();
         }
 
         private void Submit_Click(object sender, RoutedEventArgs e)
