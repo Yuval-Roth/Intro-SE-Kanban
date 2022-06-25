@@ -27,6 +27,9 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         private readonly int PASSWORDBOX_X = 300;
         private readonly int PASSWORDBOX_Y = 230;
 
+        private readonly int HEIGHT = (int)System.Windows.SystemParameters.PrimaryScreenHeight;
+        private readonly int WIDTH = (int)System.Windows.SystemParameters.PrimaryScreenWidth;
+
         private Button loginButton;
         private Button registerButton;
         private Button returnButton;
