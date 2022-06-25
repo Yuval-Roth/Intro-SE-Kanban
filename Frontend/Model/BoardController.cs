@@ -19,7 +19,7 @@ namespace IntroSE.Kanban.Frontend.Model
             bcs = ServiceLayerFactory.GetInstance().BoardControllerService;
         }
 
-        public LinkedList<Board> getBoards(string email)
+        public LinkedList<Board> GetBoards(string email)
         {
             string Json = bcs.GetUserBoards(email);
             if(GetOperationState(Json) == true)

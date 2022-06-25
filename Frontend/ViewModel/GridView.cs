@@ -8,13 +8,21 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 {
     public class GridView : Notifier
     {
+        private int x;
+        private int y;
+        private int width;
+        private int height;
         private int rows;
         private readonly string[] columns;
         private string[,] table;
         
 
-        public GridView(int rows, params string[] columnNames)
+        public GridView(int x, int y, int width, int height, int rows, params string[] columnNames)
         {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
             this.rows = rows;
             columns = columnNames;
             table = new string[rows, columnNames.Length];

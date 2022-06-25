@@ -24,7 +24,8 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <TextBox Name="ChosenBoard" TextWrapping="Wrap" Text="TextBox" Margin="333,385,383,21"/>
+        <TextBox Name="ChosenBoard" TextWrapping="Wrap" Text="Chosen Board" Margin="333,374,383,21"/>
+        <Label Name="ChooseYourBoard" Content="Choose your board here" HorizontalAlignment="Left" Height="30" Margin="183,374,0,0" VerticalAlignment="Top" Width="145"/>
 
     </Grid>
 
