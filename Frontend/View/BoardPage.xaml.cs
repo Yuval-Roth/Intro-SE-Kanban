@@ -37,5 +37,12 @@ namespace IntroSE.Kanban.Frontend.View
         {
 
         }
+
+        private void ChosenBoard_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            
+            VM.ChosenBoard_Click();
+
+        }
     }
 }

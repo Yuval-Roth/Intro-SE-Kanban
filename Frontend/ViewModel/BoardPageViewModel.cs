@@ -8,20 +8,18 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 {
     public class BoardPageViewModel : Notifier
     {
-
-
         private int BOARDTABLE_X = 10;
         private int BOARDTABLE_Y = 10;
         private int BOARDTABLE_WIDTH = 10;
-        private int BOARDTABLE_HEIGHT = 65;
+        private int BOARDTABLE_HEIGHT = 129;
 
-        private int CHOSENBOARD_X = 333;
-        private int CHOSENBOARD_Y = 334;
-        private int CHOSENBOARD_WIDTH = 383;
-        private int CHOSENBOARD_HEIGHT = 21;
+        private int CHOSENBOARD_X = 444;
+        private int CHOSENBOARD_Y = 605;
+        private int CHOSENBOARD_WIDTH = 640;
+        private int CHOSENBOARD_HEIGHT = 55;
 
-        private int SUBMIT_X = 439;
-        private int SUBMIT_Y = 380;
+        private int SUBMIT_X = 662;
+        private int SUBMIT_Y = 605;
 
         private TextBox chosenBoard;
         private GridView boardTable;
@@ -83,6 +81,15 @@ namespace IntroSE.Kanban.Frontend.ViewModel
                     boardTable.SetValue(counter, 5, board.Done);
                     counter++;
                 }
+            }
+        }
+
+        public void ChosenBoard_Click()
+        {
+            if(chosenBoard.FirstClick)
+            {
+                chosenBoard.Text = "";
+                chosenBoard.FirstClick = false;
             }
         }
 
