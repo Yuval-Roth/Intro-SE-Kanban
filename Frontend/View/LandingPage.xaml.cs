@@ -20,10 +20,17 @@ namespace IntroSE.Kanban.Frontend.View
     /// </summary>
     public partial class LandingPage : Window
     {
+        private LandingPageModel VM;
         public LandingPage()
         {
             InitializeComponent();
-            DataContext = new LandingPageModel();
+            VM = new LandingPageModel();
+            DataContext = VM;
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            VM.LoginClick();
         }
     }
 }

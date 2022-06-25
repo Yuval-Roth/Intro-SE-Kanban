@@ -10,15 +10,17 @@ namespace IntroSE.Kanban.Frontend.ViewModel
     public class Button : Notifier
     {
 
-        public int x;
-        public int y;
-        public string visibility;
+        private int x;
+        private int y;
+        private string visibility;
+        private string content;
 
-        public Button(int x, int y)
+        public Button(int x, int y, string content)
         {
             this.x = x;
             this.y = y;
             visibility = "Visible";
+            this.content = content;
         }
         public int X
         {
@@ -48,6 +50,7 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             }
         }
         public string Margin => $"{x},{y},0,0";
+        public string Content => content;
 
     }
 }

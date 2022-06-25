@@ -10,19 +10,52 @@ namespace IntroSE.Kanban.Frontend.ViewModel
     public class LandingPageModel : Notifier
     {
 
-        public Button LoginButton = new(306, 287);
-        public Button RegisterButton = new (306, 205);
+        private Button loginButton;
+        private Button registerButton;
+        private string email = "";
+        private string password = "";
+        private bool LoginOrRegisterScreen = true;
 
         public LandingPageModel()
         {
-            
+            loginButton = new(306, 205, "Login");
+            registerButton = new(306, 287, "Register");
         }
 
 
         public void LoginClick()
         {
-            RegisterButton.Visibility = "Invisible";
-            LoginButton.X -= 100;
+            if (LoginOrRegisterScreen)
+            {
+                registerButton.Visibility = "Hidden";
+                loginButton.Y += 50;
+                LoginOrRegisterScreen = false;
+            }
+            else
+            {
+                
+            }
         }
+        public string Email
+        {
+            set
+            {
+                email = value;
+                RaisePropertyChanged("Email");
+            }
+            get { return email; }
+        }
+        public string Password
+        {
+            set
+            {
+                password = value;
+                RaisePropertyChanged("Password");
+            }
+            get { return password; }
+        }
+
+        public Button LoginButton => loginButton;
+        public Button RegisterButton => registerButton;
     }
 }
