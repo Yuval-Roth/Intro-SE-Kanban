@@ -14,6 +14,8 @@
         <Image Source="/View/Your-Introduction-to-Kanban.jpg" Margin="4,-10,-89,10"/>
         <Button x:Name="LoginButton" Click="LoginButton_Click" Content="{Binding LoginButton.Content}" HorizontalAlignment="Left" Height="46" Margin="{Binding LoginButton.Margin}" VerticalAlignment="Top" Width="188" FontFamily="Comic Sans MS" FontStyle="Normal" Background="#FFD0AD6C"/>
         <Button x:Name="RegisterButton"  Visibility="{Binding RegisterButton.Visibility}" Content="{Binding RegisterButton.Content}" HorizontalAlignment="Left" Height="46" Margin="{Binding RegisterButton.Margin}" VerticalAlignment="Top" Width="188" FontFamily="Comic Sans MS" FontStyle="Normal" Background="#FFD0AD6C"/>
-        
+        <TextBox x:Name="EmailBox" Visibility="Hidden" HorizontalAlignment="Left" Margin="300,176,0,0" TextWrapping="NoWrap" Text="Insert email here" VerticalAlignment="Top" Width="200" IsEnabled="False" FontFamily="Comic Sans MS"/>
+        <TextBox x:Name="PasswordBox" Visibility="Hidden" HorizontalAlignment="Left" Margin="300,230,0,0" TextWrapping="NoWrap" Text="Insert password here" VerticalAlignment="Top" Width="200" IsEnabled="False" FontFamily="Comic Sans MS"/>
+
     </Grid>
 </Window>

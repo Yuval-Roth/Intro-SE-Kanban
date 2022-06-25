@@ -23,17 +23,19 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         }
 
 
-        public void LoginClick()
+        public bool LoginClick()
         {
             if (LoginOrRegisterScreen)
             {
                 registerButton.Visibility = "Hidden";
                 loginButton.Y += 50;
                 LoginOrRegisterScreen = false;
+                return false;
             }
             else
             {
-                
+
+                return true;
             }
         }
         public string Email
