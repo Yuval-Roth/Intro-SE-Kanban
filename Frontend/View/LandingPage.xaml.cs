@@ -45,5 +45,10 @@ namespace IntroSE.Kanban.Frontend.View
         {
             VM.TextBoxClick(((System.Windows.Controls.TextBox)sender).Name);
         }
+
+        private void ReturnButton_Click(object sender, RoutedEventArgs e)
+        {
+            VM.ReturnToFrontPage();
+        }
     }
 }

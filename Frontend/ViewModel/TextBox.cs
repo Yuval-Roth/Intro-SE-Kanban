@@ -11,10 +11,10 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         private string text;
         public bool FirstClick;
         private string visibility;
-        public TextBox(string text)
+        public TextBox(string text, string visibility)
         {
             this.text = text;
-            visibility = "Visible";
+            this.visibility = visibility;
             FirstClick = true;
         }
         public string Text

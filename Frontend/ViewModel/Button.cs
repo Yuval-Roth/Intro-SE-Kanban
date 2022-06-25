@@ -15,11 +15,11 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         private string visibility;
         private string content;
 
-        public Button(int x, int y, string content)
+        public Button(int x, int y, string content,string visibility)
         {
             this.x = x;
             this.y = y;
-            visibility = "Visible";
+            this.visibility = visibility;
             this.content = content;
         }
         public int X
