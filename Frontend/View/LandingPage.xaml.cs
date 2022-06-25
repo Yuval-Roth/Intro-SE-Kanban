@@ -21,12 +21,12 @@ namespace IntroSE.Kanban.Frontend.View
     /// </summary>
     public partial class LandingPage : Window
     {
-        private LandingPageModel VM;
+        private LandingPageViewModel VM;
         private NavigationService nav;
         public LandingPage()
         {
             InitializeComponent();
-            VM = new LandingPageModel();
+            VM = new LandingPageViewModel();
             DataContext = VM;
             nav = NavigationService.GetNavigationService(this);
         }
@@ -39,6 +39,15 @@ namespace IntroSE.Kanban.Frontend.View
                 //nav.Navigate(uri);
             }
             
+        }
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (VM.RegisterClick())
+            {
+                //Uri uri = new Uri("Window1.xaml", UriKind.RelativeOrAbsolute);
+                //nav.Navigate(uri);
+            }
+
         }
 
         private void TextBox_ButtonDown(object sender, MouseButtonEventArgs e)
