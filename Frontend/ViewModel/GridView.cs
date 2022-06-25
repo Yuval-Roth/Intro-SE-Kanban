@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Frontend.ViewModel
 {
-    public class GridView
+    public class GridView : Notifier
     {
         private int rows;
         private readonly string[] columns;
@@ -22,7 +22,8 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 
         public void SetValue(int row, int column, string value)
         {
-            table[row, column] = value; 
+            table[row, column] = value;
+            RaisePropertyChanged("Text");
         }
 
         public string GetValue(int row, int column)
