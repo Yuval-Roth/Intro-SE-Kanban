@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Frontend.Model
 {
-    public class BoardClass
+    public class Board
     {
         public int Id { set; get; }
         public string Title { set; get; }

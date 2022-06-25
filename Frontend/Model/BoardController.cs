@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IntroSE.Kanban.Backend.ServiceLayer;
+using System.Text.Json;
 
 namespace IntroSE.Kanban.Frontend.Model
 {
@@ -18,7 +19,10 @@ namespace IntroSE.Kanban.Frontend.Model
             bcs = ServiceLayerFactory.GetInstance().BoardControllerService;
         }
 
-        public 
+        public Board getBoards(string email)
+        {
+            LinkedList<int> boards =  bcs.GetUserBoards(email).;
+        }
 
 
     }
