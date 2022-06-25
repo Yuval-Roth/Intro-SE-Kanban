@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 using IntroSE.Kanban.Frontend.ViewModel;
 
@@ -20,10 +21,43 @@ namespace IntroSE.Kanban.Frontend.View
     /// </summary>
     public partial class LandingPage : Window
     {
+        private LandingPageViewModel VM;
+        private NavigationService nav;
         public LandingPage()
         {
             InitializeComponent();
-            DataContext = new LandingPageModel();
+            VM = new LandingPageViewModel();
+            DataContext = VM;
+            nav = NavigationService.GetNavigationService(this);
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (VM.LoginClick())
+            {
+                //Uri uri = new Uri("Window1.xaml", UriKind.RelativeOrAbsolute);
+                //nav.Navigate(uri);
+            }
+            
+        }
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (VM.RegisterClick())
+            {
+                //Uri uri = new Uri("Window1.xaml", UriKind.RelativeOrAbsolute);
+                //nav.Navigate(uri);
+            }
+
+        }
+
+        private void TextBox_ButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            VM.TextBoxClick(((System.Windows.Controls.TextBox)sender).Name);
+        }
+
+        private void ReturnButton_Click(object sender, RoutedEventArgs e)
+        {
+            VM.ReturnToFrontPage();
         }
     }
 }

@@ -57,9 +57,9 @@ namespace IntroSE.Kanban.selfTesting
             stringCompare("test2", "tEst2");
 
         }
-        public static void stringCompare(string s1,string s2)
+        public static void stringCompare(string s1, string s2)
         {
-            Console.WriteLine(s1== (CIString)s2); // true
+            Console.WriteLine(s1 == (CIString)s2); // true
         }
         public static void getInProgress()
         {
@@ -67,7 +67,7 @@ namespace IntroSE.Kanban.selfTesting
             gs.Register("TestEmail@post.bgu.ac.il", "Coolpass1234");
             gs.AddBoard("TestEmail@post.bgu.ac.il", "test");
             gs.AddTask("TestEmail@post.bgu.ac.il", "test", "1", "bla", new DateTime(2200, 10, 20));
-            gs.AddTask("TestEmail@post.bgu.ac.il", "test", "2", "blabla", new DateTime(2200,10,20));
+            gs.AddTask("TestEmail@post.bgu.ac.il", "test", "2", "blabla", new DateTime(2200, 10, 20));
             gs.AssignTask("TestEmail@post.bgu.ac.il", "test", 0, 0, "TestEmail@post.bgu.ac.il");
             gs.AssignTask("TestEmail@post.bgu.ac.il", "test", 0, 1, "TestEmail@post.bgu.ac.il");
             gs.AdvanceTask("TestEmail@post.bgu.ac.il", "test", 0, 0);
@@ -90,21 +90,21 @@ namespace IntroSE.Kanban.selfTesting
             string pass2 = "coolpAss2";
             GradingService gs = new();
             Console.WriteLine(gs.DeleteData());
-            Console.WriteLine(gs.Register(user1,pass1));
+            Console.WriteLine(gs.Register(user1, pass1));
             Console.WriteLine(gs.Register(user2, pass2));
-            Console.WriteLine(gs.AddBoard(user1,"Board1"));
+            Console.WriteLine(gs.AddBoard(user1, "Board1"));
             Console.WriteLine(gs.AddBoard(user2, "    "/*"BoardYuval"*/));
             Console.WriteLine(gs.JoinBoard(user2, 0));
             Console.WriteLine(gs.JoinBoard(user1, 0));
             Console.WriteLine(gs.JoinBoard(user2, 1));
-            Console.WriteLine(gs.AddTask(user1,"board1","task1","",new DateTime(2200,2,2)));
+            Console.WriteLine(gs.AddTask(user1, "board1", "task1", "", new DateTime(2200, 2, 2)));
             Console.WriteLine(gs.AddTask(user2, "BoardYuval", "task2", "", new DateTime(2200, 2, 2)));
             Console.WriteLine(gs.AssignTask(user1, "boaRd1", 0, 0, user1));
             Console.WriteLine(gs.AssignTask(user2, "boaRdYuval", 0, 0, user2));
-            Console.WriteLine(gs.UpdateTaskDescription(/*user1*/"testemAil@lol.com", "BOARD1",0,0,"hello1upDated"));
+            Console.WriteLine(gs.UpdateTaskDescription(/*user1*/"testemAil@lol.com", "BOARD1", 0, 0, "hello1upDated"));
             gs = new();
             Console.WriteLine(gs.LoadData());
-            Console.WriteLine(gs.Login("TESTEMAIL@LOL.COM",pass1));
+            Console.WriteLine(gs.Login("TESTEMAIL@LOL.COM", pass1));
             Console.WriteLine(gs.Login(user2, pass2));
             Console.WriteLine(gs.GetUserBoards(user1));
             Console.WriteLine(gs.GetUserBoards(user2));
@@ -309,7 +309,7 @@ namespace IntroSE.Kanban.selfTesting
         }
         public static void daltest()
         {
-            DataAccessLayerFactory.GetInstance().UserControllerDTO.AddUser("test@test.com","testPass123");
+            DataAccessLayerFactory.GetInstance().UserControllerDTO.AddUser("test@test.com", "testPass123");
             DataAccessLayerFactory.GetInstance().UserControllerDTO.AddUser("test@test.com", "testPass123");
         }
         public static void GetcolumnLimit()
@@ -351,26 +351,30 @@ namespace IntroSE.Kanban.selfTesting
             Console.WriteLine(gs.Register("TestUser@gmail.com", "Cooldpass123"));
         }
 
-        //public static void checkEmail()
-        //{
-        //    Random rand = new();
-        //    while (true)
-        //    {
-        //        string str = "";
-        //        for (int i = 0; i < 10; i++)
-        //        {
-        //            str += (char)rand.Next(33, 'z');
-        //        }
-        //        str += "@";
-        //        for (int i = 0; i < 10; i++)
-        //        {
-        //            str += (char)rand.Next(33, 'z');
-        //        }
-        //        if (UserController.IsEmailValid(str))
-        //        {
-        //            Console.WriteLine(str);
-        //        }
-        //    }
+        public static void checkEmail()
+        {
+            //Random rand = new();
+            //while (true)
+            //{
+            //    string str = "";
+            //    for (int i = 0; i < 10; i++)
+            //    {
+            //        str += (char)rand.Next(33, 'z');
+            //    }
+            //    str += "@";
+            //    for (int i = 0; i < 10; i++)
+            //    {
+            //        str += (char)rand.Next(33, 'z');
+            //    }
+            //    if (UserController.IsEmailValid(str))
+            //    {
+            //        Console.WriteLine(str);
+            //    }
+            //}
+        }
+        public static void VMTesting()
+        {
+
         }
     }
-
+}
