@@ -5,7 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ViewModel="clr-namespace:IntroSE.Kanban.Frontend.ViewModel" x:Class="IntroSE.Kanban.Frontend.View.BoardPage"
         mc:Ignorable="d"
-        Title="BoardPage" Height="450" Width="800">
+        Title="BoardPage"
+        Height="{x:Static SystemParameters.PrimaryScreenHeight}"
+        Width="{x:Static SystemParameters.PrimaryScreenWidth}"
+        MinHeight="720" MinWidth="1280"
+        SizeChanged="Window_SizeChanged"
+    >
     <Window.DataContext>
         <ViewModel:BoardPageViewModel/>
     </Window.DataContext>
@@ -25,6 +30,7 @@
         </ListView>
         <TextBox Name="ChosenBoard" TextWrapping="Wrap" Text="Chosen Board" Margin="333,374,383,21"/>
         <Label Name="ChooseYourBoard" Content="Choose your board here" HorizontalAlignment="Left" Height="30" Margin="183,374,0,0" VerticalAlignment="Top" Width="145"/>
+        <Button Name="Submit" Click="Submit_Click" Content="Submit" Margin="439,380,310,36"/>
 
     </Grid>
 

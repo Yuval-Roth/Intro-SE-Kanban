@@ -14,10 +14,10 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         private int height;
         private int rows;
         private readonly string[] columns;
-        private string[,] table;
+        private object[,] table;
         
 
-        public GridView(int x, int y, int width, int height, int rows, params string[] columnNames)
+        public GridView(int x, int y, int width, int height, int rows, string[] columnNames)
         {
             this.x = x;
             this.y = y;
@@ -25,16 +25,16 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             this.height = height;
             this.rows = rows;
             columns = columnNames;
-            table = new string[rows, columnNames.Length];
+            table = new object[rows, columnNames.Length];
         }
 
-        public void SetValue(int row, int column, string value)
+        public void SetValue(int row, int column, object value)
         {
             table[row, column] = value;
             RaisePropertyChanged("Text");
         }
 
-        public string GetValue(int row, int column)
+        public object GetValue(int row, int column)
         {
             return table[row, column];
         }

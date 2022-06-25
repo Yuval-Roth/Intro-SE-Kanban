@@ -20,9 +20,22 @@ namespace IntroSE.Kanban.Frontend.View
     /// </summary>
     public partial class BoardPage : Window
     {
+        private BoardPageViewModel VM;
         public BoardPage()
         {
+            VM = new BoardPageViewModel();
+            DataContext = VM;
             InitializeComponent();
+        }
+
+        private void Submit_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+
         }
     }
 }
