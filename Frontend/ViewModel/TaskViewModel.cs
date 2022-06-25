@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Frontend.ViewModel
 {
-    public class TaskModel : Notifier
+    public class TaskViewModel : Notifier
     {
 
         private Button loginButton;
@@ -16,7 +16,7 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         private string password = "";
         private bool LoginOrRegisterScreen = true;
 
-        public TaskModel()
+        public TaskViewModel()
         {
             loginButton = new(306, 205, "Login");
             registerButton = new(306, 287, "Register");

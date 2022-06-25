@@ -17,11 +17,11 @@ namespace IntroSE.Kanban.Frontend.View
 {
     public partial class Task : Window
     {
-        private TaskModel VM;
+        private TaskViewModel VM;
         public Task()
         {
             InitializeComponent();
-            VM = new TaskModel();
+            VM = new TaskViewModel();
             DataContext = VM;
         }
 
