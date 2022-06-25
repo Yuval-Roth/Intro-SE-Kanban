@@ -10,19 +10,19 @@ namespace IntroSE.Kanban.Frontend.ViewModel
     public class LandingPageModel : Notifier
     {
 
-        public Button LoginButton;
-        public Button RegisterButton;
+        public Button LoginButton = new(306, 287);
+        public Button RegisterButton = new (306, 205);
 
         public LandingPageModel()
         {
-            LoginButton = new(306,287);
-            RegisterButton = new(306, 205);
+            
         }
 
 
         public void LoginClick()
         {
-            LoginButton.Visibility = "Invisible";
+            RegisterButton.Visibility = "Invisible";
+            LoginButton.X -= 100;
         }
     }
 }
