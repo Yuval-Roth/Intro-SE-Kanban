@@ -45,8 +45,8 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             loginButton = new(LOGIN_BUTTON_X,LOGIN_BUTTON_Y, "Login","Visible");
             registerButton = new(REGISTER_BUTTON_X,REGISTER_BUTTON_Y, "Register","Visible");
             returnButton = new(RETURN_BUTTON_X,RETURN_BUTTON_Y, "Return", "Hidden");
-            emailBox = new(EMAILBOX_X, EMAILBOX_Y, "Insert email here", "Hidden");
-            passwordBox = new(PASSWORDBOX_X, PASSWORDBOX_Y, "Insert password here","Hidden");
+            emailBox = new(EMAILBOX_X, EMAILBOX_Y,0,0, "Insert email here", "Hidden");
+            passwordBox = new(PASSWORDBOX_X, PASSWORDBOX_Y ,0,0, "Insert password here","Hidden");
         }
 
 
@@ -117,10 +117,10 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             registerButton.Visibility = "Visible";
             loginButton.Visibility = "Visible";
 
-            emailBox = new(EMAILBOX_X,EMAILBOX_Y,"Insert email here", "Hidden");
+            emailBox = new(EMAILBOX_X,EMAILBOX_Y,0,0,"Insert email here", "Hidden");
             RaisePropertyChanged("EmailBox");
 
-            passwordBox = new(PASSWORDBOX_X, PASSWORDBOX_Y,"Insert password here", "Hidden");
+            passwordBox = new(PASSWORDBOX_X, PASSWORDBOX_Y,0,0,"Insert password here", "Hidden");
             RaisePropertyChanged("PasswordBox");
 
             LoginOrRegisterScreen = true;
