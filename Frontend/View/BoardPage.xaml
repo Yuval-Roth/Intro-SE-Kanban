@@ -10,22 +10,23 @@
     <Window.DataContext>
         <ViewModel:BoardPageViewModel/>
     </Window.DataContext>
-            <Grid>
-        <ListView Margin="10,10,10,102" Name="BoardTable">
+    <Grid>
+        <ListView Margin="10,10,10,65" Name="BoardTable">
             <ListView.View>
-                    <GridView>
-                            <GridViewColumn Header="BoardId" Width="80" DisplayMemberBinding="{Binding Name}" />
-                            <GridViewColumn Header="BoardName" Width="100" DisplayMemberBinding="{Binding Age}" />
-                            <GridViewColumn Header="Owner" Width="100" DisplayMemberBinding="{Binding Mail}" />
-                            <GridViewColumn Header="Joined" Width="100" DisplayMemberBinding="{Binding Mail}" />
-                            <GridViewColumn Header="BackLog" Width="80" DisplayMemberBinding="{Binding Mail}" />
-                            <GridViewColumn Header="InProgress" Width="80" DisplayMemberBinding="{Binding Mail}" />
-                            <GridViewColumn Header="Done" Width="80" DisplayMemberBinding="{Binding Mail}" />
-                    </GridView>
+                <GridView>
+                    <GridViewColumn Header="BoardId" Width="80" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="BoardName" Width="100" DisplayMemberBinding="{Binding Age}" />
+                    <GridViewColumn Header="Owner" Width="100" DisplayMemberBinding="{Binding Mail}" />
+                    <GridViewColumn Header="Joined" Width="100" DisplayMemberBinding="{Binding Mail}" />
+                    <GridViewColumn Header="BackLog" Width="80" DisplayMemberBinding="{Binding Mail}" />
+                    <GridViewColumn Header="InProgress" Width="80" DisplayMemberBinding="{Binding Mail}" />
+                    <GridViewColumn Header="Done" Width="80" DisplayMemberBinding="{Binding Mail}" />
+                </GridView>
             </ListView.View>
         </ListView>
-        <ListBox x:Name="ChooseBoard" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="30,337,420,10"/>
+        <TextBox Name="ChosenBoard" TextWrapping="Wrap" Text="TextBox" Margin="333,385,383,21"/>
+
     </Grid>
-            
+
 </Window>
 

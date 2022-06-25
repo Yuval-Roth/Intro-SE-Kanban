@@ -8,6 +8,6 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 {
     public class BoardPageViewModel : Notifier
     {
-        private 
+        
     }
 }
