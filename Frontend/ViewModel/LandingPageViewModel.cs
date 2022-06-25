@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace IntroSE.Kanban.Frontend.ViewModel
 {
@@ -29,6 +30,8 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         private int EMAILBOX_Y = HEIGHT / 2 - HEIGHT / 15;
         private int PASSWORDBOX_X = WIDTH/2 -125 ;
         private int PASSWORDBOX_Y = HEIGHT/2 - HEIGHT / 30;
+        private int ERRORMESSAGE_X = WIDTH / 2 - 125;
+        private int ERRORMESSAGE_Y = HEIGHT / 2;
 
 
         private Button loginButton;
@@ -37,12 +40,15 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         private TextBox emailBox;
         private TextBox passwordBox;
         private bool LoginOrRegisterScreen = true;
+        private Label errorMessage;
 
         public Button LoginButton => loginButton;
         public Button RegisterButton => registerButton;
         public Button ReturnButton => returnButton;
         public TextBox EmailBox => emailBox;
         public TextBox PasswordBox => passwordBox;
+        public Label ErrorMessage => errorMessage;
+        public string ImageMargin => $"-{WIDTH * 0.15},-{HEIGHT * 0.15},-{WIDTH * 0.15},-{HEIGHT * 0.15}";
 
         public LandingPageViewModel()
         {
@@ -51,8 +57,14 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             returnButton = new(RETURN_BUTTON_X,RETURN_BUTTON_Y, "Return", "Hidden");
             emailBox = new(EMAILBOX_X, EMAILBOX_Y, "Insert email here", "Hidden");
             passwordBox = new(PASSWORDBOX_X, PASSWORDBOX_Y, "Insert password here","Hidden");
+            errorMessage = new(ERRORMESSAGE_X, ERRORMESSAGE_Y, "Incorrect email or password", "Visible");
         }
 
+        public void ResetErrorMessage()
+        {
+            errorMessage.Visibility = "Hidden";
+            errorMessage.Text = "";
+        }
 
         public bool LoginClick()
         {
@@ -129,7 +141,6 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 
             LoginOrRegisterScreen = true;
         }
-        public string ImageMargin => $"-{WIDTH * 0.15},-{HEIGHT * 0.15},-{WIDTH * 0.15},-{HEIGHT * 0.15}";
         public void UpdateMargins(double ActualWidth, double ActualHeight)
         {
             HEIGHT = (int)ActualHeight;

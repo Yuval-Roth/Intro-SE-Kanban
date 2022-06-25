@@ -64,5 +64,10 @@ namespace IntroSE.Kanban.Frontend.View
         {
             VM.UpdateMargins(ActualWidth,ActualHeight);
         }
+
+        private void TextBoxes_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            VM.ResetErrorMessage();
+        }
     }
 }
