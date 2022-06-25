@@ -8,11 +8,15 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 {
     public class TextBox:Notifier
     {
+        private int x;
+        private int y;
         private string text;
         public bool FirstClick;
         private string visibility;
-        public TextBox(string text, string visibility)
+        public TextBox(int x, int y,string text, string visibility)
         {
+            this.x = x;
+            this.y = y;
             this.text = text;
             this.visibility = visibility;
             FirstClick = true;
@@ -35,5 +39,6 @@ namespace IntroSE.Kanban.Frontend.ViewModel
                 RaisePropertyChanged("Visibility");
             }
         }
+        public string Margin => $"{x},{y},0,0";
     }
 }
