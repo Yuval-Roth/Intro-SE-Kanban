@@ -19,6 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Backend\Backend.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="View\Your-Introduction-to-Kanban.jpg" />
   </ItemGroup>
 

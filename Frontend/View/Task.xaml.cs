@@ -11,17 +11,23 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using IntroSE.Kanban.Frontend.ViewModel;
 
 namespace IntroSE.Kanban.Frontend.View
 {
-    /// <summary>
-    /// Interaction logic for Task.xaml
-    /// </summary>
     public partial class Task : Window
     {
+        private TaskModel VM;
         public Task()
         {
             InitializeComponent();
+            VM = new TaskModel();
+            DataContext = VM;
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            VM.LoginClick();
         }
     }
 }
