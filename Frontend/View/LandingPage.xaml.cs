@@ -40,5 +40,10 @@ namespace IntroSE.Kanban.Frontend.View
             }
             
         }
+
+        private void TextBox_ButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            VM.TextBoxClick(((System.Windows.Controls.TextBox)sender).Name);
+        }
     }
 }

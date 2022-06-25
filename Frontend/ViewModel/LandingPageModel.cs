@@ -12,14 +12,21 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 
         private Button loginButton;
         private Button registerButton;
-        private string email = "";
-        private string password = "";
+        private TextBox emailBox;
+        private TextBox passwordBox;
         private bool LoginOrRegisterScreen = true;
+
+        public Button LoginButton => loginButton;
+        public Button RegisterButton => registerButton;
+        public TextBox EmailBox => emailBox;
+        public TextBox PasswordBox => passwordBox;
 
         public LandingPageModel()
         {
             loginButton = new(306, 205, "Login");
             registerButton = new(306, 287, "Register");
+            emailBox = new("Insert email here");
+            passwordBox = new("Insert password here");
         }
 
 
@@ -29,6 +36,8 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             {
                 registerButton.Visibility = "Hidden";
                 loginButton.Y += 50;
+                emailBox.Visibility = "Visible";
+                passwordBox.Visibility = "Visible";
                 LoginOrRegisterScreen = false;
                 return false;
             }
@@ -38,26 +47,19 @@ namespace IntroSE.Kanban.Frontend.ViewModel
                 return true;
             }
         }
-        public string Email
+        public void TextBoxClick(string name)
         {
-            set
+            switch (name)
             {
-                email = value;
-                RaisePropertyChanged("Email");
+                case "EmailBox":
+                    if(emailBox.FirstClick)
+                        emailBox.Text = "";
+                    break;
+                case "PasswordBox":
+                    if(passwordBox.FirstClick)
+                        passwordBox.Text = "";
+                    break;
             }
-            get { return email; }
         }
-        public string Password
-        {
-            set
-            {
-                password = value;
-                RaisePropertyChanged("Password");
-            }
-            get { return password; }
-        }
-
-        public Button LoginButton => loginButton;
-        public Button RegisterButton => registerButton;
     }
 }
