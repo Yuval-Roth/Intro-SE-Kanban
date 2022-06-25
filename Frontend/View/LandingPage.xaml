@@ -11,8 +11,8 @@
     <Window.DataContext>
         <ViewModel:LandingPageViewModel/>
     </Window.DataContext>
-    <Grid Margin="-88,23,0,0">
-        <Image Source="/View/Your-Introduction-to-Kanban.jpg" Margin="-88,-36,-148,-222"/>
+    <Grid Margin="0,0,0,0">
+        <Image Source="/View/Your-Introduction-to-Kanban.jpg" Margin="{Binding ImageMargin}"/>
         <Button x:Name="LoginButton" Click="LoginButton_Click" Visibility="{Binding LoginButton.Visibility}" Content="{Binding LoginButton.Content}" HorizontalAlignment="Left" Height="46" Margin="{Binding LoginButton.Margin}" VerticalAlignment="Top" Width="188" FontFamily="Comic Sans MS" FontStyle="Normal" Background="#FFD0AD6C"/>
         <Button x:Name="RegisterButton" Click="RegisterButton_Click" Visibility="{Binding RegisterButton.Visibility}" Content="{Binding RegisterButton.Content}" HorizontalAlignment="Left" Height="46" Margin="{Binding RegisterButton.Margin}" VerticalAlignment="Top" Width="188" FontFamily="Comic Sans MS" FontStyle="Normal" Background="#FFD0AD6C"/>
         <Button x:Name="ReturnButton" Click="ReturnButton_Click" Content="{Binding ReturnButton.Content}" Visibility="{Binding ReturnButton.Visibility}" HorizontalAlignment="Left" Height="46" Margin="{Binding ReturnButton.Margin}" VerticalAlignment="Top" Width="188" FontFamily="Comic Sans MS" FontStyle="Normal" Background="#FFD0AD6C"/>

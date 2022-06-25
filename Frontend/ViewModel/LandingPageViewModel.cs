@@ -10,25 +10,25 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 
     public partial class LandingPageViewModel : Notifier
     {
+        private static readonly int HEIGHT = (int)System.Windows.SystemParameters.PrimaryScreenHeight;
+        private static readonly int WIDTH = (int)System.Windows.SystemParameters.PrimaryScreenWidth;
 
-        private readonly int LOGIN_BUTTON_X = 306;
-        private readonly int LOGIN_BUTTON_Y = 205;
-        private readonly int REGISTER_BUTTON_X = 306;
-        private readonly int REGISTER_BUTTON_Y = 280;
-        private readonly int RETURN_BUTTON_X = 206;
-        private readonly int RETURN_BUTTON_Y = 280;
+        private readonly int LOGIN_BUTTON_X = WIDTH / 2 - 80;
+        private readonly int LOGIN_BUTTON_Y = HEIGHT/2;
+        private readonly int REGISTER_BUTTON_X = WIDTH / 2 - 80;
+        private readonly int REGISTER_BUTTON_Y = HEIGHT / 2 + HEIGHT / 10;
+        private readonly int RETURN_BUTTON_X = WIDTH / 2 - 80 - 100;
+        private readonly int RETURN_BUTTON_Y = HEIGHT / 2 + HEIGHT / 10;
 
-        private readonly int LOGIN_BUTTON_LOGIN_SCREEN_X = 306 + 100;
-        private readonly int LOGIN_BUTTON_LOGIN_SCREEN_Y = 205 + 75;
-        private readonly int REGISTER_BUTTON_REGISTER_SCREEN_X = 306 + 100;
+        private readonly int LOGIN_BUTTON_LOGIN_SCREEN_X = WIDTH / 2 - 80 + 100;
+        private readonly int LOGIN_BUTTON_LOGIN_SCREEN_Y = HEIGHT / 2 + HEIGHT / 10;
+        private readonly int REGISTER_BUTTON_REGISTER_SCREEN_X = WIDTH / 2 - 80 + 100;
 
-        private readonly int EMAILBOX_X = 300;
-        private readonly int EMAILBOX_Y = 175;
-        private readonly int PASSWORDBOX_X = 300;
-        private readonly int PASSWORDBOX_Y = 230;
+        private readonly int EMAILBOX_X = WIDTH / 2 -80;
+        private readonly int EMAILBOX_Y = HEIGHT / 2 - HEIGHT / 10;
+        private readonly int PASSWORDBOX_X = WIDTH/2 -80 ;
+        private readonly int PASSWORDBOX_Y = HEIGHT/2;
 
-        private readonly int HEIGHT = (int)System.Windows.SystemParameters.PrimaryScreenHeight;
-        private readonly int WIDTH = (int)System.Windows.SystemParameters.PrimaryScreenWidth;
 
         private Button loginButton;
         private Button registerButton;
@@ -128,5 +128,26 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 
             LoginOrRegisterScreen = true;
         }
+        public string ImageMargin => $"-{WIDTH * 0.15},-{HEIGHT * 0.15},-{WIDTH * 0.15},-{HEIGHT * 0.15}";
+        //public void UpdateMargins()
+        //{
+        //    if (LoginOrRegisterScreen)
+        //    {
+        //        loginButton.X = LOGIN_BUTTON_X;
+        //        loginButton.Y = LOGIN_BUTTON_Y;
+        //        registerButton.X = REGISTER_BUTTON_X;
+        //        registerButton.Y = REGISTER_BUTTON_Y;
+        //    }
+        //    else
+        //    {
+        //        loginButton.X = LOGIN_BUTTON_LOGIN_SCREEN_X;
+        //        loginButton.Y = LOGIN_BUTTON_LOGIN_SCREEN_Y;
+        //        registerButton.X = REGISTER_BUTTON_REGISTER_SCREEN_X;
+        //        registerButton.Y = REGISTER_BUTTON_REGISTER_SCREEN_Y;
+        //    }
+        //        returnButton.X = RETURN_BUTTON_X;
+        //        returnButton.Y = RETURN_BUTTON_Y;
+        //}
     }
+   
 }

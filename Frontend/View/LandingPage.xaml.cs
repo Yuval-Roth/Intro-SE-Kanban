@@ -59,5 +59,10 @@ namespace IntroSE.Kanban.Frontend.View
         {
             VM.ReturnToFrontPage();
         }
+
+        //private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        //{
+        //    VM.UpdateMargins();
+        //}
     }
 }
