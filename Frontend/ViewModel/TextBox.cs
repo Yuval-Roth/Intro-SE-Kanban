@@ -10,13 +10,17 @@ namespace IntroSE.Kanban.Frontend.ViewModel
     {
         private int x;
         private int y;
+        private int width;
+        private int height;
         private string text;
         public bool FirstClick;
         private string visibility;
-        public TextBox(int x, int y,string text, string visibility)
+        public TextBox(int x, int y, int width, int height, string text, string visibility)
         {
             this.x = x;
             this.y = y;
+            this.width = width;
+            this.height = height;
             this.text = text;
             this.visibility = visibility;
             FirstClick = true;
