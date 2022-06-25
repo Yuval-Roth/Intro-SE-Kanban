@@ -57,7 +57,7 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             returnButton = new(RETURN_BUTTON_X,RETURN_BUTTON_Y, "Return", "Hidden");
             emailBox = new(EMAILBOX_X, EMAILBOX_Y, "Insert email here", "Hidden");
             passwordBox = new(PASSWORDBOX_X, PASSWORDBOX_Y, "Insert password here","Hidden");
-            errorMessage = new(ERRORMESSAGE_X, ERRORMESSAGE_Y, "Incorrect email or password", "Visible");
+            errorMessage = new(ERRORMESSAGE_X, ERRORMESSAGE_Y, "", "Hidden");
         }
 
         public void ResetErrorMessage()
