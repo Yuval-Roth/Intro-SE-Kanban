@@ -41,7 +41,7 @@ namespace IntroSE.Kanban.selfTesting
             //GetcolumnLimit();
             //AssignTask();
             //DBTest();
-            checkEmail();
+            //checkEmail();
 
         }
         public static void CIStringDeserialization()
@@ -351,26 +351,26 @@ namespace IntroSE.Kanban.selfTesting
             Console.WriteLine(gs.Register("TestUser@gmail.com", "Cooldpass123"));
         }
 
-        public static void checkEmail()
-        {
-            Random rand = new();
-            while (true)
-            {
-                string str = "";
-                for (int i = 0; i < 10; i++)
-                {
-                    str += (char)rand.Next(33, 'z');
-                }
-                str += "@";
-                for (int i = 0; i < 10; i++)
-                {
-                    str += (char)rand.Next(33, 'z');
-                }
-                if (UserController.IsEmailValid(str))
-                {
-                    Console.WriteLine(str);
-                }
-            }
+        //public static void checkEmail()
+        //{
+        //    Random rand = new();
+        //    while (true)
+        //    {
+        //        string str = "";
+        //        for (int i = 0; i < 10; i++)
+        //        {
+        //            str += (char)rand.Next(33, 'z');
+        //        }
+        //        str += "@";
+        //        for (int i = 0; i < 10; i++)
+        //        {
+        //            str += (char)rand.Next(33, 'z');
+        //        }
+        //        if (UserController.IsEmailValid(str))
+        //        {
+        //            Console.WriteLine(str);
+        //        }
+        //    }
         }
     }
-}
+
