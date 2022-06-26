@@ -116,7 +116,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public CIString Title { get { return title; } init { title = value; } }
         public CIString Owner { get { return owner; } init { owner = value; } }
         public LinkedList<CIString> Joined { get { return joined; } init { joined = value; } }
-        public LinkedList<Task>[] Columns { /*get { return columns; }*/ init { columns = value; } }
+        public LinkedList<Task>[] Columns { get { return columns; } init { columns = value; } }
         public int[] ColumnLimit { /*get { return columnLimit; }*/ init { columnLimit = value; } }
         public Dictionary<int, TaskStates> TaskStateTracker { /*get { return taskStateTracker; }*/ init { taskStateTracker = value; } }
         public int TaskIDCounter { /*get { return taskIDCounter; }*/ init { taskIDCounter = value; } }

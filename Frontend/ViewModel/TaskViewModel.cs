@@ -13,19 +13,18 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         private Button backButton;
         private string email;
         private int boardId;
+        private Model.Board board;
+        private Model.BoardController boardController;
 
-        public TaskViewModel()
+        public TaskViewModel(string email, int boardId)
         {
             backButton = new(306, 205, "Back", "Visible");
-            this.email = "";
-            this.boardId = 0;
+            this.email = email;
+            this.boardId = boardId;
+            boardController = new Model.BoardController();
+            board = new (boardController.SearchBoard(email, boardId));
         }
 
-
-        public void ReturnClick()
-        {
-
-        }
         public string Email
         {
             set

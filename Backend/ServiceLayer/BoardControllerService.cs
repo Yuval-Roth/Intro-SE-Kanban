@@ -91,6 +91,51 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
+        public string SearchBoard(string email, int boardId)
+        {
+            if (ValidateArguments.ValidateNotNull(new object[] { email, boardId }) == false)
+            {
+                Response<string> res = new(false, "SearchBoard() failed: ArgumentNullException");
+                return JsonEncoder.ConvertToJson(res);
+            }
+            try
+            {
+                Board board = boardController.SearchBoard(email, boardId);
+                Response<Board> res = new(true, board);
+                return JsonEncoder.ConvertToJson(res);
+            }
+            catch (ElementAlreadyExistsException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonEncoder.ConvertToJson(res);
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonEncoder.ConvertToJson(res);
+            }
+            catch (AccessViolationException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonEncoder.ConvertToJson(res);
+            }
+            catch (ArgumentException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonEncoder.ConvertToJson(res);
+            }
+            catch (UserNotLoggedInException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonEncoder.ConvertToJson(res);
+            }
+            catch (System.Data.SQLite.SQLiteException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonEncoder.ConvertToJson(res);
+            }
+        }
+
         /// <summary>
         /// This method removes a board to the specific user.
         /// </summary>
@@ -107,7 +152,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string RemoveBoard(string email, string name)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email, name}) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email, name }) == false)
             {
                 Response<string> res = new(false, "RemoveBoard() failed: ArgumentNullException");
                 return JsonEncoder.ConvertToJson(res);
@@ -219,13 +264,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
 		/// </returns>
         public string GetUserBoards(string email)
         {
-            if (ValidateArguments.ValidateNotNull(new object[] { email}) == false)
+            if (ValidateArguments.ValidateNotNull(new object[] { email }) == false)
             {
                 Response<string> res = new(false, "GetUserBoards() failed: ArgumentNullException");
                 return JsonEncoder.ConvertToJson(res);
             }
             try
-            {            
+            {
                 Response<LinkedList<int>> res = new(true, boardController.GetBoardsId(email));
                 return JsonEncoder.ConvertToJson(res);
             }
@@ -251,7 +296,37 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
+        public string GetBoardById(string email, int id)
+        {
+            if (ValidateArguments.ValidateNotNull(new object[] { email, id }) == false)
+            {
+                Response<string> res = new(false, "getBoardById() failed: ArgumentNullException");
+                return JsonEncoder.ConvertToJson(res);
+            }
+            try
+            {
+                Response<Board> res = new(true, boardController.SearchBoard(email, id));
+                return JsonEncoder.ConvertToJson(res);
+            }
+            catch (NoSuchElementException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonEncoder.ConvertToJson(res);
+            }
+            catch (UserNotLoggedInException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonEncoder.ConvertToJson(res);
+            }
+            catch (UserDoesNotExistException ex)
+            {
+                Response<string> res = new(false, ex.Message);
+                return JsonEncoder.ConvertToJson(res);
+            }
+
+        }
+
     }
 
-    
+
 }

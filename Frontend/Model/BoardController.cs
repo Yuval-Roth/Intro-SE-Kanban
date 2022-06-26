@@ -40,6 +40,13 @@ namespace IntroSE.Kanban.Frontend.Model
             throw new ArgumentException("the user has no boards");             
         }
 
+        public Backend.BusinessLayer.Board SearchBoard(string email, int boardId)
+        {
+            string Json = bcs.SearchBoard(email, boardId);
+            Backend.BusinessLayer.Board board = JsonEncoder.BuildFromJson<Response<Backend.BusinessLayer.Board>>(Json).returnValue;
+            return board;
+        }
+
         private static bool GetOperationState(string json)
         {
             Response<object> res = JsonEncoder.BuildFromJson<Response<object>>(json);
