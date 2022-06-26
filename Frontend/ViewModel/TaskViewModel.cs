@@ -10,16 +10,14 @@ namespace IntroSE.Kanban.Frontend.ViewModel
     public class TaskViewModel : Notifier
     {
 
-        private Button loginButton;
-        private Button registerButton;
+        private Button backButton;
         private string email = "";
         private string password = "";
         private bool LoginOrRegisterScreen = true;
 
         public TaskViewModel()
         {
-            loginButton = new(306, 205, "Login");
-            registerButton = new(306, 287, "Register");
+            backButton = new(306, 205, "Back");
         }
 
 
@@ -27,8 +25,6 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         {
             if (LoginOrRegisterScreen)
             {
-                registerButton.Visibility = "Hidden";
-                loginButton.Y += 50;
                 LoginOrRegisterScreen = false;
             }
             else
@@ -55,7 +51,6 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             get { return password; }
         }
 
-        public Button LoginButton => loginButton;
-        public Button RegisterButton => registerButton;
+        public Button BackButton => backButton;
     }
 }

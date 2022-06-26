@@ -8,12 +8,18 @@
         mc:Ignorable="d"
         Title="TaskPage" Height="449" Width="619">
     <Window.DataContext>
-        <ViewModel:TaskModel/>
+        <ViewModel:TaskViewModel/>
     </Window.DataContext>
-    <Grid Margin="-88,23,0,0">
-        <Image Source="/View/Your-Introduction-to-Kanban.jpg" Margin="4,-10,-89,10"/>
-        <Button x:Name="LoginButton" Content="{Binding LoginButton.Content}" HorizontalAlignment="Left" Height="46" Margin="{Binding LoginButton.Margin}" VerticalAlignment="Top" Width="188" FontFamily="Comic Sans MS" FontStyle="Normal" Background="#FFD0AD6C"/>
-        <Button x:Name="RegisterButton"  Visibility="{Binding RegisterButton.Visibility}" Content="{Binding RegisterButton.Content}" HorizontalAlignment="Left" Height="46" Margin="{Binding RegisterButton.Margin}" VerticalAlignment="Top" Width="188" FontFamily="Comic Sans MS" FontStyle="Normal" Background="#FFD0AD6C"/>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Label Content="BackLog" Grid.Row="0" HorizontalAlignment="Center" FontWeight="Bold" FontSize="18" />
+        <Label Content="InProgress" Grid.Column="1" HorizontalAlignment="Center" FontWeight="Bold" FontSize="18" />
+        <Label Content="Done" Grid.Column="2" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" />
+        <Button x:Name="BackButton" Content="{Binding BackButton.Content}" HorizontalAlignment="Center" Height="46" VerticalAlignment="Bottom" Width="188" FontFamily="Comic Sans MS" FontStyle="Normal" Background="#FFD0AD6C" Grid.Column="0" Margin="0,62,0,0"/>
 
     </Grid>
 </Window>
