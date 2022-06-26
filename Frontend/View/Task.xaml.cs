@@ -25,9 +25,9 @@ namespace IntroSE.Kanban.Frontend.View
             DataContext = VM;
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
-            VM.LoginClick();
+            VM.ReturnClick();
         }
     }
 }

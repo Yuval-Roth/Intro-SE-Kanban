@@ -17,11 +17,11 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 
         public TaskViewModel()
         {
-            backButton = new(306, 205, "Back");
+            backButton = new(306, 205, "Back", "Visible");
         }
 
 
-        public void LoginClick()
+        public void ReturnClick()
         {
             if (LoginOrRegisterScreen)
             {
