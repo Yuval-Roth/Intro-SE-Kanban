@@ -33,8 +33,6 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 
         public ObservableCollection<Model.Board> BoardList { get; set; }
 
-
-
         public TextBox ChosenBoard => chosenBoard;
         public GridView BoardTable => boardTable;
 
@@ -48,8 +46,8 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 
         public BoardPageViewModel(string email)
         {
-            chosenBoard = new(CHOSENBOARD_X, CHOSENBOARD_Y, CHOSENBOARD_WIDTH, CHOSENBOARD_HEIGHT, "Insert your chosen boardId", "Vissible");
-            submit = new(SUBMIT_X, SUBMIT_Y, "Submit", "vissible");
+            chosenBoard = new(CHOSENBOARD_X, CHOSENBOARD_Y, CHOSENBOARD_WIDTH, CHOSENBOARD_HEIGHT, "Insert your chosen boardId", true);
+            submit = new(SUBMIT_X, SUBMIT_Y, "Submit", true);
             this.email = email;
             BoardList = boardController.GetBoards(email);
             //BoardList.CollectionChanged += HandleChange;
@@ -79,16 +77,16 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         {
             if(chosenBoard.FirstClick)
             {
-                chosenBoard.Text = "";
+                chosenBoard.Content = "";
                 chosenBoard.FirstClick = false;
             }
         }
 
         public int Submit_Click()
         {
-            if(chosenBoard.FirstClick == false && chosenBoard.Text!= null)
+            if(chosenBoard.FirstClick == false && chosenBoard.Content != null)
             {
-                string text = chosenBoard.Text;
+                string text = chosenBoard.Content;
                 int numericValue;
                 if(int.TryParse(text, out numericValue))
                 {
