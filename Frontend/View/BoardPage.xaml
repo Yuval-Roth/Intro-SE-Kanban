@@ -11,23 +11,24 @@
         MinHeight="720" MinWidth="1280"
         SizeChanged="Window_SizeChanged"
     >
-    <!--<Window.DataContext>
+    <Window.DataContext>
         <ViewModel:BoardPageViewModel/>
-    </Window.DataContext>-->
+    </Window.DataContext>
     <Grid>
-        <ListBox ItemsSource="{Binding Path=ViewModel.BoardPageViewModel.BoardList}" SelectedItem="{Binding Path=SelectedMessage, Mode=TwoWay}">
+        <ListBox ItemsSource="{Binding BoardList}" Margin="134,58,146,298">
             <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderBrush="#FF003CFF" BorderThickness="1">
-                        <StackPanel Orientation="Vertical" >
-                            <TextBox Text="{Binding Path=BoardName, Mode=TwoWay}" BorderBrush="{x:Null}"/>
-                            <TextBox Text="{Binding Path=BoardId, Mode=TwoWay}" BorderBrush="{x:Null}" Background="{Binding Path=DataContext.BackgroundColor, Mode=OneWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+                <DataTemplate >
+                    <Border BorderBrush="#FF003CFF" BorderThickness="1" MinWidth="100">
+                        <StackPanel  Orientation="Vertical"  >
+                            <TextBox Text="{Binding Id}"  BorderBrush="{x:Null}"  />
+                            <TextBox Text="{Binding Title}" BorderBrush="{x:Null}" />
+                            <TextBox Text="{Binding Owner}" BorderBrush="{x:Null}" />
                         </StackPanel>
                     </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <TextBox x:Name="ChosenBoard" PreviewMouseDown="ChosenBoard_PreviewMouseDown" TextWrapping="Wrap" Text="{Binding ChosenBoard.Text}" Margin="444,605,640,55"/>
+        <TextBox x:Name="ChosenBoard" PreviewMouseDown="ChosenBoard_PreviewMouseDown" TextWrapping="Wrap" Text="{Binding ChosenBoard.Content}" Margin="444,605,640,55"/>
         <Label x:Name="ChooseYourBoard" Content="Choose your board here" HorizontalAlignment="Left" Height="30" Margin="294,605,0,0" VerticalAlignment="Top" Width="145"/>
         <Button x:Name="Submit" Click="Submit_Click" Content="Submit" Margin="662,605,490,33"/>
         <Button x:Name="LogOut" Click="LogOut_Click"  Content="LogOut" HorizontalAlignment="Left" Margin="174,605,0,0" VerticalAlignment="Top" Height="44" Width="97"/>
