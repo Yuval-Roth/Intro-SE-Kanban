@@ -145,19 +145,19 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     catch(ArgumentException)
                     {
                         log.Error("LogIn() failed: user with '" + email + "' already loggedIn");
-                        throw; /*new ArgumentException("The user with the email " + email + " is already logged in");*/
+                        throw new ArgumentException("User is already logged in");
                     }      
                 }
                 else
                 {
                     log.Error("LogIn() failed: " + password + "incorrect");
-                    throw new ArgumentException("Incorrect Password");
+                    throw new ArgumentException("Incorrect email or password");
                 }
             }
             else
             {
                 log.Error("LogIn() failed: there is no user with " + email + " in the system");
-                throw new ArgumentException("There is no such user in the system");  
+                throw new ArgumentException("Incorrect email or password");  
             }
         }
 

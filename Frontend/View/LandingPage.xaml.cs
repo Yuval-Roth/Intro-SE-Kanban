@@ -22,30 +22,26 @@ namespace IntroSE.Kanban.Frontend.View
     public partial class LandingPage : Window
     {
         private LandingPageViewModel VM;
-        private NavigationService nav;
         public LandingPage()
         {
             InitializeComponent();
             VM = new LandingPageViewModel();
             DataContext = VM;
-            nav = NavigationService.GetNavigationService(this);
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             if (VM.LoginClick())
             {
-                //Uri uri = new Uri("Window1.xaml", UriKind.RelativeOrAbsolute);
-                //nav.Navigate(uri);
+                // TO DO: Login successful
             }
-            
+
         }
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             if (VM.RegisterClick())
             {
-                //Uri uri = new Uri("Window1.xaml", UriKind.RelativeOrAbsolute);
-                //nav.Navigate(uri);
+                // TO DO: Registration successful
             }
 
         }
@@ -58,6 +54,21 @@ namespace IntroSE.Kanban.Frontend.View
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
             VM.ReturnToFrontPage();
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            VM.UpdateMargins(ActualWidth,ActualHeight);
+        }
+
+        private void TextBoxes_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            VM.ResetErrorMessage();
+        }
+
+        private void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            VM.TextBoxClick(((System.Windows.Controls.TextBox)sender).Name);
         }
     }
 }
