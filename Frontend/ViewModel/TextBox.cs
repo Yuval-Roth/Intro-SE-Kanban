@@ -17,16 +17,5 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         public TextBox(int x, int y, string text) : this(x, y, 0, 0, text, true) { }
         public TextBox(int x, int y, string text, bool visibility) : this(x, y, 0, 0, text, visibility) { }
         public TextBox(int x, int y, int width, int height) : this(x, y, width, height, "", true) { }
-
-        //public override string Content
-        //{
-        //    get => content;
-        //    set
-        //    {
-        //        content = value;
-        //        RaisePropertyChanged("Text");
-        //    }
-        //}
-
     }
 }
