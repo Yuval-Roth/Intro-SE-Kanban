@@ -31,7 +31,7 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 
         public BoardPageViewModel()
         {
-            chosenBoard = new(CHOSENBOARD_X, CHOSENBOARD_Y, CHOSENBOARD_WIDTH, CHOSENBOARD_HEIGHT, "Insert your chosen boardId", "Hidden");
+            chosenBoard = new(CHOSENBOARD_X, CHOSENBOARD_Y, CHOSENBOARD_WIDTH, CHOSENBOARD_HEIGHT, "Insert your chosen boardId", false);
             
         }
 

@@ -6,69 +6,27 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Frontend.ViewModel
 {
-    public class TextBox:Notifier
+    public class TextBox : UIElement
     {
-        private int x;
-        private int y;
-        private int width;
-        private int height;
-        private string text;
         public bool FirstClick;
-        private string visibility;
-        public TextBox(int x, int y, int width, int height, string text, string visibility)
+        public TextBox(int x, int y, int width, int height, string text, bool visibility) : base(x, y, width, height, text, visibility)
         {
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
-            this.text = text;
-            this.visibility = visibility;
             FirstClick = true;
         }
-        public string Text
-        {
-            get { return text; }
-            set 
-            {
-                text = value;
-                RaisePropertyChanged("Text");
-            }
-        }
-        public void Show()
-        {
-            Visibility = "Visible";
-        }
-        public void Hide()
-        {
-            Visibility = "Hidden";
-        }
-        public string Visibility
-        {
-            get { return visibility; }
-            set
-            {
-                visibility = value;
-                RaisePropertyChanged("Visibility");
-            }
-        }
-        public int X
-        {
-            get { return x; }
-            set
-            {
-                x = value;
-                RaisePropertyChanged("Margin");
-            }
-        }
-        public int Y
-        {
-            get { return y; }
-            set
-            {
-                y = value;
-                RaisePropertyChanged("Margin");
-            }
-        }
-        public string Margin => $"{x},{y},0,0";
+        public TextBox(int x, int y, int width, int height, string text) : this(x, y, width, height, text, true) { }
+        public TextBox(int x, int y, string text) : this(x, y, 0, 0, text, true) { }
+        public TextBox(int x, int y, string text, bool visibility) : this(x, y, 0, 0, text, visibility) { }
+        public TextBox(int x, int y, int width, int height) : this(x, y, width, height, "", true) { }
+
+        //public override string Content
+        //{
+        //    get => content;
+        //    set
+        //    {
+        //        content = value;
+        //        RaisePropertyChanged("Text");
+        //    }
+        //}
+
     }
 }
