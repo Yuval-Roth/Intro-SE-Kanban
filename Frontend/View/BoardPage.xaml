@@ -14,7 +14,7 @@
     <Window.DataContext>
         <ViewModel:BoardPageViewModel/>
     </Window.DataContext>
-    <Grid>
+    <Grid Margin="0,0,0,0">
         <ListBox ItemsSource="{Binding BoardList}" Margin="134,58,146,298">
             <ListBox.ItemTemplate>
                 <DataTemplate >
