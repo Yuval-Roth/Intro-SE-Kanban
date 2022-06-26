@@ -15,8 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Model\" />
-    <Folder Include="ViewModel\" />
+    <ProjectReference Include="..\Backend\Backend.csproj" />
   </ItemGroup>
 
   <ItemGroup>

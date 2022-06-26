@@ -460,7 +460,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
         }
 
-
     }
     
 }
