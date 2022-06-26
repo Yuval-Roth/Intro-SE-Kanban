@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace IntroSE.Kanban.Frontend.ViewModel
 {
@@ -21,10 +23,17 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         private int SUBMIT_X = 662;
         private int SUBMIT_Y = 605;
 
+        int rows;
+
         private TextBox chosenBoard;
-        private GridView boardTable;
+        public GridView boardTable { get; set; }
         private Button submit;
-        
+        public string BoardName { get; set; }
+        public int BoardID { get; set; }
+
+        public ObservableCollection<Model.Board> BoardList { get; set; }
+
+
 
         public TextBox ChosenBoard => chosenBoard;
         public GridView BoardTable => boardTable;
@@ -37,52 +46,32 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 
         private string email;
 
-        public BoardPageViewModel()
+        public BoardPageViewModel(string email)
         {
             chosenBoard = new(CHOSENBOARD_X, CHOSENBOARD_Y, CHOSENBOARD_WIDTH, CHOSENBOARD_HEIGHT, "Insert your chosen boardId", "Vissible");
             submit = new(SUBMIT_X, SUBMIT_Y, "Submit", "vissible");
             this.email = email;
-            SetBoardTable();
-            AddBoards();
-        }
-
-        public void setEmail(string email)
-        {
-            this.email = email;
-        }
-
-        public void SetBoardTable()
-        {
-            string[] columnNames = { "BoardId", "BoardName", "Owner", "Joined", "BackLog", "InProgress", "Done" };
-            try
-            {
-                LinkedList<Model.Board> boardList = boardController.GetBoards(email);
-                boardTable = new(BOARDTABLE_X, BOARDTABLE_Y, BOARDTABLE_WIDTH, BOARDTABLE_HEIGHT, boardList.Count, columnNames);
-            }
-            catch(ArgumentException ex)
-            {
-                //message = ex.Message;
-                RaisePropertyChanged("Message");
-            }
+            BoardList = boardController.GetBoards(email);
+            BoardList.CollectionChanged += HandleChange;
         }
 
         public void AddBoards()
         {
             if(boardTable!= null)
             {
-                LinkedList<Model.Board> boardList = boardController.GetBoards(email);
-                int counter = 0;
-                foreach(Model.Board board in boardList)
-                {
-                    boardTable.SetValue(counter,0,board.Id);
-                    boardTable.SetValue(counter, 1, board.Title);
-                    boardTable.SetValue(counter, 2, board.Owner);
-                    boardTable.SetValue(counter, 3, board.Joined);
-                    boardTable.SetValue(counter, 4, board.BackLog);
-                    boardTable.SetValue(counter, 5, board.InProgress);
-                    boardTable.SetValue(counter, 5, board.Done);
-                    counter++;
-                }
+                ObservableCollection<Model.Board> boardList = boardController.GetBoards(email);
+                //int counter = 0;
+                //foreach(Model.Board board in boardList)
+                //{
+                //    boardTable.SetValue(counter,0,board.Id);
+                //    boardTable.SetValue(counter, 1, board.Title);
+                //    boardTable.SetValue(counter, 2, board.Owner);
+                //    boardTable.SetValue(counter, 3, board.Joined);
+                //    boardTable.SetValue(counter, 4, board.BackLog);
+                //    boardTable.SetValue(counter, 5, board.InProgress);
+                //    boardTable.SetValue(counter, 5, board.Done);
+                //    counter++;
+                //}
             }
         }
 
@@ -95,27 +84,24 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             }
         }
 
-        
-
-
-        //public string Message
-        //{
-        //    get => message;
-        //    set
-        //    {
-        //        this.message = value;
-        //        RaisePropertyChanged("Message");
-        //    }
-        //}
-
-
-
-
-
-
-
-
-
+        public int Submit_Click()
+        {
+            if(chosenBoard.FirstClick == false && chosenBoard.Text!= null)
+            {
+                string text = chosenBoard.Text;
+                int numericValue;
+                if(int.TryParse(text, out numericValue))
+                {
+                    int number = Int32.Parse(text);
+                    if(number >= 0 && number <= rows)
+                    {
+                        return number;
+                                                
+                    }
+                }
+            }
+            return -1;
+        }
 
 
     }

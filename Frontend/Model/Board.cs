@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace IntroSE.Kanban.Frontend.Model
         public int InProgressLimit { set; get; }
         public int DoneLimit { set; get; }
         public int TaskIDCounter { set; get; }
+
 
     }
 }
