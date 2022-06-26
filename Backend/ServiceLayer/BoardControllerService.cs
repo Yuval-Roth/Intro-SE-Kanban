@@ -260,7 +260,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                Response<Board> res = new(true, boardController.SearchBoard(email, id));
+                Response<Board.BoardSerializable> res = new(true, boardController.SearchBoard(email, id).GetSerializableInstance());
                 return JsonEncoder.ConvertToJson(res);
             }
             catch (NoSuchElementException ex)

@@ -9,18 +9,10 @@ namespace IntroSE.Kanban.Frontend.Model
 {
     public class Board
     {
-        public int Id { set; get; }
-        public string Title { set; get; }
-        public string Owner { set; get; }
-        public LinkedList<string> Joined { set; get; }
-        public LinkedList<Task> BackLog { set; get; }
-        public LinkedList<Task> InProgress { set; get; }
-        public LinkedList<Task> Done { set; get; }
-        public int BackLogLimit { set; get; }
-        public int InProgressLimit { set; get; }
-        public int DoneLimit { set; get; }
-        public int TaskIDCounter { set; get; }
-
-
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Owner { get; set; }
+        public LinkedList<string> Joined { get; set; }
+        public LinkedList<Task>[] Columns { get; set; }
     }
 }

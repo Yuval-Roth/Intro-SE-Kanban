@@ -82,8 +82,11 @@ namespace IntroSE.Kanban.Frontend.View
             gs.AddTask(email, boardName1, title1, desc1, due1);
             gs.AddTask(email, boardName1, title2, desc2, due2);
             gs.AddTask(email, boardName1, title3, desc3, due3);
+            gs.AssignTask(email, boardName1, 0, 0, email);
+            gs.AssignTask(email, boardName1, 0, 1, email);
+            gs.AssignTask(email, boardName1, 0, 2, email);
             gs.AdvanceTask(email, boardName1, 0, 0);
-            gs.AdvanceTask(email, boardName1, 0, 0);
+            gs.AdvanceTask(email, boardName1, 1, 0);
             gs.AdvanceTask(email, boardName1, 0, 1);
             CIString boardName2 = "board2";
             gs.AddBoard(email, boardName2);
