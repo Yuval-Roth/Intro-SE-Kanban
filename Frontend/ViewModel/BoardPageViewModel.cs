@@ -33,6 +33,8 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         public TextBox ChosenBoard => chosenBoard;
         //public GridView BoardTable => boardTable;
 
+        
+
         public Button Submit => submit;
         
         private Model.BoardController boardController = new Model.BoardController();
