@@ -52,7 +52,7 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             submit = new(SUBMIT_X, SUBMIT_Y, "Submit", "vissible");
             this.email = email;
             BoardList = boardController.GetBoards(email);
-            BoardList.CollectionChanged += HandleChange;
+            //BoardList.CollectionChanged += HandleChange;
         }
 
         public void AddBoards()
