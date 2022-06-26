@@ -382,27 +382,30 @@ namespace IntroSE.Kanban.selfTesting
         {
             GradingService gs = new();
             gs.DeleteData();
-            CIString email = "mail@mail.com";
+            string email = "mail@mail.com";
             string password = "Password1";
             gs.Register(email, password);
-            CIString boardName1 = "board1";
+            string boardName1 = "board1";
             gs.AddBoard(email, boardName1);
-            CIString title1 = "Make an appointment";
-            CIString desc1 = "With the mannager";
+            string title1 = "Make an appointment";
+            string desc1 = "With the mannager";
             DateTime due1 = new DateTime(2023, 06, 15);
-            CIString title2 = "Publish the scedual";
-            CIString desc2 = "must be quickly";
+            string title2 = "Publish the scedual";
+            string desc2 = "must be quickly";
             DateTime due2 = new DateTime(2023, 06, 15);
-            CIString title3 = "Send holidy gifts";
-            CIString desc3 = "Flowers";
+            string title3 = "Send holidy gifts";
+            string desc3 = "Flowers";
             DateTime due3 = new DateTime(2023, 06, 15);
             gs.AddTask(email, boardName1, title1, desc1, due1);
             gs.AddTask(email, boardName1, title2, desc2, due2);
             gs.AddTask(email, boardName1, title3, desc3, due3);
+            gs.AssignTask(email, boardName1, 0, 0, email);
+            gs.AssignTask(email, boardName1, 0, 1, email);
+            gs.AssignTask(email, boardName1, 0, 2, email);
             gs.AdvanceTask(email, boardName1, 0, 0);
-            gs.AdvanceTask(email, boardName1, 0, 0);
+            gs.AdvanceTask(email, boardName1, 1, 0);
             gs.AdvanceTask(email, boardName1, 0, 1);
-            CIString boardName2 = "board2";
+            string boardName2 = "board2";
             gs.AddBoard(email, boardName2);
 
 

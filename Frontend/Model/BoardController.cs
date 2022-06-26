@@ -14,10 +14,13 @@ namespace IntroSE.Kanban.Frontend.Model
     public class BoardController
     {
         BoardControllerService bcs;
-
+        GradingService gs;
 
         public BoardController()
         {
+            gs = new();
+            gs.LoadData();
+            gs.Login("mail@mail.com", "Password1");
             bcs = ServiceLayerFactory.GetInstance().BoardControllerService;
         }
 
@@ -35,9 +38,9 @@ namespace IntroSE.Kanban.Frontend.Model
                     {
                         Board board = JsonEncoder.BuildFromJson<Response<Board>>(Json2).returnValue;
                         output.Add(board);
-                        return output;
                     }  
                 }
+                        return output;
             }
             throw new ArgumentException("the user has no boards");             
         }
