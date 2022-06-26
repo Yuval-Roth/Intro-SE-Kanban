@@ -81,10 +81,7 @@ namespace IntroSE.Kanban.Frontend.ViewModel
                     int number = int.Parse(text);
                     if (number >= 0 && number <= BoardList.Count-1)
                     {
-                        ErrorMessage.Content = "yessss";
-                        errorMessage.Show();
                         return number;
-
                     }
                 }
             }
