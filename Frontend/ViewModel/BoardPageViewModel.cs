@@ -42,6 +42,8 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             chosenBoard = new(CHOSENBOARD_X, CHOSENBOARD_Y, CHOSENBOARD_WIDTH, CHOSENBOARD_HEIGHT, "Insert your chosen boardId", "Vissible");
             submit = new(SUBMIT_X, SUBMIT_Y, "Submit", "vissible");
             this.email = email;
+            SetBoardTable();
+            AddBoards();
         }
 
         public void setEmail(string email)
