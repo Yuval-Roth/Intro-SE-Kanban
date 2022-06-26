@@ -25,9 +25,9 @@ namespace IntroSE.Kanban.Frontend.View
         private BoardPageViewModel VM;
         public BoardPage()
         {
+            InitializeComponent();
             VM = new BoardPageViewModel();
             DataContext = VM;
-            InitializeComponent();
         }
 
         private void Submit_Click(object sender, RoutedEventArgs e)
@@ -56,9 +56,12 @@ namespace IntroSE.Kanban.Frontend.View
         {
             LandingPage landingPage = new LandingPage();
             landingPage.Show();
-            this.Close();
+            Close();
         }
-
+        public void Initialize(string email)
+        {
+            VM.Initialize(email);
+        }
         
     }
 }

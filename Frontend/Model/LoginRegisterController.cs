@@ -14,6 +14,8 @@ namespace IntroSE.Kanban.Frontend.Model
 
         public LoginRegisterController()
         {
+            GradingService gs = new();
+            gs.LoadData();
             userService = ServiceLayerFactory.GetInstance().UserService;
         }
         public Response<string> Login(string email, string password)

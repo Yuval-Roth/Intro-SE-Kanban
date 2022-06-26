@@ -46,8 +46,13 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             chosenBoard = new(CHOSENBOARD_X, CHOSENBOARD_Y, CHOSENBOARD_WIDTH, CHOSENBOARD_HEIGHT, "Insert your chosen boardId", true);
             submit = new(SUBMIT_X, SUBMIT_Y, "Submit", true);
             email = "mail@mail.com"/*email*/;
+        }
+
+        public void Initialize(string email)
+        {
+            this.email = email;
             BoardList = boardController.GetBoards(email);
-            //BoardList.CollectionChanged += HandleChange;
+            RaisePropertyChanged("BoardList");
         }
 
         public void AddBoards()
