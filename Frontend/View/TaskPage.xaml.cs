@@ -15,10 +15,10 @@ using IntroSE.Kanban.Frontend.ViewModel;
 
 namespace IntroSE.Kanban.Frontend.View
 {
-    public partial class Task : Window
+    public partial class TaskPage : Window
     {
         private TaskViewModel VM;
-        public Task()
+        public TaskPage()
         {
             InitializeComponent();
             VM = new TaskViewModel();

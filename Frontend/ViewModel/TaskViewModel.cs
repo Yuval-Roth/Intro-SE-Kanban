@@ -11,44 +11,39 @@ namespace IntroSE.Kanban.Frontend.ViewModel
     {
 
         private Button backButton;
-        private string email = "";
-        private string password = "";
-        private bool LoginOrRegisterScreen = true;
+        private string email;
+        private int boardId;
 
         public TaskViewModel()
         {
             backButton = new(306, 205, "Back", "Visible");
+            this.email = "";
+            this.boardId = 0;
         }
 
 
         public void ReturnClick()
         {
-            if (LoginOrRegisterScreen)
-            {
-                LoginOrRegisterScreen = false;
-            }
-            else
-            {
 
-            }
         }
         public string Email
         {
             set
             {
-                email = value;
+                this.email = value;
                 RaisePropertyChanged("Email");
             }
             get { return email; }
         }
-        public string Password
+
+        public int BoardId
         {
             set
             {
-                password = value;
-                RaisePropertyChanged("Password");
+                this.boardId = value;
+                RaisePropertyChanged("BoardId");
             }
-            get { return password; }
+            get { return boardId; }
         }
 
         public Button BackButton => backButton;
