@@ -32,12 +32,12 @@ namespace IntroSE.Kanban.Frontend.View
 
         private void Submit_Click(object sender, RoutedEventArgs e)
         {
-            int output = VM.Submit_Click();
-            if(output != -1)
-            {
-                //move to kfir's window with string
-            }
-
+            //int output = VM.Submit_Click();
+            //if(output != -1)
+            //{
+            //    //move to kfir's window with string
+            //}
+            VM.Submit_Click();
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)

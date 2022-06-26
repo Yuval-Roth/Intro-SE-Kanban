@@ -10,10 +10,7 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 {
     public class BoardPageViewModel : Notifier
     {
-        //private int BOARDTABLE_X = 10;
-        //private int BOARDTABLE_Y = 10;
-        //private int BOARDTABLE_WIDTH = 10;
-        //private int BOARDTABLE_HEIGHT = 129;
+
 
         private int CHOSENBOARD_X = 444;
         private int CHOSENBOARD_Y = 605;
@@ -23,8 +20,12 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         private int SUBMIT_X = 662;
         private int SUBMIT_Y = 605;
 
+        private int LABEL_X = 336;
+        private int LABEL_Y = 654;
+
         private TextBox chosenBoard;
         private Button submit;
+        private Label errorMessage;
 
         public string BoardName { get; set; }
         public int BoardID { get; set; }
@@ -32,10 +33,9 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         public ObservableCollection<Model.Board> BoardList { get; set; }
 
         public TextBox ChosenBoard => chosenBoard;
-
-        
-
         public Button Submit => submit;
+
+        public Label ErrorMessage => errorMessage;
         
         private Model.BoardController boardController = new Model.BoardController();
 
@@ -45,6 +45,7 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         {
             chosenBoard = new(CHOSENBOARD_X, CHOSENBOARD_Y, CHOSENBOARD_WIDTH, CHOSENBOARD_HEIGHT, "Insert your chosen boardId", true);
             submit = new(SUBMIT_X, SUBMIT_Y, "Submit", true);
+            errorMessage = new(LABEL_X, LABEL_Y, false);
             email = "mail@mail.com"/*email*/;
         }
 
@@ -52,6 +53,11 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         {
             this.email = email;
             BoardList = boardController.GetBoards(email);
+            if(BoardList == null)
+            {
+                ErrorMessage.Content = "The user has no boards";
+                errorMessage.Show();
+            }
             RaisePropertyChanged("BoardList");
         }
 
@@ -70,17 +76,20 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             if (chosenBoard.FirstClick == false && chosenBoard.Content != null)
             {
                 string text = chosenBoard.Content;
-                int numericValue;
-                if (int.TryParse(text, out numericValue))
+                if (int.TryParse(text, out _))
                 {
-                    int number = Int32.Parse(text);
-                    if (number >= 0 && number <= BoardList.Count())
+                    int number = int.Parse(text);
+                    if (number >= 0 && number <= BoardList.Count-1)
                     {
+                        ErrorMessage.Content = "yessss";
+                        errorMessage.Show();
                         return number;
 
                     }
                 }
             }
+            ErrorMessage.Content = "You must enter an exsisting board Id";
+            errorMessage.Show();
             return -1;
         }
     }
