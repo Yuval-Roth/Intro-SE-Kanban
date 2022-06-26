@@ -25,21 +25,19 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 
         private TextBox chosenBoard;
         private Button submit;
+
         public string BoardName { get; set; }
         public int BoardID { get; set; }
 
         public ObservableCollection<Model.Board> BoardList { get; set; }
 
         public TextBox ChosenBoard => chosenBoard;
-        //public GridView BoardTable => boardTable;
 
         
 
         public Button Submit => submit;
         
         private Model.BoardController boardController = new Model.BoardController();
-
-        //private string message;
 
         private string email;
 
@@ -57,10 +55,6 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             RaisePropertyChanged("BoardList");
         }
 
-        public void AddBoards()
-        {
-
-        }
 
         public void ChosenBoard_Click()
         {
@@ -73,22 +67,21 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 
         public int Submit_Click()
         {
-            //if(chosenBoard.FirstClick == false && chosenBoard.Content != null)
-            //{
-            //    string text = chosenBoard.Content;
-            //    int numericValue;
-            //    if(int.TryParse(text, out numericValue))
-            //    {
-            //        int number = Int32.Parse(text);
-            //        if(number >= 0 && number <= rows)
-            //        {
-            //            return number;
+            if (chosenBoard.FirstClick == false && chosenBoard.Content != null)
+            {
+                string text = chosenBoard.Content;
+                int numericValue;
+                if (int.TryParse(text, out numericValue))
+                {
+                    int number = Int32.Parse(text);
+                    if (number >= 0 && number <= BoardList.Count())
+                    {
+                        return number;
 
-            //        }
-            //    }
-            //}
-            //return -1;
-            return 0;
+                    }
+                }
+            }
+            return -1;
         }
     }
 }
