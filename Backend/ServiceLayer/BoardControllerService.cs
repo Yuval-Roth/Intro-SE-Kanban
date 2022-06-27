@@ -100,8 +100,8 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
             }
             try
             {
-                Board board = boardController.SearchBoard(email, boardId);
-                Response<Board> res = new(true, board);
+                Board.BoardSerializable board = boardController.SearchBoard(email, boardId).GetSerializableInstance();
+                Response<Board.BoardSerializable> res = new(true, board);
                 return JsonEncoder.ConvertToJson(res);
             }
             catch (ElementAlreadyExistsException ex)

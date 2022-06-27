@@ -33,7 +33,6 @@ namespace IntroSE.Kanban.Frontend.View
         {
             if (VM.LoginClick())
             {
-                // TO DO: Login successful
                 BoardPage BP = new();
                 BP.Initialize(EmailBox.Text);
                 BP.Show();
@@ -45,8 +44,10 @@ namespace IntroSE.Kanban.Frontend.View
         {
             if (VM.RegisterClick())
             {
-                // TO DO: Registration successful
-
+                BoardPage BP = new();
+                BP.Initialize(EmailBox.Text);
+                BP.Show();
+                Close();
             }
 
         }

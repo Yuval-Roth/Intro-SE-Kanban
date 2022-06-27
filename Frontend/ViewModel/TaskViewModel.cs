@@ -16,7 +16,6 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 
         private Button backButton;
         private string email;
-        private int boardId;
         private Board board;
         private BoardController boardController;
 
@@ -24,7 +23,6 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         {
             backButton = new(306, 205, "Back");
             boardController = new BoardController();
-            board = boardController.SearchBoard(email, boardId);
         }
 
         public Button BackButton => backButton;
