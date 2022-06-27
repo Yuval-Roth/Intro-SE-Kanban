@@ -16,9 +16,9 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         private Model.Board board;
         private Model.BoardController boardController;
 
-        public TaskViewModel(string email, int boardId)
+        public TaskViewModel(/*string email, int boardId*/)
         {
-            backButton = new(306, 205, "Back", "Visible");
+            backButton = new(306, 205, "Back");
             this.email = email;
             this.boardId = boardId;
             boardController = new Model.BoardController();

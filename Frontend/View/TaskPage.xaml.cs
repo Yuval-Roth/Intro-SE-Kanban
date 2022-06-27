@@ -18,16 +18,16 @@ namespace IntroSE.Kanban.Frontend.View
     public partial class TaskPage : Window
     {
         private TaskViewModel VM;
-        public TaskPage(string email, int boardId)
+        public TaskPage(/*string email, int boardId*/)
         {
             InitializeComponent();
-            VM = new TaskViewModel(email, boardId);
+            VM = new TaskViewModel(/*email, boardId*/);
             DataContext = VM;
         }
 
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
-            BoardPage boardPage = new BoardPage(VM.Email);
+            BoardPage boardPage = new BoardPage(/*VM.Email*/);
             boardPage.Show();
             this.Close();
         }
