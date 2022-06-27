@@ -10,8 +10,15 @@ namespace IntroSE.Kanban.Frontend.Model
 {
     public class Board : ViewModel.Notifier
     {
-        public int Id { set; get; }
-        public string Title { set; get; }
+
+        ObservableCollection<Task>[] columns;
+
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Owner { get; set; }
+        public LinkedList<string> Joined { get; set; }
+        public LinkedList<Task>[] Columns { get; set; }
+
         public ObservableCollection<Task> BackLog
         {
             get
@@ -69,10 +76,6 @@ namespace IntroSE.Kanban.Frontend.Model
             return output;
         }
 
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Owner { get; set; }
-        public LinkedList<string> Joined { get; set; }
-        public LinkedList<Task>[] Columns { get; set; }
+        
     }
 }
