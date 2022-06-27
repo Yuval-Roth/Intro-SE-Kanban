@@ -6,16 +6,85 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Frontend.Model
 {
-    public class Task
+    public class Task : ViewModel.Notifier
     {
-        public int BoardId { get; set; }
-        public int Id { set; get; }
-        public string Title { set; get; }
-        public string Description { set; get; }
-        public DateTime CreationTime { set; get; }
-        public DateTime DueDate { set; get; }
-        public BoardColumnsNames State { set; get; }
-        public string Assignee { set; get; }
+        public int Id {
+            get
+            {
+                return Id;
+            }
+            set
+            {
+                this.Id = value;
+                RaisePropertyChanged("Id");
+            }
+        }
+        public string Title {
+            get
+            {
+                return Title;
+            }
+            set
+            {
+                this.Title = value;
+                RaisePropertyChanged("Title");
+            }
+        }
+        public string Description {
+            get
+            {
+                return Title;
+            }
+            set
+            {
+                this.Title = value;
+                RaisePropertyChanged("Title");
+            }
+        }
+        public DateTime CreationTime {
+            get
+            {
+                return CreationTime;
+            }
+            set
+            {
+                this.CreationTime = value;
+                RaisePropertyChanged("CreationTime");
+            }
+        }
+        public DateTime DueDate {
+            get
+            {
+                return DueDate;
+            }
+            set
+            {
+                this.DueDate = value;
+                RaisePropertyChanged("DueDate");
+            }
+        }
+        public string Assignee {
+            get
+            {
+                return Assignee;
+            }
+            set
+            {
+                this.Assignee = value;
+                RaisePropertyChanged("Assignee");
+            }
+        }
+
+        public Task(Backend.BusinessLayer.Task bTask)
+        {
+            Id = bTask.Id;
+            Title = bTask.Title;
+            Description = bTask.Description;
+            CreationTime = bTask.CreationTime;
+            DueDate = bTask.DueDate;
+            Assignee = bTask.Assignee;
+        }
+
     }
 
 

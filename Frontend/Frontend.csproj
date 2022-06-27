@@ -11,7 +11,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Model\NotifiableModelObject.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="View\Your-Introduction-to-Kanban.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Backend\Backend.csproj" />
   </ItemGroup>
 
   <ItemGroup>

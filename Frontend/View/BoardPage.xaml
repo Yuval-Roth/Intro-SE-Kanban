@@ -5,26 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ViewModel="clr-namespace:IntroSE.Kanban.Frontend.ViewModel" x:Class="IntroSE.Kanban.Frontend.View.BoardPage"
         mc:Ignorable="d"
-        Title="BoardPage" Height="450" Width="800">
+        Title="BoardPage"
+        Height="{x:Static SystemParameters.PrimaryScreenHeight}"
+        Width="{x:Static SystemParameters.PrimaryScreenWidth}"
+        MinHeight="720" MinWidth="1280"
+        SizeChanged="Window_SizeChanged"
+        WindowState="Maximized"
+    >
     <Window.DataContext>
         <ViewModel:BoardPageViewModel/>
     </Window.DataContext>
-    <Grid>
-        <ListView Margin="10,10,10,65" Name="BoardTable">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="BoardId" Width="80" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Header="BoardName" Width="100" DisplayMemberBinding="{Binding Age}" />
-                    <GridViewColumn Header="Owner" Width="100" DisplayMemberBinding="{Binding Mail}" />
-                    <GridViewColumn Header="Joined" Width="100" DisplayMemberBinding="{Binding Mail}" />
-                    <GridViewColumn Header="BackLog" Width="80" DisplayMemberBinding="{Binding Mail}" />
-                    <GridViewColumn Header="InProgress" Width="80" DisplayMemberBinding="{Binding Mail}" />
-                    <GridViewColumn Header="Done" Width="80" DisplayMemberBinding="{Binding Mail}" />
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <TextBox Name="ChosenBoard" TextWrapping="Wrap" Text="Chosen Board" Margin="333,374,383,21"/>
-        <Label Name="ChooseYourBoard" Content="Choose your board here" HorizontalAlignment="Left" Height="30" Margin="183,374,0,0" VerticalAlignment="Top" Width="145"/>
+    <Grid Margin="0,0,0,0">
+        <ListBox ItemsSource="{Binding BoardList}" Margin="134,58,146,298">
+            <ListBox.ItemTemplate>
+                <DataTemplate >
+                    <Border BorderBrush="#FF003CFF" BorderThickness="1" MinWidth="100">
+                        <StackPanel  Orientation="Vertical"  >
+                            <TextBox Text="{Binding Id}"  BorderBrush="{x:Null}"  />
+                            <TextBox Text="{Binding Title}" BorderBrush="{x:Null}" />
+                            <TextBox Text="{Binding Owner}" BorderBrush="{x:Null}" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBox x:Name="ChosenBoard" PreviewMouseDown="ChosenBoard_PreviewMouseDown" TextWrapping="Wrap" Text="{Binding ChosenBoard.Content}" Margin="{Binding ChosenBoard.Margin}" Height="40" Width="150"/>
+        <Label x:Name="ChooseYourBoard" Content="Choose your board here:" HorizontalAlignment="Left" Height="30" Margin="{Binding ChooseYourBoard.Margin}" VerticalAlignment="Top" Width="145"/>
+        <Button x:Name="Submit" Click="Submit_Click" Content="Submit" Width="100" Height="45" Margin="{Binding Submit.Margin}"/>
+        <Button x:Name="LogOut" Click="LogOut_Click"  Content="LogOut" HorizontalAlignment="Left" Margin="{Binding Logout.Margin}" VerticalAlignment="Top" Height="44" Width="97"/>
+        <Label x:Name="ErrorMessage" Content="{Binding ErrorMessage.Content}"  Visibility="Visible" Width="300" Height="30"  FontFamily="Calibri Light" Foreground="Red" Margin="{Binding ErrorMessage.Margin}"/>
+
+
 
     </Grid>
 

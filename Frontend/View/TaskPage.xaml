@@ -1,0 +1,25 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IntroSE.Kanban.Frontend.View"
+        xmlns:ViewModel="clr-namespace:IntroSE.Kanban.Frontend.ViewModel" x:Class="IntroSE.Kanban.Frontend.View.TaskPage"
+        mc:Ignorable="d"
+        Title="TaskPage" Height="449" Width="619">
+    <Window.DataContext>
+        <ViewModel:TaskViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Label Content="BackLog" Grid.Row="0" HorizontalAlignment="Center" FontWeight="Bold" FontSize="18" />
+        <Label Content="InProgress" Grid.Column="1" HorizontalAlignment="Center" FontWeight="Bold" FontSize="18" />
+        <Label Content="Done" Grid.Column="2" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" />
+        <Button x:Name="BackButton" Click="ReturnButton_Click" Content="{Binding BackButton.Content}" HorizontalAlignment="Center" Height="46" VerticalAlignment="Bottom" Width="188" FontFamily="Comic Sans MS" FontStyle="Normal" Background="#FFD0AD6C" Grid.Column="0" Margin="0,62,0,0"/>
+
+    </Grid>
+</Window>

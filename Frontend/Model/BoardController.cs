@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using IntroSE.Kanban.Backend.ServiceLayer;
 using System.Text.Json;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace IntroSE.Kanban.Frontend.Model
 {
@@ -12,32 +14,42 @@ namespace IntroSE.Kanban.Frontend.Model
     public class BoardController
     {
         BoardControllerService bcs;
-
+        GradingService gs;
 
         public BoardController()
         {
+            gs = new();
+            gs.LoadData();
+            gs.Login("mail@mail.com", "Password1");
             bcs = ServiceLayerFactory.GetInstance().BoardControllerService;
         }
 
-        public LinkedList<Board> GetBoards(string email)
+        public ObservableCollection<Board> GetBoards(string email)
         {
             string Json = bcs.GetUserBoards(email);
             if(GetOperationState(Json) == true)
             {
                 LinkedList<int> boards = JsonEncoder.BuildFromJson<Response<LinkedList<int>>>(Json).returnValue;
-                LinkedList<Board> output = new LinkedList<Board>();
+                ObservableCollection<Board> output = new ObservableCollection<Board>();
                 foreach (int id in boards)
                 {
                     string Json2 = bcs.GetBoardById(email, id);
                     if(GetOperationState(Json2) == true)
                     {
                         Board board = JsonEncoder.BuildFromJson<Response<Board>>(Json2).returnValue;
-                        output.AddLast(board);
-                        return output;
+                        output.Add(board);
                     }  
                 }
+                        return output;
             }
             throw new ArgumentException("the user has no boards");             
+        }
+
+        public Backend.BusinessLayer.Board SearchBoard(string email, int boardId)
+        {
+            string Json = bcs.SearchBoard(email, boardId);
+            Backend.BusinessLayer.Board board = JsonEncoder.BuildFromJson<Response<Backend.BusinessLayer.Board>>(Json).returnValue;
+            return board;
         }
 
         private static bool GetOperationState(string json)

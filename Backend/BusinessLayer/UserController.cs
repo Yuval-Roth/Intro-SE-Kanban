@@ -79,8 +79,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             catch (ElementAlreadyExistsException)
             {
                 log.Error("Register() failed: '" + email + "' already exist in the system");
-                throw new ArgumentException("A user whith that " + email +
-                    " already exist in the system");
+                throw new ArgumentException("Email is already in use");
             }
             catch (ArgumentException)
             {
