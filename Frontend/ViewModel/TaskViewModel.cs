@@ -1,4 +1,7 @@
-﻿using System;
+﻿using IntroSE.Kanban.Frontend.Model;
+using IntroSE.Kanban.Frontend.Utilities;
+using IntroSE.Kanban.Frontend.ViewModel.UIElements;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -13,38 +16,46 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         private Button backButton;
         private string email;
         private int boardId;
-        private Model.Board board;
-        private Model.BoardController boardController;
+        private Board board;
+        private BoardController boardController;
 
         public TaskViewModel(/*string email, int boardId*/)
         {
             backButton = new(306, 205, "Back");
-            this.email = email;
-            this.boardId = boardId;
-            boardController = new Model.BoardController();
-            board = new (boardController.SearchBoard(email, boardId));
-        }
-
-        public string Email
-        {
-            set
-            {
-                this.email = value;
-                RaisePropertyChanged("Email");
-            }
-            get { return email; }
-        }
-
-        public int BoardId
-        {
-            set
-            {
-                this.boardId = value;
-                RaisePropertyChanged("BoardId");
-            }
-            get { return boardId; }
+            boardController = new BoardController();
+            board = boardController.SearchBoard(email, boardId);
         }
 
         public Button BackButton => backButton;
+        public Board Board => board;
+
+
+        public void Initialize(string email, int boardId)
+        {
+            this.email = email;
+            board = boardController.SearchBoard(email,boardId);
+            RaisePropertyChanged("Board");
+        }
+
+        //public string Email
+        //{
+        //    set
+        //    {
+        //        this.email = value;
+        //        RaisePropertyChanged("Email");
+        //    }
+        //    get { return email; }
+        //}
+
+        //public int BoardId
+        //{
+        //    set
+        //    {
+        //        this.boardId = value;
+        //        RaisePropertyChanged("BoardId");
+        //    }
+        //    get { return boardId; }
+        //}
+
     }
 }

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using IntroSE.Kanban.Frontend.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntroSE.Kanban.Frontend.ViewModel
+namespace IntroSE.Kanban.Frontend.ViewModel.UIElements
 {
     public class UIElement : Notifier
     {
@@ -28,7 +29,7 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         public UIElement(int x, int y, int width, int height, string content) : this(x, y, width, height, content, true) { }
         public UIElement(int x, int y, int width, int height, bool visible) : this(x, y, width, height, "", visible) { }
         public UIElement(int x, int y, int width, int height) : this(x, y, width, height, "", true) { }
-        public UIElement(int x, int y, string content, bool Visible) : this(x,y,0,0,content,Visible) { }
+        public UIElement(int x, int y, string content, bool Visible) : this(x, y, 0, 0, content, Visible) { }
         public UIElement(int x, int y, bool Visible) : this(x, y, 0, 0, "", Visible) { }
         public UIElement(int x, int y, string content) : this(x, y, 0, 0, content, true) { }
         public UIElement(int x, int y) : this(x, y, 0, 0, "", true) { }

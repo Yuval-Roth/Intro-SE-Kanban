@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using IntroSE.Kanban.Frontend.Model;
+using IntroSE.Kanban.Frontend.Utilities;
+using IntroSE.Kanban.Frontend.ViewModel.UIElements;
 
 namespace IntroSE.Kanban.Frontend.ViewModel
 {

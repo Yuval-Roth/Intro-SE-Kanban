@@ -7,6 +7,7 @@ using IntroSE.Kanban.Backend.ServiceLayer;
 using System.Text.Json;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using IntroSE.Kanban.Frontend.Utilities;
 
 namespace IntroSE.Kanban.Frontend.Model
 {
@@ -45,10 +46,10 @@ namespace IntroSE.Kanban.Frontend.Model
             throw new ArgumentException("the user has no boards");             
         }
 
-        public Backend.BusinessLayer.Board SearchBoard(string email, int boardId)
+        public Board SearchBoard(string email, int boardId)
         {
             string Json = bcs.SearchBoard(email, boardId);
-            Backend.BusinessLayer.Board board = JsonEncoder.BuildFromJson<Response<Backend.BusinessLayer.Board>>(Json).returnValue;
+            Board board = JsonEncoder.BuildFromJson<Response<Board>>(Json).returnValue;
             return board;
         }
 

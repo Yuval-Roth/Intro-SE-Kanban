@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using IntroSE.Kanban.Frontend.ViewModel.UIElements;
+using IntroSE.Kanban.Frontend.Utilities;
 
 namespace IntroSE.Kanban.Frontend.ViewModel
 {

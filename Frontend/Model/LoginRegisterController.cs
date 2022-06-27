@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IntroSE.Kanban.Backend.ServiceLayer;
+using IntroSE.Kanban.Frontend.Utilities;
 
 namespace IntroSE.Kanban.Frontend.Model
 {

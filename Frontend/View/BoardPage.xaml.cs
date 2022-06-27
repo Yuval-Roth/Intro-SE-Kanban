@@ -22,6 +22,7 @@ namespace IntroSE.Kanban.Frontend.View
     /// </summary>
     public partial class BoardPage : Window
     {
+        private string currentUser;
         private BoardPageViewModel VM;
         public BoardPage()
         {
@@ -60,7 +61,8 @@ namespace IntroSE.Kanban.Frontend.View
         }
         public void Initialize(string email)
         {
-            VM.Initialize(email);
+            currentUser = email;
+            VM.Initialize(currentUser);
         }
         
     }

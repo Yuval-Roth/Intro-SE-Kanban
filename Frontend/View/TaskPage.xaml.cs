@@ -17,6 +17,8 @@ namespace IntroSE.Kanban.Frontend.View
 {
     public partial class TaskPage : Window
     {
+
+        private string currentUser;
         private TaskViewModel VM;
         public TaskPage(/*string email, int boardId*/)
         {
@@ -27,9 +29,14 @@ namespace IntroSE.Kanban.Frontend.View
 
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
-            BoardPage boardPage = new BoardPage(/*VM.Email*/);
+            BoardPage boardPage = new BoardPage();
             boardPage.Show();
             this.Close();
+        }
+        public void Initialize(string email)
+        {
+            currentUser = email;
+            VM.Initialize(currentUser);
         }
     }
 }

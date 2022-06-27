@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntroSE.Kanban.Frontend.ViewModel
+namespace IntroSE.Kanban.Frontend.ViewModel.UIElements
 {
     public class TextBox : UIElement
     {

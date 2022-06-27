@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 
 #nullable enable
-namespace IntroSE.Kanban.Frontend.Model
+namespace IntroSE.Kanban.Frontend.Utilities
 {
 
     [Serializable]
@@ -21,6 +21,6 @@ namespace IntroSE.Kanban.Frontend.Model
             this.returnValue = returnValue;
         }
     }
-    
+
 
 }

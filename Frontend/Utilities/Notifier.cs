@@ -6,16 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntroSE.Kanban.Frontend.ViewModel
+namespace IntroSE.Kanban.Frontend.Utilities
 {
     public class Notifier : INotifyPropertyChanged, INotifyCollectionChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
-        public void RaiseCollectionChanged(NotifyCollectionChangedAction action ,object? item)
+        public void RaiseCollectionChanged(NotifyCollectionChangedAction action, object? item)
         {
-            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action,item));
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action, item));
         }
 
         public void RaisePropertyChanged(string property)
