@@ -4,12 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IntroSE.Kanban.Backend.ServiceLayer;
-using System.Text.Json;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using IntroSE.Kanban.Frontend.Utilities;
 using IntroSE.Kanban.Frontend.Model.DataClasses;
-using IntroSE.Kanban.Backend.ServiceLayer.Deprecated;
 
 namespace IntroSE.Kanban.Frontend.Model
 {
@@ -17,12 +13,9 @@ namespace IntroSE.Kanban.Frontend.Model
     public class BoardController
     {
         BoardControllerService bcs;
-        GradingService gs;
 
         public BoardController()
         {
-            gs = new();
-            gs.LoadData();
             bcs = ServiceLayerFactory.GetInstance().BoardControllerService;
         }
 
