@@ -10,7 +10,6 @@
         Height="{x:Static SystemParameters.PrimaryScreenHeight}"
         Width="{x:Static SystemParameters.PrimaryScreenWidth}"
         MinHeight="720" MinWidth="1280"
-        SizeChanged="Window_SizeChanged"
         WindowState="Maximized" 
     >
     <Window.DataContext>
@@ -22,9 +21,54 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Label Content="BackLog" Grid.Row="0" HorizontalAlignment="Center" FontWeight="Bold" FontSize="18" />
-        <Label Content="InProgress" Grid.Column="1" HorizontalAlignment="Center" FontWeight="Bold" FontSize="18" />
-        <Label Content="Done" Grid.Column="2" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" />
+        <Label Content="BackLog" Grid.Column="0" HorizontalAlignment="Center" FontWeight="Bold" FontSize="18" Margin="0,118,0,693" />
+        <Label Content="InProgress" Grid.Column="1" HorizontalAlignment="Center" FontWeight="Bold" FontSize="18" Margin="0,112,0,699" />
+        <Label Content="Done" Grid.Column="2" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" Margin="0,112,0,699" />
+        <ListBox Grid.Column="0" ItemsSource="{Binding Board.Columns[0]}" Margin="140,204,140,122">
+            <ListBox.ItemTemplate>
+                <DataTemplate >
+                    <Border BorderBrush="#FF003CFF" BorderThickness="1" MinWidth="100">
+                        <StackPanel  Orientation="Vertical"  >
+                            <TextBox Text="{Binding Id}"  BorderBrush="{x:Null}"  />
+                            <TextBox Text="{Binding Title}"  BorderBrush="{x:Null}"  />
+                            <TextBox Text="{Binding CreationTime}"  BorderBrush="{x:Null}"  />
+                            <TextBox Text="{Binding Description}"  BorderBrush="{x:Null}"  />
+                            <TextBox Text="{Binding DueDate}"  BorderBrush="{x:Null}"  />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox Grid.Column="1" ItemsSource="{Binding Board.Columns[1]}" Margin="140,0,140,122" Height="522" VerticalAlignment="Bottom">
+            <ListBox.ItemTemplate>
+                <DataTemplate >
+                    <Border BorderBrush="#FF003CFF" BorderThickness="1" MinWidth="100">
+                        <StackPanel  Orientation="Vertical"  >
+                            <TextBox Text="{Binding Id}"  BorderBrush="{x:Null}"  />
+                            <TextBox Text="{Binding Title}"  BorderBrush="{x:Null}"  />
+                            <TextBox Text="{Binding CreationTime}"  BorderBrush="{x:Null}"  />
+                            <TextBox Text="{Binding Description}"  BorderBrush="{x:Null}"  />
+                            <TextBox Text="{Binding DueDate}"  BorderBrush="{x:Null}"  />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox Grid.Column="2" ItemsSource="{Binding Board.Columns[2]}" Margin="140,204,140,122">
+            <ListBox.ItemTemplate>
+                <DataTemplate >
+                    <Border BorderBrush="#FF003CFF" BorderThickness="1" MinWidth="100">
+                        <StackPanel  Orientation="Vertical"  >
+                            <TextBox Text="{Binding Id}"  BorderBrush="{x:Null}"  />
+                            <TextBox Text="{Binding Title}"  BorderBrush="{x:Null}"  />
+                            <TextBox Text="{Binding CreationTime}"  BorderBrush="{x:Null}"  />
+                            <TextBox Text="{Binding Description}"  BorderBrush="{x:Null}"  />
+                            <TextBox Text="{Binding DueDate}"  BorderBrush="{x:Null}"  />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <Button x:Name="BackButton" Click="ReturnButton_Click" Content="{Binding BackButton.Content}" HorizontalAlignment="Center" Height="46" VerticalAlignment="Bottom" Width="188" FontFamily="Comic Sans MS" FontStyle="Normal" Background="#FFD0AD6C" Grid.Column="0" Margin="0,62,0,0"/>
 
     </Grid>
