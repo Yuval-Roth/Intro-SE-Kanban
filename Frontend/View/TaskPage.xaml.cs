@@ -20,23 +20,25 @@ namespace IntroSE.Kanban.Frontend.View
 
         private string currentUser;
         private TaskViewModel VM;
-        public TaskPage(/*string email, int boardId*/)
+
+        public TaskPage()
         {
             InitializeComponent();
-            VM = new TaskViewModel(/*email, boardId*/);
+            VM = new TaskViewModel();
             DataContext = VM;
         }
 
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
             BoardPage boardPage = new BoardPage();
+            boardPage.Initialize(currentUser);
             boardPage.Show();
-            this.Close();
+            Close();
         }
-        public void Initialize(string email)
+        public void Initialize(string email,int boardId)
         {
             currentUser = email;
-            VM.Initialize(currentUser);
+            VM.Initialize(currentUser,boardId);
         }
     }
 }

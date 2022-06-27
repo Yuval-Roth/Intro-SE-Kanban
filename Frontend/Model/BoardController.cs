@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using IntroSE.Kanban.Frontend.Utilities;
 using IntroSE.Kanban.Frontend.Model.DataClasses;
+using IntroSE.Kanban.Backend.ServiceLayer.Deprecated;
 
 namespace IntroSE.Kanban.Frontend.Model
 {
@@ -22,7 +23,6 @@ namespace IntroSE.Kanban.Frontend.Model
         {
             gs = new();
             gs.LoadData();
-            gs.Login("mail@mail.com", "Password1");
             bcs = ServiceLayerFactory.GetInstance().BoardControllerService;
         }
 
@@ -31,14 +31,14 @@ namespace IntroSE.Kanban.Frontend.Model
             string Json = bcs.GetUserBoards(email);
             if(GetOperationState(Json) == true)
             {
-                LinkedList<int> boards = JsonEncoder.BuildFromJson<Response<LinkedList<int>>>(Json).returnValue;
+                LinkedList<int> boards = Utilities.JsonEncoder.BuildFromJson<Utilities.Response<LinkedList<int>>>(Json).returnValue;
                 ObservableCollection<Board> output = new ObservableCollection<Board>();
                 foreach (int id in boards)
                 {
                     string Json2 = bcs.GetBoardById(email, id);
                     if(GetOperationState(Json2) == true)
                     {
-                        Board board = JsonEncoder.BuildFromJson<Response<Board>>(Json2).returnValue;
+                        Board board = Utilities.JsonEncoder.BuildFromJson<Utilities.Response<Board>>(Json2).returnValue;
                         output.Add(board);
                     }  
                 }
@@ -50,13 +50,13 @@ namespace IntroSE.Kanban.Frontend.Model
         public Board SearchBoard(string email, int boardId)
         {
             string Json = bcs.SearchBoard(email, boardId);
-            Board board = JsonEncoder.BuildFromJson<Response<Board>>(Json).returnValue;
+            Board board = Utilities.JsonEncoder.BuildFromJson<Utilities.Response<Board>>(Json).returnValue;
             return board;
         }
 
         private static bool GetOperationState(string json)
         {
-            Response<object> res = JsonEncoder.BuildFromJson<Response<object>>(json);
+            Utilities.Response<object> res = Utilities.JsonEncoder.BuildFromJson<Utilities.Response<object>>(json);
             return res.operationState;
         }
 

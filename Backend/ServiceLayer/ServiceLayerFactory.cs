@@ -24,9 +24,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         private BoardService boardService;
         private TaskService taskService;
         private UserService userService;
+        private BackendInitializer initializer;
 
         private ServiceLayerFactory() 
         {
+            initializer = new();
             BusinessLayer.BusinessLayerFactory BLFactory = BusinessLayer.BusinessLayerFactory.GetInstance();
             boardControllerService = new(BLFactory.BoardController);
             boardService = new(BLFactory.BoardController);
@@ -53,6 +55,11 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// Get the TaskService instance
         /// </summary>
         public UserService UserService => userService;
+
+        /// <summary>
+        /// Get the BackendInitializer instance
+        /// </summary>
+        public BackendInitializer BackendInitializer => initializer;
 
 
         /// <summary>

@@ -6,6 +6,7 @@ using IntroSE.Kanban.Backend.ServiceLayer;
 using IntroSE.Kanban.Backend.Utilities;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using IntroSE.Kanban.Backend.ServiceLayer.Deprecated;
 
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]
 
