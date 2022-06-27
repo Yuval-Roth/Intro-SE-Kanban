@@ -21,9 +21,9 @@
                 <DataTemplate >
                     <Border BorderBrush="#FF003CFF" BorderThickness="1" MinWidth="100">
                         <StackPanel  Orientation="Vertical"  >
-                            <TextBox Text="{Binding Id}"  BorderBrush="{x:Null}"  />
-                            <TextBox Text="{Binding Title}" BorderBrush="{x:Null}" />
-                            <TextBox Text="{Binding Owner}" BorderBrush="{x:Null}" />
+                            <TextBox Focusable="False" Text="{Binding Id}"  BorderBrush="{x:Null}"  />
+                            <TextBox Focusable="False" Text="{Binding Title}" BorderBrush="{x:Null}" />
+                            <TextBox Focusable="False" Text="{Binding Owner}" BorderBrush="{x:Null}" />
                         </StackPanel>
                     </Border>
                 </DataTemplate>

@@ -51,13 +51,16 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         public Label ChooseYourBoard => chooserYourBoard;
 
         public Button Logout => logout;
-        
-        private Model.BoardController boardController = new Model.BoardController();
+
+        private Model.BoardController boardController;
+        private Model.UserController uc;
 
         private string email;
 
         public BoardPageViewModel()
         {
+            boardController = new Model.BoardController();
+            uc = new();
             chosenBoard = new(CHOSENBOARD_X, CHOSENBOARD_Y, 0, 0, "Insert your chosen boardId", true);
             submit = new(SUBMIT_X, SUBMIT_Y, "Submit");
             errorMessage = new(LABEL_X, LABEL_Y, false);
@@ -106,6 +109,11 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             ErrorMessage.Content = "You must enter an exsisting board Id";
             errorMessage.Show();
             return -1;
+        }
+
+        public void LogOut_Click()
+        {
+            uc.Logout(email);
         }
 
         public void UpdateMargins()

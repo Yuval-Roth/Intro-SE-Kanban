@@ -8,12 +8,12 @@ using IntroSE.Kanban.Frontend.Utilities;
 
 namespace IntroSE.Kanban.Frontend.Model
 {
-    public class LoginRegisterController
+    public class UserController
     {
 
         UserService userService;
 
-        public LoginRegisterController()
+        public UserController()
         {
             ServiceLayerFactory.GetInstance().BackendInitializer.LoadData();
             userService = ServiceLayerFactory.GetInstance().UserService;
@@ -27,6 +27,11 @@ namespace IntroSE.Kanban.Frontend.Model
         public Utilities.Response<string> Register(string email, string password)
         {
             string json = userService.Register(email, password);
+            return Utilities.JsonEncoder.BuildFromJson<Utilities.Response<string>>(json);
+        }
+        public Utilities.Response<string> Logout(string email)
+        {
+            string json = userService.LogOut(email);
             return Utilities.JsonEncoder.BuildFromJson<Utilities.Response<string>>(json);
         }
     }

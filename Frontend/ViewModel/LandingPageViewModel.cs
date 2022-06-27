@@ -53,7 +53,7 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         public Label ErrorMessage => errorMessage;
         public string ImageMargin => $"-{Width * 0.15},-{Height * 0.15},-{Width * 0.15},-{Height * 0.15}";
 
-        private LoginRegisterController LRController;
+        private UserController LRController;
 
         public LandingPageViewModel()
         {
@@ -62,8 +62,8 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             loginButton = new(Login_Button_X,Login_Button_Y, "Login");
             registerButton = new(Register_Button_X,Register_Button_Y, "Register");
             returnButton = new(Return_Button_X,Return_Button_Y,"Return", false);
-            emailBox = new(EmailBox_X, EmailBox_Y, "mail@mail.com"/*"Insert email here"*/, false);
-            passwordBox = new(PasswordBox_X, PasswordBox_Y, "Password1"/*"Insert password here"*/,false);
+            emailBox = new(EmailBox_X, EmailBox_Y, "Insert email here", false);
+            passwordBox = new(PasswordBox_X, PasswordBox_Y, "Insert password here", false);
             errorMessage = new(ErrorMessage_X, ErrorMessage_Y, false);
             UpdateMargins(SystemParameters.PrimaryScreenWidth, SystemParameters.PrimaryScreenHeight);
         }

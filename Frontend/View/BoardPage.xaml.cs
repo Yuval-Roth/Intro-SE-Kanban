@@ -41,7 +41,6 @@ namespace IntroSE.Kanban.Frontend.View
                 TP.Show();
                 Close();
             }
-            //VM.Submit_Click();
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -60,6 +59,7 @@ namespace IntroSE.Kanban.Frontend.View
         {
             LandingPage landingPage = new LandingPage();
             landingPage.Show();
+            VM.LogOut_Click();
             Close();
         }
         public void Initialize(string email)

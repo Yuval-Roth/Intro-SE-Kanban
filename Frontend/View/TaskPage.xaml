@@ -28,12 +28,12 @@
             <ListBox.ItemTemplate>
                 <DataTemplate >
                     <Border BorderBrush="#FF003CFF" BorderThickness="1" MinWidth="100">
-                        <StackPanel  Orientation="Vertical"  >
-                            <TextBox Text="{Binding Id}"  BorderBrush="{x:Null}"  />
-                            <TextBox Text="{Binding Title}"  BorderBrush="{x:Null}"  />
-                            <TextBox Text="{Binding CreationTime}"  BorderBrush="{x:Null}"  />
-                            <TextBox Text="{Binding Description}"  BorderBrush="{x:Null}"  />
-                            <TextBox Text="{Binding DueDate}"  BorderBrush="{x:Null}"  />
+                        <StackPanel  Orientation="Vertical" Width="200" >
+                            <TextBox Focusable="False" Text="{Binding Id}"  BorderBrush="{x:Null}"  />
+                            <TextBox Focusable="False" Text="{Binding Title}"  BorderBrush="{x:Null}"  />
+                            <TextBox Focusable="False" Text="{Binding CreationTime}"  BorderBrush="{x:Null}"  />
+                            <TextBox Focusable="False" Text="{Binding Description}"  BorderBrush="{x:Null}"  />
+                            <TextBox Focusable="False" Text="{Binding DueDate}"  BorderBrush="{x:Null}"  />
                         </StackPanel>
                     </Border>
                 </DataTemplate>
@@ -43,12 +43,12 @@
             <ListBox.ItemTemplate>
                 <DataTemplate >
                     <Border BorderBrush="#FF003CFF" BorderThickness="1" MinWidth="100">
-                        <StackPanel  Orientation="Vertical"  >
-                            <TextBox Text="{Binding Id}"  BorderBrush="{x:Null}"  />
-                            <TextBox Text="{Binding Title}"  BorderBrush="{x:Null}"  />
-                            <TextBox Text="{Binding CreationTime}"  BorderBrush="{x:Null}"  />
-                            <TextBox Text="{Binding Description}"  BorderBrush="{x:Null}"  />
-                            <TextBox Text="{Binding DueDate}"  BorderBrush="{x:Null}"  />
+                        <StackPanel  Orientation="Vertical" Width="200" >
+                            <TextBox Focusable="False" Text="{Binding Id}"  BorderBrush="{x:Null}"  />
+                            <TextBox Focusable="False" Text="{Binding Title}"  BorderBrush="{x:Null}"  />
+                            <TextBox Focusable="False" Text="{Binding CreationTime}"  BorderBrush="{x:Null}"  />
+                            <TextBox Focusable="False" Text="{Binding Description}"  BorderBrush="{x:Null}"  />
+                            <TextBox Focusable="False" Text="{Binding DueDate}"  BorderBrush="{x:Null}"  />
                         </StackPanel>
                     </Border>
                 </DataTemplate>
@@ -58,12 +58,12 @@
             <ListBox.ItemTemplate>
                 <DataTemplate >
                     <Border BorderBrush="#FF003CFF" BorderThickness="1" MinWidth="100">
-                        <StackPanel  Orientation="Vertical"  >
-                            <TextBox Text="{Binding Id}"  BorderBrush="{x:Null}"  />
-                            <TextBox Text="{Binding Title}"  BorderBrush="{x:Null}"  />
-                            <TextBox Text="{Binding CreationTime}"  BorderBrush="{x:Null}"  />
-                            <TextBox Text="{Binding Description}"  BorderBrush="{x:Null}"  />
-                            <TextBox Text="{Binding DueDate}"  BorderBrush="{x:Null}"  />
+                        <StackPanel  Orientation="Vertical" Width="200" >
+                            <TextBox Focusable="False" Text="{Binding Id}"  BorderBrush="{x:Null}"  />
+                            <TextBox Focusable="False" Text="{Binding Title}"  BorderBrush="{x:Null}"  />
+                            <TextBox Focusable="False" Text="{Binding CreationTime}"  BorderBrush="{x:Null}"  />
+                            <TextBox Focusable="False" Text="{Binding Description}"  BorderBrush="{x:Null}"  />
+                            <TextBox Focusable="False" Text="{Binding DueDate}"  BorderBrush="{x:Null}"  />
                         </StackPanel>
                     </Border>
                 </DataTemplate>
