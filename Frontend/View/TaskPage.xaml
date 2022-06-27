@@ -21,10 +21,10 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Label Content="BackLog" Grid.Column="0" HorizontalAlignment="Center" FontWeight="Bold" FontSize="18" Margin="0,118,0,693" />
-        <Label Content="InProgress" Grid.Column="1" HorizontalAlignment="Center" FontWeight="Bold" FontSize="18" Margin="0,112,0,699" />
-        <Label Content="Done" Grid.Column="2" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" Margin="0,112,0,699" />
-        <ListBox Grid.Column="0" ItemsSource="{Binding Board.Columns[0]}" Margin="140,204,140,122">
+        <Label Content="Back Log"  VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" Margin="0,51,0,0" />
+        <Label Content="In Progress"  VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" Margin="0,41,0,0" Grid.Column="1" />
+        <Label Content="Done"  VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" Margin="0,51,0,0" Grid.Column="2" />
+        <ListBox Grid.Column="0" Width="250" Height="600" ItemsSource="{Binding Board.Columns[0]}">
             <ListBox.ItemTemplate>
                 <DataTemplate >
                     <Border BorderBrush="#FF003CFF" BorderThickness="1" MinWidth="100">
@@ -39,7 +39,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <ListBox Grid.Column="1" ItemsSource="{Binding Board.Columns[1]}" Margin="140,0,140,122" Height="522" VerticalAlignment="Bottom">
+        <ListBox Grid.Column="1" Width="250" Height="600" ItemsSource="{Binding Board.Columns[1]}">
             <ListBox.ItemTemplate>
                 <DataTemplate >
                     <Border BorderBrush="#FF003CFF" BorderThickness="1" MinWidth="100">
@@ -54,7 +54,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <ListBox Grid.Column="2" ItemsSource="{Binding Board.Columns[2]}" Margin="140,204,140,122">
+        <ListBox Grid.Column="2" Width="250" Height="600" ItemsSource="{Binding Board.Columns[2]}">
             <ListBox.ItemTemplate>
                 <DataTemplate >
                     <Border BorderBrush="#FF003CFF" BorderThickness="1" MinWidth="100">
