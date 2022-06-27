@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using IntroSE.Kanban.Frontend.Utilities;
+using IntroSE.Kanban.Frontend.Model.DataClasses;
 
 namespace IntroSE.Kanban.Frontend.Model
 {

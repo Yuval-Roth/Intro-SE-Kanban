@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntroSE.Kanban.Frontend.Model
+namespace IntroSE.Kanban.Frontend.Model.DataClasses
 {
     public class Board
     {
@@ -74,6 +74,6 @@ namespace IntroSE.Kanban.Frontend.Model
         //    return output;
         //}
 
-        
+
     }
 }

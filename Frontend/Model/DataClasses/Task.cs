@@ -5,73 +5,79 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntroSE.Kanban.Frontend.Model
+namespace IntroSE.Kanban.Frontend.Model.DataClasses
 {
     public class Task : Notifier
     {
-        public int Id {
+        public int Id
+        {
             get
             {
                 return Id;
             }
             set
             {
-                this.Id = value;
+                Id = value;
                 RaisePropertyChanged("Id");
             }
         }
-        public string Title {
+        public string Title
+        {
             get
             {
                 return Title;
             }
             set
             {
-                this.Title = value;
+                Title = value;
                 RaisePropertyChanged("Title");
             }
         }
-        public string Description {
+        public string Description
+        {
             get
             {
                 return Title;
             }
             set
             {
-                this.Title = value;
+                Title = value;
                 RaisePropertyChanged("Title");
             }
         }
-        public DateTime CreationTime {
+        public DateTime CreationTime
+        {
             get
             {
                 return CreationTime;
             }
             set
             {
-                this.CreationTime = value;
+                CreationTime = value;
                 RaisePropertyChanged("CreationTime");
             }
         }
-        public DateTime DueDate {
+        public DateTime DueDate
+        {
             get
             {
                 return DueDate;
             }
             set
             {
-                this.DueDate = value;
+                DueDate = value;
                 RaisePropertyChanged("DueDate");
             }
         }
-        public string Assignee {
+        public string Assignee
+        {
             get
             {
                 return Assignee;
             }
             set
             {
-                this.Assignee = value;
+                Assignee = value;
                 RaisePropertyChanged("Assignee");
             }
         }

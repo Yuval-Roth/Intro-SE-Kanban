@@ -1,4 +1,5 @@
 ﻿using IntroSE.Kanban.Frontend.Model;
+using IntroSE.Kanban.Frontend.Model.DataClasses;
 using IntroSE.Kanban.Frontend.Utilities;
 using IntroSE.Kanban.Frontend.ViewModel.UIElements;
 using System;

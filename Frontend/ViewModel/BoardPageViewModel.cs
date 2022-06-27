@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using IntroSE.Kanban.Frontend.ViewModel.UIElements;
 using IntroSE.Kanban.Frontend.Utilities;
+using IntroSE.Kanban.Frontend.Model.DataClasses;
 
 namespace IntroSE.Kanban.Frontend.ViewModel
 {
@@ -40,7 +41,7 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         public string BoardName { get; set; }
         public int BoardID { get; set; }
 
-        public ObservableCollection<Model.Board> BoardList { get; set; }
+        public ObservableCollection<Board> BoardList { get; set; }
 
         public TextBox ChosenBoard => chosenBoard;
         public Button Submit => submit;
