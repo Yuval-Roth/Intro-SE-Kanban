@@ -81,7 +81,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             taskIDCounter = boardDTO.TaskIDCounter;
             taskStateTracker = new();
 
-            foreach (string email in boardDTO.Joined) 
+            foreach (string email in boardDTO.Joined)
             {
                 joined.AddLast(email);
             }
@@ -89,7 +89,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             foreach (TaskDTO taskDTO in boardDTO.BackLog)
             {
                 Task task = taskDTO;
-                taskStateTracker.Add(task.Id,task.State);
+                taskStateTracker.Add(task.Id, task.State);
                 columns[(int)TaskStates.backlog].AddLast(task);
             }
             foreach (TaskDTO taskDTO in boardDTO.InProgress)
@@ -101,10 +101,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             foreach (TaskDTO taskDTO in boardDTO.Done)
             {
                 Task task = taskDTO;
-                taskStateTracker.Add(task.Id, task.State);;
+                taskStateTracker.Add(task.Id, task.State); ;
                 columns[(int)TaskStates.done].AddLast(task);
             }
-            
+
         }
 
 
@@ -143,10 +143,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 {
                     Task task = new Task(taskIDCounter, title, duedate, description, Id);
                     columns[(int)TaskStates.backlog].AddLast(task);
-                    
+
                     taskStateTracker.Add(taskIDCounter, TaskStates.backlog);
                     taskIDCounter++;
-                    boardDTO.UpdateTaskIdCounter(id,taskIDCounter);
+                    boardDTO.UpdateTaskIdCounter(id, taskIDCounter);
                     log.Debug("AddTask() success");
                     return task;
                 }
@@ -161,7 +161,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     throw new NoSuchElementException(e.Message);
                 }
             }
-            else 
+            else
             {
                 log.Error("AddTask() failed: Backlog in board '" + this.title + "' has reached its limit and can't contain more tasks");
                 throw new ArgumentException("Backlog in board '" + this.title + "' has reached its limit and can't contain more tasks");
@@ -190,7 +190,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                         log.Debug("RemoveTask() success");
                         break;
                     }
-                }       
+                }
             }
             else
             {
@@ -247,7 +247,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                             log.Error("AdvanceTask() failed: task numbered '" + taskId + "' can't be advanced because the next column is full");
                             throw new ArgumentException("task numbered '" + taskId + "' can't be advanced because the next column is full");
                         }
-                        
+
                     }
                     else
                     {
@@ -267,7 +267,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("AdvanceTask() failed: task numbered '" + taskId + "' doesn't exist");
                 throw new NoSuchElementException("task numbered '" + taskId + "' doesn't exist");
             }
-            
+
         }
 
 
@@ -307,7 +307,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <param name="taskId"></param>
         /// <returns>Task, unless an error occurs</returns>
         /// <exception cref="NoSuchElementException"></exception>
-        public Task SearchTask(int taskId) 
+        public Task SearchTask(int taskId)
         {
             log.Debug("SearchTask() taskId: " + taskId);
             if (taskStateTracker.ContainsKey(taskId))
@@ -336,7 +336,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 log.Error("SearchTask() failed: A task numbered '" + taskId + "' doesn't exist");
                 throw new NoSuchElementException("A Task with the taskId '" +
                     taskId + "' doesn't exist in the Board");
-            }           
+            }
         }
 
         /// <summary>
@@ -367,7 +367,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         {
             log.Debug("GetColumnName() columnOrdinal: " + columnOrdinal);
             ValidateColumnOrdinal(columnOrdinal);
-            
+
             log.Debug("GetColumnName() success");
             switch (columnOrdinal)
             {
@@ -375,7 +375,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
                 default: return ((TaskStates)columnOrdinal).ToString();
             }
-            
+
         }
 
         /// <summary>
@@ -416,16 +416,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                     throw new ArgumentException("A column '" +
                         (TaskStates)columnOrdinal + "' size is bigger than th limit " + limit);
                 }
-                
+
                 columnLimit[columnOrdinal] = limit;
                 log.Debug("LimitColumn() success");
             }
-            else 
+            else
             {
                 log.Error("LimitColumn() failed: '" + limit + "' the limit is not valid");
                 throw new ArgumentException("A limit '" +
                     limit + "' is not valid");
-            } 
+            }
         }
 
 
@@ -456,7 +456,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public void JoinBoard(CIString email, int boardId)
         {
             log.Debug("JoinBoard() for user: " + email + "for board " + boardId);
-            
+
             joined.AddLast(email);
             log.Debug("JoinBoard() success");
         }
@@ -476,7 +476,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new ArgumentException("user with email '" + email + "' is not joined to the board");
             }
             joined.Remove(email);
-            foreach(Task task in this.columns[(int)TaskStates.backlog])
+            foreach (Task task in this.columns[(int)TaskStates.backlog])
             {
                 if (task.Assignee == email)
                 {
@@ -510,6 +510,36 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public static implicit operator Board(BoardDTO other)
         {
             return new Board(other);
+        }
+
+
+        // Serialization
+
+
+
+        public class BoardSerializable
+        {
+            public int Id { get; set; }
+            public string Title { get; set; }
+            public string Owner { get; set; }
+            public LinkedList<string> Joined { get; set; }
+            public LinkedList<Task>[] Columns { get; set; }
+        }
+        public BoardSerializable GetSerializableInstance()
+        {
+            LinkedList<string> joinedList = new();
+            foreach (CIString joinedUser in joined)
+            {
+                joinedList.AddLast(joinedUser);
+            }
+            return new BoardSerializable()
+            {
+                Id = id,
+                Title = title,
+                Owner = owner,
+                Joined = joinedList,
+                Columns = columns,
+            }; 
         }
 
     }

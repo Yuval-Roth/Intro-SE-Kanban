@@ -3,118 +3,120 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace IntroSE.Kanban.Frontend.ViewModel
 {
     public class BoardPageViewModel : Notifier
     {
-        private int BOARDTABLE_X = 10;
-        private int BOARDTABLE_Y = 10;
-        private int BOARDTABLE_WIDTH = 10;
-        private int BOARDTABLE_HEIGHT = 129;
+        private static readonly int Height = (int)System.Windows.SystemParameters.PrimaryScreenHeight;
+        private static readonly int Width = (int)System.Windows.SystemParameters.PrimaryScreenWidth;
 
-        private int CHOSENBOARD_X = 444;
-        private int CHOSENBOARD_Y = 605;
-        private int CHOSENBOARD_WIDTH = 640;
-        private int CHOSENBOARD_HEIGHT = 55;
+        private int CHOSENBOARD_X = Width/2 -700;
+        private int CHOSENBOARD_Y = Height/2 + 20;
 
-        private int SUBMIT_X = 662;
-        private int SUBMIT_Y = 605;
+
+        private int SUBMIT_X = Width / 2 - 300;
+        private int SUBMIT_Y = Height / 2 + 20;
+
+        private int LABEL_X = Width / 2 -600;
+        private int LABEL_Y = Height / 2- 100;
+
+        private int CHOOSEYOURBOARD_X = Width / 2 - 300;
+        private int CHOOSEYOURBOARD_Y = Height / 2 + 150;
+
+        private int LOGOUT_X = Width / 2 - 500;
+        private int LOGOUT_Y = Height / 2 + 150;
 
         private TextBox chosenBoard;
-        private GridView boardTable;
         private Button submit;
-        
+        private Button logout;
+        private Label errorMessage;
+        private Label chooserYourBoard;
+
+        public string BoardName { get; set; }
+        public int BoardID { get; set; }
+
+        public ObservableCollection<Model.Board> BoardList { get; set; }
 
         public TextBox ChosenBoard => chosenBoard;
-        public GridView BoardTable => boardTable;
-
         public Button Submit => submit;
+
+        public Label ErrorMessage => errorMessage;
+
+        public Label ChooseYourBoard => chooserYourBoard;
+
+        public Button Logout => logout;
         
         private Model.BoardController boardController = new Model.BoardController();
-
-        //private string message;
 
         private string email;
 
         public BoardPageViewModel()
         {
-            chosenBoard = new(CHOSENBOARD_X, CHOSENBOARD_Y, CHOSENBOARD_WIDTH, CHOSENBOARD_HEIGHT, "Insert your chosen boardId", "Vissible");
-            submit = new(SUBMIT_X, SUBMIT_Y, "Submit", "vissible");
-            this.email = email;
+            chosenBoard = new(CHOSENBOARD_X, CHOSENBOARD_Y, 0, 0, "Insert your chosen boardId", true);
+            submit = new(SUBMIT_X, SUBMIT_Y, "Submit");
+            errorMessage = new(LABEL_X, LABEL_Y, false);
+            chooserYourBoard = new(CHOOSEYOURBOARD_X, CHOOSEYOURBOARD_Y, true);
+            logout = new(LOGOUT_X, LOGOUT_Y, "LogOut");
+            email = "mail@mail.com"/*email*/;
+            UpdateMargins();
         }
 
-        public void setEmail(string email)
+        public void Initialize(string email)
         {
             this.email = email;
+            BoardList = boardController.GetBoards(email);
+            if(BoardList == null)
+            {
+                ErrorMessage.Content = "The user has no boards";
+                errorMessage.Show();
+            }
+            RaisePropertyChanged("BoardList");
         }
 
-        public void SetBoardTable()
-        {
-            string[] columnNames = { "BoardId", "BoardName", "Owner", "Joined", "BackLog", "InProgress", "Done" };
-            try
-            {
-                LinkedList<Model.Board> boardList = boardController.GetBoards(email);
-                boardTable = new(BOARDTABLE_X, BOARDTABLE_Y, BOARDTABLE_WIDTH, BOARDTABLE_HEIGHT, boardList.Count, columnNames);
-            }
-            catch(ArgumentException ex)
-            {
-                //message = ex.Message;
-                RaisePropertyChanged("Message");
-            }
-        }
-
-        public void AddBoards()
-        {
-            if(boardTable!= null)
-            {
-                LinkedList<Model.Board> boardList = boardController.GetBoards(email);
-                int counter = 0;
-                foreach(Model.Board board in boardList)
-                {
-                    boardTable.SetValue(counter,0,board.Id);
-                    boardTable.SetValue(counter, 1, board.Title);
-                    boardTable.SetValue(counter, 2, board.Owner);
-                    boardTable.SetValue(counter, 3, board.Joined);
-                    boardTable.SetValue(counter, 4, board.BackLog);
-                    boardTable.SetValue(counter, 5, board.InProgress);
-                    boardTable.SetValue(counter, 5, board.Done);
-                    counter++;
-                }
-            }
-        }
 
         public void ChosenBoard_Click()
         {
             if(chosenBoard.FirstClick)
             {
-                chosenBoard.Text = "";
+                chosenBoard.Content = "";
                 chosenBoard.FirstClick = false;
             }
         }
 
-        
+        public int Submit_Click()
+        {
+            if (chosenBoard.FirstClick == false && chosenBoard.Content != null)
+            {
+                string text = chosenBoard.Content;
+                if (int.TryParse(text, out _))
+                {
+                    int number = int.Parse(text);
+                    if (number >= 0 && number <= BoardList.Count-1)
+                    {
+                        return number;
+                    }
+                }
+            }
+            ErrorMessage.Content = "You must enter an exsisting board Id";
+            errorMessage.Show();
+            return -1;
+        }
 
-
-        //public string Message
-        //{
-        //    get => message;
-        //    set
-        //    {
-        //        this.message = value;
-        //        RaisePropertyChanged("Message");
-        //    }
-        //}
-
-
-
-
-
-
-
-
-
-
-
+        public void UpdateMargins()
+        {
+            chosenBoard.X = CHOSENBOARD_X;
+            chosenBoard.Y = CHOSENBOARD_Y;
+            submit.X = SUBMIT_X;
+            submit.Y = SUBMIT_Y;
+            errorMessage.X = LABEL_X;
+            errorMessage.Y = LABEL_Y;
+            logout.X = LOGOUT_X;
+            logout.Y = LOGOUT_Y;
+            chooserYourBoard.X = CHOOSEYOURBOARD_X;
+            chooserYourBoard.Y = CHOOSEYOURBOARD_Y;
+        }
     }
 }

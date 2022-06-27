@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using IntroSE.Kanban.Backend.ServiceLayer;
+using IntroSE.Kanban.Backend.Utilities;
 using IntroSE.Kanban.Frontend.ViewModel;
 
 namespace IntroSE.Kanban.Frontend.View
@@ -30,7 +32,12 @@ namespace IntroSE.Kanban.Frontend.View
 
         private void Submit_Click(object sender, RoutedEventArgs e)
         {
-
+            //int output = VM.Submit_Click();
+            //if(output != -1)
+            //{
+            //    //move to kfir's window with string
+            //}
+            VM.Submit_Click();
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -44,5 +51,17 @@ namespace IntroSE.Kanban.Frontend.View
             VM.ChosenBoard_Click();
 
         }
+
+        private void LogOut_Click(object sender, RoutedEventArgs e)
+        {
+            LandingPage landingPage = new LandingPage();
+            landingPage.Show();
+            Close();
+        }
+        public void Initialize(string email)
+        {
+            VM.Initialize(email);
+        }
+        
     }
 }
