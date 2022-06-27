@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -58,21 +57,21 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         {
             
             LRController = new();
-            loginButton = new(Login_Button_X,Login_Button_Y,0,0, "Login","Visible");
-            registerButton = new(Register_Button_X,Register_Button_Y, 0, 0, "Register","Visible");
-            returnButton = new(Return_Button_X,Return_Button_Y, 0, 0, "Return", "Hidden");
-            emailBox = new(EmailBox_X, EmailBox_Y,0,0, "Insert email here", "Hidden");
-            passwordBox = new(PasswordBox_X, PasswordBox_Y ,0,0, "Insert password here","Hidden");
-            emailBox = new(EmailBox_X, EmailBox_Y, 0, 0, "Insert email here", "Hidden");
-            passwordBox = new(PasswordBox_X, PasswordBox_Y, 0, 0, "Insert password here","Hidden");
-            errorMessage = new(ErrorMessage_X, ErrorMessage_Y, "", "Hidden");
+            loginButton = new(Login_Button_X,Login_Button_Y, "Login");
+            registerButton = new(Register_Button_X,Register_Button_Y, "Register");
+            returnButton = new(Return_Button_X,Return_Button_Y,"Return", false);
+            emailBox = new(EmailBox_X, EmailBox_Y,"Insert email here", false);
+            passwordBox = new(PasswordBox_X, PasswordBox_Y ,"Insert password here",false);
+            emailBox = new(EmailBox_X, EmailBox_Y, "Insert email here", false);
+            passwordBox = new(PasswordBox_X, PasswordBox_Y, "Insert password here",false);
+            errorMessage = new(ErrorMessage_X, ErrorMessage_Y, false);
             UpdateMargins(SystemParameters.PrimaryScreenWidth, SystemParameters.PrimaryScreenHeight);
         }
 
         public void ResetErrorMessage()
         {
             errorMessage.Hide();
-            errorMessage.Text = "";
+            errorMessage.Content = "";
         }
 
         public bool LoginClick()
@@ -91,14 +90,14 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             else
             {
 
-                Response<string> res = LRController.Login(emailBox.Text,passwordBox.Text);
+                Response<string> res = LRController.Login(emailBox.Content,passwordBox.Content);
                 if (res.operationState == false)
                 {
-                    ErrorMessage.Text = res.returnValue;
+                    ErrorMessage.Content = res.returnValue;
                     errorMessage.Show();
                     return false;
                 }
-                ErrorMessage.Text = "Login Successful";
+                ErrorMessage.Content = "Login Successful";
                 errorMessage.Show();
                 return true;
             }
@@ -117,14 +116,14 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             }
             else
             {
-                Response<string> res = LRController.Register(emailBox.Text, passwordBox.Text);
+                Response<string> res = LRController.Register(emailBox.Content, passwordBox.Content);
                 if (res.operationState == false)
                 {
-                    ErrorMessage.Text = res.returnValue;
+                    ErrorMessage.Content = res.returnValue;
                     errorMessage.Show();
                     return false;
                 }
-                ErrorMessage.Text = "Register Successful";
+                ErrorMessage.Content = "Register Successful";
                 errorMessage.Show();
                 return true;
             }
@@ -136,14 +135,14 @@ namespace IntroSE.Kanban.Frontend.ViewModel
                 case "EmailBox":
                     if (emailBox.FirstClick)
                     {
-                        emailBox.Text = "";
+                        emailBox.Content = "";
                         emailBox.FirstClick = false;
                     }
                     break;
                 case "PasswordBox":
                     if (passwordBox.FirstClick)
                     {
-                        passwordBox.Text = "";
+                        passwordBox.Content = "";
                         passwordBox.FirstClick = false;
                     }
                     break;
@@ -160,10 +159,10 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             registerButton.Show();
             loginButton.Show();
 
-            emailBox = new(EmailBox_X,EmailBox_Y,0,0,"Insert email here", "Hidden");
+            emailBox = new(EmailBox_X,EmailBox_Y,"Insert email here", false);
             RaisePropertyChanged("EmailBox");
 
-            passwordBox = new(PasswordBox_X, PasswordBox_Y,0,0,"Insert password here", "Hidden");
+            passwordBox = new(PasswordBox_X, PasswordBox_Y,"Insert password here", false);
             RaisePropertyChanged("PasswordBox");
 
             LoginOrRegisterScreen = true;
