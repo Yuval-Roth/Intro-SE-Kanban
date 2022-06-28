@@ -42,18 +42,41 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         private Label errorMessage;
         private Label chooserYourBoard;
 
+        /// <summary>
+        /// controls the boardname field
+        /// </summary>
         public string BoardName { get; set; }
+
+        /// <summary>
+        /// controls the boardid field
+        /// </summary>
         public int BoardID { get; set; }
 
         public ObservableCollection<Board> BoardList { get; set; }
 
+        /// <summary>
+        /// returns chosenboard
+        /// </summary>
         public TextBox ChosenBoard => chosenBoard;
+
+        /// <summary>
+        /// returns submit
+        /// </summary>
         public Button Submit => submit;
 
+        /// <summary>
+        /// returns errormessage
+        /// </summary>
         public Label ErrorMessage => errorMessage;
 
+        /// <summary>
+        /// returns chooseyourboard
+        /// </summary>
         public Label ChooseYourBoard => chooserYourBoard;
 
+        /// <summary>
+        /// returns logout
+        /// </summary>
         public Button Logout => logout;
 
         private Model.BoardController boardController;
@@ -70,11 +93,12 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             errorMessage = new(LABEL_X, LABEL_Y, false);
             chooserYourBoard = new(CHOOSEYOURBOARD_X, CHOOSEYOURBOARD_Y, true);
             logout = new(LOGOUT_X, LOGOUT_Y, "LogOut");
-            email = "mail@mail.com"/*email*/;
-            UpdateMargins();
         }
-
         
+        /// <summary>
+        /// initialize the neccessary data
+        /// </summary>
+        /// <param name="email"></param>
         public void Initialize(string email)
         {
             this.email = email;
@@ -87,10 +111,18 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             RaisePropertyChanged("BoardList");
         }
 
+        /// <summary>
+        /// set the window field for later use
+        /// </summary>
+        /// <param name="window"></param>
         public void SetWindow(Window window)
         {
             this.window = window;
         }
+
+        /// <summary>
+        /// clears the chosenboard content on the first click
+        /// </summary>
         public void ChosenBoard_Click()
         {
             if(chosenBoard.FirstClick)
@@ -100,7 +132,10 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             }
         }
 
-        public int Submit_Click()
+        /// <summary>
+        /// continues to task window
+        /// </summary>
+        public void Submit_Click()
         {
             if (chosenBoard.FirstClick == false && chosenBoard.Content != null)
             {
@@ -110,35 +145,26 @@ namespace IntroSE.Kanban.Frontend.ViewModel
                     int number = int.Parse(text);
                     if (number >= 0 && number <= BoardList.Count-1)
                     {
-                        return number;
+                        TaskPage TP = new();
+                        TP.Initialize(email, number);
+                        TP.Show();
+                        window.Close();
                     }
                 }
             }
             ErrorMessage.Content = "You must enter an exsisting board Id";
             errorMessage.Show();
-            return -1;
         }
 
+        /// <summary>
+        /// logs out
+        /// </summary>
         public void LogOut_Click()
         {
             uc.Logout(email);
             LandingPage landingPage = new LandingPage();
             landingPage.Show();
             window.Close();
-        }
-
-        public void UpdateMargins()
-        {
-            chosenBoard.X = CHOSENBOARD_X;
-            chosenBoard.Y = CHOSENBOARD_Y;
-            submit.X = SUBMIT_X;
-            submit.Y = SUBMIT_Y;
-            errorMessage.X = LABEL_X;
-            errorMessage.Y = LABEL_Y;
-            logout.X = LOGOUT_X;
-            logout.Y = LOGOUT_Y;
-            chooserYourBoard.X = CHOOSEYOURBOARD_X;
-            chooserYourBoard.Y = CHOOSEYOURBOARD_Y;
         }
     }
 }

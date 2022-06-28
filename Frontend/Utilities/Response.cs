@@ -4,7 +4,6 @@ using System.Text.Json.Serialization;
 #nullable enable
 namespace IntroSE.Kanban.Frontend.Utilities
 {
-
     [Serializable]
     public sealed class Response<T>
     {

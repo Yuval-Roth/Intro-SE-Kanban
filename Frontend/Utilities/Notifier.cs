@@ -8,15 +8,13 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Frontend.Utilities
 {
-    public class Notifier : INotifyPropertyChanged, INotifyCollectionChanged
+
+    /// <summary>
+    /// implements the <see cref="INotifyCollectionChanged"/> interface
+    /// </summary>
+    public class Notifier : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        public event NotifyCollectionChangedEventHandler? CollectionChanged;
-
-        public void RaiseCollectionChanged(NotifyCollectionChangedAction action, object? item)
-        {
-            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action, item));
-        }
 
         public void RaisePropertyChanged(string property)
         {

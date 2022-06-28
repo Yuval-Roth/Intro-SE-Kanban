@@ -18,7 +18,12 @@ namespace IntroSE.Kanban.Frontend.Model
         {
             bcs = ServiceLayerFactory.GetInstance().BoardControllerService;
         }
-
+        /// <summary>
+        /// Gets all the user's boards
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public ObservableCollection<Board> GetBoards(string email)
         {
             string Json = bcs.GetUserBoards(email);
@@ -40,6 +45,12 @@ namespace IntroSE.Kanban.Frontend.Model
             throw new ArgumentException("the user has no boards");             
         }
 
+        /// <summary>
+        /// Searches for a board
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="boardId"></param>
+        /// <returns></returns>
         public Board SearchBoard(string email, int boardId)
         {
             string Json = bcs.SearchBoard(email, boardId);

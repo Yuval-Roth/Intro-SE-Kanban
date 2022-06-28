@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace IntroSE.Kanban.Frontend.ViewModel.UIElements
 {
+
+    /// <summary>
+    /// Abstract class for representing UI elements
+    /// </summary>
     public class UIElement : Notifier
     {
         protected int x;
@@ -34,7 +38,9 @@ namespace IntroSE.Kanban.Frontend.ViewModel.UIElements
         public UIElement(int x, int y, string content) : this(x, y, 0, 0, content, true) { }
         public UIElement(int x, int y) : this(x, y, 0, 0, "", true) { }
 
-
+        /// <summary>
+        /// controls the X property
+        /// </summary>
         public int X
         {
             get { return x; }
@@ -44,6 +50,10 @@ namespace IntroSE.Kanban.Frontend.ViewModel.UIElements
                 RaisePropertyChanged("Margin");
             }
         }
+
+        /// <summary>
+        /// controls the Y property
+        /// </summary>
         public int Y
         {
             get { return y; }
@@ -53,6 +63,10 @@ namespace IntroSE.Kanban.Frontend.ViewModel.UIElements
                 RaisePropertyChanged("Margin");
             }
         }
+
+        /// <summary>
+        /// controls the width property
+        /// </summary>
         public int Width
         {
             get { return width; }
@@ -62,6 +76,10 @@ namespace IntroSE.Kanban.Frontend.ViewModel.UIElements
                 RaisePropertyChanged("Margin");
             }
         }
+
+        /// <summary>
+        /// controls the height property
+        /// </summary>
         public int Height
         {
             get { return height; }
@@ -71,14 +89,26 @@ namespace IntroSE.Kanban.Frontend.ViewModel.UIElements
                 RaisePropertyChanged("Margin");
             }
         }
+
+        /// <summary>
+        /// shows the element
+        /// </summary>
         public void Show()
         {
             Visibility = "Visible";
         }
+
+        /// <summary>
+        /// hides the element
+        /// </summary>
         public void Hide()
         {
             Visibility = "Hidden";
         }
+
+        /// <summary>
+        /// controls the visibility property
+        /// </summary>
         public string Visibility
         {
             get { return visibility; }
@@ -88,6 +118,10 @@ namespace IntroSE.Kanban.Frontend.ViewModel.UIElements
                 RaisePropertyChanged("Visibility");
             }
         }
+
+        /// <summary>
+        /// controls the content property
+        /// </summary>
         public string Content
         {
             get => content;
@@ -97,6 +131,10 @@ namespace IntroSE.Kanban.Frontend.ViewModel.UIElements
                 RaisePropertyChanged("Content");
             }
         }
+
+        /// <summary>
+        /// returns margin property
+        /// </summary>
         public string Margin => $"{x},{y},{width},{height}";
 
     }

@@ -9,7 +9,6 @@
         Height="{x:Static SystemParameters.PrimaryScreenHeight}"
         Width="{x:Static SystemParameters.PrimaryScreenWidth}"
         MinHeight="720" MinWidth="1280"
-        SizeChanged="Window_SizeChanged"
         WindowState="Maximized"
     >
     <Window.DataContext>

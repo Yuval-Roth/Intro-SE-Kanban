@@ -1,6 +1,7 @@
 ﻿using IntroSE.Kanban.Frontend.Model;
 using IntroSE.Kanban.Frontend.Model.DataClasses;
 using IntroSE.Kanban.Frontend.Utilities;
+using IntroSE.Kanban.Frontend.View;
 using IntroSE.Kanban.Frontend.ViewModel.UIElements;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,11 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         public Button BackButton => backButton;
         public Board Board => board;
 
-
+        /// <summary>
+        /// initialize all the neccessary data
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="boardId"></param>
         public void Initialize(string email, int boardId)
         {
             this.email = email;
@@ -37,6 +42,21 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             RaisePropertyChanged("Board");
         }
 
+        /// <summary>
+        /// return button action
+        /// </summary>
+        public void Return_Click()
+        {
+            BoardPage boardPage = new BoardPage();
+            boardPage.Initialize(email);
+            boardPage.Show();
+            window.Close();
+        }
+
+        /// <summary>
+        /// set window field for later use
+        /// </summary>
+        /// <param name="window"></param>
         public void SetWindow(Window window)
         {
             this.window = window;

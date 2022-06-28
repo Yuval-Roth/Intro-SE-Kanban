@@ -5,28 +5,28 @@ namespace IntroSE.Kanban.Frontend.View
 {
     public partial class TaskPage : Window
     {
-
-        private string currentUser;
         private TaskViewModel VM;
 
         public TaskPage()
         {
             InitializeComponent();
             VM = new TaskViewModel();
+            VM.SetWindow(this);
             DataContext = VM;
         }
 
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
-            BoardPage boardPage = new BoardPage();
-            boardPage.Initialize(currentUser);
-            boardPage.Show();
-            Close();
+            VM.Return_Click();
         }
+
+        /// <summary>
+        /// initialize the window
+        /// </summary>
+        /// <param name="email"></param>
         public void Initialize(string email,int boardId)
         {
-            currentUser = email;
-            VM.Initialize(currentUser,boardId);
+            VM.Initialize(email,boardId);
         }
     }
 }

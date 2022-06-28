@@ -71,12 +71,18 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             UpdateMargins(SystemParameters.PrimaryScreenWidth, SystemParameters.PrimaryScreenHeight);
         }
 
+        /// <summary>
+        /// resets the errormessage
+        /// </summary>
         public void ResetErrorMessage()
         {
             errorMessage.Hide();
             errorMessage.Content = "";
         }
 
+        /// <summary>
+        /// login click action
+        /// </summary>
         public void LoginClick()
         {
             if (LoginOrRegisterScreen)
@@ -108,6 +114,10 @@ namespace IntroSE.Kanban.Frontend.ViewModel
                 
             }
         }
+
+        /// <summary>
+        /// register click action
+        /// </summary>
         public void RegisterClick()
         {
             if (LoginOrRegisterScreen)
@@ -136,6 +146,11 @@ namespace IntroSE.Kanban.Frontend.ViewModel
                 }
             }
         }
+
+        /// <summary>
+        /// removes text from the textbox on first click
+        /// </summary>
+        /// <param name="name"></param>
         public void TextBoxClick(string name)
         {
             switch (name)
@@ -156,6 +171,10 @@ namespace IntroSE.Kanban.Frontend.ViewModel
                     break;
             }
         }
+
+        /// <summary>
+        /// returns to front page
+        /// </summary>
         public void ReturnToFrontPage()
         {
             ResetErrorMessage();
@@ -175,6 +194,12 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 
             LoginOrRegisterScreen = true;
         }
+
+        /// <summary>
+        /// updates the UI elements' locations on the screen
+        /// </summary>
+        /// <param name="ActualWidth"></param>
+        /// <param name="ActualHeight"></param>
         public void UpdateMargins(double ActualWidth, double ActualHeight)
         {
             Height = (int)ActualHeight;
@@ -227,6 +252,11 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             ErrorMessage_Y = Height / 2;
 
         }
+
+        /// <summary>
+        /// set the window field for later use
+        /// </summary>
+        /// <param name="window"></param>
         public void SetWindow(Window window)
         {
             this.window = window;

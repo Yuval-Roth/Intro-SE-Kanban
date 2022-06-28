@@ -33,14 +33,7 @@ namespace IntroSE.Kanban.Frontend.View
 
         private void Submit_Click(object sender, RoutedEventArgs e)
         {
-            int output = VM.Submit_Click();
-            if (output != -1)
-            {
-                TaskPage TP = new();
-                TP.Initialize(currentUser,output);
-                TP.Show();
-                Close();
-            }
+            VM.Submit_Click();
         }
 
         private void ChosenBoard_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -52,6 +45,11 @@ namespace IntroSE.Kanban.Frontend.View
         {
             VM.LogOut_Click();
         }
+
+        /// <summary>
+        /// initialize the window
+        /// </summary>
+        /// <param name="email"></param>
         public void Initialize(string email)
         {
             VM.Initialize(email);
