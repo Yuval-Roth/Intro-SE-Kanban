@@ -8,18 +8,19 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace IntroSE.Kanban.Frontend.ViewModel
 {
     public class TaskViewModel : Notifier
     {
-
+        private Window window;
         private Button backButton;
         private string email;
         private Board board;
         private BoardController boardController;
 
-        public TaskViewModel(/*string email, int boardId*/)
+        public TaskViewModel()
         {
             backButton = new(306, 205, "Back");
             boardController = new BoardController();
@@ -36,25 +37,9 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             RaisePropertyChanged("Board");
         }
 
-        //public string Email
-        //{
-        //    set
-        //    {
-        //        this.email = value;
-        //        RaisePropertyChanged("Email");
-        //    }
-        //    get { return email; }
-        //}
-
-        //public int BoardId
-        //{
-        //    set
-        //    {
-        //        this.boardId = value;
-        //        RaisePropertyChanged("BoardId");
-        //    }
-        //    get { return boardId; }
-        //}
-
+        public void SetWindow(Window window)
+        {
+            this.window = window;
+        }
     }
 }

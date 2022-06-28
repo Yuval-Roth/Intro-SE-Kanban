@@ -26,30 +26,17 @@ namespace IntroSE.Kanban.Frontend.View
         {
             InitializeComponent();
             VM = new LandingPageViewModel();
+            VM.SetWindow(this);
             DataContext = VM;
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            if (VM.LoginClick())
-            {
-                BoardPage BP = new();
-                BP.Initialize(EmailBox.Text);
-                BP.Show();
-                Close();
-            }
-
+            VM.LoginClick();
         }
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-            if (VM.RegisterClick())
-            {
-                BoardPage BP = new();
-                BP.Initialize(EmailBox.Text);
-                BP.Show();
-                Close();
-            }
-
+            VM.RegisterClick();
         }
 
         private void TextBox_ButtonDown(object sender, MouseButtonEventArgs e)

@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Media;
 using IntroSE.Kanban.Frontend.Model;
 using IntroSE.Kanban.Frontend.Utilities;
+using IntroSE.Kanban.Frontend.View;
 using IntroSE.Kanban.Frontend.ViewModel.UIElements;
 
 namespace IntroSE.Kanban.Frontend.ViewModel
@@ -14,6 +15,8 @@ namespace IntroSE.Kanban.Frontend.ViewModel
 
     public partial class LandingPageViewModel : Notifier
     {
+        Window window;
+
         private /*static*/ int Height/* = (int)System.Windows.SystemParameters.PrimaryScreenHeight*/;
         private /*static*/ int Width/* = (int)System.Windows.SystemParameters.PrimaryScreenWidth*/;
 
@@ -74,7 +77,7 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             errorMessage.Content = "";
         }
 
-        public bool LoginClick()
+        public void LoginClick()
         {
             if (LoginOrRegisterScreen)
             {
@@ -85,7 +88,6 @@ namespace IntroSE.Kanban.Frontend.ViewModel
                 emailBox.Show();
                 passwordBox.Show();
                 LoginOrRegisterScreen = false;
-                return false;
             }
             else
             {
@@ -95,14 +97,18 @@ namespace IntroSE.Kanban.Frontend.ViewModel
                 {
                     ErrorMessage.Content = res.returnValue;
                     errorMessage.Show();
-                    return false;
                 }
-                ErrorMessage.Content = "Login Successful";
-                errorMessage.Show();
-                return true;
+                else
+                {
+                    BoardPage BP = new();
+                    BP.Initialize(EmailBox.Content);
+                    BP.Show();
+                    window.Close();
+                }
+                
             }
         }
-        public bool RegisterClick()
+        public void RegisterClick()
         {
             if (LoginOrRegisterScreen)
             {
@@ -112,7 +118,6 @@ namespace IntroSE.Kanban.Frontend.ViewModel
                 emailBox.Show();
                 passwordBox.Show();
                 LoginOrRegisterScreen = false;
-                return false;
             }
             else
             {
@@ -121,11 +126,14 @@ namespace IntroSE.Kanban.Frontend.ViewModel
                 {
                     ErrorMessage.Content = res.returnValue;
                     errorMessage.Show();
-                    return false;
                 }
-                ErrorMessage.Content = "Register Successful";
-                errorMessage.Show();
-                return true;
+                else
+                {
+                    BoardPage BP = new();
+                    BP.Initialize(EmailBox.Content);
+                    BP.Show();
+                    window.Close();
+                }
             }
         }
         public void TextBoxClick(string name)
@@ -218,7 +226,11 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             ErrorMessage_X = Width / 2 - 125;
             ErrorMessage_Y = Height / 2;
 
-    }
+        }
+        public void SetWindow(Window window)
+        {
+            this.window = window;
+        }
     }
    
 }

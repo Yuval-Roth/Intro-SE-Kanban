@@ -8,11 +8,15 @@ using System.Collections.Specialized;
 using IntroSE.Kanban.Frontend.ViewModel.UIElements;
 using IntroSE.Kanban.Frontend.Utilities;
 using IntroSE.Kanban.Frontend.Model.DataClasses;
+using System.Windows;
+using IntroSE.Kanban.Frontend.View;
 
 namespace IntroSE.Kanban.Frontend.ViewModel
 {
     public class BoardPageViewModel : Notifier
     {
+        private Window window;
+
         private static readonly int Height = (int)System.Windows.SystemParameters.PrimaryScreenHeight;
         private static readonly int Width = (int)System.Windows.SystemParameters.PrimaryScreenWidth;
 
@@ -70,6 +74,7 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             UpdateMargins();
         }
 
+        
         public void Initialize(string email)
         {
             this.email = email;
@@ -82,7 +87,10 @@ namespace IntroSE.Kanban.Frontend.ViewModel
             RaisePropertyChanged("BoardList");
         }
 
-
+        public void SetWindow(Window window)
+        {
+            this.window = window;
+        }
         public void ChosenBoard_Click()
         {
             if(chosenBoard.FirstClick)
@@ -114,6 +122,9 @@ namespace IntroSE.Kanban.Frontend.ViewModel
         public void LogOut_Click()
         {
             uc.Logout(email);
+            LandingPage landingPage = new LandingPage();
+            landingPage.Show();
+            window.Close();
         }
 
         public void UpdateMargins()

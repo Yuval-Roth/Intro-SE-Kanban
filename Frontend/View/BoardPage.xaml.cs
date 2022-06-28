@@ -22,12 +22,12 @@ namespace IntroSE.Kanban.Frontend.View
     /// </summary>
     public partial class BoardPage : Window
     {
-        private string currentUser;
         private BoardPageViewModel VM;
         public BoardPage()
         {
             InitializeComponent();
             VM = new BoardPageViewModel();
+            VM.SetWindow(this);
             DataContext = VM;
         }
 
@@ -43,29 +43,18 @@ namespace IntroSE.Kanban.Frontend.View
             }
         }
 
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-
-        }
-
         private void ChosenBoard_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            
             VM.ChosenBoard_Click();
-
         }
 
         private void LogOut_Click(object sender, RoutedEventArgs e)
         {
-            LandingPage landingPage = new LandingPage();
-            landingPage.Show();
             VM.LogOut_Click();
-            Close();
         }
         public void Initialize(string email)
         {
-            currentUser = email;
-            VM.Initialize(currentUser);
+            VM.Initialize(email);
         }
         
     }
