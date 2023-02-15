@@ -1,3 +1,1 @@
-319012464_206559585_319071239
-
-25
+Introduction to software engineering - Kanban project
